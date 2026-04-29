@@ -19,10 +19,25 @@ class BaseKFC(BaseEstimator, ABC):
     """
     KFC (K-means, Fitting, Combining) meta-estimator.
 
-    The training protocol follows the paper design:
-    1. Split data into D_n1 and D_n2.
-    2. Fit K-step and F-step on D_n1.
-    3. Predict on D_n2 and fit C-step using these predictions.
+    The KFC pipeline is a modular ensemble strategy composed of:
+
+    - K-step: clustering multiple divergences/configurations
+    - F-step: fitting local models on cluster partitions
+    - C-step: aggregating held-out predictions
+
+    Parameters
+    ----------
+    kstep : BaseKStep | list[dict]
+        K-step configuration or pre-instantiated clustering component.
+
+    fstep : BaseFStep | dict
+        F-step configuration or pre-instantiated local fitting component.
+
+    cstep : BaseCStep | dict
+        C-step aggregation configuration or pre-instantiated aggregator.
+
+    random_state : int | None, default=None
+        Random seed used for the internal train/test split.
     """
 
     def __init__(
@@ -38,6 +53,35 @@ class BaseKFC(BaseEstimator, ABC):
         self.random_state = random_state
     
     def fit(self, X: np.ndarray, y: np.ndarray, stratify: np.ndarray | None = None, *args, **kwargs) -> "BaseKFC":
+        """
+        Fit the KFC pipeline using the provided training data.
+
+        This method splits the data into pre-fit and aggregation partitions,
+        trains the K-step and F-step components on the first partition, then
+        fits the C-step using held-out predictions from the second partition.
+
+        Parameters
+        ----------
+        X : np.ndarray
+            Feature matrix of shape (n_samples, n_features).
+
+        y : np.ndarray
+            Target values or labels of shape (n_samples,).
+
+        stratify : np.ndarray | None, default=None
+            Stratification labels used for the internal split.
+
+        *args
+            Additional positional arguments forwarded to subclasses.
+
+        **kwargs
+            Additional keyword arguments forwarded to subclasses.
+
+        Returns
+        -------
+        BaseKFC
+            Fitted KFC estimator.
+        """
         if X.ndim != 2:
             raise ValueError(f"X must be 2-D, got {X.shape}.")
         if y.shape[0] != X.shape[0]:
@@ -81,6 +125,13 @@ class BaseKFC(BaseEstimator, ABC):
 
     
     def resolve(self):
+        """
+        Resolve configuration dictionaries into concrete pipeline components.
+
+        If a component is already instantiated, it is kept as-is. Otherwise,
+        the corresponding factory wrapper is used to build the component from
+        its configuration dictionary.
+        """
         if isinstance(self.kstep, BaseKStep):
             self.kstep_ = self.kstep
         else:

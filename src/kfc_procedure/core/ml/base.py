@@ -1,5 +1,8 @@
 """
-Local models (Lm)
+Local model interface and factory definitions for F-step.
+
+The local model layer provides base estimator classes and factories that are
+resolved by name when configuring the F-step.
 """
 
 from __future__ import annotations
@@ -12,7 +15,10 @@ from kfc_procedure.core.factory import BaseFactory
 
 class BaseLocalModel(ABC, BaseEstimator):
     """
-    Base class for local models (F-step).
+    Base class for local models used by the F-step.
+
+    Local models are fitted separately for each cluster partition and are
+    expected to expose the standard scikit-learn estimator interface.
     """
     ...
 

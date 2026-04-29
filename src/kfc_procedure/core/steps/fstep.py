@@ -1,5 +1,8 @@
 """
-FStep:
+F-step local fitting stage for the KFC pipeline.
+
+The F-step fits one local model for each combination of divergence and
+cluster assignment returned by the preceding K-step.
 """
 
 from __future__ import annotations
@@ -16,26 +19,86 @@ from kfc_procedure.core.ml.base import LocalModelClassifierFactory, LocalModelRe
 
 class BaseFStep(ABC, BaseEstimator):
     """
-    Fstep
+    Abstract interface for the F-step local fitting stage.
     """
     models_: Dict
 
     @abstractmethod
     def fit(self, X: np.ndarray, y: np.ndarray, clusters: Dict) -> "BaseFStep":
-        """Fit one local model per (divergence, cluster) pair."""
+        """
+        Fit one local model per (divergence, cluster) pair.
+
+        Parameters
+        ----------
+        X : np.ndarray
+            Feature matrix for the local models.
+
+        y : np.ndarray
+            Target vector corresponding to X.
+
+        clusters : dict
+            Mapping from divergence key to cluster assignments.
+
+        Returns
+        -------
+        BaseFStep
+            Fitted F-step component.
+        """
         ...
     
     @abstractmethod
     def predict(self, X: np.ndarray, clusters: Dict) -> Dict:
-        """Return predictions for X."""
+        """
+        Return predictions for X from each fitted local model.
+
+        Parameters
+        ----------
+        X : np.ndarray
+            Feature matrix of shape (n_samples, n_features).
+
+        clusters : dict
+            Mapping from divergence key to cluster assignments used during fit.
+
+        Returns
+        -------
+        dict
+            Per-divergence prediction matrices.
+        """
         ...
 
 class FStep(BaseFStep):
+    """
+    Configuration wrapper for the F-step local fitting stage.
+
+    Parameters
+    ----------
+    config : dict
+        Dictionary containing the local model name and optional parameters.
+    """
     
     def __init__(self, config: Dict):
         self.config = config
     
     def fit(self, X: np.ndarray, y: np.ndarray, clusters: Dict[str, np.ndarray]) -> "FStep":
+        """
+        Fit local models for each divergence-cluster partition.
+
+        Parameters
+        ----------
+        X : np.ndarray
+            Training features of shape (n_samples, n_features).
+
+        y : np.ndarray
+            Targets of shape (n_samples,).
+
+        clusters : dict[str, np.ndarray]
+            Mapping from divergence name to cluster labels for the training set.
+
+        Returns
+        -------
+        FStep
+            Fitted local model stage.
+        """
 
         if X.ndim != 2:
             raise ValueError(f"X must be 2-D, got {X.shape}.")
@@ -90,6 +153,22 @@ class FStep(BaseFStep):
         return self
     
     def predict(self, X: np.ndarray, clusters: Dict[str, np.ndarray]):
+        """
+        Compute predictions for all local models on new data.
+
+        Parameters
+        ----------
+        X : np.ndarray
+            Feature matrix of shape (n_samples, n_features).
+
+        clusters : dict[str, np.ndarray]
+            Divergence cluster assignments for the new data.
+
+        Returns
+        -------
+        dict[str, np.ndarray]
+            Prediction matrices keyed by divergence identifier.
+        """
         check_is_fitted(self, "models_")
 
         outputs = {}
