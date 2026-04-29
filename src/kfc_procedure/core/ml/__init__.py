@@ -19,29 +19,29 @@ Classification models  (task="classification")
     "decision_tree" – DecisionTreeClassifier
     "random_forest" – RandomForestClassifier
 """
-from kfc_procedure.core.lm.base import BaseLocalModel
-from kfc_procedure.core.lm.regression import (
-    DecisionTreeRegression,
-    LassoRegression,
+from kfc_procedure.core.ml.base import BaseLocalModel, BaseLocalModelRegressor, BaseLocalModelClassifier
+from kfc_procedure.core.ml.regression import (
     LinearRegression,
-    RandomForestRegression,
     RidgeRegression,
+    LassoRegression,
+    DecisionTreeRegression,
+    RandomForestRegressor,
 )
-from kfc_procedure.core.lm.classification import (
-    DecisionTreeClassifier,
+from kfc_procedure.core.ml.classification import (
     LogisticClassifier,
+    DecisionTreeClassifier,
     RandomForestClassifier,
 )
 
 __all__ = [
     "BaseLocalModel",
-    # Regression
+    "BaseLocalModelRegressor",
+    "BaseLocalModelClassifier",
     "LinearRegression",
     "RidgeRegression",
     "LassoRegression",
     "DecisionTreeRegression",
-    "RandomForestRegression",
-    # Classification
+    "RandomForestRegressor",
     "LogisticClassifier",
     "DecisionTreeClassifier",
     "RandomForestClassifier",
