@@ -31,7 +31,7 @@ import numpy as np
 from kfc_procedure.core.factory import BaseFactory
 
 
-class BregmanDivergence(ABC):
+class BaseBregmanDivergence(ABC):
     """
     Abstract Bregman divergence.
 
@@ -199,4 +199,4 @@ class BregmanDivergenceFactory(BaseFactory):
     Registry of named BregmanDivergence subclasses.
     """
 
-    _registry: Dict[str, Type[BregmanDivergence]] = {}
+    _registry: Dict[str, Type[BaseBregmanDivergence]] = {}

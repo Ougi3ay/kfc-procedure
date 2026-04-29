@@ -16,11 +16,11 @@ from __future__ import annotations
 
 import numpy as np
 
-from kfc_procedure.core.clustering.divergences.base import BregmanDivergence, BregmanDivergenceFactory
+from kfc_procedure.core.clustering.divergences.base import BaseBregmanDivergence, BregmanDivergenceFactory
 
 
 @BregmanDivergenceFactory.register("euclidean")
-class SquaredEuclidean(BregmanDivergence):
+class SquaredEuclidean(BaseBregmanDivergence):
     """
     Squared Euclidean distance.
 
@@ -79,7 +79,7 @@ class SquaredEuclidean(BregmanDivergence):
 
 
 @BregmanDivergenceFactory.register("gkl")
-class GKLDivergence(BregmanDivergence):
+class GKLDivergence(BaseBregmanDivergence):
     """
     Generalised Kullback-Leibler (I-divergence).
 
@@ -129,7 +129,7 @@ class GKLDivergence(BregmanDivergence):
 
 
 @BregmanDivergenceFactory.register("is")
-class ItakuraSaito(BregmanDivergence):
+class ItakuraSaito(BaseBregmanDivergence):
     """
     Itakura-Saito divergence.
 
@@ -171,7 +171,7 @@ class ItakuraSaito(BregmanDivergence):
 
 
 @BregmanDivergenceFactory.register("logistic")
-class LogisticLoss(BregmanDivergence):
+class LogisticLoss(BaseBregmanDivergence):
     """
     Logistic / binary cross-entropy loss.
 

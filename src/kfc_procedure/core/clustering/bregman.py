@@ -22,7 +22,7 @@ from sklearn.utils import check_random_state, check_array
 from sklearn.utils.validation import check_is_fitted
 
 from kfc_procedure.core.clustering.divergences.base import (
-    BregmanDivergence,
+    BaseBregmanDivergence,
     BregmanDivergenceFactory,
 )
 
@@ -31,7 +31,7 @@ from kfc_procedure.core.clustering.divergences.base import (
 # Validation
 # ============================================================
 
-def validate_divergence_domain(div: BregmanDivergence, X: np.ndarray) -> None:
+def validate_divergence_domain(div: BaseBregmanDivergence, X: np.ndarray) -> None:
     """
     Ensure input data is valid for the chosen divergence.
 
@@ -69,7 +69,7 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         self,
         n_clusters: int = 8,
         *,
-        divergence: Union[BregmanDivergence, str] = "euclidean",
+        divergence: Union[BaseBregmanDivergence, str] = "euclidean",
         n_init: int = 10,
         max_iter: int = 300,
         tol: float = 1e-4,
@@ -88,7 +88,7 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
     # divergence
     # --------------------------------------------------------
 
-    def _get_divergence(self) -> BregmanDivergence:
+    def _get_divergence(self) -> BaseBregmanDivergence:
         if isinstance(self.divergence, str):
             return BregmanDivergenceFactory.create(self.divergence)
         return self.divergence
@@ -149,7 +149,7 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
 
     @staticmethod
     def _distortion(
-        div: BregmanDivergence,
+        div: BaseBregmanDivergence,
         X: np.ndarray,
         centroids: np.ndarray,
     ) -> float:
@@ -159,7 +159,7 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
     # streaming version (memory safe)
     def _distortion_stream(
         self,
-        div: BregmanDivergence,
+        div: BaseBregmanDivergence,
         X: np.ndarray,
         centroids: np.ndarray,
         block: int = 4096,
@@ -180,7 +180,7 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
     def _Lloyd(
         self,
         X: np.ndarray,
-        div: BregmanDivergence,
+        div: BaseBregmanDivergence,
         rng,
         init: Optional[np.ndarray] = None,
     ):

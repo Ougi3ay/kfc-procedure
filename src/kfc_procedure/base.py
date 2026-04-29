@@ -11,9 +11,9 @@ from sklearn.base import BaseEstimator
 from sklearn.model_selection import train_test_split
 from sklearn.utils.validation import check_is_fitted
 
-from kfc_procedure.steps.cstep import BaseCStep, CStep
-from kfc_procedure.steps.fstep import BaseFStep, FStep
-from kfc_procedure.steps.kstep import BaseKStep, KStep
+from kfc_procedure.core.steps.cstep import BaseCStep, CStep
+from kfc_procedure.core.steps.fstep import BaseFStep, FStep
+from kfc_procedure.core.steps.kstep import BaseKStep, KStep
 
 class BaseKFC(BaseEstimator, ABC):
     """
