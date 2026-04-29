@@ -123,7 +123,7 @@ class BaseBregmanDivergence(ABC):
         if not (self.in_domain(X) and self.in_domain(Y)):
             raise ValueError(f"X/Y outside domain of {self.name}")
         
-        y_key = (Y.array_interface["data"][0], Y.shape, Y.strides, Y.dtype)
+        y_key = (Y.array_interface__["data"][0], Y.shape, Y.strides, Y.dtype)
         if self._cache_key != y_key:
             self._phi_Y = self.phi(Y)
             self._grad_Y= np.asarray(self.grad_phi(Y), dtype=np.float64, order="F")
