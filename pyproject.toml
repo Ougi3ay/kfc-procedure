@@ -1,0 +1,41 @@
+[build-system]
+requires = ["setuptools>=61", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kfc-procedure"
+version = "0.1.0"
+description = "Clusterwise predictive modeling library"
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+
+authors = [ { name = "OUGI POV", email = "ougipov113@gmail.com" } ]
+
+dependencies = [
+    "pandas",
+    "numpy",
+    "xgboost",
+    "scikit-learn",
+    "matplotlib"
+]
+
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering :: Artificial Intelligence"
+]
+
+[project.urls]
+Homepage = "https://github.com/Ougi3ay/kfc-procedure"
+
+[project.optional-dependencies]
+dev = ["pytest", "black", "mypy"]
+
+# --------------------------
+# Use setuptools to find packages in src/
+# --------------------------
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["kfc_procedure*"]

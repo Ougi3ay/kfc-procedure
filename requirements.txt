@@ -1,0 +1,12 @@
+pandas
+numpy
+gradientcobra
+xgboost
+scikit-learn
+matplotlib
+
+# dev
+build
+twine
+pytest
+jupyter
