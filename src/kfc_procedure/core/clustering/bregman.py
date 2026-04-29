@@ -70,6 +70,7 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         n_clusters: int = 8,
         *,
         divergence: Union[BaseBregmanDivergence, str] = "euclidean",
+        divergence_params: Optional[dict] = None,
         n_init: int = 10,
         max_iter: int = 300,
         tol: float = 1e-4,
@@ -83,14 +84,14 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         self.tol = tol
         self.random_state = random_state
         self.verbose = verbose
-
+        self.divergence_params = divergence_params or {}
     # --------------------------------------------------------
     # divergence
     # --------------------------------------------------------
 
     def _get_divergence(self) -> BaseBregmanDivergence:
         if isinstance(self.divergence, str):
-            return BregmanDivergenceFactory.create(self.divergence)
+            return BregmanDivergenceFactory.create(self.divergence, **self.divergence_params)
         return self.divergence
 
     # --------------------------------------------------------
