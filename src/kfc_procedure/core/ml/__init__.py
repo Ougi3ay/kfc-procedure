@@ -20,14 +20,14 @@ Classification models  (task="classification")
     "random_forest" – RandomForestClassifier
 """
 from kfc_procedure.core.lm.base import BaseLocalModel
-from kfc_procedure.core.lm.regression import (      # noqa: F401 – triggers registration
+from kfc_procedure.core.lm.regression import (
     DecisionTreeRegression,
     LassoRegression,
     LinearRegression,
     RandomForestRegression,
     RidgeRegression,
 )
-from kfc_procedure.core.lm.classification import (  # noqa: F401 – triggers registration
+from kfc_procedure.core.lm.classification import (
     DecisionTreeClassifier,
     LogisticClassifier,
     RandomForestClassifier,
