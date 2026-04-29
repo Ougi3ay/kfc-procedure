@@ -7,9 +7,9 @@ from kfc_procedure.base import BaseKFC
 
 
 class KFCRegressor(BaseKFC):
-    def predict(self, X: np.ndarray, bandwidth: float | None = None) -> np.ndarray:
+    def predict(self, X: np.ndarray) -> np.ndarray:
         """Return continuous predictions for X."""
-        return self.cstep_.predict(self._predict_internal(X), bandwidth=bandwidth)
+        return self.cstep_.predict(self._predict_internal(X))
 class KFCClassifier(BaseKFC):
      
     def fit(self, X: np.ndarray, y: np.ndarray, **kwargs) -> "KFCClassifier":
