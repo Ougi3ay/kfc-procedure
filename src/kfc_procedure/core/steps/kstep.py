@@ -69,16 +69,15 @@ class KStep(BaseKStep):
 
     Parameters
     ----------
-    divergences : list[str | dict | BregmanKMeans]
-        Divergence names, config dictionaries, or pre-instantiated cluster
-        models.
+    config : dict
     """
 
     def __init__(
         self,
-        divergences: List[Union[str, Dict[str, Any], BregmanKMeans]]
+        config: Dict,
     ):
-        self.divergences = divergences
+        self.config = config
+        self.divergences = config.get("divergences", [])
     
     def fit(self, X: np.ndarray, y: np.ndarray | None = None) -> "KStep":
         """

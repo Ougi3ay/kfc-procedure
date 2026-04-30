@@ -42,7 +42,7 @@ class BaseKFC(BaseEstimator, ABC):
 
     def __init__(
         self,
-        kstep: Union[BaseKStep, List[Dict]],
+        kstep: Union[BaseKStep, Dict],
         fstep: Union[BaseFStep, Dict],
         cstep: Union[BaseCStep, Dict],
         random_state: int | None = None
