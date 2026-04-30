@@ -104,7 +104,7 @@ class GradientDescentOptimizer(BaseGradientOptimizer):
         max_iter=100,
         tol=1e-6,
         eps=1e-8,
-        verbose=False,
+        show_process=True,
         **kwargs,
     ):
         """
@@ -124,15 +124,14 @@ class GradientDescentOptimizer(BaseGradientOptimizer):
         eps : float
             Finite difference epsilon.
 
-        verbose : bool
-            Whether to display progress.
+        show_process : bool, default=True
+            Whether to display progress with tqdm.
         """
-        super().__init__(**kwargs)
+        super().__init__(show_process=show_process, **kwargs)
         self.learning_rate = learning_rate
         self.max_iter = max_iter
         self.tol = tol
         self.eps = eps
-        self.verbose = verbose
 
     def gradient(self, objective, params):
         """
@@ -209,7 +208,7 @@ class GradientDescentOptimizer(BaseGradientOptimizer):
 
         iterator = (
             range(self.max_iter)
-            if not self.verbose
+            if not self.show_process
             else tqdm(range(self.max_iter), desc="GD")
         )
 
@@ -222,7 +221,7 @@ class GradientDescentOptimizer(BaseGradientOptimizer):
             if np.linalg.norm(grad) < self.tol:
                 break
 
-            if self.verbose:
+            if self.show_process:
                 iterator.set_description(
                     f"GD iter: {i} | grad norm: {np.linalg.norm(grad):.4f}"
                 )

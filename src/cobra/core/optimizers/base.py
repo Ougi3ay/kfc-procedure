@@ -97,7 +97,7 @@ class BaseOptimizer(ABC):
     >>> best = optimizer(objective_fn)
     """
 
-    def __init__(self, **kwargs):
+    def __init__(self, show_process=True, **kwargs):
         """
         Initialize optimizer with hyperparameters.
 
@@ -106,6 +106,7 @@ class BaseOptimizer(ABC):
         **kwargs : dict
             Optimizer configuration parameters.
         """
+        self.show_process = show_process
         for key, value in kwargs.items():
             setattr(self, key, value)
 

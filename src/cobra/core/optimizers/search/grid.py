@@ -63,6 +63,7 @@ Examples
 import numpy as np
 from itertools import product
 
+from cobra.core.optimizers.base import tqdm
 from cobra.core.optimizers.search.base import (
     BaseSearchOptimizer,
     SearchOptimizerFactory,
@@ -100,7 +101,7 @@ class GridSearchOptimizer(BaseSearchOptimizer):
     ... })
     """
 
-    def __init__(self, param_grid: dict, verbose=False, **kwargs):
+    def __init__(self, param_grid: dict, show_process=True, **kwargs):
         """
         Initialize grid search optimizer.
 
@@ -109,11 +110,12 @@ class GridSearchOptimizer(BaseSearchOptimizer):
         param_grid : dict
             Search space definition.
 
-        verbose : bool
-            Whether to enable verbose output.
+        show_process : bool, default=True
+            Whether to display progress with tqdm.
         """
+        super().__init__(show_process=show_process, **kwargs)
         self.param_grid = param_grid
-        self.verbose = verbose
+        self.show_process = show_process
 
     def search_space(self):
         """
@@ -168,7 +170,14 @@ class GridSearchOptimizer(BaseSearchOptimizer):
         best_score = float("inf")
         history = []
 
-        for combo in product(*values):
+        combos = product(*values)
+        iterator = (
+            combos
+            if not self.show_process
+            else tqdm(combos, desc="Grid Search")
+        )
+
+        for combo in iterator:
             params = dict(zip(keys, combo))
 
             score = objective(list(params.values()))
@@ -178,5 +187,10 @@ class GridSearchOptimizer(BaseSearchOptimizer):
             if score < best_score:
                 best_score = score
                 best_params = params
+
+            if self.show_process:
+                iterator.set_description(
+                    f"Grid Search | Current: {params} | Score: {score:.4f} | Best: {best_params} | Best Score: {best_score:.4f}"
+                )
 
         return np.array(list(best_params.values())), history
