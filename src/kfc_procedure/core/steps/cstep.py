@@ -16,106 +16,134 @@ from sklearn.utils.validation import check_is_fitted
 from kfc_procedure.core.aggregations.base import AggregationClassifierFactory, AggregationRegressorFactory, BaseAggregation
 
 
-class BaseCStep(ABC, BaseEstimator):
-    """
-    Abstract aggregation stage interface for the C-step.
-    """
+class CStep(BaseEstimator):
+    """Aggregation step.
 
-    strategy_: BaseAggregation
-
-    @abstractmethod
-    def fit(self, predictions: np.ndarray, y: np.ndarray, *args, **kwargs) -> "BaseCStep":
-        """
-        Fit the aggregation strategy on the held-out prediction matrix.
-
-        Parameters
-        ----------
-        predictions : np.ndarray
-            Prediction matrix from the F-step.
-
-        y : np.ndarray
-            Target values or labels to fit the aggregator.
-
-        Returns
-        -------
-        BaseCStep
-            Fitted aggregation stage.
-        """
-        ...
-    
-    @abstractmethod
-    def predict(self, predictions: np.ndarray, *args, **kwargs) -> np.ndarray:
-        """
-        Aggregate the prediction matrix into a single output vector.
-
-        Parameters
-        ----------
-        predictions : np.ndarray
-            Prediction matrix from the F-step.
-
-        Returns
-        -------
-        np.ndarray
-            Final predictions.
-        """
-        ... 
-
-class CStep(BaseCStep):
-    """
-    Configuration wrapper for a concrete aggregation strategy.
+    The C-step combines divergence-specific predictions into a final ensemble
+    prediction.
 
     Parameters
     ----------
-    config : dict
-        Dictionary containing the aggregator name and optional parameters.
-
-        Expected keys:
-
-        - name : str
-            Aggregator alias.
-        - params : dict, optional
-            Hyperparameters passed to the aggregation implementation.
+    aggregation : str or BaseAggregationRegressor or BaseAggregationClassifier
+        Aggregation strategy identifier or instance.
+    aggregation_param : dict
+        Parameters passed to aggregation strategy builder.
+    task : str
+        Either ``"regression"`` or ``"classification"``.
     """
+
     def __init__(
         self,
-        config: Dict,
+        aggregation: Union[str, BaseAggregationRegressor, BaseAggregationClassifier],
+        aggregation_param: Dict,
+        task: str,
     ):
-        self.config = config
+        self.aggregation = aggregation
+        self.aggregation_param = aggregation_param
+        self.task = task
 
-    def fit(self, predictions: np.ndarray, y: np.ndarray) -> "CStep":
-        name = self.config.get("name")
-        params = self.config.get("params", {})
-        if name in AggregationRegressorFactory.available():
-            self.strategy_ = AggregationRegressorFactory.create(name, **params)
-        elif name in AggregationClassifierFactory.available():
-            self.strategy_ = AggregationClassifierFactory.create(name, **params)
-        else:
-            raise ValueError(
-                f"Unknown aggregation strategy: {name!r}. "
-                f"Available regression: {AggregationRegressorFactory.available()} | "
-                f"classification: {AggregationClassifierFactory.available()}"
-            )
-        self.strategy_.fit(predictions, y)
-        return self
-    
-    def predict(self, predictions: np.ndarray, **kwargs) -> np.ndarray:
-        check_is_fitted(self, "strategy_")
-        return self.strategy_.predict(predictions, **kwargs)
-    
-    def predict_proba(self, predictions: np.ndarray, **kwargs) -> np.ndarray:
-        """
-        Predict class probabilities using the fitted aggregation strategy.
+    def fit(self, X: np.ndarray, y: np.ndarray):
+        """Fit the aggregation strategy.
 
         Parameters
         ----------
-        predictions : np.ndarray
-            Prediction matrix from the F-step.
+        X : ndarray
+            Feature matrix of divergence-level predictions.
+        y : ndarray
+            Target values.
 
         Returns
         -------
-        np.ndarray
-            Class probability estimates.
+        self : CStep
+            The fitted C-step instance.
+        """
+        self.strategy_ = self._build_aggregation()
+        self.strategy_.fit(X, y)
+        return self
+
+    def predict(self, X: np.ndarray) -> np.ndarray:
+        """Predict final outputs using the aggregation strategy.
+
+        Parameters
+        ----------
+        X : ndarray
+            Feature matrix of divergence-level predictions.
+
+        Returns
+        -------
+        ndarray
+            Aggregated predictions.
         """
         check_is_fitted(self, "strategy_")
-        return self.strategy_.predict_proba(predictions, **kwargs)
-    
+        return self.strategy_.predict(X)
+
+    def predict_proba(self, X: np.ndarray) -> np.ndarray:
+        """Predict class probabilities using the aggregation strategy.
+
+        Parameters
+        ----------
+        X : ndarray
+            Feature matrix of divergence-level predictions.
+
+        Returns
+        -------
+        ndarray
+            Aggregated class probabilities.
+
+        Raises
+        ------
+        AttributeError
+            If the task is not classification or the aggregation strategy does
+            not support prediction probabilities.
+        """
+        if self.task != "classification":
+            raise AttributeError("predict_proba only available for classification")
+
+        if hasattr(self.strategy_, "predict_proba"):
+            return self.strategy_.predict_proba(X)
+
+        raise AttributeError("Aggregation does not support predict_proba")
+
+    def _build_aggregation(self):
+        """
+        Build aggregation strategy based on task type.
+
+        Returns
+        -------
+        BaseEstimator
+            Aggregation strategy instance.
+
+        Raises
+        ------
+        ValueError
+            If aggregation name is invalid for the selected task.
+        """
+
+        if not isinstance(self.aggregation, str):
+            return self.aggregation
+
+        name = self.aggregation
+
+        if self.task == "regression":
+            if name in AggregationRegressorFactory.available():
+                return AggregationRegressorFactory.create(
+                    name, **self.aggregation_param
+                )
+
+            raise ValueError(
+                f"'{name}' is not a valid REGRESSION aggregation. "
+                f"Available: {AggregationRegressorFactory.available()}"
+            )
+
+        if self.task == "classification":
+            if name in AggregationClassifierFactory.available():
+                return AggregationClassifierFactory.create(
+                    name, **self.aggregation_param
+                )
+
+            raise ValueError(
+                f"'{name}' is not a valid CLASSIFICATION aggregation. "
+                f"Available: {AggregationClassifierFactory.available()}"
+            )
+
+        raise ValueError(f"Unknown task '{self.task}'")
