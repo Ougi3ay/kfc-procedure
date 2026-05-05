@@ -6,7 +6,7 @@ cluster assignment returned by the preceding K-step.
 """
 
 from __future__ import annotations
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Dict, Union
 
 import numpy as np
@@ -14,10 +14,14 @@ from sklearn.base import BaseEstimator
 
 from sklearn.utils.validation import check_is_fitted
 
-from kfc_procedure.core.ml.base import BaseLocalModelClassifier, BaseLocalModelRegressor, LocalModelClassifierFactory, LocalModelRegressorFactory
+from kfc_procedure.core.ml.base import (
+    BaseLocalModelClassifier,
+    BaseLocalModelRegressor,
+    LocalModelClassifierFactory,
+    LocalModelRegressorFactory
+)
 
-
-class FStep(BaseEstimator):
+class FStep(ABC, BaseEstimator):
     """Local model learning step.
 
     The F-step fits one local model for each divergence/cluster pair.

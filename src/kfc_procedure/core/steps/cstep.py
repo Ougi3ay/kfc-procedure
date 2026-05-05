@@ -7,13 +7,17 @@ aggregation strategies and can be configured by name through a dictionary.
 """
 
 from __future__ import annotations
-from abc import ABC, abstractmethod
-from typing import Dict
+from typing import Dict, Union
 import numpy as np
 from sklearn.base import BaseEstimator
 from sklearn.utils.validation import check_is_fitted
 
-from kfc_procedure.core.aggregations.base import AggregationClassifierFactory, AggregationRegressorFactory, BaseAggregation
+from kfc_procedure.core.aggregations.base import (
+    AggregationClassifierFactory,
+    AggregationRegressorFactory,
+    BaseAggregationClassifier,
+    BaseAggregationRegressor
+)
 
 
 class CStep(BaseEstimator):

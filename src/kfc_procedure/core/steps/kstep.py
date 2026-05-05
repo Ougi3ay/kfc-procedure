@@ -5,15 +5,14 @@ The K-step fits one BregmanKMeans model per divergence configuration and
 tracks cluster assignments for each divergence variant.
 """
 from __future__ import annotations
-from abc import ABC, abstractmethod
+from abc import ABC
 from typing import Any, Dict, List, Union
 
 import numpy as np
 from sklearn.base import BaseEstimator, ClusterMixin
 from sklearn.utils.validation import check_is_fitted
 
-from kfc_procedure.core.clustering.divergences.base import BaseBregmanDivergence
-from kfc_procedure.utils.resolve import resolve_kstep
+from kfc_procedure.core.clustering.divergences.base import BaseBregmanDivergence, BregmanDivergenceFactory
 from kfc_procedure.core.clustering.bregman import BregmanKMeans
 
 class KStep(ABC, BaseEstimator, ClusterMixin):
@@ -28,7 +27,7 @@ class KStep(ABC, BaseEstimator, ClusterMixin):
         Divergence identifiers or divergence objects.
     divergences_param : dict
         Parameters for each divergence. The divergence name is used as key.
-    n_clusters : int, default=8
+    n_clusters : int, default=3
         Number of clusters for each KMeans model.
     max_iter : int, default=300
         Maximum number of iterations for the clustering solver.
@@ -51,7 +50,7 @@ class KStep(ABC, BaseEstimator, ClusterMixin):
         self,
         divergences: List[Union[str, BaseBregmanDivergence]],
         divergences_param: Dict,
-        n_clusters: int = 8,
+        n_clusters: int = 3,
         max_iter: int = 300,
         tol: float = 1e-4,
         verbose: bool = False,
@@ -86,15 +85,18 @@ class KStep(ABC, BaseEstimator, ClusterMixin):
         self.clusters_ = {}
 
         for div in self.divergences:
-            name = div if isinstance(div, str) else div.__class__.__name__
+            # divergence
+            name = self._get_divergence_name(div)
+            div_param = self.divergences_param.get(name, {})
+            div_instance = self._resolve_divergence(div, div_param)
 
-            params = self.divergences_param.get(name, {}).copy()
-            params.setdefault("n_clusters", self.n_clusters)
-            params.setdefault("max_iter", self.max_iter)
-            params.setdefault("tol", self.tol)
-            params.setdefault("random_state", self.random_state)
-
-            model = BregmanKMeans(divergence=div, **params)
+            model = BregmanKMeans(
+                divergence=div_instance,
+                n_clusters=self.n_clusters,
+                max_iter=self.max_iter,
+                tol=self.tol,
+                random_state=self.random_state
+            )
             model.fit(X)
 
             self.models_[name] = model
@@ -157,3 +159,18 @@ class KStep(ABC, BaseEstimator, ClusterMixin):
         if key not in self.models_:
             raise ValueError(f"Invalid divergence key: {key!r}.")
         return self.models_[key].cluster_centers_
+    
+    def _get_divergence_name(self, div):
+        if isinstance(div, str):
+            return div.lower()
+        return getattr(div, "name", div.__class__.__name__).lower()
+
+    def _resolve_divergence(self, div, params):
+        """Convert string or instance into a divergence instance."""
+        if isinstance(div, str):
+            return BregmanDivergenceFactory.create(div, **params)
+        elif isinstance(div, BaseBregmanDivergence):
+            return div
+        else:
+            raise TypeError(f"Invalid divergence: {div!r}")
+
