@@ -5,7 +5,6 @@ from typing import Dict
 import numpy as np
 from sklearn.utils.validation import check_is_fitted
 from sklearn.base import BaseEstimator
-from kfc_procedure.base import BaseKFC
 from kfc_procedure.core.steps.cstep import CStep
 from kfc_procedure.core.steps.fstep import FStep
 from kfc_procedure.core.steps.kstep import KStep
