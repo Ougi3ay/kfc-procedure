@@ -3,6 +3,12 @@ Bregman K-Means clustering implementation
 -----------------------------------------
 
 Implements Lloyd-style clustering with arbitrary Bregman divergences.
+Supports any Bregman divergence via pluggable divergence objects.
+
+The algorithm iteratively:
+    1. Assigns points to nearest cluster centroid (using Bregman distance)
+    2. Updates centroids as Euclidean means of assigned points
+    3. Monitors convergence via distortion change
 
 Reference
 ---------
@@ -12,7 +18,7 @@ Banerjee et al. (2005), JMLR
 
 from __future__ import annotations
 
-from typing import Optional, Union
+from typing import Optional
 
 import numpy as np
 from numpy.typing import ArrayLike, NDArray
@@ -22,8 +28,7 @@ from sklearn.utils import check_random_state, check_array
 from sklearn.utils.validation import check_is_fitted
 
 from kfc_procedure.core.clustering.divergences.base import (
-    BaseBregmanDivergence,
-    BregmanDivergenceFactory,
+    BaseBregmanDivergence
 )
 
 
@@ -35,9 +40,21 @@ def validate_divergence_domain(div: BaseBregmanDivergence, X: np.ndarray) -> Non
     """
     Ensure input data is valid for the chosen divergence.
 
+    Parameters
+    ----------
+    div : BaseBregmanDivergence
+        Divergence instance with domain constraints
+    X : np.ndarray
+        Input data to validate
+
+    Raises
+    ------
+    ValueError
+        If X contains NaN/Inf or violates divergence domain constraints.
+
     Checks:
-    - finite values only
-    - domain constraints of divergence
+    - finite values only (no NaN or Inf)
+    - domain constraints of divergence (e.g., positivity for log-based divergences)
     """
     X = np.asarray(X, dtype=float)
 
@@ -60,23 +77,56 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
     """
     K-Means clustering with Bregman divergences.
 
-    Uses Lloyd's algorithm:
-        1. Assign points to closest centroid
-        2. Update centroids using Bregman mean (Euclidean mean here)
+    Uses Lloyd's algorithm with pluggable Bregman divergences:
+        1. Assign points to closest centroid (using Bregman distance)
+        2. Update centroids using Euclidean mean surrogate
+        3. Repeat until convergence
+
+    Parameters
+    ----------
+    n_clusters : int, default=8
+        Number of clusters
+    divergence : BaseBregmanDivergence
+        Divergence metric to use for distance computation
+    n_init : int, default=10
+        Number of random initializations
+    max_iter : int, default=300
+        Maximum iterations per initialization
+    tol : float, default=1e-4
+        Convergence tolerance on relative distortion change
+    random_state : int or RandomState, default=None
+        Random seed for reproducibility
+    verbose : bool, default=False
+        Enable iteration logging
+
+    Attributes
+    ----------
+    labels_ : ndarray of shape (n_samples,)
+        Cluster assignment for each sample
+    cluster_centers_ : ndarray of shape (n_clusters, n_features)
+        Final cluster centroids
+    inertia_ : float
+        Sum of squared distances to nearest cluster center
+    n_iter_ : int
+        Number of iterations run for best initialization
     """
 
     def __init__(
         self,
         n_clusters: int = 8,
         *,
-        divergence: Union[BaseBregmanDivergence, str] = "euclidean",
-        divergence_params: Optional[dict] = None,
+        divergence: BaseBregmanDivergence,
         n_init: int = 10,
         max_iter: int = 300,
         tol: float = 1e-4,
         random_state=None,
         verbose: bool = False,
     ):
+        if not isinstance(divergence, BaseBregmanDivergence):
+            raise TypeError(
+                "divergence must be an instance of BaseBregmanDivergence"
+            )
+        
         self.n_clusters = n_clusters
         self.divergence = divergence
         self.n_init = n_init
@@ -84,15 +134,6 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         self.tol = tol
         self.random_state = random_state
         self.verbose = verbose
-        self.divergence_params = divergence_params or {}
-    # --------------------------------------------------------
-    # divergence
-    # --------------------------------------------------------
-
-    def _get_divergence(self) -> BaseBregmanDivergence:
-        if isinstance(self.divergence, str):
-            return BregmanDivergenceFactory.create(self.divergence, **self.divergence_params)
-        return self.divergence
 
     # --------------------------------------------------------
     # initialization
@@ -104,12 +145,34 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         rng,
         init: Optional[np.ndarray] = None,
     ) -> np.ndarray:
+        """
+        Initialize cluster centroids.
+
+        Parameters
+        ----------
+        X : ndarray of shape (n_samples, n_features)
+            Training data
+        rng : RandomState
+            Random state for reproducible initialization
+        init : ndarray of shape (n_clusters, n_features), optional
+            Custom initial centroids. If provided, must have correct shape.
+
+        Returns
+        -------
+        centroids : ndarray of shape (n_clusters, n_features)
+            Initial cluster centroids
+        """
         if init is not None:
             init = check_array(init, dtype=float, copy=True)
+            # Validate initialization shape matches expected dimensions
             if init.shape != (self.n_clusters, X.shape[1]):
-                raise ValueError("Invalid init shape")
+                raise ValueError(
+                    f"init shape {init.shape} does not match "
+                    f"(n_clusters, n_features)=({self.n_clusters}, {X.shape[1]})"
+                )
             return init
 
+        # Random k-means++ style initialization: sample random data points
         idx = rng.choice(X.shape[0], self.n_clusters, replace=False)
         return X[idx].copy()
 
@@ -125,9 +188,28 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         rng,
     ) -> np.ndarray:
         """
-        Compute cluster means.
+        Compute cluster means (M-step of Lloyd's algorithm).
 
-        Handles empty clusters by reinitializing randomly.
+        Parameters
+        ----------
+        X : ndarray of shape (n_samples, n_features)
+            Training data
+        labels : ndarray of shape (n_samples,)
+            Current cluster assignments
+        K : int
+            Number of clusters
+        rng : RandomState
+            Random state for handling empty clusters
+
+        Returns
+        -------
+        centroids : ndarray of shape (K, n_features)
+            Updated cluster centroids (Euclidean means)
+
+        Notes
+        -----
+        Empty clusters are reinitialized with a random data point.
+        This prevents numerical issues from division by zero.
         """
         n, d = X.shape
         centroids = np.zeros((K, d), dtype=X.dtype)
@@ -138,6 +220,8 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
 
         for k in range(K):
             if counts[k] == 0:
+                # ERROR HANDLING: Empty cluster detected - reinitialize randomly
+                # This can occur if a cluster has no assigned points
                 centroids[k] = X[rng.randint(n)]
             else:
                 centroids[k] /= counts[k]
@@ -185,6 +269,31 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         rng,
         init: Optional[np.ndarray] = None,
     ):
+        """
+        Execute one run of Lloyd's clustering algorithm.
+
+        Parameters
+        ----------
+        X : ndarray of shape (n_samples, n_features)
+            Training data
+        div : BaseBregmanDivergence
+            Divergence metric for distance computation
+        rng : RandomState
+            Random state for reproducibility
+        init : ndarray, optional
+            Initial centroids
+
+        Returns
+        -------
+        labels : ndarray of shape (n_samples,)
+            Cluster assignments
+        centroids : ndarray of shape (n_clusters, n_features)
+            Final centroids
+        dist : float
+            Final distortion (average minimum distance)
+        n_iter : int
+            Number of iterations until convergence
+        """
         n, K = X.shape[0], self.n_clusters
 
         centroids = self._init_centroids(X, rng, init)
@@ -192,20 +301,20 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
 
         for it in range(self.max_iter):
 
-            # E-step
+            # E-step: Assign points to nearest centroid
             D = div.distance(X, centroids)
             labels = np.argmin(D, axis=1)
 
-            # M-step
+            # M-step: Update centroids
             centroids = self._compute_centroids(X, labels, K, rng)
 
-            # distortion
+            # Compute distortion (average minimum distance to centroid)
             dist = self._distortion_stream(div, X, centroids)
 
             if self.verbose:
                 print(f"iter={it} distortion={dist:.6f}")
 
-            # convergence
+            # Convergence check: relative change in distortion
             change = abs(prev - dist) / (abs(prev) + 1e-12)
             if change < self.tol:
                 break
@@ -226,16 +335,15 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
             raise ValueError("n_samples < n_clusters")
 
         rng = check_random_state(self.random_state)
-        div = self._get_divergence()
 
-        validate_divergence_domain(div, X)
+        validate_divergence_domain(self.divergence, X)
 
         best = (None, None, np.inf, 0)
 
         n_init = 1 if init is not None else self.n_init
 
         for _ in range(n_init):
-            labels, centroids, dist, it = self._Lloyd(X, div, rng, init)
+            labels, centroids, dist, it = self._Lloyd(X, self.divergence, rng, init)
 
             if dist < best[2]:
                 best = (labels, centroids, dist, it)
@@ -244,7 +352,6 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         self.cluster_centers_ = best[1]
         self.inertia_ = best[2]
         self.n_iter_ = best[3]
-        self._divergence = div
 
         return self
 
@@ -255,7 +362,7 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
     def predict(self, X: ArrayLike) -> NDArray:
         check_is_fitted(self)
         X = check_array(X, dtype=float, ensure_2d=True)
-        return self._divergence.assign_clusters(X, self.cluster_centers_)
+        return self.divergence.assign_clusters(X, self.cluster_centers_)
 
     # --------------------------------------------------------
     # transform
@@ -264,7 +371,7 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
     def transform(self, X: ArrayLike) -> NDArray:
         check_is_fitted(self)
         X = check_array(X, dtype=float, ensure_2d=True)
-        return self._divergence.distance(X, self.cluster_centers_)
+        return self.divergence.distance(X, self.cluster_centers_)
 
     # --------------------------------------------------------
     # sklearn API
@@ -279,21 +386,15 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
     def score(self, X, y=None) -> float:
         check_is_fitted(self)
         X = check_array(X, dtype=float, ensure_2d=True)
-        return -self._distortion(self._divergence, X, self.cluster_centers_)
+        return -self._distortion(self.divergence, X, self.cluster_centers_)
 
     # --------------------------------------------------------
     # repr
     # --------------------------------------------------------
-
     def __repr__(self):
-        name = (
-            self.divergence
-            if isinstance(self.divergence, str)
-            else type(self.divergence).__name__
-        )
         return (
             f"BregmanKMeans("
             f"n_clusters={self.n_clusters}, "
-            f"divergence={name}, "
+            f"divergence={type(self.divergence).__name__}, "
             f"n_init={self.n_init})"
         )
