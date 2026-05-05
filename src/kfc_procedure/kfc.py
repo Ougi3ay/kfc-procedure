@@ -53,7 +53,7 @@ class KFCProcedure(ABC, BaseEstimator):
         local_model_param: Dict = None,
         aggregation_param: Dict = None,
         task: str = "regression",
-        n_clusters=8,
+        n_clusters=3,
         max_iter=300,
         tol=1e-4,
         verbose=False,
