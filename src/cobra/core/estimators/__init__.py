@@ -92,28 +92,18 @@ from .base import (
     EstimatorFactory,
 )
 
+from .sklearn import (
+    register_all_sklearn_estimators
+)
+
 from .builtin import (
     MeanRegressor,
-    LinearRegressorEstimator,
-    RidgeRegressorEstimator,
-    LassoRegressorEstimator,
-    KNNRegressorEstimator,
-    RandomForestRegressorEstimator,
-    SVMRegressorEstimator,
-    DecisionTreeRegressorEstimator,
-    GradientBoostingRegressorEstimator,
 )
+
+register_all_sklearn_estimators(EstimatorFactory)
 
 __all__ = [
     "BaseEstimator",
     "EstimatorFactory",
     "MeanRegressor",
-    "LinearRegressorEstimator",
-    "RidgeRegressorEstimator",
-    "LassoRegressorEstimator",
-    "KNNRegressorEstimator",
-    "RandomForestRegressorEstimator",
-    "SVMRegressorEstimator",
-    "DecisionTreeRegressorEstimator",
-    "GradientBoostingRegressorEstimator",
 ]
