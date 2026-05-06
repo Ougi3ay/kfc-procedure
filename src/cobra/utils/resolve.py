@@ -61,9 +61,11 @@ from __future__ import annotations
 
 from typing import Any, Iterable
 
+from joblib import Parallel, delayed
+
 from cobra.core.aggregators.base import AggregatorFactory
 from cobra.core.distances.base import DistanceFactory
-from cobra.core.estimators.base import EstimatorFactory
+from cobra.core.estimators.base import BaseEstimator, EstimatorFactory
 from cobra.core.kernels.base import KernelFactory
 from cobra.core.losses.base import LossFactory
 from cobra.core.splitters.base import SplitterFactory
@@ -252,3 +254,51 @@ def resolve_from_aggregator(
         Instantiated aggregator.
     """
     return AggregatorFactory.create(aggregator, **(aggregator_params or {}))
+
+def fit_estimators_parallel(
+    X,
+    y,
+    estimators_params=None,
+    estimators=None,
+    n_jobs=-1
+):
+    """
+    Fit a pool of estimators in parallel using EstimatorFactory.
+
+    Supports:
+    - str identifiers
+    - (name, params) tuples
+    - pre-built estimator objects
+    """
+
+    estimators_params = estimators_params or {}
+
+    def fit_single_estimator(est_spec):
+        if isinstance(est_spec, tuple):
+            name, params = est_spec
+            model = EstimatorFactory.create(name, **(params or {}))
+        elif isinstance(est_spec, str):
+            model = EstimatorFactory.create(
+                est_spec,
+                **estimators_params.get(est_spec, {})
+            )
+        elif isinstance(est_spec, BaseEstimator):
+            model = est_spec
+
+        else:
+            raise ValueError(
+                f"Invalid estimator spec: {type(est_spec)} | {est_spec}. "
+                f"Expected str | (name, params) | BaseEstimator"
+            )
+
+        model.fit(X, y)
+        return model
+
+    estimators = estimators or []
+
+    fitted_models = Parallel(n_jobs=n_jobs, backend="loky")(
+        delayed(fit_single_estimator)(est) for est in estimators
+    )
+
+    return list(fitted_models)
+

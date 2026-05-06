@@ -79,6 +79,7 @@ from cobra.core.optimizers.gradient.base import GradientOptimizerFactory
 from cobra.core.optimizers.search.base import SearchOptimizerFactory
 from cobra.core.spaces.base import SpaceNormalizerFactory
 from cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
+from cobra.utils.resolve import fit_estimators_parallel
 
 class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
     """
@@ -177,6 +178,7 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         opt_method: str = "grad",
         bandwidth_list: np.ndarray | None = None,
         norm_constant = None,
+        n_jobs=1,
         random_state: int | None = None
     ):
         self.estimators = estimators
@@ -195,6 +197,7 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         self.bandwidth_list = bandwidth_list
         self.norm_constant = norm_constant
         self.opt_method = opt_method
+        self.n_jobs = n_jobs
         self.random_state = random_state
     
     def _resolve_fit_split_context(self, X, y, X_l, y_l):
@@ -243,27 +246,15 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
             "random_forest_regressor",
             "svr",
         ]
-
         estimators = self.estimators or default_estimators
 
-        machines = []
-
-        for est in estimators:
-            if isinstance(est, str):
-                params = (self.estimators_params or {}).get(est, {})
-                model = EstimatorFactory.create(est, **params)
-            elif isinstance(est, BaseEstimator):
-                model = est
-            else:
-                raise ValueError(
-                    f"Invalid estimator: {type(est)}. "
-                    f"Expected str or BaseEstimator. "
-                    f"Available: {EstimatorFactory.available()}"
-                )
-
-            model.fit(X_k, y_k)
-            machines.append(model)
-        
+        machines = fit_estimators_parallel(
+            X=X_k,
+            y=y_k,
+            estimators_params=self.estimators_params,
+            estimators=estimators,
+            n_jobs=self.n_jobs if hasattr(self, "n_jobs") else -1
+        )
         return machines
     
     def _space_normalize(self, X, model_outputs):
@@ -336,24 +327,25 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         def objective(params):
             # set bandwidth
             self.adapter_.set_params(bandwidth=params[0])
-
             D = self.adapter_.transform(self.distance_matrix_)
             K = self.kernel_(D)
 
-            n_samples = len(self.y_l_)
-            preds = np.empty(n_samples, dtype=float)
+            preds = np.empty(len(self.y_l_), dtype=float)
 
             for train_idx, val_idx in folds:
-                w = K[train_idx][:, train_idx]
-                y = self.y_l_[train_idx]
+                K_train_val = K[np.ix_(val_idx, train_idx)]
+                y_train = self.y_l_[train_idx]
 
-                denom = np.sum(w, axis=1)
+                numerator = K_train_val @ y_train
+                denominator = np.sum(K_train_val, axis=1)
 
-                for i, v in enumerate(val_idx):
-                    if denom[i] > 0:
-                        preds[v] = self.aggregator_.aggregate(y, w[i])
-                    else:
-                        preds[v] = np.mean(y)
+                with np.errstate(divide='ignore', invalid='ignore'):
+                    pred_fold = np.where(
+                        denominator > 0,
+                        numerator / denominator,
+                        np.mean(y_train)
+                    )
+                preds[val_idx] = pred_fold
                 
             return self.loss_(self.y_l_, preds)
         
@@ -491,9 +483,18 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         model_outputs = self._load_predictions(X)
         X_norm, Y_norm = self._space_normalize(X, model_outputs)
 
-        distance_matrix = self.distance_.matrix(Y_norm, self.Y_l_norm_)
-        D = self.adapter_.transform(distance_matrix)
-        K = self.kernel_(D)
+        cache_key = (id(Y_norm), Y_norm.shape)
+
+        if not hasattr(self, '_predict_cache_'):
+            self._predict_cache_ = {}
+        
+        if cache_key not in self._predict_cache_:
+            distance_matrix = self.distance_.matrix(Y_norm, self.Y_l_norm_)
+            D = self.adapter_.transform(distance_matrix)
+            K = self.kernel_(D)
+            self._predict_cache_[cache_key] = (distance_matrix, D, K)
+        else:
+            distance_matrix, D, K = self._predict_cache_[cache_key]
 
         n_samples = len(X)
         preds = np.empty(n_samples, dtype=float)
@@ -501,10 +502,14 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         for i in range(n_samples):
             w = K[i]
             denom = np.sum(w)
-
+            
             if denom > 0:
                 preds[i] = self.aggregator_.aggregate(self.y_l_, w)
             else:
                 preds[i] = np.mean(self.y_l_)
         
         return preds
+
+    def clear_predict_cache(self):
+        if hasattr(self, '_predict_cache_'):
+            self._predict_cache_.clear()
