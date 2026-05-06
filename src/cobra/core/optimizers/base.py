@@ -1,162 +1,97 @@
 """
 Optimizer module for COBRA hyperparameter search and model tuning.
 
-This module defines the optimization layer used to tune components
-across the COBRA pipeline, including:
+This module defines a unified optimization interface and multiple
+optimization strategies used across the COBRA pipeline.
 
-- estimators
-- distance metrics
-- kernel adapters
-- kernel functions
-- loss functions
-
-Pipeline position
+Design principles
 -----------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
+- unified API across optimizers
+- vector-based parameter representation (np.ndarray)
+- structured result output
+- extensibility via factory pattern
+- compatibility with both discrete and continuous optimization
 
-Purpose
--------
-Optimizers are responsible for minimizing a given objective function
-that evaluates model performance.
-
-In COBRA-style systems, the objective typically depends on:
-
-- kernel parameters
-- distance scaling factors
-- estimator configurations
-- aggregation behavior
-
-The optimizer searches for parameter settings that minimize loss.
-
-Design goals
-------------
-- support generic objective functions
-- enable plug-and-play optimization strategies
-- allow iterative or gradient-free search methods
-- provide consistent callable interface
-- support progress tracking (optional tqdm integration)
-
-Examples
---------
->>> class GridSearchOptimizer(BaseOptimizer):
-...     def __call__(self, objective, grid):
-...         best_score = float("inf")
-...         best_params = None
-...         for params in grid:
-...             score = objective(params)
-...             if score < best_score:
-...                 best_score = score
-...                 best_params = params
-...         return best_params
+All optimizers return a dictionary with:
+    {
+        "x": np.ndarray        # best parameter vector
+        "score": float         # best objective value
+        "history": list        # optimization trace
+    }
 """
 
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from collections.abc import Callable
+from typing import Any, Dict
+
 import numpy as np
+from itertools import product
+
+from cobra.core.factory import BaseFactory
 
 try:
-    from tqdm import tqdm, trange
+    from tqdm import tqdm
 except ImportError:
-    tqdm = lambda x, **kwargs: x
-    trange = lambda x, **kwargs: range(x)
-
+    def tqdm(x, **kwargs):
+        return x
 
 class BaseOptimizer(ABC):
     """
     Abstract base class for optimization strategies.
 
-    Optimizers search over a parameter space to minimize an objective
-    function used in the COBRA pipeline.
+    All optimizers must implement the `optimize` method.
 
-    Pipeline role
-    -------------
-    Optimizers tune:
-
-    - kernel hyperparameters
-    - distance metrics
-    - adapter weights
-    - estimator configurations
-    - loss-related parameters
-
-    Attributes
+    Parameters
     ----------
-    dynamic attributes : Any
-        Optimizer-specific hyperparameters passed via constructor.
+    show_process : bool, default=True
+        Whether to display progress bar.
 
-    Notes
-    -----
-    Subclasses must implement the ``__call__`` method, which defines
-    the optimization procedure.
-
-    Examples
-    --------
-    >>> optimizer = MyOptimizer(max_iter=100)
-    >>> best = optimizer(objective_fn)
+    **kwargs : dict
+        Additional optimizer-specific parameters.
     """
 
-    def __init__(self, show_process=True, **kwargs):
-        """
-        Initialize optimizer with hyperparameters.
-
-        Parameters
-        ----------
-        **kwargs : dict
-            Optimizer configuration parameters.
-        """
+    def __init__(self, show_process: bool = True, **kwargs):
         self.show_process = show_process
-        for key, value in kwargs.items():
-            setattr(self, key, value)
+        self.config = kwargs
 
     def __repr__(self):
-        """
-        Return string representation of optimizer.
-
-        Returns
-        -------
-        str
-            Human-readable optimizer configuration.
-        """
-        attrs = {
-            k: v
-            for k, v in self.__dict__.items()
-            if not k.startswith("_") and not callable(v)
-        }
-        return f"{self.__class__.__name__}({attrs})"
+        return f"{self.__class__.__name__}(config={self.config})"
 
     @abstractmethod
-    def __call__(
+    def optimize(
         self,
         objective: Callable[[np.ndarray], float],
-        *args,
-        **kwargs,
-    ):
+        init_param: np.ndarray | None = None,
+    ) -> Dict[str, Any]:
         """
-        Execute optimization procedure.
+        Run optimization process.
 
         Parameters
         ----------
-        objective : Callable[[np.ndarray], float]
-            Function that evaluates a parameter configuration
-            and returns a scalar loss value.
+        objective : callable
+            Function mapping parameters → scalar loss
 
-        *args, **kwargs
-            Additional optimizer-specific arguments.
+        init_param : np.ndarray, optional
+            Initial parameter vector (used in gradient-based methods)
 
         Returns
         -------
-        Any
-            Best found solution (implementation dependent).
-
-        Raises
-        ------
-        NotImplementedError
-            Must be implemented by subclasses.
-
-        Examples
-        --------
-        >>> best = optimizer(objective_fn)
+        dict
+            Optimization result:
+            {
+                "x": best parameters,
+                "score": best loss,
+                "history": list of iteration records
+            }
         """
         raise NotImplementedError
+
+    # Backward compatibility
+    def __call__(self, objective, init_param=None):
+        return self.optimize(objective, init_param)
+
+class OptimizerFactory(BaseFactory):
+    """Factory for registering and creating optimizers."""
+    pass

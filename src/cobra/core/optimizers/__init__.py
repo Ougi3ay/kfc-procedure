@@ -82,27 +82,16 @@ configuration pipelines.
 """
 
 from .base import BaseOptimizer
-
-from .gradient.base import (
-    BaseGradientOptimizer,
-    GradientOptimizerFactory,
+from .search import (
+    GridSearchOptimizer
 )
-from .gradient.gd import GradientDescentOptimizer
 
-from .search.base import (
-    BaseSearchOptimizer,
-    SearchOptimizerFactory,
+from .gradient import (
+    GradientDescentOptimizer
 )
-from .search.grid import GridSearchOptimizer
 
 __all__ = [
     "BaseOptimizer",
-
-    "BaseGradientOptimizer",
-    "GradientOptimizerFactory",
-    "GradientDescentOptimizer",
-
-    "BaseSearchOptimizer",
-    "SearchOptimizerFactory",
     "GridSearchOptimizer",
+    "GradientDescentOptimizer"
 ]
