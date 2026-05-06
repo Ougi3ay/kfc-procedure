@@ -435,7 +435,7 @@ class CombineClassifier(ABC, SkBaseEstimator):
         def _predict_single(est):
             return est.predict(X)
         
-        preds_list = Parallel(n_jobs=-1, verbose=0)(
+        preds_list = Parallel(n_jobs=self.n_jobs, verbose=0)(
             delayed(_predict_single)(est) for est in self.estimators_
         )
         return np.column_stack(preds_list)
