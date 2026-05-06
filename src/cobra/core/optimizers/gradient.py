@@ -139,10 +139,14 @@ class GradientDescentOptimizer(BaseOptimizer):
             x = x_new
             grad_prev = grad.copy()
 
-            if self.show_process and t % 5 == 0:
+            if self.show_process and t % 1 == 0:
+                stop_criteria = grad_norm
                 iterator.set_postfix({
-                    "loss": f"{loss:.4f}",
-                    "grad": f"{grad_norm:.4f}"
+                    "iter": t + 1,
+                    "loss": f"{loss:.6f}",
+                    "x": np.round(x[0], 4) if len(x) == 1 else np.round(x, 3),
+                    "grad": np.round(grad[0], 6) if len(grad) == 1 else np.round(grad, 4),
+                    "stop": f"{stop_criteria:.6f}"
                 })
 
         return {
