@@ -47,6 +47,7 @@ Examples
 
 from __future__ import annotations
 
+from joblib import Parallel, delayed
 import numpy as np
 
 from cobra.core.optimizers.base import tqdm, trange
@@ -227,3 +228,96 @@ class GradientDescentOptimizer(BaseGradientOptimizer):
                 )
 
         return params, history
+
+
+@GradientOptimizerFactory.register("parallel_gb", "parallel_grad")
+class ParallelGradientDescent(BaseGradientOptimizer):
+    def __init__(self, learning_rate=0.01, n_jobs=4, **kwargs):
+        super().__init__(**kwargs)
+        self.learning_rate = learning_rate
+        self.n_jobs = n_jobs
+    
+    def gradient(self, objective, params):
+        base_value = objective(params)
+        def compute_grad_component(i):
+            params_eps = np.array(params, copy=True)
+            params_eps[i] += self.eps
+            grad_i = (objective(params_eps) - base_value) / self.eps
+            return i, grad_i
+
+        results = Parallel(n_jobs=self.n_jobs)(
+            delayed(compute_grad_component)(i) for i in range(len(params))
+        )
+
+        grad = np.zeros_like(params)
+        for i, grad_i in results:
+            grad[i] = grad_i
+        
+        return grad
+    
+    def step(self, objective, params):
+        """
+        Perform one gradient descent update step.
+
+        Parameters
+        ----------
+        objective : callable
+            Objective function.
+
+        params : np.ndarray
+            Current parameters.
+
+        Returns
+        -------
+        np.ndarray
+            Updated parameters.
+        """
+        grad = self.gradient(objective, params)
+        return params - self.learning_rate * grad
+
+    def __call__(self, objective, params):
+        """
+        Run full optimization loop.
+
+        Parameters
+        ----------
+        objective : callable
+            Function to minimize.
+
+        params : array-like
+            Initial parameter vector.
+
+        Returns
+        -------
+        tuple
+            (optimized_params, gradient_history)
+
+        Notes
+        -----
+        Stops early if gradient norm falls below tolerance.
+        """
+        params = np.array(params, dtype=float)
+        history = []
+
+        iterator = (
+            range(self.max_iter)
+            if not self.show_process
+            else tqdm(range(self.max_iter), desc="GD")
+        )
+
+        for i in iterator:
+            grad = self.gradient(objective, params)
+            params = self.step(objective, params)
+
+            history.append(grad.copy())
+
+            if np.linalg.norm(grad) < self.tol:
+                break
+
+            if self.show_process:
+                iterator.set_description(
+                    f"GD iter: {i} | grad norm: {np.linalg.norm(grad):.4f}"
+                )
+
+        return params, history
+
