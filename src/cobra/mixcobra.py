@@ -220,13 +220,13 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		"""
 
 		default_estimators = [
-			"linear",
+            "linear_regression",
             "ridge",
             "lasso",
-            "knn",
-            "random_forest",
-            "svm",
-		]
+            "k_neighbors_regressor",
+            "random_forest_regressor",
+            "svr",
+        ]
 
 		estimators = self.estimators or default_estimators
 
