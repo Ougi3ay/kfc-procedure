@@ -40,9 +40,6 @@ class GradientDescentOptimizer(BaseOptimizer):
         self.n_tries = n_tries
         self.init_range = init_range
 
-    # -------------------------------------------------
-    # Gradient (central difference)
-    # -------------------------------------------------
     def _gradient(self, objective, x):
         grad = np.zeros_like(x)
 
@@ -56,9 +53,6 @@ class GradientDescentOptimizer(BaseOptimizer):
 
         return grad
 
-    # -------------------------------------------------
-    # Learning rate schedules (from your code)
-    # -------------------------------------------------
     def _rate(self, t, base_lr):
         schedules = {
             "constant": lambda t, lr: lr,
@@ -70,9 +64,6 @@ class GradientDescentOptimizer(BaseOptimizer):
         }
         return schedules.get(self.speed, schedules["constant"])(t, base_lr)
 
-    # -------------------------------------------------
-    # Smart initialization (from your code)
-    # -------------------------------------------------
     def _initialize(self, objective):
         low, high = self.init_range
         candidates = np.linspace(low, high, self.n_tries)
@@ -83,7 +74,6 @@ class GradientDescentOptimizer(BaseOptimizer):
         return np.array([candidates[best_idx]])
 
     def optimize(self, objective, init_param=None):
-        # ---- Initialization ----
         if init_param is None:
             x = self._initialize(objective)
         else:
@@ -92,7 +82,6 @@ class GradientDescentOptimizer(BaseOptimizer):
         grad = self._gradient(objective, x)
         grad_prev = grad.copy()
 
-        # normalize first step (your idea)
         base_lr = self.learning_rate / (np.linalg.norm(grad) + 1e-12)
 
         history = []
@@ -114,11 +103,11 @@ class GradientDescentOptimizer(BaseOptimizer):
             lr_t = self._rate(t, base_lr)
             x_new = x - lr_t * grad
 
-            # prevent invalid values (your logic)
+            # prevent invalid values
             if np.any(np.isnan(x_new)) or np.any(x_new < 0):
                 x_new = x * 0.95
 
-            # sign flip detection (your idea)
+            # sign flip detection
             if t > 3 and np.sign(grad).dot(np.sign(grad_prev)) < 0:
                 base_lr *= 0.99
 
