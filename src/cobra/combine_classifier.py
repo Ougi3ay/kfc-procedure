@@ -458,7 +458,7 @@ class CombineClassifier(ABC, SkBaseEstimator):
         K = self.kernel_(D)
 
         has_neighbors = np.any(K > 0, axis=1)
-        outputs = np.full(K.shape[0], self.global_majority_class_, dtype=object)
+        outputs = np.full(K.shape[0], self.global_majority_class_, dtype=type(self.global_majority_class_))
 
         if isinstance(self.aggregator_, WeightedMeanAggregator):
             K_masked = K.copy()
@@ -485,7 +485,7 @@ class CombineClassifier(ABC, SkBaseEstimator):
                 w_sub = w[w > 0]
                 outputs[i] = self.aggregator_.aggregate(y_sub, w_sub)
         
-        return outputs
+        return np.asarray(outputs)
 
 class CombineClassifierFast(CombineClassifier):
     def __init__(
@@ -535,7 +535,7 @@ class CombineClassifierFast(CombineClassifier):
                     self.aggregator_.aggregate(y_sub, w_sub)
                 )
             
-            return np.asarray(outputs)
+            return outputs
         else:
             return super().improve_predict(X)
     

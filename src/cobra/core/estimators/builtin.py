@@ -56,4 +56,11 @@ class MeanRegressor(BaseEstimator):
         return self
 
     def predict(self, x: ArrayLike) -> np.ndarray:
-        return np.asarray(self.estimator.predict(x), dtype=float)
+        preds = self.estimator.predict(x)
+        # For classification estimators, keep as integers; for regression, convert to float
+        if hasattr(self.estimator, 'classes_'):
+            # Classification estimator - return integers
+            return np.asarray(preds, dtype=int)
+        else:
+            # Regression estimator - return floats
+            return np.asarray(preds, dtype=float)
