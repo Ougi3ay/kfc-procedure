@@ -47,6 +47,7 @@ Examples
 
 from __future__ import annotations
 
+import re
 from typing import Optional, Tuple
 import numpy as np
 from sklearn.utils import shuffle as sklearn_shuffle
@@ -180,3 +181,22 @@ def compute_normalization_constant(
     max_val = np.max(np.abs(data)) + 1e-12
     c = norm_constant if norm_constant is not None else scale_factor
     return c / (max_val * M)
+
+def clean_sklearn_name(name: str) -> str:
+    """
+    Convert sklearn class name to snake_case factory key.
+
+    Examples:
+        LogisticRegression -> logistic_regression
+        RandomForestRegressor -> random_forest_regressor
+        SVC -> svc
+    """
+    # Step 1: handle acronyms (SVC, SVR, PCA)
+    if name.isupper():
+        return name.lower()
+
+    # Step 2: convert CamelCase → snake_case
+    s1 = re.sub(r"(.)([A-Z][a-z]+)", r"\1_\2", name)
+    s2 = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s1)
+
+    return s2.lower()
