@@ -4,6 +4,8 @@ gradientcobra
 xgboost
 scikit-learn
 matplotlib
+numba
+faiss-cpu
 
 # dev
 build
