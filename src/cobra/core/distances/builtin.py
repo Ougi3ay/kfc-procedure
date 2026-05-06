@@ -69,6 +69,7 @@ from cobra.core.distances.base import (
     BaseDistance,
     DistanceFactory,
 )
+from cobra.utils.distance import hamming_matrix_numba
 
 
 @DistanceFactory.register("euclidean", "l2")
@@ -207,10 +208,13 @@ class HammingDistance(BaseDistance):
         x = np.asarray(x)
         y = np.asarray(y)
 
-        return np.mean(
-            x[:, None, :] != y[None, :, :],
-            axis=2,
-        )
+        try:
+            return hamming_matrix_numba(x, y)
+        except Exception:
+            return np.mean(
+                x[:, None, :] != y[None, :, :],
+                axis=2,
+            )
 
 
 @DistanceFactory.register("minkowski", "lp")
