@@ -1,4 +1,6 @@
 
+from typing import Any, Callable, Dict
+
 import numpy as np
 from cobra.core.optimizers.base import BaseOptimizer, OptimizerFactory, tqdm
 
