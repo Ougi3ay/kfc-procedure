@@ -64,6 +64,7 @@ from __future__ import annotations
 
 from abc import ABC
 from typing import Any, List, Union
+from joblib import Parallel, delayed
 import numpy as np
 
 from sklearn.base import RegressorMixin, BaseEstimator as SkBaseEstimator
@@ -72,11 +73,10 @@ from sklearn.utils.validation import check_X_y, check_is_fitted
 from cobra.core.adapters.base import BaseKernelAdapter, KernelAdapterFactory
 from cobra.core.aggregators.base import AggregatorFactory, BaseAggregator
 from cobra.core.distances.base import BaseDistance, DistanceFactory
-from cobra.core.estimators.base import BaseEstimator, EstimatorFactory
+from cobra.core.estimators.base import BaseEstimator
 from cobra.core.kernels.base import BaseKernel, KernelFactory
 from cobra.core.losses.base import BaseLoss, LossFactory
-from cobra.core.optimizers.gradient.base import GradientOptimizerFactory
-from cobra.core.optimizers.search.base import SearchOptimizerFactory
+from cobra.core.optimizers.base import OptimizerFactory
 from cobra.core.spaces.base import SpaceNormalizerFactory
 from cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
 from cobra.utils.resolve import fit_estimators_parallel
@@ -174,10 +174,12 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         loss_params: dict[str, Any] | None = None,
         optimizer: str = "gradient_descent",
         optimizer_params: dict[str, Any] | None = None,
-
-        opt_method: str = "grad",
+        learning_rate: float = 0.01,
+        max_iter: int = 50,
+        opt_method: str = "grid",
         bandwidth_list: np.ndarray | None = None,
         norm_constant = None,
+        obj_type = "cv",
         n_jobs=1,
         random_state: int | None = None
     ):
@@ -198,6 +200,9 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         self.norm_constant = norm_constant
         self.opt_method = opt_method
         self.n_jobs = n_jobs
+        self.learning_rate = learning_rate
+        self.max_iter = max_iter
+        self.obj_type = obj_type
         self.random_state = random_state
     
     def _resolve_fit_split_context(self, X, y, X_l, y_l):
@@ -212,14 +217,16 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
             iloc_k, iloc_l : indices
         """
         X, y = check_X_y(X, y)
+        # Supports both internal split (50-50) and external calibration set
         if X_l is not None and y_l is not None:
+            # External calibration: use provided X_l, y_l directly
             X_l, y_l = check_X_y(X_l, y_l)
             X_k_, X_l_ = X, X_l
             y_k_, y_l_ = y, y_l
             iloc_l, iloc_k = np.arange(len(y_l_)), np.arange(len(y))
             self.as_predictions_ = True
         else:
-            # provide static splitter
+            # Internal split: use SplitterFactory with 50% overlap
             splitter: BaseDataSplitter = SplitterFactory.create(
                 "split_overlap",
                 split_ratio=0.5,
@@ -237,7 +244,6 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         """
         Fit base estimator pool.
         """
-
         default_estimators = [
             "linear_regression",
             "ridge_cv",
@@ -271,11 +277,13 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         """
         Build prediction matrix from estimator pool.
         """
-        cols = []
-        for model in self.estimators_:
-            preds = model.predict(X)
-            cols.append(preds)
-        return np.column_stack(cols)
+        def _predict_single(est):
+            return est.predict(X)
+        
+        preds_list = Parallel(n_jobs=-1, verbose=0)(
+            delayed(_predict_single)(est) for est in self.estimators_
+        )
+        return np.column_stack(preds_list)
     
     def _resolve_component(self):
         """
@@ -316,62 +324,59 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         """
         Optimize kernel bandwidth using selected strategy.
 
-        Supports:
-        - gradient descent
-        - grid/search optimization
+        - For 1D parameters: use grid search (faster, deterministic)
+        - For 2D+ parameters: use gradient descent or random search
         """
+        if self.obj_type == "cv":
+            self.folds = self.splitter_.split(self.X_l_, self.y_l_)
+        list_objectives = {
+            'cv'            : self.objective_cv,
+            'loo_approx'    : self.objective_loo_approx,
+            'loo_vectorized': self.objective_loo_vectorized
+        }
+        objective = list_objectives[self.obj_type]
         self.distance_matrix_ = self.distance_.matrix(self.Y_l_norm_, self.Y_l_norm_)
 
-        folds = self.splitter_.split(self.X_l_, self.y_l_)
-
-        def objective(params):
-            # set bandwidth
-            self.adapter_.set_params(bandwidth=params[0])
-            D = self.adapter_.transform(self.distance_matrix_)
-            K = self.kernel_(D)
-
-            preds = np.empty(len(self.y_l_), dtype=float)
-
-            for train_idx, val_idx in folds:
-                K_train_val = K[np.ix_(val_idx, train_idx)]
-                y_train = self.y_l_[train_idx]
-
-                numerator = K_train_val @ y_train
-                denominator = np.sum(K_train_val, axis=1)
-
-                with np.errstate(divide='ignore', invalid='ignore'):
-                    pred_fold = np.where(
-                        denominator > 0,
-                        numerator / denominator,
-                        np.mean(y_train)
-                    )
-                preds[val_idx] = pred_fold
-                
-            return self.loss_(self.y_l_, preds)
-        
-        if self.opt_method == "grad":
-            self.optimizer_ = GradientOptimizerFactory.create(
-                self.optimizer,
-                **(self.optimizer_params or {}),
-                random_state=self.random_state
+        n_params = 1
+        if n_params == 1 and self.opt_method != "grad":
+            bandwidth_candidates = (
+                self.bandwidth_list
+                if self.bandwidth_list is not None
+                else np.linspace(0.1, 10.0, 20)
             )
-            params, history = self.optimizer_(objective, np.array([1.0]))
-        
-        else:
-            self.optimizer_ = SearchOptimizerFactory.create(
-                self.optimizer,
-                **(self.optimizer_params or {}),
-                param_grid={"bandwidth" : self.bandwidth_list or np.linspace(0.1, 10.0, 20)},
-                random_state=self.random_state
+            self.optimizer_ = OptimizerFactory.create(
+                "grid",
+                param_grid={"bandwidth": bandwidth_candidates},
+                random_state=self.random_state,
+                **(self.optimizer_params or {})
             )
-            params, history = self.optimizer_(objective, self.bandwidth_list)
+            result = self.optimizer_(objective)
 
-        self.optimization_outputs_ = {
-            "method": self.opt_method,
-            "params": params,
-            "history": history
-        }   
+            self.optimization_outputs_ = {
+                "method": "grid_search_1d",
+                "params": result["x"],
+                "score": result["score"],
+                "history": result["history"],
+                "evaluations": len(result["history"])
+            }
+        elif self.opt_method == "grad":
+            self.optimizer_ = OptimizerFactory.create(
+                self.optimizer,
+                learning_rate=self.learning_rate,
+                max_iter=self.max_iter,
+                random_state=self.random_state,
+                **(self.optimizer_params or {})
+            )
+            result = self.optimizer_(objective)
 
+            self.optimization_outputs_ = {
+                "method": "gradient_descent",
+                "params": result["x"],
+                "score": result["score"],
+                "history": result["history"],
+                "evaluations": len(result["history"])
+            }
+        return result
 
         
     def fit(
@@ -513,3 +518,66 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
     def clear_predict_cache(self):
         if hasattr(self, '_predict_cache_'):
             self._predict_cache_.clear()
+
+    # define all objective
+    def objective_loo_approx(self, params):
+        self.adapter_.set_params(bandwidth=params[0])
+        D = self.adapter_.transform(self.distance_matrix_)
+        K = self.kernel_(D)
+
+        n_samples = len(self.y_l_)
+        preds = np.empty(n_samples, dtype=float)
+
+        for i in range(n_samples):
+            w = K[i].copy()
+            w[i] = 0
+            denom = np.sum(w)
+            if denom > 0:
+                preds[i] = np.sum(w * self.y_l_) / denom
+            else:
+                preds[i] = np.mean(self.y_l_)
+        
+        return self.loss_(self.y_l_, preds)
+    
+    def objective_loo_vectorized(self, params):
+        self.adapter_.set_params(bandwidth=params[0])
+        D = self.adapter_.transform(self.distance_matrix_)
+        K = self.kernel_(D)
+
+        K_loo = K.copy()
+        np.fill_diagonal(K_loo, 0)
+        denom = np.sum(K_loo, axis=1, keepdims=True)
+
+        numerator = K_loo @ self.y_l_
+        with np.errstate(divide='ignore', invalid='ignore'):
+            preds = np.where(
+                denom.flatten() > 0,
+                numerator / denom.flatten(),
+                np.mean(self.y_l_)
+            )
+        return self.loss_(self.y_l_, preds)
+    
+    def objective_cv(self, params):
+        # set bandwidth
+        self.adapter_.set_params(bandwidth=params[0])
+        D = self.adapter_.transform(self.distance_matrix_)
+        K = self.kernel_(D)
+
+        preds = np.empty(len(self.y_l_), dtype=float)
+
+        for train_idx, val_idx in self.folds:
+            K_train_val = K[np.ix_(val_idx, train_idx)]
+            y_train = self.y_l_[train_idx]
+
+            numerator = K_train_val @ y_train
+            denominator = np.sum(K_train_val, axis=1)
+
+            with np.errstate(divide='ignore', invalid='ignore'):
+                pred_fold = np.where(
+                    denominator > 0,
+                    numerator / denominator,
+                    np.mean(y_train)
+                )
+            preds[val_idx] = pred_fold
+        return self.loss_(self.y_l_, preds)
+    

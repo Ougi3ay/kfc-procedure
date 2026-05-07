@@ -75,8 +75,7 @@ from cobra.core.distances.base import BaseDistance, DistanceFactory
 from cobra.core.estimators.base import BaseEstimator, EstimatorFactory
 from cobra.core.kernels.base import BaseKernel, KernelFactory
 from cobra.core.losses.base import BaseLoss, LossFactory
-from cobra.core.optimizers.gradient.base import GradientOptimizerFactory
-from cobra.core.optimizers.search.base import SearchOptimizerFactory
+from cobra.core.optimizers.base import OptimizerFactory
 from cobra.core.spaces.base import SpaceNormalizerFactory
 from cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
 
@@ -358,7 +357,7 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
             return self.loss_(self.y_l_, preds)
         
         if self.opt_method == "grad":
-            self.optimizer_ = GradientOptimizerFactory.create(
+            self.optimizer_ = OptimizerFactory.create(
                 self.optimizer,
                 **(self.optimizer_params or {}),
                 random_state=self.random_state
@@ -366,7 +365,7 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
             params, history = self.optimizer_(objective, np.array([1.0]))
         
         else:
-            self.optimizer_ = SearchOptimizerFactory.create(
+            self.optimizer_ = OptimizerFactory.create(
                 self.optimizer,
                 **(self.optimizer_params or {}),
                 param_grid={"bandwidth" : self.bandwidth_list or np.linspace(0.1, 10.0, 20)},

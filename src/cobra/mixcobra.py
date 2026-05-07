@@ -26,8 +26,7 @@ from cobra.core.distances.base import BaseDistance, DistanceFactory
 from cobra.core.estimators.base import BaseEstimator, EstimatorFactory
 from cobra.core.kernels.base import BaseKernel, KernelFactory
 from cobra.core.losses.base import BaseLoss, LossFactory
-from cobra.core.optimizers.gradient.base import BaseGradientOptimizer, GradientOptimizerFactory
-from cobra.core.optimizers.search.base import BaseSearchOptimizer, SearchOptimizerFactory
+from cobra.core.optimizers.base import OptimizerFactory
 from cobra.core.spaces.base import SpaceNormalizerFactory
 from cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
 
@@ -392,7 +391,7 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		Optimizes alpha/beta mixing between distance spaces.
 		"""
 		if self.opt_method == "grad":
-			self.optimizer_ : BaseGradientOptimizer = GradientOptimizerFactory.create(
+			self.optimizer_ = OptimizerFactory.create(
 				self.optimizer,
 				**(self.optimizer_params or {}),
 				random_state=self.random_state
@@ -403,7 +402,7 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 			else:
 				params, history = self.optimizer_(self.objective_2d, np.array([1.0, 1.0]))
 		else:
-			self.optimizer_ : BaseSearchOptimizer = SearchOptimizerFactory.create(
+			self.optimizer_ = OptimizerFactory.create(
 				self.optimizer,
 				**(self.optimizer_params or {}),
 				random_state=self.random_state

@@ -104,6 +104,7 @@ from cobra.core.aggregators.builtin import WeightedMeanAggregator
 from cobra.core.distances.base import BaseDistance, DistanceFactory
 from cobra.core.estimators.base import BaseEstimator, EstimatorFactory
 from cobra.core.kernels.base import BaseKernel, KernelFactory
+from cobra.utils.resolve import fit_estimators_parallel
 
 try:
     import faiss
@@ -146,6 +147,7 @@ class CombineClassifier(ABC, SkBaseEstimator):
         kernel_params: Dict[str, Any] | None = None,
         aggregator: str = "majority_vote",
         aggregator_params: Dict[str, Any] | None = None,
+        n_jobs: int = 1,
         random_state: int | None = None,
     ):
         self.estimators = estimators
@@ -156,6 +158,7 @@ class CombineClassifier(ABC, SkBaseEstimator):
         self.kernel_params = kernel_params
         self.aggregator = aggregator
         self.aggregator_params = aggregator_params
+        self.n_jobs = n_jobs
         self.random_state = random_state
 
     def _fit_estimators(self, X_k: np.ndarray, y_k: np.ndarray):
@@ -173,32 +176,18 @@ class CombineClassifier(ABC, SkBaseEstimator):
             "svc",
             "k_neighbors_classifier",
         ]
-
         estimators = self.estimators or default_estimators
-        machines = []
 
-        for est in estimators:
-            if isinstance(est, tuple):
-                name, params = est
-                model = EstimatorFactory.create(name, **params)
-            elif isinstance(est, str):
-                params = (self.estimators_params or {}).get(est, {})
-                model = EstimatorFactory.create(est, **params)
-            elif isinstance(est, (BaseEstimator, SkBaseEstimator)):
-                model = est
-            else:
-                raise ValueError(
-                    f"Invalid estimator: {type(est)}. "
-                    f"Expected str, BaseEstimator, or sklearn estimator. "
-                    f"Available: {EstimatorFactory.available()}"
-                )
-
-            model.fit(X_k, y_k)
-            machines.append(model)
-
+        machines = fit_estimators_parallel(
+            X=X_k,
+            y=y_k,
+            estimators_params=self.estimators_params,
+            estimators=estimators,
+            n_jobs=self.n_jobs if hasattr(self, "n_jobs") else -1
+        )
         return machines
 
-    def _prediction_matrix(self, X: np.ndarray):
+    def _prediction_matrix_parallel(self, X: np.ndarray):
         """
         Construct prediction matrix from estimator pool.
 
@@ -207,11 +196,13 @@ class CombineClassifier(ABC, SkBaseEstimator):
         np.ndarray
             Shape: (n_samples, n_estimators)
         """
-        cols = []
-        for est in self.estimators_:
-            preds = est.predict(X)
-            cols.append(preds)
-        return np.column_stack(cols)
+        def _predict_single(est):
+            return est.predict(X)
+        
+        preds_list = Parallel(n_jobs=self.n_jobs, verbose=0)(
+            delayed(_predict_single)(est) for est in self.estimators_
+        )
+        return np.column_stack(preds_list)
 
     def _resolve_components(self):
         """Initialize distance, kernel, and aggregator components."""
@@ -262,9 +253,8 @@ class CombineClassifier(ABC, SkBaseEstimator):
         >>> clf.fit(X_train, y_train)
         """
         self.classes_ = np.unique(y)
-
         self.estimators_ = self._fit_estimators(X, y)
-        self.y_ = self._prediction_matrix(X)
+        self.y_ = self._prediction_matrix_parallel(X)
 
         classes, counts = np.unique(self.y_, return_counts=True)
         self.global_majority_class_ = classes[np.argmax(counts)]
@@ -305,7 +295,7 @@ class CombineClassifier(ABC, SkBaseEstimator):
         """
         X = check_array(X)
 
-        preds = self._prediction_matrix(X)
+        preds = self._prediction_matrix_parallel(X)
         outputs = []
 
         D = self.distance_.matrix(preds, self.y_)
@@ -363,29 +353,90 @@ class CombineClassifier(ABC, SkBaseEstimator):
         >>> y_prob = clf.predict_prob(X_test)
         """
         X = check_array(X)
-
-        preds = self._prediction_matrix(X)
-        outputs = []
-
+        preds = self._prediction_matrix_parallel(X)
         D = self.distance_.matrix(preds, self.y_)
         K = self.kernel_(D)
 
-        for i in range(K.shape[0]):
-            w = K[i]
-            mask = w > 0
+        has_neighbors = np.any(K > 0, axis=1)
+        outputs = np.full(K.shape[0], self.global_majority_class_, dtype=type(self.global_majority_class_))
 
-            if not np.any(mask):
-                prob_dist = np.zeros(len(self.classes_))
-                idx = np.where(self.classes_ == self.global_majority_class_)[0][0]
-                prob_dist[idx] = 1.0
-                outputs.append(prob_dist)
-                continue
+        if isinstance(self.aggregator_, WeightedMeanAggregator):
+            K_masked = K.copy()
+            K_masked[K <= 0] = 0
 
-            y_sub = self.y_[mask]
-            w_sub = w[mask]
+            # (N_test, M_train) @ (M_train,) = (N_test,)
+            numerator = K_masked @ self.y_
+            denominator = np.sum(K_masked, axis=1)
 
-            prob_dist = self.aggregator_.aggregate(y_sub, w_sub, return_proba=True)
-            outputs.append(prob_dist)
+            with np.errstate(divide='ignore', invalid='ignore'):
+                predictions = np.where(
+                    denominator > 0,
+                    numerator / denominator,
+                    self.global_majority_class_
+                )
 
+            outputs[has_neighbors] = predictions[has_neighbors]
+        else:
+            # For majority_vote, still iterate but only over valid neighbors
+            valid_indices = np.where(has_neighbors)[0]
+            for i in valid_indices:
+                w = K[i]
+                y_sub = self.y_[w > 0]
+                w_sub = w[w > 0]
+                outputs[i] = self.aggregator_.aggregate(y_sub, w_sub)
+        
         return np.asarray(outputs)
+
+
+class CombineClassifierFast(CombineClassifier):
+    def __init__(
+        self,
+        use_faiss: bool = False,
+        faiss_k: int | None = None,  # If None, use all neighbors
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+        self.use_faiss = use_faiss
+        self.faiss_k = faiss_k
+
+    def fit(self, X, y):
+        super().fit(X, y)
+
+        if self.use_faiss and HAS_FAISS:
+            preds = self.y_.astype(np.float32)
+            self.faiss_index_ = faiss.IndexFlatL2(preds.shape[1])
+            self.faiss_index_.add(preds)
+        
+        return self
+    
+    def predict(self, X):
+        X = check_array(X)
+        preds = self._prediction_matrix_parallel(X).astype(np.float32)
+
+        if self.use_faiss and HAS_FAISS and hasattr(self, 'faiss_index_'):
+            # Find k nearest neighbors (fast!)
+            k = self.faiss_k or min(100, self.y_.shape[0])
+            distances, indices = self.faiss_index_.search(preds, k)
+
+            # Convert FAISS L2 distances to similarity scores
+            if hasattr(self.kernel_, "gamma") and self.kernel_.gamma is not None:
+                K_approx = np.exp(-self.kernel_.gamma * distances)
+            elif hasattr(self.kernel_, "threshold") and self.kernel_.threshold is not None:
+                K_approx = np.exp(-self.kernel_.threshold * distances)
+            else:
+                raise ValueError("Kernel must define either gamma or threshold.")
+
+            outputs = []
+            for i in range(K_approx.shape[0]):
+                w = K_approx[i]
+                idx = indices[i]
+                y_sub = self.y_[idx]
+                w_sub = w
+                outputs.append(
+                    self.aggregator_.aggregate(y_sub, w_sub)
+                )
+            
+            return outputs
+        else:
+            return super().predict(X)
     
