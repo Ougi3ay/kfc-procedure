@@ -12,7 +12,6 @@ from __future__ import annotations
 import numpy as np
 
 from kfc_procedure.core.aggregations.base import AggregationRegressorFactory, BaseAggregationRegressor
-from cobra.gradientcobra import GradientCOBRA
 
 @AggregationRegressorFactory.register("mean")
 class MeanAggregation(BaseAggregationRegressor):
@@ -62,19 +61,4 @@ class StackingAggregation(BaseAggregationRegressor):
     def predict(self, predictions: np.ndarray, **kwargs) -> np.ndarray:
         return self.meta_.predict(predictions, **kwargs)
 
-@AggregationRegressorFactory.register("gradientcobra")
-class GradientCobraAggregation(BaseAggregationRegressor):
-    """
-    GradientCobra
-    """
 
-    def __init__(self, **kwargs) -> None:
-        self.gradientcobra_ = GradientCOBRA(**kwargs)
-    
-    def fit(self, predictions: np.ndarray, y: np.ndarray) -> "GradientCobraAggregation":
-        self.gradientcobra_.fit(predictions, y, as_predictions=True)
-        return self
-    
-    def predict(self, predictions: np.ndarray, bandwidth: float) -> np.ndarray:
-        return self.gradientcobra_.predict(predictions, bandwidth=bandwidth)
-    
