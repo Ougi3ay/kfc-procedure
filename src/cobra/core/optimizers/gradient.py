@@ -143,3 +143,87 @@ class GradientDescentOptimizer(BaseOptimizer):
             "score": objective(x),
             "history": history
         }
+
+@OptimizerFactory.register('adam')
+class AdamOptimizer(BaseOptimizer):
+    """
+    Adam (Adaptive Moment Estimation) Optimizer.
+    """
+    def __init__(
+        self, 
+        learning_rate: float = 0.001, 
+        beta1: float = 0.9, 
+        beta2: float = 0.999, 
+        epsilon: float = 1e-8,
+        max_iter: int = 1000,
+        tol: float = 1e-7,
+        epsilon_grad: float = 1e-7,
+        show_process: bool = True
+    ):
+        super().__init__(show_process=show_process)
+        self.lr = learning_rate
+        self.beta1 = beta1
+        self.beta2 = beta2
+        self.eps = epsilon
+        self.max_iter = max_iter
+        self.tol = tol
+        self.eps_grad = epsilon_grad
+
+    def _get_numerical_gradient(self, f, x):
+        """Calculates numerical gradient using central difference."""
+        grad = np.zeros_like(x, dtype=float)
+        for i in range(len(x)):
+            old_val = x[i]
+            x[i] = old_val + self.eps_grad
+            fx_plus = f(x)
+            x[i] = old_val - self.eps_grad
+            fx_minus = f(x)
+            grad[i] = (fx_plus - fx_minus) / (2 * self.eps_grad)
+            x[i] = old_val  # Restore
+        return grad
+
+    def optimize(
+        self, 
+        objective: Callable[[np.ndarray], float], 
+        init_param: np.ndarray
+    ) -> Dict[str, Any]:
+        
+        x = init_param.astype(float).copy()
+        m = np.zeros_like(x)
+        v = np.zeros_like(x)
+        history = []
+        
+        pbar = tqdm(range(1, self.max_iter + 1), disable=not self.show_process)
+        
+        for t in pbar:
+            # 1. Compute Gradient
+            grad = self._get_numerical_gradient(objective, x)
+            
+            # 2. Update Moving Averages
+            m = self.beta1 * m + (1 - self.beta1) * grad
+            v = self.beta2 * v + (1 - self.beta2) * (grad**2)
+            
+            # 3. Bias Correction
+            m_hat = m / (1 - self.beta1**t)
+            v_hat = v / (1 - self.beta2**t)
+            
+            # 4. Update Parameters
+            diff = self.lr * m_hat / (np.sqrt(v_hat) + self.eps)
+            x -= diff
+            
+            # Record keeping
+            current_score = objective(x)
+            history.append({"iter": t, "score": current_score, "x": x.copy()})
+            
+            if self.show_process:
+                pbar.set_description(f"Score: {current_score:.6f}")
+
+            # Convergence Check
+            if np.linalg.norm(diff) < self.tol:
+                break
+                
+        return {
+            "x": x,
+            "score": objective(x),
+            "history": history
+        }
