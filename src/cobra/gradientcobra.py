@@ -362,7 +362,7 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
                 **(self.optimizer_params or {}),
                 random_state=self.random_state
             )
-            params, history = self.optimizer_(objective, np.array([1.0]))
+            result = self.optimizer_(objective, np.array([1.0]))
         
         else:
             self.optimizer_ = OptimizerFactory.create(
@@ -371,13 +371,17 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
                 param_grid={"bandwidth" : self.bandwidth_list or np.linspace(0.1, 10.0, 20)},
                 random_state=self.random_state
             )
-            params, history = self.optimizer_(objective, self.bandwidth_list)
+            result = self.optimizer_(objective, self.bandwidth_list)
 
+        self.bandwidth_ = float(np.atleast_1d(result["x"])[0])
+        
         self.optimization_outputs_ = {
             "method": self.opt_method,
-            "params": params,
-            "history": history
-        }   
+            "bandwidth": self.bandwidth_,
+            "score": result["score"],
+            "history": result["history"],
+            "evaluations": len(result["history"]),
+        }
 
 
         

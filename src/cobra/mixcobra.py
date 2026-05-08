@@ -398,9 +398,9 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 			)
 
 			if self.one_parameter:
-				params, history = self.optimizer_(self.objective_1d, np.array([1.0]))
+				result = self.optimizer_(self.objective_1d, np.array([1.0]))
 			else:
-				params, history = self.optimizer_(self.objective_2d, np.array([1.0, 1.0]))
+				result = self.optimizer_(self.objective_2d, np.array([1.0, 1.0]))
 		else:
 			self.optimizer_ = OptimizerFactory.create(
 				self.optimizer,
@@ -411,18 +411,20 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 			param_grid = {}
 			if self.one_parameter:
 				param_grid["alpha"] = self.alpha_list if self.alpha_list is not None else np.linspace(0, 2, 10)
-				params, history = self.optimizer_(self.objective_1d, param_grid)
+				result = self.optimizer_(self.objective_1d, param_grid)
 			else:
 				param_grid["alpha"] = self.alpha_list if self.alpha_list is not None else np.linspace(0, 2, 10)
 				param_grid["beta"] = self.beta_list if self.beta_list is not None else np.linspace(0, 2, 10)
-				params, history = self.optimizer_(self.objective_2d, param_grid)
+				result = self.optimizer_(self.objective_2d, param_grid)
 		
-		# store optimization outputs
 		self.optimization_outputs_ = {
-			"method": self.opt_method,
-			"params": params,
-			"history": history
-		}
+            "method": self.opt_method,
+            "bandwidth": result['x'],
+            "score": result["score"],
+            "history": result["history"],
+            "evaluations": len(result["history"]),
+			"params" : result['x']
+        }
 
 
 
