@@ -494,16 +494,17 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         D = self.adapter_.transform(distance_matrix)
         K = self.kernel_(D)
 
-        n_samples = len(X)
-        preds = np.empty(n_samples, dtype=float)
+        preds = np.empty(K.shape[0], dtype=float)
 
-        for i in range(n_samples):
+        for i in range(K.shape[0]):
             w = K[i]
-            denom = np.sum(w)
-
-            if denom > 0:
-                preds[i] = self.aggregator_.aggregate(self.y_l_, w)
-            else:
+            
+            if np.sum(w) <= 0:
                 preds[i] = np.mean(self.y_l_)
-        
+            else:
+                preds[i] = self.aggregator_.aggregate(
+                    values=self.y_l_,
+                    weights=w
+                )
+
         return preds
