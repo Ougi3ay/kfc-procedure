@@ -64,6 +64,7 @@ class BaseOptimizer(ABC):
         self,
         objective: Callable[[np.ndarray], float],
         init_param: np.ndarray | None = None,
+        **kwargs
     ) -> Dict[str, Any]:
         """
         Run optimization process.
