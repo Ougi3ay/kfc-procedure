@@ -133,7 +133,7 @@ class BaseFactory(ABC):
                 if key in cls._registry:
                     raise KeyError(
                         f"'{key}' is already registered in {cls.__name__}. "
-                        f"Existing entry: {cls._registry[key].__name__}"
+                        f"Existing entry: {cls._registry[key]['class'].__name__}"
                     )
                 cls._registry[key] = {
                     "class" : target_cls,
