@@ -53,6 +53,19 @@ from cobra.core.adapters.base import (
     KernelAdapterFactory,
 )
 
+@KernelAdapterFactory.register("one_parameter")
+class OneParameterKernelAdapter(BaseKernelAdapter):
+    def __init__(self, h: float = 1.0):
+        super().__init__(h=h)
+    
+    def transform(self, *distances: np.ndarray) -> np.ndarray:
+        if len(distances) != 1:
+            raise ValueError(
+                "One parameter expects exactly 1 distance matrix"
+            )
+
+        return self.h * distances[0]
+
 
 @KernelAdapterFactory.register("gradientcobra")
 class GradientCOBRAKernelAdapter(BaseKernelAdapter):
