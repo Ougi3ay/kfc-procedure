@@ -28,7 +28,7 @@ Examples
 from __future__ import annotations
 
 from abc import ABC
-from typing import Any, Dict, List, Type
+from typing import Any, Dict, List, Optional, Set, Type
 
 
 class BaseFactory(ABC):
@@ -67,7 +67,7 @@ class BaseFactory(ABC):
     ['euclidean']
     """
 
-    _registry: Dict[str, Any] = {}
+    _registry: Dict[str, Dict[str, Any]] = {}
 
     def __init_subclass__(cls, **kwargs) -> None:
         """
@@ -85,7 +85,12 @@ class BaseFactory(ABC):
         cls._registry = {}
 
     @classmethod
-    def register(cls, *names: str):
+    def register(
+        cls,
+        *names: str,
+        categories: Optional[Set[str] | str] = None,
+        **metadata: Any
+    ):
         """
         Register a class under one or more names.
 
@@ -95,6 +100,12 @@ class BaseFactory(ABC):
         ----------
         *names : str
             One or more string names used to register the target class.
+        
+        categories:
+            Optional single category or set of categories.
+
+        metadata:
+            Optional extra info (future extensibility).
 
         Returns
         -------
@@ -108,10 +119,14 @@ class BaseFactory(ABC):
 
         Examples
         --------
-        >>> @KernelFactory.register("gaussian", "rbf")
-        ... class GaussianKernel:
+        >>> @Factory.register("adam", categories={"optimizer"})
+        ... class Adam:
         ...     pass
         """
+        if isinstance(categories, str):
+            categories = {categories}
+        categories = set(categories or [])
+
         def decorator(target_cls: Type) -> Type:
             for name in names:
                 key = name.lower()
@@ -120,7 +135,11 @@ class BaseFactory(ABC):
                         f"'{key}' is already registered in {cls.__name__}. "
                         f"Existing entry: {cls._registry[key].__name__}"
                     )
-                cls._registry[key] = target_cls
+                cls._registry[key] = {
+                    "class" : target_cls,
+                    "categories" : categories,
+                    "metadata" : metadata
+                }
             return target_cls
 
         return decorator
@@ -158,7 +177,7 @@ class BaseFactory(ABC):
                 f"'{name}' is not registered in {cls.__name__}. "
                 f"Available: {cls.available()}"
             )
-        return cls._registry[key](**kwargs)
+        return cls._registry[key]["class"](**kwargs)
 
     @classmethod
     def available(cls) -> List[str]:
@@ -175,7 +194,7 @@ class BaseFactory(ABC):
         >>> KernelFactory.available()
         ['gaussian', 'rbf']
         """
-        return sorted(cls._registry)
+        return sorted(cls._registry.keys())
 
     @classmethod
     def contains(cls, name: str) -> bool:
@@ -198,3 +217,50 @@ class BaseFactory(ABC):
         True
         """
         return name.lower() in cls._registry
+    
+    @classmethod
+    def available_categories(cls) -> Set[str]:
+        """
+        Note
+        """
+        categories: Set[str] = set()
+        for meta in cls._registry.values():
+            categories.update(meta.get("categories", set()))
+        
+        return categories
+    
+    @classmethod
+    def available_by_category(cls, category: str) -> List[str]:
+        category = category.lower()
+
+        return sorted(
+            name
+            for name, meta in cls._registry.items()
+            if category in meta.get("categories", set())
+        )
+    
+    @classmethod
+    def info(cls, name: str) -> Dict[str, Any]:
+        key = name.lower()
+
+        if key not in cls._registry:
+            raise KeyError(
+                f"'{name}' not found in {cls.__name__}"
+            )
+        
+        meta = cls._registry[key]
+
+        return {
+            "name": key,
+            "class": meta["class"].__name__,
+            "categories": sorted(meta.get("categories", set())),
+            "metadata": meta.get("metadata", {}),
+        }
+    
+    @classmethod
+    def find_by_class(cls, target_cls: Type) -> List[str]:
+        return sorted(
+            name
+            for name, meta in cls._registry.items()
+            if meta["class"] is target_cls
+        )
