@@ -12,8 +12,8 @@ class BaseSearchOptimizer(BaseOptimizer, ABC):
     Base class for derivative-free optimization.
     """
 
-    def __init__(self, show_process: bool = True):
-        super().__init__(show_process=show_process)
+    def __init__(self, show_process: bool = True, **kwargs):
+        super().__init__(show_process=show_process, **kwargs)
 
     @abstractmethod
     def candidates(self) -> np.ndarray:
