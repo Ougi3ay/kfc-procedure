@@ -83,6 +83,7 @@ configuration pipelines.
 
 from .base import BaseOptimizer
 from .gradient import *
+from .search import *
 
 __all__ = [
     "BaseOptimizer",
