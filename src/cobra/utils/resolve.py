@@ -325,6 +325,9 @@ def resolve_training_context(
     y_l: ArrayLike | None = None,
     as_predictions: bool = False,
     splitter: BaseDataSplitter | None = None,
+    split_ratio: float = 0.5,
+    overlap: float = 0.0,
+    random_state: int | None = None,
 ) -> TrainingContext:
     """
     Resolve COBRA training and aggregation datasets.
@@ -428,8 +431,9 @@ def resolve_training_context(
     if splitter is None:
         splitter = SplitterFactory.create(
             "split_overlap",
-            split_ratio=0.5,
-            overlap=0.0,
+            split_ratio=split_ratio,
+            overlap=overlap,
+            random_state=random_state,
         )
 
     split_indices: SplitIndices = splitter.split(X, y)
