@@ -85,7 +85,8 @@ class IndicatorKernel(BaseKernel):
     >>> kernel = IndicatorKernel(threshold=0.3)
     >>> weights = kernel(D)
     """
-
+    requires_grad = False
+    
     def __init__(self, threshold: float = 0.5):
         """
         Initialize indicator kernel.

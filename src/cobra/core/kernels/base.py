@@ -83,6 +83,7 @@ class BaseKernel(ABC):
     ...     def __call__(self, x):
     ...         return 1 - x
     """
+    requires_grad = True
 
     def __init__(self, **kwargs):
         """
