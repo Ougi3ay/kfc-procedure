@@ -65,6 +65,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 
 from cobra.core.factory import BaseFactory
+from cobra.core.types import SplitIndices
 
 
 class BaseCrossValidator(ABC):
@@ -105,7 +106,9 @@ class BaseCrossValidator(ABC):
         self,
         x: ArrayLike,
         y: ArrayLike,
-    ) -> Iterator[tuple[np.ndarray, np.ndarray]]:
+        *,
+        groups: ArrayLike | None = None,
+    ) -> Iterator[SplitIndices]:
         """
         Generate train/validation index folds.
 
@@ -117,13 +120,16 @@ class BaseCrossValidator(ABC):
         y : ArrayLike
             Target values.
 
+        groups : ArrayLike | None
+            Optional group labels for stratified splitting.
+
         Yields
         ------
-        Iterator[tuple[np.ndarray, np.ndarray]]
+        Iterator[SplitIndices]
             Iterator producing:
 
-            - train_indices
-            - validation_indices
+            - train_idx
+            - eval_idx
 
         Raises
         ------
@@ -132,8 +138,16 @@ class BaseCrossValidator(ABC):
 
         Examples
         --------
-        >>> for train_idx, val_idx in cv.split(X, y):
-        ...     pass
+        >>> for split_indices in cv.split(X, y):
+        ...     train_idx = split_indices.train_idx
+        ...     eval_idx = split_indices.eval_idx
+        """
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_n_splits(self) -> int:
+        """
+        Return the number of generated folds.
         """
         raise NotImplementedError
 
@@ -157,8 +171,9 @@ class CVFactory(BaseFactory):
     --------
     >>> cv = CVFactory.create("kfold")
 
-    >>> for train_idx, val_idx in cv.split(X, y):
-    ...     pass
+    >>> for split_indices in cv.split(X, y):
+    ...     train_idx = split_indices.train_idx
+    ...     eval_idx = split_indices.eval_idx
     """
 
     pass

@@ -1,91 +1,29 @@
 """
-Concrete dataset splitters for COBRA-style training and calibration workflows.
-
-This module implements common dataset partitioning strategies used in
-COBRA pipelines, including holdout, K-fold cross-validation, and
-overlapping splits.
-
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
-
-Purpose
--------
-Splitters define how input data is partitioned into subsets used for:
-
-- estimator training
-- calibration / aggregation
-- cross-validation
-- ensemble evaluation
-
-In COBRA-style systems, splitting is index-based to ensure:
-
-- consistent alignment across estimators
-- reproducible experimental design
-- compatibility with ensemble aggregation logic
-
-Available strategies
---------------------
-
-1. RandomHoldoutSplitter
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-Randomly partitions data into training and calibration sets.
-
-Typical use cases:
-- simple train/calibration split
-- baseline COBRA experiments
-
-2. KFoldSplitter
-^^^^^^^^^^^^^^^^
-
-Generates K-fold cross-validation splits.
-
-Typical use cases:
-- model evaluation
-- robust performance estimation
-- ensemble validation
-
-3. OverlapSplitter
-^^^^^^^^^^^^^^^^^^
-
-Creates overlapping training and calibration sets.
-
-Typical use cases:
-- soft calibration setups
-- robustness experiments
-- MIXCOBRA-style overlap learning
-
-Design goals
-------------
-- index-preserving splitting (no data duplication)
-- reproducible randomness via seeds
-- flexible split strategies
-- compatibility with ensemble pipelines
-- support for advanced overlap calibration
-
-Examples
---------
->>> splitter = SplitterFactory.create("holdout")
->>> train_idx, cal_idx = splitter.split(X, y)
-
->>> splitter = SplitterFactory.create("kfold")
->>> folds = splitter.split(X, y)
-
->>> splitter = SplitterFactory.create("split_overlap")
->>> train_idx, agg_idx = splitter.split(X, y)
-"""
+K-Fold cross-validation splitter."""
 
 from __future__ import annotations
+from typing import Iterator
 
 import numpy as np
+from numpy.typing import ArrayLike
 
+from cobra.core.types import SplitIndices
 from cobra.core.validators.base import BaseCrossValidator, CVFactory
 
 
 @CVFactory.register("kfold")
 class KFoldCV(BaseCrossValidator):
+    """
+    K-Fold cross-validation splitter.
+
+    Generates K disjoint validation folds while using the remaining
+    samples for training.
+
+    This is a standard evaluation strategy in COBRA pipelines for:
+    - model evaluation
+    - estimator comparison
+    - robust performance estimation
+    """
 
     def __init__(
         self,
@@ -93,12 +31,19 @@ class KFoldCV(BaseCrossValidator):
         shuffle: bool = True,
         random_state: int | None = None,
     ):
-
         self.n_splits = n_splits
         self.shuffle = shuffle
         self.random_state = random_state
 
-    def split(self, x, y):
+    def get_n_splits(self, x: ArrayLike | None = None, y: ArrayLike | None = None) -> int:
+        return self.n_splits
+
+    def split(
+        self,
+        x: ArrayLike,
+        y: ArrayLike,
+    ) -> Iterator[SplitIndices]:
+
         n_samples = len(x)
         indices = np.arange(n_samples)
 
@@ -109,8 +54,16 @@ class KFoldCV(BaseCrossValidator):
         folds = np.array_split(indices, self.n_splits)
 
         for i in range(self.n_splits):
+
             val_idx = folds[i]
+
             train_idx = np.concatenate(
                 [folds[j] for j in range(self.n_splits) if j != i]
             )
-            yield train_idx, val_idx
+
+            yield SplitIndices(
+                train_idx=train_idx.astype(np.int64),
+                eval_idx=val_idx.astype(np.int64),
+                fold_id=i,
+            )
+
