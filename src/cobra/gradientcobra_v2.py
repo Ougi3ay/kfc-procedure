@@ -47,8 +47,8 @@ from cobra.core.splitters.base import (
     BaseDataSplitter,
     SplitterFactory,
 )
-
-from cobra.utils.resolve import fit_estimators_parallel
+from cobra.core.validators.base import BaseCrossValidator, CVFactory
+from cobra.utils.resolve import fit_estimators, resolve_training_context
 
 
 class GradientCOBRA(SkBaseEstimator, RegressorMixin):
@@ -96,36 +96,6 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         self.n_jobs = n_jobs
         self.random_state = random_state
     
-    def _resolve_fit_split_context(
-        self,
-        X,
-        y,
-        X_l=None,
-        y_l=None,
-        as_predictions=False,
-    ):
-        """
-        Return : X_k, y_k, X_l, y_l
-        """
-        X, y = check_X_y(X, y)
-        if as_predictions:
-            self.as_predictions_ = True
-            return None, None, X, y
-        if X_l is not None and y_l is not None:
-            self.as_predictions_ = False
-            X_l, y_l = check_X_y(X_l, y_l)
-            return X, y, X_l, y_l
-        
-        self.as_predictions_ = False
-        splitter: BaseDataSplitter = SplitterFactory.create(
-            "split_overlap",
-            split_ratio=0.5,
-            overlap=0.0,
-            random_state=self.random_state,
-        )
-        iloc_k, iloc_l = splitter.split(X, y)
-        return X[iloc_k], y[iloc_k], X[iloc_l], y[iloc_l]
-    
     def _fit_estimators(self, X_k, y_k):
         default_estimators = [
             "linear_regression",
@@ -138,7 +108,7 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
 
         estimators = self.estimators or default_estimators
 
-        return fit_estimators_parallel(
+        return fit_estimators(
             X=X_k,
             y=y_k,
             estimators=estimators,
@@ -208,8 +178,8 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
             )
         )
 
-        self.splitter_ : BaseDataSplitter = (
-            SplitterFactory.create(
+        self.cv_ : BaseCrossValidator = (
+            CVFactory.create(
                 "kfold",
                 n_splits=self.n_cv,
                 shuffle=True,
@@ -225,11 +195,16 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         self.adapter_.set_params(bandwidth=bandwidth)
         D = self.adapter_.transform(self.distance_matrix_)
         K = self.kernel_(D)
-        preds = np.empty(len(self.y_l_), dtype=float)
+        errors = []
 
-        for train_idx, val_idx in self.cv_folds_:
+        for fold in self.cv_folds_:
+            train_idx = fold.train_idx
+            val_idx = fold.eval_idx
+
+            # np.ix_ creates a 2D indexing grid (rows = validation, columns = training)
             K_val_train = K[np.ix_(val_idx, train_idx)]
             y_train = self.y_l_[train_idx]
+
             numerator = K_val_train @ y_train
             denominator = np.sum(K_val_train, axis=1)
 
@@ -237,54 +212,102 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
                 pred_fold = np.where(
                     denominator > 0,
                     numerator / denominator,
-                    np.mean(y_train),
+                    0.0,
                 )
-            preds[val_idx] = pred_fold
-        
-        return self.loss_(self.y_l_, preds)
+
+            error = self.loss_(self.y_l_[val_idx], pred_fold)
+            errors.append(error)
+        return np.mean(errors)
 
     def _optimize_hyperparameters(self):
-        if self.bandwidth_list is None:
-            bandwidth_candidates = np.linspace(
+
+        bandwidth_candidates = (
+            np.asarray(self.bandwidth_list)
+            if self.bandwidth_list is not None
+            else np.linspace(
                 0.001,
                 10.0,
                 self.max_iter,
             )
-        else:
-            bandwidth_candidates = self.bandwidth_list
-        
-        if self.opt_method == "grid":
-            self.optimizer_ = OptimizerFactory.create(
-                self.optimizer,
-                param_grid={
+        )
+
+        method = self.opt_method.lower()
+
+        if (
+            method == "grad"
+            and not self.kernel_.requires_grad
+        ):
+            method = "grid"
+
+        optimizer = self.optimizer.lower()
+
+        params = dict(self.optimizer_params or {})
+
+        if method == "grad":
+
+            if not OptimizerFactory.supports(
+                optimizer,
+                category="gradient",
+            ):
+                raise ValueError(
+                    f"Optimizer '{optimizer}' "
+                    f"does not support gradient optimization. "
+                    f"Available: "
+                    f"{OptimizerFactory.available_by_category('gradient')}"
+                )
+
+            params.update({
+                "learning_rate": self.learning_rate,
+                "max_iter": self.max_iter,
+            })
+
+        elif method == "grid":
+
+            if not OptimizerFactory.supports(
+                optimizer,
+                category="search",
+            ):
+                raise ValueError(
+                    f"Optimizer '{optimizer}' "
+                    f"does not support search optimization. "
+                    f"Available: "
+                    f"{OptimizerFactory.available_by_category('search')}"
+                )
+
+            params.update({
+                "param_grid": {
                     "bandwidth": bandwidth_candidates,
                 },
-                random_state=self.random_state,
-                **(self.optimizer_params or {}),
-            )
-            result = self.optimizer_(self.kappa_cross_validation_error)
-        
-        elif self.opt_method == "grad":
-            if self.optimizer == "grid":
-                self.optimizer = "grad"
-            
-            self.optimizer_ = OptimizerFactory.create(
-                self.optimizer,
-                learning_rate=self.learning_rate,
-                max_iter=self.max_iter,
-                **(self.optimizer_params or {}),
-            )
-            result = self.optimizer_(self.kappa_cross_validation_error)
-        
+                "random_state": self.random_state,
+            })
+
         else:
             raise ValueError(
-                f"Unknown opt_method={self.opt_method}"
+                f"Unknown optimization method: {method}"
             )
-        
-        self.bandwidth_ = float(np.atleast_1d(result["x"])[0])
-        
+
+        self.optimizer_ = OptimizerFactory.create(
+            optimizer,
+            **params,
+        )
+
+        if method == "grad":
+            result = self.optimizer_(
+                self.kappa_cross_validation_error,
+                init_param=np.array([1.0]),
+            )
+        else:
+            result = self.optimizer_(
+                self.kappa_cross_validation_error,
+            )
+
+        self.bandwidth_ = float(
+            np.atleast_1d(result["x"])[0]
+        )
+
         self.optimization_outputs_ = {
-            "method": self.opt_method,
+            "method": method,
+            "optimizer": optimizer,
             "bandwidth": self.bandwidth_,
             "score": result["score"],
             "history": result["history"],
@@ -297,20 +320,25 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         y,
         X_l=None,
         y_l=None,
+        split_ratio=0.5,
+        overlap=0.0,
         as_predictions=False,
     ):
-        (
-            self.X_k_,
-            self.y_k_,
-            self.X_l_,
-            self.y_l_,
-        ) = self._resolve_fit_split_context(
+        ctx = resolve_training_context(
             X,
             y,
-            X_l,
-            y_l,
-            as_predictions,
+            X_l=X_l,
+            y_l=y_l,
+            as_predictions=as_predictions,
+            split_ratio=split_ratio,
+            overlap=overlap,
+            random_state=self.random_state
         )
+        self.X_k_ = ctx.X_k
+        self.y_k_ = ctx.y_k
+        self.X_l_ = ctx.X_l
+        self.y_l_ = ctx.y_l
+        self.as_predictions_ = ctx.as_predictions
 
         if not self.as_predictions_:
             self.estimators_ = self._fit_estimators(
@@ -324,10 +352,7 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         else:
             prediction_space = self.X_l_
         
-        (
-            self.X_l_norm_,
-            self.Y_l_norm_,
-        ) = self._space_normalize(
+        self.X_l_norm_, self.Y_l_norm_ = self._space_normalize(
             self.X_l_,
             prediction_space,
         )
@@ -339,7 +364,7 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
             self.Y_l_norm_
         )
 
-        self.cv_folds_ = self.splitter_.split(self.X_l_norm_, self.Y_l_norm_)
+        self.cv_folds_ = list(self.cv_.split(self.X_l_norm_, self.Y_l_norm_))
 
         self._optimize_hyperparameters()
 
@@ -354,10 +379,7 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         else:
             prediction_space = self._load_predictions(X)
         
-        (
-            X_norm,
-            Y_norm,
-        ) = self._space_normalize(
+        X_norm, Y_norm = self._space_normalize(
             X,
             prediction_space,
         )
