@@ -66,6 +66,82 @@ class OneParameterKernelAdapter(BaseKernelAdapter):
 
         return self.h * distances[0]
 
+@KernelAdapterFactory.register("two_parameter")
+class TwoParameterKernelAdapter(BaseKernelAdapter):
+    """
+    Kernel adapter for two-parameter aggregation.
+
+    This adapter combines input-space distance and prediction-space
+    distance using weighted hyperparameters.
+
+    Mathematical form
+    -----------------
+    adapted_distance = alpha × x_distance + beta × y_distance
+
+    Parameters
+    ----------
+    alpha : float, default=1.0
+        Weight applied to input-space distance.
+
+    beta : float, default=0.0
+        Weight applied to prediction-space distance.
+
+    Notes
+    -----
+    This adapter supports:
+
+    - one distance matrix -> alpha × x_distance
+    - two distance matrices -> alpha × x_distance + beta × y_distance
+
+    Examples
+    --------
+    >>> adapter = TwoParameterKernelAdapter(alpha=1.0, beta=0.5)
+
+    >>> adapted = adapter.transform(x_distance)
+
+    >>> adapted = adapter.transform(
+    ...     x_distance,
+    ...     y_distance
+    ... )
+    """
+
+    def __init__(
+        self,
+        alpha: float = 1.0,
+        beta: float = 0.0,
+    ):
+        super().__init__(alpha=alpha, beta=beta)
+
+    def transform(self, *distances: np.ndarray) -> np.ndarray:
+        if len(distances) == 0:
+            raise ValueError(
+                "At least one distance matrix is required"
+            )
+
+        if len(distances) > 2:
+            raise ValueError(
+                "Expects at most 2 distance matrices: "
+                "(x_distance, y_distance)"
+            )
+
+        x_distance = distances[0]
+
+        if len(distances) == 1:
+            return self.alpha * x_distance
+
+        y_distance = distances[1]
+
+        if x_distance.shape != y_distance.shape:
+            raise ValueError(
+                "x_distance and y_distance must have the same shape"
+            )
+
+        return (
+            self.alpha * x_distance
+            + self.beta * y_distance
+        )
+
+
 
 @KernelAdapterFactory.register("gradientcobra")
 class GradientCOBRAKernelAdapter(BaseKernelAdapter):

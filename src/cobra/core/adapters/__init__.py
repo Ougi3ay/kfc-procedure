@@ -70,6 +70,8 @@ from .base import (
 from .builtin import (
     GradientCOBRAKernelAdapter,
     MixCOBRAKernelAdapter,
+    OneParameterKernelAdapter,
+    TwoParameterKernelAdapter
 )
 
 __all__ = [
@@ -77,4 +79,6 @@ __all__ = [
     "KernelAdapterFactory",
     "GradientCOBRAKernelAdapter",
     "MixCOBRAKernelAdapter",
+    "OneParameterKernelAdapter",
+    "TwoParameterKernelAdapter"
 ]
