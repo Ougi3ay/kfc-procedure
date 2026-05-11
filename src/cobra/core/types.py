@@ -22,3 +22,16 @@ class SplitIndices:
     train_idx: np.ndarray
     eval_idx: np.ndarray
     fold_id: int | None = None
+
+@dataclass(slots=True)
+class TrainingContext:
+    """
+    Container for resolved training/calibration data.
+    """
+    X_k: np.ndarray | None
+    y_k: np.ndarray | None
+
+    X_l: np.ndarray
+    y_l: np.ndarray
+
+    as_predictions: bool
