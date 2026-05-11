@@ -1,163 +1,58 @@
-"""
-GradientCOBRA
-
-A gradient-optimized extension of the COBRA framework for consensus-based
-regression using kernel-weighted aggregation in a learned prediction space.
-
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
-
-Overview
---------
-GradientCOBRA extends classical COBRA by introducing:
-
-- differentiable/optimizable kernel bandwidth
-- gradient-based or search-based hyperparameter tuning
-- normalized prediction space alignment
-- cross-validated loss-driven calibration
-
-Core idea
----------
-Instead of fixed kernel bandwidth, GradientCOBRA learns optimal
-smoothing parameters by minimizing a validation loss over:
-
-- estimator prediction space
-- kernel-induced similarity graph
-- aggregation-based reconstruction error
-
-This enables adaptive consensus formation.
-
-Design goals
-------------
-- optimize kernel behavior (bandwidth tuning)
-- support gradient + grid-based optimization
-- unify estimator + kernel + loss pipeline
-- support direct (X_l, y_l) or internal split mode
-- maintain sklearn-compatible API
-
-Key components
---------------
-- Estimators: base prediction models
-- Distance: similarity in prediction space
-- Kernel: converts distances → weights
-- Kernel Adapter: parameterized transformation layer
-- Aggregator: weighted consensus function
-- Loss: optimization objective
-- Optimizer: gradient or search-based tuning
-- Splitter: train/aggregation partitioning
-- Space Normalizer: stabilizes representation scale
-
-Optimization modes
--------------------
-1. Gradient-based (`opt_method="grad"`)
-   - numerical gradient descent
-   - continuous bandwidth tuning
-
-2. Search-based (`opt_method="search"`)
-   - grid or random search
-   - discrete parameter evaluation
-
-"""
 from __future__ import annotations
 
-from abc import ABC
 from typing import Any, List, Union
+
 import numpy as np
 
-from sklearn.base import RegressorMixin, BaseEstimator as SkBaseEstimator
-from sklearn.utils.validation import check_X_y, check_is_fitted
+from sklearn.base import (
+    BaseEstimator as SkBaseEstimator,
+    RegressorMixin,
+)
 
-from cobra.core.adapters.base import BaseKernelAdapter, KernelAdapterFactory
-from cobra.core.aggregators.base import AggregatorFactory, BaseAggregator
-from cobra.core.distances.base import BaseDistance, DistanceFactory
-from cobra.core.estimators.base import BaseEstimator, EstimatorFactory
-from cobra.core.kernels.base import BaseKernel, KernelFactory
-from cobra.core.losses.base import BaseLoss, LossFactory
+from sklearn.utils.validation import (
+    check_array,
+    check_is_fitted,
+)
+
+from cobra.core.adapters.base import (
+    BaseKernelAdapter,
+    KernelAdapterFactory,
+)
+from cobra.core.aggregators.base import (
+    BaseAggregator,
+    AggregatorFactory,
+)
+from cobra.core.distances.base import (
+    BaseDistance,
+    DistanceFactory,
+)
+from cobra.core.estimators.base import BaseEstimator
+from cobra.core.kernels.base import (
+    BaseKernel,
+    KernelFactory,
+)
+from cobra.core.losses.base import (
+    BaseLoss,
+    LossFactory,
+)
 from cobra.core.optimizers.base import OptimizerFactory
-from cobra.core.spaces.base import SpaceNormalizerFactory
-from cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
+from cobra.core.spaces.base import (
+    BaseSpaceNormalizer,
+    SpaceNormalizerFactory,
+)
 
-class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
-    """
-    GradientCOBRA regressor with differentiable kernel parameter tuning.
+from cobra.core.validators.base import (
+    BaseCrossValidator,
+    CVFactory
+)
+from cobra.utils.resolve import (
+    fit_estimators,
+    predict_estimators,
+    resolve_training_context
+)
 
-    GradientCOBRA extends the COBRA ensemble by enabling continuous
-    optimization of kernel parameters (for example, bandwidth) using a
-    differentiable objective. It supports both gradient-based optimizers and
-    discrete search strategies for hyperparameter selection.
 
-    Parameters
-    ----------
-    estimators : list[str | BaseEstimator] | None, default=None
-        Identifiers or estimator instances forming the expert pool. String
-        identifiers are resolved via ``EstimatorFactory``.
-
-    estimators_params : dict[str, Any] | None, default=None
-        Mapping from estimator identifier to constructor keyword arguments.
-
-    distance : str, default='euclidean'
-        Distance metric identifier used to compute pairwise distances in the
-        prediction space.
-
-    distance_params : dict | None, default=None
-        Parameters forwarded to the distance implementation.
-
-    kernel : str, default='rbf'
-        Kernel identifier used to convert transformed distances to weights.
-
-    kernel_params : dict | None, default=None
-        Parameters forwarded to the kernel implementation.
-
-    aggregator : str, default='weighted_mean'
-        Aggregation strategy identifier for combining weighted neighbor
-        predictions.
-
-    aggregator_params : dict | None, default=None
-        Keyword arguments forwarded to the aggregator implementation.
-
-    loss : str, default='mse'
-        Loss identifier used as the optimization objective.
-
-    loss_params : dict | None, default=None
-        Keyword arguments forwarded to the loss implementation.
-
-    optimizer : str, default='gradient_descent'
-        Optimizer identifier used for gradient-based tuning when
-        ``opt_method='grad'``.
-
-    optimizer_params : dict | None, default=None
-        Parameters forwarded to the optimizer implementation.
-
-    opt_method : str, default='grad'
-        High-level optimization mode. ``'grad'`` uses a gradient optimizer
-        (continuous tuning); ``'search'`` uses a grid or random search over
-        a discrete parameter set.
-
-    bandwidth_list : np.ndarray | None
-        Optional candidate bandwidths for discrete search optimizers.
-
-    norm_constant : float | None
-        Optional normalization constant used by the space normalizer.
-
-    random_state : int | None
-        Random seed used by splitters, optimizers and any stochastic
-        components.
-
-    Notes
-    -----
-    - The implementation follows a clear pipeline: estimator training,
-      prediction-matrix construction, normalization, distance/kernel
-      computation, optimizer-driven parameter selection, and aggregation.
-    - New components should be registered via the appropriate factories to
-      integrate with the pipeline seamlessly.
-
-    See Also
-    --------
-    MixCOBRARegressor, CombineClassifier
-    """
-
+class GradientCOBRA(SkBaseEstimator, RegressorMixin):
     def __init__(
         self,
         estimators: List[Union[str, BaseEstimator]] | None = None,
@@ -170,13 +65,16 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         aggregator_params: dict[str, Any] | None = None,
         loss: str = "mse",
         loss_params: dict[str, Any] | None = None,
-        optimizer: str = "gradient_descent",
+        optimizer: str = "grid",
         optimizer_params: dict[str, Any] | None = None,
-
-        opt_method: str = "grad",
+        opt_method: str = "grid",
         bandwidth_list: np.ndarray | None = None,
-        norm_constant = None,
-        random_state: int | None = None
+        learning_rate: float = 0.01,
+        max_iter: int = 300,
+        n_cv: int = 5,
+        norm_constant: float | None = None,
+        n_jobs: int = -1,
+        random_state: int | None = None,
     ):
         self.estimators = estimators
         self.estimators_params = estimators_params
@@ -190,50 +88,16 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
         self.loss_params = loss_params
         self.optimizer = optimizer
         self.optimizer_params = optimizer_params
-
-        self.bandwidth_list = bandwidth_list
-        self.norm_constant = norm_constant
         self.opt_method = opt_method
+        self.bandwidth_list = bandwidth_list
+        self.learning_rate = learning_rate
+        self.max_iter = max_iter
+        self.n_cv = n_cv
+        self.norm_constant = norm_constant
+        self.n_jobs = n_jobs
         self.random_state = random_state
     
-    def _resolve_fit_split_context(self, X, y, X_l, y_l):
-        """
-        Build training and aggregation datasets.
-
-        Returns
-        -------
-        tuple
-            X_k, y_k : training set
-            X_l, y_l : aggregation set
-            iloc_k, iloc_l : indices
-        """
-        X, y = check_X_y(X, y)
-        if X_l is not None and y_l is not None:
-            X_l, y_l = check_X_y(X_l, y_l)
-            X_k_, X_l_ = X, X_l
-            y_k_, y_l_ = y, y_l
-            iloc_l, iloc_k = np.arange(len(y_l_)), np.arange(len(y))
-            self.as_predictions_ = True
-        else:
-            # provide static splitter
-            splitter: BaseDataSplitter = SplitterFactory.create(
-                "split_overlap",
-                split_ratio=0.5,
-                overlap=0.0,
-                random_state=self.random_state
-            )
-            iloc_k, iloc_l = splitter.split(X, y)
-            X_k_, y_k_ = X[iloc_k], y[iloc_k]
-            X_l_, y_l_ = X[iloc_l], y[iloc_l]
-            self.as_predictions_ = False
-
-        return X_k_, y_k_, X_l_, y_l_, iloc_k, iloc_l
-    
-    def _fit_estimators(self, X_k: np.ndarray, y_k: np.ndarray):
-        """
-        Fit base estimator pool.
-        """
-
+    def _fit_estimators(self, X_k, y_k):
         default_estimators = [
             "linear_regression",
             "ridge_cv",
@@ -245,256 +109,284 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
 
         estimators = self.estimators or default_estimators
 
-        machines = []
-
-        for est in estimators:
-            if isinstance(est, str):
-                params = (self.estimators_params or {}).get(est, {})
-                model = EstimatorFactory.create(est, **params)
-            elif isinstance(est, BaseEstimator):
-                model = est
-            else:
-                raise ValueError(
-                    f"Invalid estimator: {type(est)}. "
-                    f"Expected str or BaseEstimator. "
-                    f"Available: {EstimatorFactory.available()}"
-                )
-
-            model.fit(X_k, y_k)
-            machines.append(model)
-        
-        return machines
-    
-    def _space_normalize(self, X, model_outputs):
-        """
-        Normalize estimator prediction space.
-        """
-        normalizer = SpaceNormalizerFactory.create(
-            "gradientcobra",
-            norm_constant=self.norm_constant
+        return fit_estimators(
+            X=X_k,
+            y=y_k,
+            estimators=estimators,
+            estimators_params=self.estimators_params,
+            n_jobs=self.n_jobs,
         )
-        return normalizer.transform(X, model_outputs)
     
     def _load_predictions(self, X):
-        """
-        Build prediction matrix from estimator pool.
-        """
-        cols = []
-        for model in self.estimators_:
-            preds = model.predict(X)
-            cols.append(preds)
-        return np.column_stack(cols)
+        return predict_estimators(
+            X=X,
+            estimators=self.estimators_,
+            n_jobs=self.n_jobs
+        )
     
-    def _resolve_component(self):
-        """
-        Initialize COBRA components (distance, kernel, aggregator, loss, adapter).
-        """
-        self.distance_ : BaseDistance = DistanceFactory.create(
-            self.distance,
-            **(self.distance_params or {})
-        )
-
-        self.kernel_ : BaseKernel = KernelFactory.create(
-            self.kernel,
-            **(self.kernel_params or {})
-        )
-
-        self.aggregator_ : BaseAggregator = AggregatorFactory.create(
-            self.aggregator,
-            **(self.aggregator_params or {})
-        )
-
-        self.loss_ : BaseLoss = LossFactory.create(
-            self.loss,
-            **(self.loss_params or {})
-        )
-
-        self.splitter_ : BaseDataSplitter = SplitterFactory.create(
-            "kfold",
-            n_splits=5,
-            random_state=self.random_state
-        )
-
-        self.adapter_ : BaseKernelAdapter = KernelAdapterFactory.create(
+    def _space_normalize(
+        self,
+        X,
+        prediction_space,
+    ):
+        normalizer: BaseSpaceNormalizer = SpaceNormalizerFactory.create(
             "gradientcobra",
-            bandwidth=1.0
+            norm_constant=self.norm_constant,
         )
+        return normalizer.transform(
+            X,
+            prediction_space,
+        )
+    
+    def _resolve_components(self):
+        self.distance_: BaseDistance = (
+            DistanceFactory.create(
+                self.distance,
+                **(self.distance_params or {}),
+            )
+        )
+
+        self.kernel_: BaseKernel = (
+            KernelFactory.create(
+                self.kernel,
+                **(self.kernel_params or {}),
+            )
+        )
+
+        self.aggregator_: BaseAggregator = (
+            AggregatorFactory.create(
+                self.aggregator,
+                **(self.aggregator_params or {}),
+            )
+        )
+
+        self.loss_: BaseLoss = (
+            LossFactory.create(
+                self.loss,
+                **(self.loss_params or {}),
+            )
+        )
+
+        self.adapter_: BaseKernelAdapter = (
+            KernelAdapterFactory.create(
+                "one_parameter",
+                bandwidth=1.0,
+            )
+        )
+
+        self.cv_ : BaseCrossValidator = (
+            CVFactory.create(
+                "kfold",
+                n_splits=self.n_cv,
+                shuffle=True,
+                random_state=self.random_state,
+            )
+        )
+    
+    def kappa_cross_validation_error(self, params):
+        bandwidth = float(
+            np.atleast_1d(params)[0]
+        )
+
+        self.adapter_.set_params(bandwidth=bandwidth)
+        D = self.adapter_.transform(self.distance_matrix_)
+        K = self.kernel_(D)
+        errors = []
+
+        for fold in self.cv_folds_:
+            train_idx = fold.train_idx
+            val_idx = fold.eval_idx
+
+            # np.ix_ creates a 2D indexing grid (rows = validation, columns = training)
+            K_val_train = K[np.ix_(val_idx, train_idx)]
+            y_train = self.y_l_[train_idx]
+
+            numerator = K_val_train @ y_train
+            denominator = np.sum(K_val_train, axis=1)
+
+            with np.errstate(divide="ignore", invalid="ignore"):
+                pred_fold = np.where(
+                    denominator > 0,
+                    numerator / denominator,
+                    0.0,
+                )
+
+            error = self.loss_(self.y_l_[val_idx], pred_fold)
+            errors.append(error)
+        return np.mean(errors)
 
     def _optimize_hyperparameters(self):
-        """
-        Optimize kernel bandwidth using selected strategy.
 
-        Supports:
-        - gradient descent
-        - grid/search optimization
-        """
-        self.distance_matrix_ = self.distance_.matrix(self.Y_l_norm_, self.Y_l_norm_)
-
-        folds = self.splitter_.split(self.X_l_, self.y_l_)
-
-        def objective(params):
-            # set bandwidth
-            self.adapter_.set_params(bandwidth=params[0])
-
-            D = self.adapter_.transform(self.distance_matrix_)
-            K = self.kernel_(D)
-
-            n_samples = len(self.y_l_)
-            preds = np.empty(n_samples, dtype=float)
-
-            for train_idx, val_idx in folds:
-                w = K[train_idx][:, train_idx]
-                y = self.y_l_[train_idx]
-
-                denom = np.sum(w, axis=1)
-
-                for i, v in enumerate(val_idx):
-                    if denom[i] > 0:
-                        preds[v] = self.aggregator_.aggregate(y, w[i])
-                    else:
-                        preds[v] = np.mean(y)
-                
-            return self.loss_(self.y_l_, preds)
-        
-        if self.opt_method == "grad":
-            self.optimizer_ = OptimizerFactory.create(
-                self.optimizer,
-                **(self.optimizer_params or {}),
-                random_state=self.random_state
+        bandwidth_candidates = (
+            np.asarray(self.bandwidth_list)
+            if self.bandwidth_list is not None
+            else np.linspace(
+                0.001,
+                10.0,
+                self.max_iter,
             )
-            result = self.optimizer_(objective, np.array([1.0]))
-        
+        )
+
+        method = self.opt_method.lower()
+
+        if (
+            method == "grad"
+            and not self.kernel_.requires_grad
+        ):
+            method = "grid"
+
+        optimizer = self.optimizer.lower()
+
+        params = dict(self.optimizer_params or {})
+
+        if method == "grad":
+
+            if not OptimizerFactory.supports(
+                optimizer,
+                category="gradient",
+            ):
+                raise ValueError(
+                    f"Optimizer '{optimizer}' "
+                    f"does not support gradient optimization. "
+                    f"Available: "
+                    f"{OptimizerFactory.available_by_category('gradient')}"
+                )
+
+            params.update({
+                "learning_rate": self.learning_rate,
+                "max_iter": self.max_iter,
+            })
+
+        elif method == "grid":
+
+            if not OptimizerFactory.supports(
+                optimizer,
+                category="search",
+            ):
+                raise ValueError(
+                    f"Optimizer '{optimizer}' "
+                    f"does not support search optimization. "
+                    f"Available: "
+                    f"{OptimizerFactory.available_by_category('search')}"
+                )
+
+            params.update({
+                "param_grid": {
+                    "bandwidth": bandwidth_candidates,
+                },
+                "random_state": self.random_state,
+            })
+
         else:
-            self.optimizer_ = OptimizerFactory.create(
-                self.optimizer,
-                **(self.optimizer_params or {}),
-                param_grid={"bandwidth" : self.bandwidth_list or np.linspace(0.1, 10.0, 20)},
-                random_state=self.random_state
+            raise ValueError(
+                f"Unknown optimization method: {method}"
             )
-            result = self.optimizer_(objective, self.bandwidth_list)
 
-        self.bandwidth_ = float(np.atleast_1d(result["x"])[0])
-        
+        self.optimizer_ = OptimizerFactory.create(
+            optimizer,
+            **params,
+        )
+
+        if method == "grad":
+            result = self.optimizer_(
+                self.kappa_cross_validation_error,
+                init_param=np.array([1.0]),
+            )
+        else:
+            result = self.optimizer_(
+                self.kappa_cross_validation_error,
+            )
+
+        self.bandwidth_ = float(
+            np.atleast_1d(result["x"])[0]
+        )
+
         self.optimization_outputs_ = {
-            "method": self.opt_method,
+            "method": method,
+            "optimizer": optimizer,
             "bandwidth": self.bandwidth_,
             "score": result["score"],
             "history": result["history"],
             "evaluations": len(result["history"]),
         }
-
-
-        
+    
     def fit(
         self,
-        X : np.ndarray,
-        y : np.ndarray,
-        X_l : np.ndarray | None = None,
-        y_l : np.ndarray | None = None
+        X,
+        y,
+        X_l=None,
+        y_l=None,
+        split_ratio=0.5,
+        overlap=0.0,
+        as_predictions=False,
     ):
-        """
-        Fit GradientCOBRA model with kernel bandwidth tuning.
+        ctx = resolve_training_context(
+            X,
+            y,
+            X_l=X_l,
+            y_l=y_l,
+            as_predictions=as_predictions,
+            split_ratio=split_ratio,
+            overlap=overlap,
+            random_state=self.random_state
+        )
+        self.X_k_ = ctx.X_k
+        self.y_k_ = ctx.y_k
+        self.X_l_ = ctx.X_l
+        self.y_l_ = ctx.y_l
+        self.as_predictions_ = ctx.as_predictions
 
-        This method trains base estimators and learns the optimal kernel
-        bandwidth (or other adapter parameters) that minimize prediction
-        error on a calibration set.
-
-        Parameters
-        ----------
-        X : np.ndarray
-            Training features. Shape: (n_samples, n_features).
-
-        y : np.ndarray
-            Training targets. Shape: (n_samples,).
-
-        X_l : np.ndarray | None, default=None
-            External calibration features. If provided, used for aggregation
-            instead of internal split. Shape: (n_cal_samples, n_features).
-
-        y_l : np.ndarray | None, default=None
-            External calibration targets. Shape: (n_cal_samples,).
-
-        Returns
-        -------
-        self : GradientCOBRA
-            Fitted model instance.
-
-        Workflow
-        --------
-        1. Split data into training (X_k) and calibration (X_l) subsets
-        2. Train base estimators on X_k
-        3. Generate prediction matrix on X_l
-        4. Normalize prediction space
-        5. Initialize distance, kernel, adapter, and aggregator components
-        6. Tune kernel bandwidth using optimization strategy
-
-        Examples
-        --------
-        >>> model = GradientCOBRA()
-        >>> model.fit(X_train, y_train)
-        """
-        # split data into train and aggregation sets
-        (
-            self.X_k_, self.y_k_,
-            self.X_l_, self.y_l_,
-            self.iloc_k_, self.iloc_l_
-        ) = self._resolve_fit_split_context(X, y, X_l, y_l) 
-
-        # fit base estimators on training set
-        self.estimators_ = self._fit_estimators(self.X_k_, self.y_k_)
-
-        # load predictions on aggregation set
         if not self.as_predictions_:
-            model_outputs = self._load_predictions(self.X_l_)
+            self.estimators_ = self._fit_estimators(
+                self.X_k_,
+                self.y_k_,
+            )
+
+            prediction_space = self._load_predictions(
+                self.X_l_,
+            )
         else:
-            model_outputs = self.X_l_
+            prediction_space = self.X_l_
+        
+        self.X_l_norm_, self.Y_l_norm_ = self._space_normalize(
+            self.X_l_,
+            prediction_space,
+        )
 
-        # normalize space
-        self.X_l_norm_, self.Y_l_norm_ = self._space_normalize(self.X_l_, model_outputs)
+        self._resolve_components()
 
-        # resolve component
-        self._resolve_component()
+        self.distance_matrix_ = self.distance_.matrix(
+            self.Y_l_norm_,
+            self.Y_l_norm_
+        )
+
+        self.cv_folds_ = list(self.cv_.split(self.X_l_norm_, self.Y_l_norm_))
 
         self._optimize_hyperparameters()
+
         return self
-
+    
     def predict(self, X):
-        """
-        Predict target values using fitted GradientCOBRA model.
-
-        For each test sample, this method computes distances in the
-        normalized prediction space, applies the optimized kernel with
-        tuned bandwidth, and aggregates neighbor training targets.
-
-        Parameters
-        ----------
-        X : np.ndarray
-            Test features. Shape: (n_samples, n_features).
-
-        Returns
-        -------
-        np.ndarray
-            Predicted target values. Shape: (n_samples,).
-
-        Workflow
-        --------
-        1. Generate predictions from all base estimators
-        2. Normalize prediction space
-        3. Compute distances to calibration predictions
-        4. Transform distances using tuned kernel adapter
-        5. Apply kernel function to generate similarity weights
-        6. Aggregate calibration targets using kernel weights
-
-        Examples
-        --------
-        >>> y_pred = model.predict(X_test)
-        """
         check_is_fitted(self)
+        X = check_array(X)
 
-        model_outputs = self._load_predictions(X)
-        X_norm, Y_norm = self._space_normalize(X, model_outputs)
+        if self.as_predictions_:
+            prediction_space = X
+        else:
+            prediction_space = self._load_predictions(X)
+        
+        X_norm, Y_norm = self._space_normalize(
+            X,
+            prediction_space,
+        )
 
-        distance_matrix = self.distance_.matrix(Y_norm, self.Y_l_norm_)
+        distance_matrix = self.distance_.matrix(
+            Y_norm,
+            self.Y_l_norm_,
+        )
+
+        self.adapter_.set_params(bandwidth=self.bandwidth_)
+
         D = self.adapter_.transform(distance_matrix)
         K = self.kernel_(D)
 
@@ -512,3 +404,4 @@ class GradientCOBRA(ABC, SkBaseEstimator, RegressorMixin):
                 )
 
         return preds
+
