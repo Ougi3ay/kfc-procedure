@@ -264,3 +264,22 @@ class BaseFactory(ABC):
             for name, meta in cls._registry.items()
             if meta["class"] is target_cls
         )
+    
+    @classmethod
+    def supports(
+        cls,
+        name: str,
+        category: str,
+    ) -> bool:
+        key = name.lower()
+
+        if key not in cls._registry:
+            return False
+        
+        categories = cls._registry[key].get(
+            "categories",
+            set(),
+        )
+
+        return category.lower() in categories
+        
