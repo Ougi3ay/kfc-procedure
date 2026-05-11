@@ -52,285 +52,41 @@ from cobra.core.adapters.base import (
     BaseKernelAdapter,
     KernelAdapterFactory,
 )
-
 @KernelAdapterFactory.register("one_parameter")
 class OneParameterKernelAdapter(BaseKernelAdapter):
-    def __init__(self, h: float = 1.0):
-        super().__init__(h=h)
-    
-    def transform(self, *distances: np.ndarray) -> np.ndarray:
-        if len(distances) != 1:
-            raise ValueError(
-                "One parameter expects exactly 1 distance matrix"
-            )
-
-        return self.h * distances[0]
-
-@KernelAdapterFactory.register("two_parameter")
-class TwoParameterKernelAdapter(BaseKernelAdapter):
-    """
-    Kernel adapter for two-parameter aggregation.
-
-    This adapter combines input-space distance and prediction-space
-    distance using weighted hyperparameters.
-
-    Mathematical form
-    -----------------
-    adapted_distance = alpha × x_distance + beta × y_distance
-
-    Parameters
-    ----------
-    alpha : float, default=1.0
-        Weight applied to input-space distance.
-
-    beta : float, default=0.0
-        Weight applied to prediction-space distance.
-
-    Notes
-    -----
-    This adapter supports:
-
-    - one distance matrix -> alpha × x_distance
-    - two distance matrices -> alpha × x_distance + beta × y_distance
-
-    Examples
-    --------
-    >>> adapter = TwoParameterKernelAdapter(alpha=1.0, beta=0.5)
-
-    >>> adapted = adapter.transform(x_distance)
-
-    >>> adapted = adapter.transform(
-    ...     x_distance,
-    ...     y_distance
-    ... )
-    """
-
-    def __init__(
-        self,
-        alpha: float = 1.0,
-        beta: float = 0.0,
-    ):
-        super().__init__(alpha=alpha, beta=beta)
-
-    def transform(self, *distances: np.ndarray) -> np.ndarray:
-        if len(distances) == 0:
-            raise ValueError(
-                "At least one distance matrix is required"
-            )
-
-        if len(distances) > 2:
-            raise ValueError(
-                "Expects at most 2 distance matrices: "
-                "(x_distance, y_distance)"
-            )
-
-        x_distance = distances[0]
-
-        if len(distances) == 1:
-            return self.alpha * x_distance
-
-        y_distance = distances[1]
-
-        if x_distance.shape != y_distance.shape:
-            raise ValueError(
-                "x_distance and y_distance must have the same shape"
-            )
-
-        return (
-            self.alpha * x_distance
-            + self.beta * y_distance
-        )
-
-
-
-@KernelAdapterFactory.register("gradientcobra")
-class GradientCOBRAKernelAdapter(BaseKernelAdapter):
-    """
-    Kernel adapter for GradientCOBRA aggregation.
-
-    This adapter applies a bandwidth scaling factor to a single
-    distance matrix before kernel evaluation.
-
-    Mathematical form
-    -----------------
-    adapted_distance = bandwidth × distance
-
-    Parameters
-    ----------
-    bandwidth : float, default=1.0
-        Scaling parameter controlling the effective neighborhood size
-        in kernel aggregation.
-
-    Notes
-    -----
-    This adapter expects exactly one distance matrix.
-
-    Examples
-    --------
-    >>> adapter = GradientCOBRAKernelAdapter(bandwidth=2.0)
-    >>> adapted = adapter.transform(distance_matrix)
-    """
+    """adapted_distance = h × distance"""
 
     def __init__(self, bandwidth: float = 1.0):
-        """
-        Initialize GradientCOBRA kernel adapter.
-
-        Parameters
-        ----------
-        bandwidth : float, default=1.0
-            Distance scaling hyperparameter.
-        """
         super().__init__(bandwidth=bandwidth)
 
     def transform(self, *distances: np.ndarray) -> np.ndarray:
-        """
-        Scale a single distance matrix using bandwidth.
-
-        Parameters
-        ----------
-        *distances : np.ndarray
-            Expected:
-                distances[0] = prediction-space distance matrix
-
-        Returns
-        -------
-        np.ndarray
-            Scaled distance matrix for kernel computation.
-
-        Raises
-        ------
-        ValueError
-            If the number of provided distance matrices is not exactly one.
-
-        Examples
-        --------
-        >>> adapter.transform(distance_matrix)
-        """
         if len(distances) != 1:
-            raise ValueError(
-                "GradientCOBRA expects exactly 1 distance matrix"
-            )
-
-        return self.bandwidth * distances[0]
+            raise ValueError("Expected 1 distance matrix")
+        return self.h * distances[0]
 
 
-@KernelAdapterFactory.register("mixcobra")
-class MixCOBRAKernelAdapter(BaseKernelAdapter):
-    """
-    Kernel adapter for MixCOBRA aggregation.
+@KernelAdapterFactory.register("two_parameter")
+class TwoParameterKernelAdapter(BaseKernelAdapter):
+    """adapted_distance = alpha × x + beta × y"""
 
-    This adapter combines input-space distance and prediction-space
-    distance using weighted hyperparameters.
-
-    Mathematical form
-    -----------------
-    adapted_distance = alpha × x_distance + beta × y_distance
-
-    Parameters
-    ----------
-    alpha : float, default=1.0
-        Weight applied to input-space distance.
-
-    beta : float, default=0.0
-        Weight applied to prediction-space distance.
-
-    Notes
-    -----
-    This adapter supports:
-
-    - one distance matrix -> alpha × x_distance
-    - two distance matrices -> alpha × x_distance + beta × y_distance
-
-    Examples
-    --------
-    >>> adapter = MixCOBRAKernelAdapter(alpha=1.0, beta=0.5)
-
-    >>> adapted = adapter.transform(x_distance)
-
-    >>> adapted = adapter.transform(
-    ...     x_distance,
-    ...     y_distance
-    ... )
-    """
-
-    def __init__(
-        self,
-        alpha: float = 1.0,
-        beta: float = 0.0,
-    ):
-        """
-        Initialize MixCOBRA kernel adapter.
-
-        Parameters
-        ----------
-        alpha : float, default=1.0
-            Weight for input-space distance.
-
-        beta : float, default=0.0
-            Weight for prediction-space distance.
-        """
+    def __init__(self, alpha: float = 1.0, beta: float = 0.0):
         super().__init__(alpha=alpha, beta=beta)
 
     def transform(self, *distances: np.ndarray) -> np.ndarray:
-        """
-        Combine one or two distance matrices.
-
-        Parameters
-        ----------
-        *distances : np.ndarray
-            Expected:
-                distances[0] = x_distance
-                distances[1] = y_distance (optional)
-
-        Returns
-        -------
-        np.ndarray
-            Adapted distance matrix.
-
-        Raises
-        ------
-        ValueError
-            If no distance matrix is provided.
-
-        ValueError
-            If more than two distance matrices are provided.
-
-        ValueError
-            If x_distance and y_distance have different shapes.
-
-        Examples
-        --------
-        >>> adapter.transform(x_distance)
-
-        >>> adapter.transform(
-        ...     x_distance,
-        ...     y_distance
-        ... )
-        """
         if len(distances) == 0:
-            raise ValueError(
-                "At least one distance matrix is required"
-            )
+            raise ValueError("At least 1 distance matrix required")
 
-        if len(distances) > 2:
-            raise ValueError(
-                "MixCOBRA expects at most 2 distance matrices: "
-                "(x_distance, y_distance)"
-            )
-
-        x_distance = distances[0]
+        x = distances[0]
 
         if len(distances) == 1:
-            return self.alpha * x_distance
+            return self.alpha * x
 
-        y_distance = distances[1]
+        if len(distances) > 2:
+            raise ValueError("Max 2 distance matrices allowed")
 
-        if x_distance.shape != y_distance.shape:
-            raise ValueError(
-                "x_distance and y_distance must have the same shape"
-            )
+        y = distances[1]
 
-        return (
-            self.alpha * x_distance
-            + self.beta * y_distance
-        )
+        if x.shape != y.shape:
+            raise ValueError("Shape mismatch")
+
+        return self.alpha * x + self.beta * y
