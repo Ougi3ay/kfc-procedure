@@ -75,10 +75,11 @@ configuration and experimentation frameworks.
 
 from .base import BaseDataSplitter
 from .base import SplitterFactory
-from .builtin import RandomHoldoutSplitter
+from .builtin import RandomHoldoutSplitter, OverlapSplitter
 
 __all__ = [
     "BaseDataSplitter",
     "SplitterFactory",
     "RandomHoldoutSplitter",
+    "OverlapSplitter",
 ]
