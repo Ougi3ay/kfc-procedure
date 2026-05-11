@@ -62,7 +62,7 @@ class OneParameterKernelAdapter(BaseKernelAdapter):
     def transform(self, *distances: np.ndarray) -> np.ndarray:
         if len(distances) != 1:
             raise ValueError("Expected 1 distance matrix")
-        return self.h * distances[0]
+        return self.bandwidth * distances[0]
 
 
 @KernelAdapterFactory.register("two_parameter")
