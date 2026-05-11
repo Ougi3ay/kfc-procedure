@@ -62,6 +62,7 @@ from __future__ import annotations
 from typing import Any, Iterable
 
 from joblib import Parallel, delayed
+import numpy as np
 
 from cobra.core.aggregators.base import AggregatorFactory
 from cobra.core.distances.base import DistanceFactory
@@ -255,7 +256,7 @@ def resolve_from_aggregator(
     """
     return AggregatorFactory.create(aggregator, **(aggregator_params or {}))
 
-def fit_estimators_parallel(
+def fit_estimators(
     X,
     y,
     estimators_params=None,
@@ -296,3 +297,19 @@ def fit_estimators_parallel(
         delayed(fit_one)(est) for est in estimators
     )
 
+def predict_estimators(
+    X: np.ndarray,
+    estimators,
+    n_jobs: int = 1,
+):
+    def predict_one(est):
+        return est.predict(X)
+    
+    if n_jobs == 1:
+        preds = [predict_one(est) for est in estimators]
+        return np.column_stack(preds)
+    
+    preds = Parallel(n_jobs=n_jobs, backend="loky")(
+        delayed(predict_one)(est) for est in estimators
+    )
+    return np.column_stack(preds)
