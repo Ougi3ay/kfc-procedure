@@ -63,13 +63,16 @@ from typing import Any, Iterable
 
 from joblib import Parallel, delayed
 import numpy as np
+from numpy.typing import ArrayLike
+from sklearn.utils import check_X_y
 
 from cobra.core.aggregators.base import AggregatorFactory
 from cobra.core.distances.base import DistanceFactory
 from cobra.core.estimators.base import BaseEstimator, EstimatorFactory
 from cobra.core.kernels.base import KernelFactory
 from cobra.core.losses.base import LossFactory
-from cobra.core.splitters.base import SplitterFactory
+from cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
+from cobra.core.types import SplitIndices, TrainingContext
 
 
 def resolve_from_estimators(
@@ -313,3 +316,132 @@ def predict_estimators(
         delayed(predict_one)(est) for est in estimators
     )
     return np.column_stack(preds)
+
+def resolve_training_context(
+    X: ArrayLike,
+    y: ArrayLike,
+    *,
+    X_l: ArrayLike | None = None,
+    y_l: ArrayLike | None = None,
+    as_predictions: bool = False,
+    splitter: BaseDataSplitter | None = None,
+) -> TrainingContext:
+    """
+    Resolve COBRA training and aggregation datasets.
+
+    This helper validates inputs and constructs the appropriate
+    training/calibration context used throughout COBRA pipelines.
+
+    Supported modes
+    ---------------
+    1. Prediction mode
+        Inputs are already estimator predictions.
+
+    2. Explicit split mode
+        User provides both training and aggregation datasets.
+
+    3. Automatic split mode
+        Splitter generates train/calibration partitions automatically.
+
+    Parameters
+    ----------
+    X : ArrayLike
+        Input feature matrix or prediction matrix.
+
+    y : ArrayLike
+        Target values.
+
+    X_l : ArrayLike | None, default=None
+        Aggregation/calibration feature matrix.
+
+    y_l : ArrayLike | None, default=None
+        Aggregation/calibration targets.
+
+    as_predictions : bool, default=False
+        Whether ``X`` already contains estimator predictions.
+
+    splitter : BaseDataSplitter | None, default=None
+        Dataset splitter used for automatic partitioning.
+
+        If ``None``, a default overlap splitter is created.
+
+    Returns
+    -------
+    TrainingContext
+        Resolved training/calibration context.
+
+    Raises
+    ------
+    ValueError
+        If only one of ``X_l`` or ``y_l`` is provided.
+
+    Examples
+    --------
+    Automatic split:
+
+    >>> ctx = resolve_training_context(X, y)
+
+    Explicit split:
+
+    >>> ctx = resolve_training_context(
+    ...     X_k,
+    ...     y_k,
+    ...     X_l=X_l,
+    ...     y_l=y_l,
+    ... )
+
+    Prediction mode:
+
+    >>> ctx = resolve_training_context(
+    ...     predictions,
+    ...     y,
+    ...     as_predictions=True,
+    ... )
+    """
+    X, y = check_X_y(X, y)
+
+    if as_predictions:
+        return TrainingContext(
+            X_k=None,
+            y_k=None,
+            X_l=np.asarray(X),
+            y_l=np.asarray(y),
+            as_predictions=True,
+        )
+
+    if (X_l is None) != (y_l is None):
+        raise ValueError(
+            "Both 'X_l' and 'y_l' must be provided together."
+        )
+
+    if X_l is not None and y_l is not None:
+        X_l, y_l = check_X_y(X_l, y_l)
+
+        return TrainingContext(
+            X_k=np.asarray(X),
+            y_k=np.asarray(y),
+            X_l=np.asarray(X_l),
+            y_l=np.asarray(y_l),
+            as_predictions=False,
+        )
+
+    if splitter is None:
+        splitter = SplitterFactory.create(
+            "split_overlap",
+            split_ratio=0.5,
+            overlap=0.0,
+        )
+
+    split_indices: SplitIndices = splitter.split(X, y)
+
+    train_idx = split_indices.train_idx
+    eval_idx = split_indices.eval_idx
+
+    return TrainingContext(
+        X_k=np.asarray(X)[train_idx],
+        y_k=np.asarray(y)[train_idx],
+        X_l=np.asarray(X)[eval_idx],
+        y_l=np.asarray(y)[eval_idx],
+        as_predictions=False,
+    )
+    
