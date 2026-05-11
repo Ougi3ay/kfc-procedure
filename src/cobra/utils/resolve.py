@@ -260,7 +260,7 @@ def fit_estimators_parallel(
     y,
     estimators_params=None,
     estimators=None,
-    n_jobs=-1
+    n_jobs=1
 ):
     """
     Fit a pool of estimators in parallel using EstimatorFactory.
@@ -273,32 +273,26 @@ def fit_estimators_parallel(
 
     estimators_params = estimators_params or {}
 
-    def fit_single_estimator(est_spec):
+    def build_model(est_spec):
         if isinstance(est_spec, tuple):
             name, params = est_spec
-            model = EstimatorFactory.create(name, **(params or {}))
-        elif isinstance(est_spec, str):
-            model = EstimatorFactory.create(
+            return EstimatorFactory.create(name, **(params or {}))
+        if isinstance(est_spec, str):
+            return EstimatorFactory.create(
                 est_spec,
                 **estimators_params.get(est_spec, {})
             )
-        elif isinstance(est_spec, BaseEstimator):
-            model = est_spec
-
-        else:
-            raise ValueError(
-                f"Invalid estimator spec: {type(est_spec)} | {est_spec}. "
-                f"Expected str | (name, params) | BaseEstimator"
-            )
-
+        return est_spec
+    
+    def fit_one(est_spec):
+        model = build_model(est_spec)
         model.fit(X, y)
         return model
-
-    estimators = estimators or []
-
-    fitted_models = Parallel(n_jobs=n_jobs, backend="loky")(
-        delayed(fit_single_estimator)(est) for est in estimators
+    
+    if n_jobs == 1:
+        return [fit_one(est) for est in estimators]
+    
+    return Parallel(n_jobs=n_jobs, backend="loky")(
+        delayed(fit_one)(est) for est in estimators
     )
-
-    return list(fitted_models)
 
