@@ -69,10 +69,8 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         opt_method: str = "grid",
         bandwidth_list: np.ndarray | None = None,
         learning_rate: float = 0.01,
-        max_iter: int = 100,
+        max_iter: int = 300,
         n_cv: int = 5,
-        split_ratio: float = 0.5,
-        overlap: float = 0.0,
         norm_constant: float | None = None,
         n_jobs: int = -1,
         random_state: int | None = None,
@@ -94,8 +92,6 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         self.learning_rate = learning_rate
         self.max_iter = max_iter
         self.n_cv = n_cv
-        self.split_ratio = split_ratio
-        self.overlap = overlap
         self.norm_constant = norm_constant
         self.n_jobs = n_jobs
         self.random_state = random_state
@@ -123,8 +119,8 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         self.as_predictions_ = False
         splitter: BaseDataSplitter = SplitterFactory.create(
             "split_overlap",
-            split_ratio=self.split_ratio,
-            overlap=self.overlap,
+            split_ratio=0.5,
+            overlap=0.0,
             random_state=self.random_state,
         )
         iloc_k, iloc_l = splitter.split(X, y)

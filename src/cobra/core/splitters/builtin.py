@@ -81,9 +81,7 @@ from __future__ import annotations
 
 import numpy as np
 from numpy.typing import ArrayLike
-from sklearn.model_selection import KFold, train_test_split
-
-from cobra.utils.preprocessing import data_split_overlap
+from sklearn.model_selection import train_test_split
 
 from .base import BaseDataSplitter, SplitterFactory
 
@@ -138,71 +136,6 @@ class RandomHoldoutSplitter(BaseDataSplitter):
         )
 
         return np.asarray(train_idx), np.asarray(cal_idx)
-
-
-@SplitterFactory.register("kfold")
-class KFoldSplitter(BaseDataSplitter):
-    """
-    K-fold cross-validation splitter.
-
-    Produces multiple train/validation splits for robust evaluation.
-
-    Parameters
-    ----------
-    n_splits : int, default=5
-        Number of folds.
-
-    shuffle : bool, default=True
-        Whether to shuffle data before splitting.
-
-    random_state : int | None
-        Seed for reproducibility.
-
-    Notes
-    -----
-    Unlike holdout, this returns multiple splits.
-
-    Examples
-    --------
-    >>> splitter = KFoldSplitter(n_splits=5)
-    >>> folds = splitter.split(X, y)
-    """
-
-    def __init__(
-        self,
-        n_splits: int = 5,
-        shuffle: bool = True,
-        random_state: int | None = None,
-    ):
-        self.n_splits = int(n_splits)
-        self.shuffle = shuffle
-        self.random_state = random_state
-
-    def split(self, x: ArrayLike, y: ArrayLike):
-        """
-        Generate K-fold indices.
-
-        Returns
-        -------
-        list[tuple[np.ndarray, np.ndarray]]
-            List of (train_idx, val_idx)
-        """
-        n_samples = np.asarray(x).shape[0]
-        indices = np.arange(n_samples)
-
-        kf = KFold(
-            n_splits=self.n_splits,
-            shuffle=self.shuffle,
-            random_state=self.random_state,
-        )
-
-        return [
-            (
-                np.asarray(train_idx, dtype=np.int64),
-                np.asarray(val_idx, dtype=np.int64),
-            )
-            for train_idx, val_idx in kf.split(indices)
-        ]
 
 
 @SplitterFactory.register("split_overlap")
