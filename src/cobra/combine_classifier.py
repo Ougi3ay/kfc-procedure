@@ -1,7 +1,8 @@
-
 from __future__ import annotations
+
 from abc import ABC
 from typing import Any, Dict, List, Union
+
 import numpy as np
 from sklearn.base import BaseEstimator as SkBaseEstimator
 from sklearn.utils import check_array
@@ -14,25 +15,20 @@ from cobra.core.kernels.base import BaseKernel, KernelFactory
 from cobra.core.losses.base import BaseLoss, LossFactory
 from cobra.core.optimizers.base import OptimizerFactory
 from cobra.core.validators.base import BaseCrossValidator, CVFactory
-from cobra.utils.resolve import predict_estimators, fit_estimators, resolve_training_context
-
-try:
-    import faiss
-    HAS_FAISS = True
-except ImportError:
-    HAS_FAISS = False
+from cobra.utils.resolve import fit_estimators, predict_estimators, resolve_training_context
 
 
 class CombineClassifier(ABC, SkBaseEstimator):
+
     def __init__(
         self,
         estimators: List[Union[str, BaseEstimator]] | None = None,
         estimators_params: Dict[str, Any] | None = None,
         distance: str = "hamming",
         distance_params: Dict[str, Any] | None = None,
-        kernel: str = "indicator",
+        kernel: str = "rbf",
         kernel_params: Dict[str, Any] | None = None,
-        aggregator: str = "majority_vote",
+        aggregator: str = "weighted_vote",
         aggregator_params: Dict[str, Any] | None = None,
         loss: str = "mse",
         loss_params: dict[str, Any] | None = None,
@@ -46,47 +42,62 @@ class CombineClassifier(ABC, SkBaseEstimator):
     ):
         self.estimators = estimators
         self.estimators_params = estimators_params
+
         self.distance = distance
         self.distance_params = distance_params
+
         self.kernel = kernel
         self.kernel_params = kernel_params
+
         self.aggregator = aggregator
         self.aggregator_params = aggregator_params
+
         self.loss = loss
         self.loss_params = loss_params
+
         self.optimizer = optimizer
         self.optimizer_params = optimizer_params
+
         self.n_jobs = n_jobs
         self.bandwidth_list = bandwidth_list
         self.max_iter = max_iter
         self.n_cv = n_cv
         self.random_state = random_state
 
+    # -------------------------
+    # BASE MODELS
+    # -------------------------
     def _fit_estimators(self, X_k: np.ndarray, y_k: np.ndarray):
+
         default_estimators = [
             "logistic_regression",
             "decision_tree_classifier",
             "svc",
             "k_neighbors_classifier",
         ]
+
         estimators = self.estimators or default_estimators
-        machines = fit_estimators(
+
+        return fit_estimators(
             X=X_k,
             y=y_k,
             estimators_params=self.estimators_params,
             estimators=estimators,
-            n_jobs=self.n_jobs
+            n_jobs=self.n_jobs,
         )
-        return machines
 
     def _load_predictions(self, X: np.ndarray) -> np.ndarray:
         return predict_estimators(
             X=X,
             estimators=self.estimators_,
-            n_jobs=self.n_jobs
+            n_jobs=self.n_jobs,
         )
-    
+
+    # -------------------------
+    # COMPONENTS
+    # -------------------------
     def _resolve_components(self):
+
         self.distance_: BaseDistance = DistanceFactory.create(
             self.distance,
             **(self.distance_params or {}),
@@ -97,18 +108,16 @@ class CombineClassifier(ABC, SkBaseEstimator):
             **(self.kernel_params or {}),
         )
 
-        self.loss_ : BaseLoss = LossFactory.create(
+        self.loss_: BaseLoss = LossFactory.create(
             self.loss,
-            **(self.loss_params or {})
+            **(self.loss_params or {}),
         )
 
-        self.cv_ : BaseCrossValidator = (
-            CVFactory.create(
-                "kfold",
-                n_splits=self.n_cv,
-                shuffle=True,
-                random_state=self.random_state,
-            )
+        self.cv_: BaseCrossValidator = CVFactory.create(
+            "kfold",
+            n_splits=self.n_cv,
+            shuffle=True,
+            random_state=self.random_state,
         )
 
         self.adapter_: BaseKernelAdapter = KernelAdapterFactory.create(
@@ -116,68 +125,26 @@ class CombineClassifier(ABC, SkBaseEstimator):
             bandwidth=1.0,
         )
 
-        agg_params = self.aggregator_params or {}
-        agg_params["classes"] = self.classes_
         self.aggregator_: BaseAggregator = AggregatorFactory.create(
             self.aggregator,
-            **agg_params,
+            **(self.aggregator_params or {}),
         )
-    
-    def kappa_cross_validation_error(self, params):
-        bandwidth = float(
-            np.atleast_1d(params)[0]
-        )
-        self.adapter_.set_params(bandwidth=bandwidth)
-        D = self.adapter_.transform(self.distance_matrix_)
-        K = self.kernel_(D)
 
-        errors = []
-        for fold in self.cv_folds_:
-            train_idx = fold.train_idx
-            val_idx = fold.eval_idx
-
-            K_val_train = K[np.ix_(val_idx, train_idx)]
-            y_train = self.y_l_[train_idx]
-
-            numerator = K_val_train @ y_train
-            denominator = np.sum(K_val_train, axis=1)
-
-            with np.errstate(divide="ignore", invalid="ignore"):
-                pred_fold = np.where(
-                    denominator > 0,
-                    numerator / denominator,
-                    0.0,
-                )
-            error = self.loss_(self.y_l_[val_idx], pred_fold)
-            errors.append(error)
-        return np.mean(errors)
-
+    # -------------------------
+    # OPTIMIZER (RESTORED)
+    # -------------------------
     def _optimize_hyperparameters(self):
+
         bandwidth_candidates = (
             np.asarray(self.bandwidth_list)
             if self.bandwidth_list is not None
-            else np.linspace(
-                0.001,
-                10.0,
-                self.max_iter,
-            )
+            else np.linspace(0.001, 10.0, self.max_iter)
         )
 
-        if not OptimizerFactory.supports(
-            self.optimizer,
-            category="search"
-        ):
-            raise ValueError(
-                f"Optimizer '{self.optimizer}' "
-                f"does not support search optimization. "
-                f"Available: "
-                f"{OptimizerFactory.available_by_category('search')}"
-            )
         params = dict(self.optimizer_params or {})
         params.update({
-            "param_grid": {
-                "bandwidth": bandwidth_candidates,
-            },
+            "param_grid": {"bandwidth": bandwidth_candidates},
+            "max_iter": self.max_iter,
             "random_state": self.random_state,
         })
 
@@ -185,11 +152,10 @@ class CombineClassifier(ABC, SkBaseEstimator):
             self.optimizer,
             **params,
         )
+
         result = self.optimizer_(self.kappa_cross_validation_error)
 
-        self.bandwidth_ = float(
-            np.atleast_1d(result["x"])[0]
-        )
+        self.bandwidth_ = float(np.atleast_1d(result["x"])[0])
 
         self.optimization_outputs_ = {
             "method": "grid",
@@ -197,19 +163,51 @@ class CombineClassifier(ABC, SkBaseEstimator):
             "bandwidth": self.bandwidth_,
             "score": result["score"],
             "history": result["history"],
-            "evaluations": len(result["history"]),
         }
-    
-    def fit(
-        self,
-        X,
-        y,
-        X_l=None,
-        y_l=None,
-        split_ratio=0.5,
-        overlap=False,
-        as_predictions=False,
-    ):
+
+    def kappa_cross_validation_error(self, params):
+
+        bandwidth = float(np.atleast_1d(params)[0])
+
+        self.adapter_.set_params(bandwidth=bandwidth)
+
+        D = self.adapter_.transform(self.distance_matrix_)
+        K = self.kernel_(D)
+
+        errors = []
+
+        for fold in self.cv_folds_:
+
+            train_idx = fold.train_idx
+            val_idx = fold.eval_idx
+
+            K_vt = K[np.ix_(val_idx, train_idx)]
+            y_train = self.y_l_[train_idx]
+
+            preds = []
+
+            for i in range(len(val_idx)):
+                w = K_vt[i]
+
+                if np.sum(w) <= 0:
+                    pred = self.global_majority_class_
+                else:
+                    pred = self.aggregator_.aggregate(y_train, w)
+
+                preds.append(pred)
+
+            preds = np.array(preds)
+            y_true = self.y_l_[val_idx]
+            error = self.loss_(y_true, preds)
+            errors.append(error)
+
+        return np.mean(errors)
+
+    # -------------------------
+    # FIT
+    # -------------------------
+    def fit(self, X, y, X_l=None, y_l=None, split_ratio=0.5, overlap=False, as_predictions=False):
+
         ctx = resolve_training_context(
             X,
             y,
@@ -220,10 +218,9 @@ class CombineClassifier(ABC, SkBaseEstimator):
             overlap=overlap,
             random_state=self.random_state
         )
-        self.X_k_ = ctx.X_k
-        self.y_k_ = ctx.y_k
-        self.X_l_ = ctx.X_l
-        self.y_l_ = ctx.y_l
+
+        self.X_k_, self.y_k_ = ctx.X_k, ctx.y_k
+        self.X_l_, self.y_l_ = ctx.X_l, ctx.y_l
         self.as_predictions_ = ctx.as_predictions
 
         if not self.as_predictions_:
@@ -244,71 +241,69 @@ class CombineClassifier(ABC, SkBaseEstimator):
         self.cv_folds_ = list(self.cv_.split(self.X_l_, self.y_l_))
 
         self._optimize_hyperparameters()
+
         return self
-    
-    def predict(self, X: np.ndarray):
+
+    # -------------------------
+    # PREDICT (FIXED)
+    # -------------------------
+    def predict(self, X):
+
         X = check_array(X)
 
-        predictions = (
-            X if self.as_predictions_
-            else self._load_predictions(X)
-        )
+        preds_space = X if self.as_predictions_ else self._load_predictions(X)
 
-        distance_matrix = self.distance_.matrix(predictions, self.pred_l)
+        D = self.distance_.matrix(preds_space, self.pred_l)
 
         self.adapter_.set_params(bandwidth=self.bandwidth_)
-        D = self.adapter_.transform(distance_matrix)
+        D = self.adapter_.transform(D)
+
         K = self.kernel_(D)
 
-        preds = np.empty(K.shape[0], dtype=float)
+        outputs = []
 
         for i in range(K.shape[0]):
             w = K[i]
 
             if np.sum(w) <= 0:
-                preds[i] = self.global_majority_class_
+                outputs.append(self.global_majority_class_)
             else:
-                preds[i] = self.aggregator_.aggregate(
-                    values=self.y_l_,
-                    weights=w
+                outputs.append(
+                    self.aggregator_.aggregate(self.y_l_, w)
                 )
 
-        return preds
-    
-    def predict_proba(self, X: np.ndarray):
+        return np.array(outputs)
+
+    # -------------------------
+    # PROBA
+    # -------------------------
+    def predict_proba(self, X):
+
         X = check_array(X)
 
-        predictions = (
-            X if self.as_predictions_
-            else self._load_predictions(X)
-        )
+        preds_space = X if self.as_predictions_ else self._load_predictions(X)
 
-        distance_matrix = self.distance_.matrix(predictions, self.pred_l)
+        D = self.distance_.matrix(preds_space, self.pred_l)
 
         self.adapter_.set_params(bandwidth=self.bandwidth_)
-        D = self.adapter_.transform(distance_matrix)
+        D = self.adapter_.transform(D)
+
         K = self.kernel_(D)
 
-        n_samples = K.shape[0]
         classes = self.classes_
+        proba = np.zeros((len(K), len(classes)))
 
-        proba = np.zeros((n_samples, len(classes)), dtype=float)
-
-        class_masks = {
-            c: (self.y_l_ == c)
-            for c in classes
-        }
-
-        for i in range(n_samples):
+        for i in range(len(K)):
             w = K[i]
-            denom = np.sum(w)
 
-            if denom <= 0:
-                proba[i, np.argmax(classes == self.global_majority_class_)] = 1.0
+            if np.sum(w) <= 0:
+                proba[i, np.where(classes == self.global_majority_class_)[0][0]] = 1.0
                 continue
 
-            for j, c in enumerate(classes):
-                proba[i, j] = np.sum(w[class_masks[c]]) / denom
+            proba[i] = self.aggregator_.aggregate_proba(
+                values=self.y_l_,
+                weights=w,
+                classes=classes
+            )
 
         return proba
-        
