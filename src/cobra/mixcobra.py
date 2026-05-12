@@ -29,6 +29,8 @@ from cobra.core.losses.base import BaseLoss, LossFactory
 from cobra.core.optimizers.base import OptimizerFactory
 from cobra.core.spaces.base import SpaceNormalizerFactory
 from cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
+from cobra.core.validators.base import BaseCrossValidator, CVFactory
+from cobra.utils.resolve import fit_estimators, predict_estimators, resolve_training_context
 
 class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 	"""
@@ -127,14 +129,19 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		aggregator_params: dict[str, Any] | None = None,
 		loss: str = "mse",
 		loss_params: dict[str, Any] | None = None,
-		optimizer: str = "grad",
+		optimizer: str = "grid",
 		optimizer_params: dict[str, Any] | None = None,
 
-		alpha_list: np.ndarray | None = None,
-		beta_list: np.ndarray | None = None,
 		norm_constant_x = None,
 		norm_constant_y = None,
-		opt_method: str = "grad",
+		alpha_list: np.ndarray | None = None,
+		beta_list: np.ndarray | None = None,
+		opt_method: str = "grid",
+		learning_rate: float = 0.01,
+        max_iter: int = 300,
+		n_cv: int = 5,
+		speed: str = "constant",
+		n_jobs: int = 1,
 		one_parameter: bool = False,
 		random_state: int | None = None
 	):
@@ -155,57 +162,18 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		self.optimizer = optimizer
 		self.optimizer_params = optimizer_params
 
-		self.alpha_list = alpha_list
-		self.beta_list = beta_list
 		self.norm_constant_x = norm_constant_x
 		self.norm_constant_y = norm_constant_y
+		self.alpha_list = alpha_list
+		self.beta_list = beta_list
+		self.learning_rate = learning_rate
+		self.max_iter = max_iter
+		self.n_cv = n_cv
+		self.speed = speed
+		self.n_jobs = n_jobs
 		self.opt_method = opt_method
 		self.one_parameter = one_parameter
 		self.random_state = random_state
-        
-	
-	def _resolve_fit_split_context(self, X, y, X_l, y_l, pred_features=None):
-		"""
-		Prepare training and calibration split.
-
-		Supports three modes:
-		1. External calibration set (X_l, y_l provided)
-		2. Prediction-feature mode (pred_features provided)
-		3. Automatic split using SplitOverlap strategy
-
-		Returns
-		-------
-		X_k, y_k : training data
-		X_l, y_l : calibration data
-		iloc_k, iloc_l : indices in original dataset
-		"""
-		X, y = check_X_y(X, y)
-		if X_l is not None and y_l is not None:
-			X_l, y_l = check_X_y(X_l, y_l)
-			X_k_, X_l_ = X, X_l
-			y_k_, y_l_ = y, y_l
-			iloc_l, iloc_k = np.arange(len(y_l_)), np.arange(len(y))
-			self.as_predictions_ = True
-		elif pred_features is not None:
-			X_l_, y_l_ = X, y
-			iloc_l, iloc_k = np.arange(len(y_l_)), np.arange(len(y))
-			self.as_predictions_ = True
-			self.pred_l_ = check_array(pred_features) * self.norm_constant_y_
-			if self.pred_l_.shape[0] != self.y_l_.shape[0]:
-				raise ValueError("Incompatible shapes between y_l and pred_features")
-		else:
-			splitter: BaseDataSplitter = SplitterFactory.create(
-				'split_overlap',
-				split_ratio=0.5,
-				overlap=0.0,
-				random_state=self.random_state
-			)
-			iloc_k, iloc_l = splitter.split(X, y)
-			X_k_, y_k_ = X[iloc_k], y[iloc_k]
-			X_l_, y_l_ = X[iloc_l], y[iloc_l]
-			self.as_predictions_ = False
-
-		return X_k_, y_k_, X_l_, y_l_, iloc_k, iloc_l
 
 	
 	def _fit_estimators(self, X_k: np.ndarray, y_k: np.ndarray):
@@ -217,7 +185,6 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		list[BaseEstimator]
 		    Trained models
 		"""
-
 		default_estimators = [
             "linear_regression",
             "ridge",
@@ -229,25 +196,13 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 
 		estimators = self.estimators or default_estimators
 
-		machines = []
-
-		for est in estimators:
-			if isinstance(est, str):
-				params = (self.estimators_params or {}).get(est, {})
-				model = EstimatorFactory.create(est, **params)
-			elif isinstance(est, BaseEstimator):
-				model = est
-			else:
-				raise ValueError(
-					f"Invalid estimator: {type(est)}. "
-					f"Expected str or BaseEstimator. "
-					f"Available: {EstimatorFactory.available()}"
-				)
-
-			model.fit(X_k, y_k)
-			machines.append(model)
-
-		return machines
+		return fit_estimators(
+            X=X_k,
+            y=y_k,
+            estimators=estimators,
+            estimators_params=self.estimators_params,
+            n_jobs=self.n_jobs,
+        )
 
 	def _load_predictions(self, X: np.ndarray):
 		"""
@@ -258,11 +213,11 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		np.ndarray
 		    Shape (n_samples, n_estimators)
 		"""
-		cols = []
-		for est in self.estimators_:
-			preds = est.predict(X)
-			cols.append(preds)
-		return np.column_stack(cols)
+		return predict_estimators(
+            X=X,
+            estimators=self.estimators_,
+            n_jobs=self.n_jobs
+        )
 
 	def _space_normalize(self, X, model_outputs):
 		"""
@@ -289,98 +244,109 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		- splitter
 		- kernel adapter
 		"""
-		self.distance_ : BaseDistance = DistanceFactory.create(
-			self.distance,
-			**(self.distance_params or {})
+		self.distance_ : BaseDistance = (
+			DistanceFactory.create(
+				self.distance,
+				**(self.distance_params or {})
+			)
 		)
-		self.kernel_ : BaseKernel = KernelFactory.create(
-			self.kernel,
-			**(self.kernel_params or {})
+		self.kernel_ : BaseKernel = (
+			KernelFactory.create(
+				self.kernel,
+				**(self.kernel_params or {})
+			)
 		)
-		self.aggregator_ : BaseAggregator = AggregatorFactory.create(
-			self.aggregator,
-			**(self.aggregator_params or {})
+		self.aggregator_ : BaseAggregator = (
+			AggregatorFactory.create(
+				self.aggregator,
+				**(self.aggregator_params or {})
+			)
 		)
-		self.loss_ : BaseLoss = LossFactory.create(
-			self.loss,
-			**(self.loss_params or {})
-		)
-		self.splitter_ : BaseDataSplitter = SplitterFactory.create(
-			'kfold',
-			n_splits=5,
-			random_state=self.random_state
+		self.loss_ : BaseLoss = (
+			LossFactory.create(
+				self.loss,
+				**(self.loss_params or {})
+			)
 		)
 
-		self.adapter_ : BaseKernelAdapter = KernelAdapterFactory.create(
-			"mixcobra",
-			alpha=1.0,
-			beta=1.0
-		)
+		self.cv_ : BaseCrossValidator = (
+            CVFactory.create(
+                "kfold",
+                n_splits=self.n_cv,
+                shuffle=True,
+                random_state=self.random_state,
+            )
+        )
+
+		if self.one_parameter:
+			self.adapter_ = KernelAdapterFactory.create(
+				"one_parameter",
+				bandwidth=1.0
+			)
+		else:
+			self.adapter_ = KernelAdapterFactory.create(
+				"two_parameter",
+				alpha=1.0,
+				beta=1.0
+			)
 	
-	def objective_1d(self, params):
-		"""
-		Objective function for 1D optimization (alpha only).
+	def kappa_cross_validation_error_1d(self, params):
+		bandwidth = params[0]
+		self.adapter_.set_params(bandwidth=bandwidth)
 
-		Returns
-		-------
-		float
-		    Loss value
-		"""
-		alpha = params[0]
-		beta = 0.0
-		self.adapter_.set_params(alpha=alpha, beta=beta)
-		dist_input = self.distance_.matrix(self.X_l_norm_, self.X_l_norm_)
-		dist_output = self.distance_.matrix(self.Y_l_norm_, self.Y_l_norm_)
-		mix_distance = np.hstack((dist_input, dist_output))
-		D = self.adapter_.transform(mix_distance)
+		D = self.adapter_.transform(self.distance_matrix_mix_)
 		K = self.kernel_(D)
 
-		preds = np.empty(self.y_l_.shape[0], dtype=float)
+		errors = []
 
-		folds = self.splitter_.split(self.X_l_, self.y_l_)
+		for fold in self.cv_folds_:
+			train_idx = fold.train_idx
+			val_idx = fold.eval_idx
 
-		for train_idx, val_idx in folds:
-			w = K[val_idx][:, train_idx]
+			K_val_train = K[np.ix_(val_idx, train_idx)]
 			y_train = self.y_l_[train_idx]
-			for i in range(len(val_idx)):
-				if np.allclose(w[i].sum(), 0.0):
-					preds[val_idx[i]] = np.mean(y_train)
-				else:
-					preds[val_idx[i]] = self.aggregator_.aggregate(y_train, w[i])
-		
-		return self.loss_(self.y_l_, preds)
 
-	def objective_2d(self, params):
-		"""
-		Objective function for 2D optimization (alpha, beta).
+			numerator = K_val_train @ y_train
+			denominator = np.sum(K_val_train, axis=1)
 
-		Returns
-		-------
-		float
-		    Loss value
-		"""
+			with np.errstate(divide='ignore', invalid='ignore'):
+				pred_fold = np.where(
+					denominator > 0,
+					numerator / denominator,
+					0.0
+				)
+			error = self.loss_(self.y_l_[val_idx], pred_fold)
+			errors.append(error)
+		return np.mean(errors)
+	
+	def kappa_cross_validation_error_2d(self, params):
 		alpha, beta = params
 		self.adapter_.set_params(alpha=alpha, beta=beta)
-		dist_input = self.distance_.matrix(self.X_l_norm_, self.X_l_norm_)
-		dist_output = self.distance_.matrix(self.Y_l_norm_, self.Y_l_norm_)
-		D = self.adapter_.transform(dist_input, dist_output)
+
+		D = self.adapter_.transform(self.distance_matrix_x_, self.distance_matrix_y_)
 		K = self.kernel_(D)
 
-		preds = np.empty(self.y_l_.shape[0], dtype=float)
+		errors = []
 
-		folds = self.splitter_.split(self.X_l_, self.y_l_)
+		for fold in self.cv_folds_:
+			train_idx = fold.train_idx
+			val_idx = fold.eval_idx
 
-		for train_idx, val_idx in folds:
-			w = K[val_idx][:, train_idx]
+			K_val_train = K[np.ix_(val_idx, train_idx)]
 			y_train = self.y_l_[train_idx]
-			for i in range(len(val_idx)):
-				if np.allclose(w[i].sum(), 0.0):
-					preds[val_idx[i]] = np.mean(y_train)
-				else:
-					preds[val_idx[i]] = self.aggregator_.aggregate(y_train, w[i])
-		
-		return self.loss_(self.y_l_, preds)
 
+			numerator = K_val_train @ y_train
+			denominator = np.sum(K_val_train, axis=1)
+
+			with np.errstate(divide='ignore', invalid='ignore'):
+				pred_fold = np.where(
+					denominator > 0,
+					numerator / denominator,
+					0.0
+				)
+			error = self.loss_(self.y_l_[val_idx], pred_fold)
+			errors.append(error)
+		return np.mean(errors)
 
 	def _optimize_hyperparameters(self):
 		"""
@@ -390,36 +356,113 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 
 		Optimizes alpha/beta mixing between distance spaces.
 		"""
-		if self.opt_method == "grad":
-			self.optimizer_ = OptimizerFactory.create(
-				self.optimizer,
-				**(self.optimizer_params or {}),
-				random_state=self.random_state
-			)
+		alpha_candidates = (
+			np.asarray(self.alpha_list)
+			if self.alpha_list is not None
+			else np.linspace(
+                0.001,
+                10.0,
+                self.max_iter,
+            )
+		)
 
+		beta_candidates = (
+			np.asarray(self.beta_list)
+			if self.beta_list is not None
+			else np.linspace(
+				0.001,
+				10.0,
+				self.max_iter,
+			)
+		)
+		method = self.opt_method.lower()
+		if method == "grad" and not self.kernel_.requires_grad:
+			method = "grid"
+
+		optimizer = self.optimizer.lower()
+		params = dict(self.optimizer_params or {})
+
+		if method == "grad":
+			if not OptimizerFactory.supports(
+                optimizer,
+                category="gradient",
+            ):
+				raise ValueError(
+					f"Optimizer '{optimizer}' "
+					f"does not support gradient optimization. "
+					f"Available: "
+					f"{OptimizerFactory.available_by_category('gradient')}"
+				)
+			params.update({
+				"learning_rate": self.learning_rate,
+                "max_iter": self.max_iter,
+			})
+		elif method == "grid":
+			if not OptimizerFactory.supports(
+				optimizer,
+				category="search",
+			):
+				raise ValueError(
+					f"Optimizer '{optimizer}' "
+					f"does not support grid search optimization. "
+					f"Available: "
+					f"{OptimizerFactory.available_by_category('search')}"
+				)
 			if self.one_parameter:
-				result = self.optimizer_(self.objective_1d, np.array([1.0]))
+				params.update({
+					"param_grid": {
+						"alpha": alpha_candidates
+					}
+				})
 			else:
-				result = self.optimizer_(self.objective_2d, np.array([1.0, 1.0]))
+				params.update({
+					"param_grid": {
+						"alpha": alpha_candidates,
+						"beta": beta_candidates
+					}
+				})
+		
 		else:
-			self.optimizer_ = OptimizerFactory.create(
-				self.optimizer,
-				**(self.optimizer_params or {}),
-				random_state=self.random_state
+			raise ValueError(
+				f"Unknown optimization method: {self.opt_method}. Supported: 'grad', 'grid'."
 			)
-
-			param_grid = {}
+		
+		self.optimizer_ = OptimizerFactory.create(
+			optimizer,
+			**params,
+			random_state=self.random_state
+		)
+		
+		if method == "grad":
 			if self.one_parameter:
-				param_grid["alpha"] = self.alpha_list if self.alpha_list is not None else np.linspace(0, 2, 10)
-				result = self.optimizer_(self.objective_1d, param_grid)
+				result = self.optimizer_(
+					self.kappa_cross_validation_error_1d,
+					np.array([1.0])
+				)
 			else:
-				param_grid["alpha"] = self.alpha_list if self.alpha_list is not None else np.linspace(0, 2, 10)
-				param_grid["beta"] = self.beta_list if self.beta_list is not None else np.linspace(0, 2, 10)
-				result = self.optimizer_(self.objective_2d, param_grid)
+				result = self.optimizer_(
+					self.kappa_cross_validation_error_2d,
+					np.array([1.0, 1.0])
+				)
+		else:
+			if self.one_parameter:
+				param_grid = {"bandwidth": alpha_candidates}
+				result = self.optimizer_(
+					self.kappa_cross_validation_error_1d,
+					param_grid
+				)
+			else:
+				param_grid = {
+					"alpha": alpha_candidates,
+					"beta": beta_candidates
+				}
+				result = self.optimizer_(
+					self.kappa_cross_validation_error_2d,
+					param_grid
+				)
 		
 		self.optimization_outputs_ = {
             "method": self.opt_method,
-            "bandwidth": result['x'],
             "score": result["score"],
             "history": result["history"],
             "evaluations": len(result["history"]),
@@ -434,7 +477,10 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		y: np.ndarray,
 		X_l: np.ndarray | None = None,
 		y_l: np.ndarray | None = None,
-		pred_features: np.ndarray | None = None
+		split_ratio: float = 0.5,
+		overlap: float = 0.0,
+		pred_features: np.ndarray | None = None,
+		as_predictions=False,
 	):
 		"""
 		Fit MixCOBRA model with hyperparameter optimization.
@@ -482,29 +528,65 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		>>> model.fit(X_train, y_train)
 		"""
 		
-		(
-			self.X_k_, self.y_k_,
-			self.X_l_, self.y_l_,
-			self.iloc_k_, self.iloc_l_
-		) = self._resolve_fit_split_context(X, y, X_l, y_l, pred_features)
+		ctx = resolve_training_context(
+            X,
+            y,
+            X_l=X_l,
+            y_l=y_l,
+			pred_features=pred_features,
+            as_predictions=as_predictions,
+            split_ratio=split_ratio,
+            overlap=overlap,
+            random_state=self.random_state
+        )
+		self.X_k_ = ctx.X_k
+		self.y_k_ = ctx.y_k
+		self.X_l_ = ctx.X_l
+		self.y_l_ = ctx.y_l
+		self.as_predictions_ = ctx.as_predictions
 
-		# fit base estimators on training set
-		self.estimators_ = self._fit_estimators(self.X_k_, self.y_k_)
-
-		# load predictions for aggregation set
 		if not self.as_predictions_:
-			model_outputs = self._load_predictions(self.X_l_)
+			self.estimators_ = self._fit_estimators(self.X_k_, self.y_k_)
+			prediction_space = self._load_predictions(self.X_l_)
 		else:
-			model_outputs = self.X_l_
+			prediction_space = self.X_l_
 		
-		# normalize space
-		self.X_l_norm_, self.Y_l_norm_ = self._space_normalize(self.X_l_, model_outputs)
+		self.X_l_norm_, self.Y_l_norm_ = self._space_normalize(
+			self.X_l_,
+			prediction_space
+		)
 
-		# resolve components
 		self._resolve_component()
 
-		# optimize hyperparameters
+		if self.one_parameter:
+			self.mix_features_ = np.column_stack([
+				self.X_l_norm_,
+                self.Y_l_norm_
+			])
+			self.distance_matrix_mix_ = (
+				self.distance_.matrix(
+					self.mix_features_,
+                    self.mix_features_
+				)
+			)
+		else:
+			self.distance_matrix_x_ = (
+                self.distance_.matrix(
+                    self.X_l_norm_,
+                    self.X_l_norm_,
+                )
+            )
+			self.distance_matrix_y_ = (
+                self.distance_.matrix(
+                    self.Y_l_norm_,
+                    self.Y_l_norm_,
+                )
+            )
+
+		self.cv_folds_ = list(self.cv_.split(self.X_l_, self.y_l_))
+
 		self._optimize_hyperparameters()
+
 		return self
 		
 	def predict(
@@ -560,32 +642,49 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		X = check_array(X)
 
 		if pred_X is None:
-			pred_X = X
+			pred_X = self._load_predictions(X)
 
-		preds = self._load_predictions(X)
-		X_norm, Y_norm = self._space_normalize(pred_X, preds)
-
-		dist_input = self.distance_.matrix(X_norm, self.X_l_norm_)
-		dist_output = self.distance_.matrix(Y_norm, self.Y_l_norm_)
+		X_norm, Y_norm = (
+            self._space_normalize(
+                X,
+                pred_X,
+            )
+        )
 
 		if self.one_parameter:
-			alpha = self.optimization_outputs_["params"][0]
-			beta = 0.0
-			mix_distance = np.hstack((dist_input, dist_output))
-			self.adapter_.set_params(alpha=alpha, beta=beta)
-			D = self.adapter_.transform(mix_distance)
-			K = self.kernel_(D)
+			bandwidth = (
+                self.optimization_outputs_["params"][0]
+            )
+			mix_test = np.column_stack([
+                X_norm,
+                Y_norm,
+            ])
+			dist_mix = self.distance_.matrix(
+				mix_test,
+				self.mix_features_
+			)
+			self.adapter_.set_params(bandwidth=bandwidth)
+			D = self.adapter_.transform(dist_mix)
 		else:
-			alpha, beta = self.optimization_outputs_["params"]
+			alpha, beta = (
+                self.optimization_outputs_["params"]
+            )
+			dist_x = self.distance_.matrix(
+                X_norm,
+                self.X_l_norm_,
+            )
+			dist_y = self.distance_.matrix(
+                Y_norm,
+                self.Y_l_norm_,
+            )
 			self.adapter_.set_params(alpha=alpha, beta=beta)
-			D = self.adapter_.transform(dist_input, dist_output)
-			K = self.kernel_(D)
+			D = self.adapter_.transform(dist_x, dist_y)
 		
-		W = self.kernel_(D)
-		outputs = np.empty(W.shape[0], dtype=float)
+		K = self.kernel_(D)
+		outputs = np.empty(K.shape[0], dtype=float)
 
-		for i in range(W.shape[0]):
-			w = W[i]
+		for i in range(K.shape[0]):
+			w = K[i]
 			if np.allclose(w.sum(), 0.0):
 				outputs[i] = np.mean(self.y_l_)
 			else:
