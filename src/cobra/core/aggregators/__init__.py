@@ -76,6 +76,7 @@ from .builtin import (
     MajorityVoteAggregator,
     SimpleMeanAggregator,
     WeightedMeanAggregator,
+    WeightedVoteAggregator
 )
 
 __all__ = [
@@ -84,4 +85,5 @@ __all__ = [
     "MajorityVoteAggregator",
     "SimpleMeanAggregator",
     "WeightedMeanAggregator",
+    "WeightedVoteAggregator"
 ]

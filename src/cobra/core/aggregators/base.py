@@ -122,6 +122,9 @@ class BaseAggregator(ABC):
         """
         raise NotImplementedError
 
+    def aggregate_proba(self, values, weights=None, classes=None, **kwargs):
+        raise NotImplementedError
+
 
 def _as_1d(values: ArrayLike) -> np.ndarray:
     """

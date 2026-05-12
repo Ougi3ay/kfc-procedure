@@ -195,90 +195,61 @@ class WeightedMeanAggregator(BaseAggregator):
         return float(np.sum(vals * w) / w_sum)
 
 
-@AggregatorFactory.register("majority_vote", "vote")
-class MajorityVoteAggregator(BaseAggregator):
+@AggregatorFactory.register("weighted_vote")
+class WeightedVoteAggregator(BaseAggregator):
     """
-    Majority vote aggregator.
-
-    This aggregator selects the most frequent class label among
-    candidate values.
-
-    Mathematical form
-    -----------------
-    prediction = argmax(count(label))
-
-    Commonly used for classification tasks.
-
-    Notes
-    -----
-    This implementation ignores weights.
-
-    In case of ties, NumPy's ``argmax()`` returns the first occurrence.
-
-    Examples
-    --------
-    >>> aggregator = MajorityVoteAggregator()
-
-    >>> aggregator.aggregate([1, 1, 2, 1, 3])
-    1.0
+    Formula : y_hat = argmax_c * sum_i w_i * 1(y_i == c) 
     """
-
-    def __init__(self, classes=None):
-        self.classes_ = np.asarray(classes) if classes is not None else None
-
     def aggregate(
         self,
         values: ArrayLike,
         weights: ArrayLike | None = None,
-        return_proba: bool = False,
-    ) -> float | dict:
-        """
-        Compute majority vote.
+    ):
+        values = np.asarray(values)
+        weights = np.asarray(weights)
 
-        Parameters
-        ----------
-        values : ArrayLike
-            Candidate class labels.
+        classes = np.unique(values)
+        scores = np.zeros(len(classes), dtype=float)
 
-        weights : ArrayLike or None, default=None
-            Ignored in this implementation.
+        for j, c in enumerate(classes):
+            scores[j] = np.sum(weights[values == c])
 
-        return_proba : bool, default=False
-            If True, return probability distribution instead of single label.
+        return classes[np.argmax(scores)]
 
-        Returns
-        -------
-        float | dict
-            Most frequent class label or probability distribution.
+    def aggregate_proba(
+        self,
+        values: ArrayLike,
+        weights: ArrayLike | None = None,
+        classes: ArrayLike | None = None,
+        **kwargs
+    ):
+        values = np.asarray(values)
+        weights = np.asarray(weights)
 
-        Raises
-        ------
-        ValueError
-            If values are empty.
-        """
-        vals = np.asarray(values).reshape(-1)
+        if classes is None:
+            classes = np.unique(values)
+        else:
+            classes = np.asarray(classes)
 
-        if vals.size == 0:
-            raise ValueError(
-                "Cannot aggregate an empty set of values."
-            )
+        proba = np.zeros(len(classes), dtype=float)
 
-        uniq, counts = np.unique(vals, return_counts=True)
-        
-        if return_proba:
-            if self.classes_ is None:
-                raise ValueError(
-                    "classes_ must be defined for predict_proba()."
-                )
+        for j, c in enumerate(classes):
+            proba[j] = np.sum(weights[values == c])
 
-            proba = np.zeros(len(self.classes_))
-            total = np.sum(counts)
+        proba_sum = np.sum(proba)
 
-            count_map = dict(zip(uniq, counts))
+        if proba_sum <= 0:
+            return np.ones(len(classes)) / len(classes)
 
-            for i, cls in enumerate(self.classes_):
-                proba[i] = count_map.get(cls, 0) / total
+        return proba / proba_sum
 
-            return proba
+@AggregatorFactory.register("majority_vote")
+class MajorityVoteAggregator(BaseAggregator):
 
-        return float(uniq[np.argmax(counts)])
+    def aggregate(self, values, weights=None, **kwargs):
+
+        values = np.asarray(values)
+
+        classes, counts = np.unique(values, return_counts=True)
+
+        return classes[np.argmax(counts)]
