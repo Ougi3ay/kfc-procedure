@@ -323,6 +323,7 @@ def resolve_training_context(
     *,
     X_l: ArrayLike | None = None,
     y_l: ArrayLike | None = None,
+    pred_features: ArrayLike | None = None,
     as_predictions: bool = False,
     splitter: BaseDataSplitter | None = None,
     split_ratio: float = 0.5,
@@ -425,6 +426,20 @@ def resolve_training_context(
             y_k=np.asarray(y),
             X_l=np.asarray(X_l),
             y_l=np.asarray(y_l),
+            as_predictions=False,
+        )
+    
+    if pred_features is not None:
+        pred_features = np.asarray(pred_features)
+        if pred_features.shape[0] != X.shape[0]:
+            raise ValueError(
+                "pred_features must have the same number of samples as X."
+            )
+        return TrainingContext(
+            X_k=np.asarray(X),
+            y_k=np.asarray(y),
+            X_l=pred_features,
+            y_l=np.asarray(y),
             as_predictions=False,
         )
 
