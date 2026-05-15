@@ -126,7 +126,7 @@ class GradientCOBRASpaceNormalizer(BaseSpaceNormalizer):
             M=M,
         )
 
-        Y = model_outputs / normalize_constant
+        Y = model_outputs * normalize_constant
 
         return X, Y
 
@@ -179,7 +179,7 @@ class MixCOBRASpaceNormalizer(BaseSpaceNormalizer):
             M=M,
         )
 
-        X = X / normalize_constant_x
-        Y = model_outputs / normalize_constant_y
+        X = X * normalize_constant_x
+        Y = model_outputs * normalize_constant_y
 
         return X, Y
