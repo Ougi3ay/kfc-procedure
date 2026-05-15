@@ -17,6 +17,11 @@ from cobra.core.optimizers.base import OptimizerFactory
 from cobra.core.validators.base import BaseCrossValidator, CVFactory
 from cobra.utils.resolve import fit_estimators, predict_estimators, resolve_training_context
 
+try:
+    import faiss
+    HAS_FAISS = True
+except ImportError:
+    HAS_FAISS = False
 
 class CombineClassifier(ABC, SkBaseEstimator):
 
@@ -64,9 +69,6 @@ class CombineClassifier(ABC, SkBaseEstimator):
         self.n_cv = n_cv
         self.random_state = random_state
 
-    # -------------------------
-    # BASE MODELS
-    # -------------------------
     def _fit_estimators(self, X_k: np.ndarray, y_k: np.ndarray):
 
         default_estimators = [
@@ -93,9 +95,6 @@ class CombineClassifier(ABC, SkBaseEstimator):
             n_jobs=self.n_jobs,
         )
 
-    # -------------------------
-    # COMPONENTS
-    # -------------------------
     def _resolve_components(self):
 
         self.distance_: BaseDistance = DistanceFactory.create(
@@ -130,9 +129,6 @@ class CombineClassifier(ABC, SkBaseEstimator):
             **(self.aggregator_params or {}),
         )
 
-    # -------------------------
-    # OPTIMIZER (RESTORED)
-    # -------------------------
     def _optimize_hyperparameters(self):
 
         bandwidth_candidates = (
@@ -203,9 +199,6 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         return np.mean(errors)
 
-    # -------------------------
-    # FIT
-    # -------------------------
     def fit(self, X, y, X_l=None, y_l=None, split_ratio=0.5, overlap=False, as_predictions=False):
 
         ctx = resolve_training_context(
@@ -226,17 +219,17 @@ class CombineClassifier(ABC, SkBaseEstimator):
         if not self.as_predictions_:
             self.classes_ = np.unique(self.y_k_)
             self.estimators_ = self._fit_estimators(self.X_k_, self.y_k_)
-            self.pred_l = self._load_predictions(self.X_l_)
+            self.pred_l_ = self._load_predictions(self.X_l_)
         else:
             self.classes_ = np.unique(self.y_l_)
-            self.pred_l = self.X_l_
+            self.pred_l_ = self.X_l_
 
         classes, counts = np.unique(self.y_l_, return_counts=True)
         self.global_majority_class_ = classes[np.argmax(counts)]
 
         self._resolve_components()
 
-        self.distance_matrix_ = self.distance_.matrix(self.pred_l, self.pred_l)
+        self.distance_matrix_ = self.distance_.matrix(self.pred_l_, self.pred_l)
 
         self.cv_folds_ = list(self.cv_.split(self.X_l_, self.y_l_))
 
@@ -244,19 +237,16 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         return self
 
-    # -------------------------
-    # PREDICT (FIXED)
-    # -------------------------
     def predict(self, X):
 
         X = check_array(X)
-
         preds_space = X if self.as_predictions_ else self._load_predictions(X)
 
-        D = self.distance_.matrix(preds_space, self.pred_l)
+        distance_matrix = self.distance_.matrix(preds_space, self.pred_l_)
 
+        # D = bandwidth * distance_matrix    
         self.adapter_.set_params(bandwidth=self.bandwidth_)
-        D = self.adapter_.transform(D)
+        D = self.adapter_.transform(distance_matrix)
 
         K = self.kernel_(D)
 
@@ -274,19 +264,16 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         return np.array(outputs)
 
-    # -------------------------
-    # PROBA
-    # -------------------------
     def predict_proba(self, X):
 
         X = check_array(X)
 
         preds_space = X if self.as_predictions_ else self._load_predictions(X)
 
-        D = self.distance_.matrix(preds_space, self.pred_l)
+        distance_matrix = self.distance_.matrix(preds_space, self.pred_l_)
 
         self.adapter_.set_params(bandwidth=self.bandwidth_)
-        D = self.adapter_.transform(D)
+        D = self.adapter_.transform(distance_matrix)
 
         K = self.kernel_(D)
 
@@ -307,3 +294,87 @@ class CombineClassifier(ABC, SkBaseEstimator):
             )
 
         return proba
+
+class CombineClassifierFast(CombineClassifier):
+    def __init__(
+        self,
+        use_faiss: bool = False,
+        faiss_k: int | None = None,
+        **kwargs
+    ):
+        super().__init__(**kwargs)
+        self.use_faiss = use_faiss
+        self.faiss_k = faiss_k
+
+    def fit(self, X, y, X_l=None, y_l=None, split_ratio=0.5, overlap=False, as_predictions=False):
+        super().fit(X, y, X_l=X_l, y_l=y_l, split_ratio=split_ratio, overlap=overlap, as_predictions=as_predictions)
+
+        if self.use_faiss and HAS_FAISS:
+            preds = self.pred_l_.astype(np.float32)
+            self.faiss_index_ = faiss.IndexFlatL2(preds.shape[1])
+            self.faiss_index_.add(preds)
+
+        return self
+    
+    def predict(self, X):
+        X = check_array(X)
+        preds = self._load_predictions(X).astype(np.float32)
+
+        if self.use_faiss and HAS_FAISS and hasattr(self, 'faiss_index_'):
+            # Find k nearest neighbors
+            k = self.faiss_k or min(100, len(self.pred_l_))
+            distances, indices = self.faiss_index_.search(preds, k)
+
+            # convert faiss l2 distances to similarity scores
+            if hasattr(self.kernel_, "gamma") and self.kernel_.gamma is not None:
+                K_approx = np.exp(-self.kernel_.gamma * distances)
+            elif hasattr(self.kernel_, "threshold") and self.kernel_.threshold is not None:
+                K_approx = np.exp(-self.kernel_.threshold * distances)
+            else:
+                raise ValueError("Kernel must define either gamma or threshold.")
+            
+            outputs = []
+            for i in range(K_approx.shape[0]):
+                w = K_approx[i]
+                idx = indices[i]
+                outputs.append(
+                    self.aggregator_.aggregate(self.y_l_[idx], w)
+                )
+            
+            return outputs
+        else:
+            return super().predict(X)
+    
+    def predict_proba(self, X):
+        X = check_array(X)
+        preds = self._load_predictions(X).astype(np.float32)
+
+        if self.use_faiss and HAS_FAISS and hasattr(self, 'faiss_index_'):
+            k = self.faiss_k or min(100, len(self.pred_l_))
+            distances, indices = self.faiss_index_.search(preds, k)
+
+            if hasattr(self.kernel_, "gamma") and self.kernel_.gamma is not None:
+                K_approx = np.exp(-self.kernel_.gamma * distances)
+            elif hasattr(self.kernel_, "threshold") and self.kernel_.threshold is not None:
+                K_approx = np.exp(-self.kernel_.threshold * distances)
+            else:
+                raise ValueError("Kernel must define either gamma or threshold.")
+            
+            classes = self.classes_
+            proba = np.zeros((len(K_approx), len(classes)))
+
+            for i in range(K_approx.shape[0]):
+                w = K_approx[i]
+                idx = indices[i]
+
+                proba[i] = self.aggregator_.aggregate_proba(
+                    values=self.y_l_[idx],
+                    weights=w,
+                    classes=classes
+                )
+
+            return proba
+        else:
+            return super().predict_proba(X)
+        
+
