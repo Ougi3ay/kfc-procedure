@@ -229,7 +229,7 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         self._resolve_components()
 
-        self.distance_matrix_ = self.distance_.matrix(self.pred_l_, self.pred_l)
+        self.distance_matrix_ = self.distance_.matrix(self.pred_l_, self.pred_l_)
 
         self.cv_folds_ = list(self.cv_.split(self.X_l_, self.y_l_))
 
