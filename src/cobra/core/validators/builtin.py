@@ -44,26 +44,34 @@ class KFoldCV(BaseCrossValidator):
         y: ArrayLike,
     ) -> Iterator[SplitIndices]:
 
-        n_samples = len(x)
-        indices = np.arange(n_samples)
+        n = len(x)
+
+        rng = np.random.RandomState(self.random_state)
+
+        indices = np.arange(n)
 
         if self.shuffle:
-            rng = np.random.default_rng(self.random_state)
-            rng.shuffle(indices)
+            indices = rng.permutation(indices)
+        
+        folds = [[] for _ in range(self.n_splits)]
 
-        folds = np.array_split(indices, self.n_splits)
+        for i, idx in enumerate(indices):
+            folds[i % self.n_splits].append(idx)
 
+        folds = [np.array(f, dtype=np.int64) for f in folds]
+        
         for i in range(self.n_splits):
-
             val_idx = folds[i]
 
             train_idx = np.concatenate(
                 [folds[j] for j in range(self.n_splits) if j != i]
             )
 
+            train_idx = np.sort(train_idx)
+
             yield SplitIndices(
-                train_idx=train_idx.astype(np.int64),
-                eval_idx=val_idx.astype(np.int64),
+                train_idx=train_idx,
+                eval_idx=val_idx,
                 fold_id=i,
             )
 
