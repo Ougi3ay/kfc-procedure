@@ -125,48 +125,6 @@ class BaseAggregator(ABC):
     def aggregate_proba(self, values, weights=None, classes=None, **kwargs):
         raise NotImplementedError
 
-
-def _as_1d(values: ArrayLike) -> np.ndarray:
-    """
-    Convert input values into a validated 1D float array.
-
-    This helper ensures stable aggregation by:
-
-    - converting values to NumPy arrays
-    - forcing float dtype
-    - flattening into 1D shape
-    - validating non-empty input
-
-    Parameters
-    ----------
-    values : ArrayLike
-        Input values to normalize.
-
-    Returns
-    -------
-    np.ndarray
-        Flattened 1D float array.
-
-    Raises
-    ------
-    ValueError
-        If the input is empty.
-
-    Examples
-    --------
-    >>> _as_1d([[1, 2], [3, 4]])
-    array([1., 2., 3., 4.])
-    """
-    arr = np.asarray(values, dtype=float).reshape(-1)
-
-    if arr.size == 0:
-        raise ValueError(
-            "Cannot aggregate an empty set of values."
-        )
-
-    return arr
-
-
 class AggregatorFactory(BaseFactory):
     """
     Factory for ``BaseAggregator`` implementations.
