@@ -17,7 +17,7 @@ class BaseGradientOptimizer(BaseOptimizer, ABC):
         speed: str = "constant",
         gradient_method: str = "central",
         eps: float = 1e-7,
-        n_tries: int = 10,
+        n_tries: int = 5,
         init_range=(1e-4, 3.0),
         show_process: bool = True,
         **kwargs,
@@ -108,7 +108,6 @@ class BaseGradientOptimizer(BaseOptimizer, ABC):
         # initail gradient
         grad = self.gradient(objective, x, grad_fn)
         prev_grad = grad.copy()
-
         r0 = self.learning_rate / (np.linalg.norm(grad) + 1e-12)
 
         best_x = x.copy()
@@ -124,7 +123,6 @@ class BaseGradientOptimizer(BaseOptimizer, ABC):
 
         for t in iterator:
             lr_t = self._rate(t, r0)
-
             x_new, state = self.step(x, lr_t, grad, state)
 
             if np.any(np.isnan(x_new)):
@@ -148,8 +146,8 @@ class BaseGradientOptimizer(BaseOptimizer, ABC):
             
             # update state
             x = x_new
-            prev_grad = grad
-            grad = grad_new
+            prev_grad = grad.copy()
+            grad = grad_new.copy()
 
             history.append({
                 "iter": t+1,
