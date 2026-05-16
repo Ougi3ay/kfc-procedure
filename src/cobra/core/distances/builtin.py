@@ -123,9 +123,7 @@ class EuclideanDistance(BaseDistance):
         y2 = np.sum(y ** 2, axis=1, keepdims=True).T
         xy = x @ y.T
 
-        return np.sqrt(
-            np.maximum(x2 + y2 - 2 * xy, 0.0)
-        )
+        return np.maximum(x2 + y2 - 2 * xy, 0.0)
 
 
 @DistanceFactory.register("manhattan", "l1")
