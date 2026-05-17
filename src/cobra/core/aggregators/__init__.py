@@ -74,14 +74,14 @@ from .base import (
 
 from .builtin import (
     MajorityVoteAggregator,
-    SimpleMeanAggregator,
     WeightedMeanAggregator,
+    WeightedVoteAggregator
 )
 
 __all__ = [
     "BaseAggregator",
     "AggregatorFactory",
     "MajorityVoteAggregator",
-    "SimpleMeanAggregator",
     "WeightedMeanAggregator",
+    "WeightedVoteAggregator"
 ]

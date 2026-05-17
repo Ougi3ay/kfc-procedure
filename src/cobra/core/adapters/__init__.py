@@ -68,13 +68,13 @@ from .base import (
 )
 
 from .builtin import (
-    GradientCOBRAKernelAdapter,
-    MixCOBRAKernelAdapter,
+    OneParameterKernelAdapter,
+    TwoParameterKernelAdapter
 )
 
 __all__ = [
     "BaseKernelAdapter",
     "KernelAdapterFactory",
-    "GradientCOBRAKernelAdapter",
-    "MixCOBRAKernelAdapter",
+    "OneParameterKernelAdapter",
+    "TwoParameterKernelAdapter"
 ]

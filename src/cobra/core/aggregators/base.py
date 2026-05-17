@@ -49,6 +49,7 @@ Examples
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Optional
 
 import numpy as np
 from numpy.typing import ArrayLike
@@ -56,35 +57,25 @@ from numpy.typing import ArrayLike
 from cobra.core.factory import BaseFactory
 
 
+from abc import ABC, abstractmethod
+from typing import Optional
+import numpy as np
+from numpy.typing import ArrayLike
+
+
 class BaseAggregator(ABC):
     """
-    Abstract base class for aggregation strategies.
+    Abstract base class for COBRA aggregation strategies.
 
-    Aggregators define how multiple neighbor target values are combined
-    into a single scalar prediction.
+    Two execution modes are supported:
 
-    This is the final prediction step of the COBRA architecture.
+    1. scalar aggregation (mandatory)
+    2. matrix aggregation (optional but recommended)
 
-    Parameters
-    ----------
-    values : ArrayLike
-        Neighbor target values selected by the kernel stage.
-
-    weights : ArrayLike or None, default=None
-        Optional weights associated with each value.
-
-    Notes
-    -----
-    Subclasses must implement the ``aggregate()`` method.
-
-    Some strategies may ignore weights (e.g., median),
-    while others depend heavily on them (e.g., weighted mean).
-
-    Examples
-    --------
-    >>> class MeanAggregator(BaseAggregator):
-    ...     def aggregate(self, values, weights=None):
-    ...         return float(np.mean(values))
+    Matrix aggregation is required for:
+    - GradientCOBRA acceleration
+    - batch prediction
+    - CV optimization
     """
 
     @abstractmethod
@@ -95,74 +86,43 @@ class BaseAggregator(ABC):
         **kwargs,
     ):
         """
-        Aggregate values into a single scalar prediction.
-
-        Parameters
-        ----------
-        values : ArrayLike
-            Target values from selected neighbors.
-
-        weights : ArrayLike or None, default=None
-            Optional weights for weighted aggregation.
-
-        Returns
-        -------
-        Any : 
-            Final aggregated prediction.
-
-        Raises
-        ------
-        NotImplementedError
-            Must be implemented by subclasses.
-
-        Examples
-        --------
-        >>> aggregator.aggregate([1.0, 2.0, 3.0])
-        2.0
+        Aggregate a single neighborhood.
         """
         raise NotImplementedError
+    
+    def aggregate_matrix(
+        self,
+        values: ArrayLike,
+        weights: ArrayLike,
+        fallback: float | None = None,
+        **kwargs,
+    ) -> np.ndarray:
+        """
+        Default safe implementation (loop fallback).
+        """
+        V = np.asarray(values)
+        W = np.asarray(weights)
 
+        n_queries = W.shape[0]
 
-def _as_1d(values: ArrayLike) -> np.ndarray:
-    """
-    Convert input values into a validated 1D float array.
+        return np.array([
+            self.aggregate(
+                values=V,
+                weights=W[i],
+                fallback=fallback,
+                **kwargs
+            )
+            for i in range(n_queries)
+        ])
 
-    This helper ensures stable aggregation by:
-
-    - converting values to NumPy arrays
-    - forcing float dtype
-    - flattening into 1D shape
-    - validating non-empty input
-
-    Parameters
-    ----------
-    values : ArrayLike
-        Input values to normalize.
-
-    Returns
-    -------
-    np.ndarray
-        Flattened 1D float array.
-
-    Raises
-    ------
-    ValueError
-        If the input is empty.
-
-    Examples
-    --------
-    >>> _as_1d([[1, 2], [3, 4]])
-    array([1., 2., 3., 4.])
-    """
-    arr = np.asarray(values, dtype=float).reshape(-1)
-
-    if arr.size == 0:
-        raise ValueError(
-            "Cannot aggregate an empty set of values."
-        )
-
-    return arr
-
+    def aggregate_proba(
+        self,
+        values: ArrayLike,
+        weights: ArrayLike | None = None,
+        classes: ArrayLike | None = None,
+        **kwargs,
+    ):
+        raise NotImplementedError
 
 class AggregatorFactory(BaseFactory):
     """

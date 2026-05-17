@@ -138,15 +138,20 @@ class FStep(ABC, BaseEstimator):
         probas = {}
 
         for div_name, cluster_ids in clusters.items():
-            probs = []
+            n_samples = X.shape[0]
+            probs_list = []
 
             for k, model in self.models_[div_name].items():
                 idx = cluster_ids == k
                 if np.any(idx) and hasattr(model, "predict_proba"):
-                    probs.append(model.predict_proba(X[idx]))
+                    probs_list.append((np.where(idx)[0], model.predict_proba(X[idx])))
 
-            if probs:
-                probas[div_name] = np.vstack(probs)
+            if probs_list:
+                n_classes = probs_list[0][1].shape[1]
+                combined_probs = np.zeros((n_samples, n_classes))
+                for sample_indices, model_probs in probs_list:
+                    combined_probs[sample_indices] = model_probs
+                probas[div_name] = combined_probs
 
         return probas
 

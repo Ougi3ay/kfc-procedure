@@ -54,9 +54,9 @@ y_clf = (y_reg > 0).astype(int)
 
 # Regression example
 model = KFCRegressor(
-    kstep=["euclidean", "kl"],
-    fstep={"name": "linear"},
-    cstep={"name": "mean"},
+    divergences=["euclidean", "kl"],
+    local_model="linear",
+    aggregation="mean",
     random_state=42,
 )
 model.fit(X, y_reg)
@@ -64,9 +64,9 @@ y_pred = model.predict(X)
 
 # Classification example
 clf = KFCClassifier(
-    kstep=["euclidean"],
-    fstep={"name": "logistic"},
-    cstep={"name": "majority_vote"},
+    divergences=["euclidean"],
+    local_model="logistic",
+    aggregation="majority_vote",
     random_state=42,
 )
 clf.fit(X, y_clf)
@@ -83,33 +83,33 @@ proba = clf.predict_proba(X)
 
 ## Configuration
 
-### `kstep`
+### `divergences`
 
-The K-step accepts:
+The divergences parameter accepts:
 
 - a list of divergence names, e.g. `['euclidean', 'kl']`
 - a list of config dictionaries, e.g. `[{ 'name': 'euclidean', 'n_clusters': 4 }]`
 
-### `fstep`
+Available divergences: `'euclidean'`, `'kl'`, `'gkl'`, `'is'`, `'logistic'`
 
-The F-step accepts a config dictionary with:
+### `local_model`
 
-- `name`: local model alias
-- `params`: kwargs for the local model constructor
+The local_model parameter accepts:
 
-Supported local regressor names include `linear`, `ridge`, `lasso`, `decision_tree`, `random_forest`.
-Supported local classifier names include `logistic`, `decision_tree`, `random_forest`.
+- a model name string, e.g. `'linear'`, `'ridge'`
 
-### `cstep`
+Supported regression models include: `linear`, `ridge`, `lasso`, `decision_tree`, `random_forest`.
+Supported classification models include: `logistic`, `decision_tree`, `random_forest`.
 
-The C-step accepts a config dictionary with:
+### `aggregation`
 
-- `name`: aggregation strategy alias
-- `params`: kwargs for the aggregator
+The aggregation parameter accepts:
 
-Supported aggregators include:
+- an aggregation strategy name string, e.g. `'mean'`, `'stacking'`
 
-- Regression: `mean`, `weighted_mean`, `stacking`, `gradientcobra`
+Supported aggregators:
+
+- Regression: `mean`, `weighted_mean`, `stacking`
 - Classification: `majority_vote`, `stacking`, `combine_classifier`
 
 ## Project Structure

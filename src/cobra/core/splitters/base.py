@@ -54,6 +54,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 
 from cobra.core.factory import BaseFactory
+from cobra.core.types import SplitIndices
 
 
 class BaseDataSplitter(ABC):
@@ -88,7 +89,9 @@ class BaseDataSplitter(ABC):
         self,
         x: ArrayLike,
         y: ArrayLike,
-    ) -> tuple[np.ndarray, np.ndarray]:
+        *,
+        groups: ArrayLike | None = None,
+    ) -> SplitIndices:
         """
         Split dataset into training and calibration indices.
 
@@ -100,11 +103,14 @@ class BaseDataSplitter(ABC):
         y : ArrayLike
             Target values.
 
+        groups : ArrayLike | None
+            Optional group labels for stratified splitting.
+        
         Returns
         -------
-        tuple[np.ndarray, np.ndarray]
-            - train_indices
-            - calibration_indices
+        Container with:
+            - train_idx
+            - eval_idx
 
         Raises
         ------
@@ -113,7 +119,7 @@ class BaseDataSplitter(ABC):
 
         Examples
         --------
-        >>> train_idx, calib_idx = splitter.split(X, y)
+        >>> split_indices = splitter.split(X, y)
         """
         raise NotImplementedError
 
@@ -136,6 +142,8 @@ class SplitterFactory(BaseFactory):
     --------
     >>> splitter = SplitterFactory.create("holdout")
 
-    >>> train_idx, calib_idx = splitter.split(X, y)
+    >>> split_indices = splitter.split(X, y)
+    >>> train_idx = split_indices.train_idx
+    >>> calib_idx = split_indices.eval_idx
     """
     pass
