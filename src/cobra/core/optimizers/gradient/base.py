@@ -146,7 +146,7 @@ class BaseGradientOptimizer(BaseOptimizer, ABC):
             
             # update state
             x = x_new
-            prev_grad = grad.copy()
+            prev_grad = grad_new.copy()
             grad = grad_new.copy()
 
             history.append({
@@ -163,7 +163,7 @@ class BaseGradientOptimizer(BaseOptimizer, ABC):
                     f"iter={t+1} | "
                     f"score={score:.4f} | "
                     f"grad={grad} | "
-                    f"lr={lr_t:.4f}"
+                    f"lr={lr_t:.6f}"
                 )
             
         return {
