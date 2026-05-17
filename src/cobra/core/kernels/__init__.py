@@ -79,15 +79,29 @@ from .base import (
 )
 
 from .builtin import (
-    IndicatorKernel,
-    LaplaceKernel,
-    RBFKernel,
+    ReverseCoshKernel,
+    ExponentialKernel,
+    RadialKernel,
+    CauchyKernel,
+    EpanechnikovKernel,
+    BiweightKernel,
+    TriweightKernel,
+    TriangularKernel,
+    NaiveKernel,
+    COBRAKernel
 )
 
 __all__ = [
     "BaseKernel",
     "KernelFactory",
-    "IndicatorKernel",
-    "RBFKernel",
-    "LaplaceKernel",
+    "ReverseCoshKernel",
+    "ExponentialKernel",
+    "RadialKernel",
+    "CauchyKernel",
+    "EpanechnikovKernel",
+    "BiweightKernel",
+    "TriweightKernel",
+    "TriangularKernel",
+    "NaiveKernel",
+    "COBRAKernel"
 ]
