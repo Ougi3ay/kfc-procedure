@@ -142,44 +142,66 @@ def data_split_overlap(
 
 
 def compute_normalization_constant(
-    data: np.ndarray,
-    norm_constant: Optional[float] = None,
-    scale_factor: float = 1.0,
-    M: int | None = None,
-) -> np.ndarray:
+    y: np.ndarray,
+    norm_constant: float | None = None,
+    scale_factor: float = 30.0,
+    M: int = 1,
+) -> float:
     """
-    Compute normalization constant for scaling numerical data.
+    Compute normalization constant.
 
-    This function computes a scaling factor used to normalize feature
-    or prediction magnitudes before distance computation.
+    The normalization constant is used to rescale prediction outputs
+    before distance computation in the aggregation space.
+
+    Formula
+    -------
+    c = scale_factor / (max(abs(y)) * M)
+
+    where:
+
+    - ``y`` is the target vector,
+    - ``M`` is the number of estimators,
+    - ``scale_factor`` controls the global scaling magnitude.
 
     Parameters
     ----------
-    data : np.ndarray
-        Input array to normalize.
+    y : np.ndarray
+        Target values used to compute the scaling factor.
 
-    norm_constant : float | None
-        Optional predefined normalization constant.
+    norm_constant : float | None, default=None
+        Optional predefined normalization numerator.
+        If provided, replaces ``scale_factor`` in the formula.
 
-    scale_factor : float, default=1.0
-        Scaling multiplier applied when norm_constant is None.
+    scale_factor : float, default=30.0
+        Default scaling numerator used when
+        ``norm_constant`` is not provided.
 
-    M : int | None
-        Optional model-dependent scaling factor.
+    M : int, default=1
+        Number of estimators used in the prediction space.
 
     Returns
     -------
-    np.ndarray
-        Computed normalization constant.
+    float
+        Normalization constant applied to prediction outputs.
 
     Notes
     -----
-    The returned value is inversely proportional to the maximum absolute
-    value of the input data, ensuring numerical stability.
+    The scaling is inversely proportional to the maximum absolute
+    target magnitude and the number of estimators, helping stabilize
+    distance computations in the aggregation space.
+
+    This follows the original GradientCOBRA normalization strategy:
+
+    ``predictions_scaled = predictions * c``
     """
-    M = M or 1.0
-    max_val = np.max(np.abs(data)) + 1e-12
-    c = norm_constant if norm_constant is not None else scale_factor
+    max_val = np.max(np.abs(y)) + 1e-12
+
+    c = (
+        norm_constant
+        if norm_constant is not None
+        else scale_factor
+    )
+
     return c / (max_val * M)
 
 def clean_sklearn_name(name: str) -> str:
