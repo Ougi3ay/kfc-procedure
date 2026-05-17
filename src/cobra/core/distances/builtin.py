@@ -70,6 +70,7 @@ from cobra.core.distances.base import (
     DistanceFactory,
 )
 from cobra.utils.distance import hamming_matrix_numba
+from scipy.spatial import distance_matrix
 
 
 @DistanceFactory.register("euclidean", "l2")
@@ -123,7 +124,7 @@ class EuclideanDistance(BaseDistance):
         y2 = np.sum(y ** 2, axis=1, keepdims=True).T
         xy = x @ y.T
 
-        return np.maximum(x2 + y2 - 2 * xy, 0.0)
+        return np.sqrt(np.maximum(x2 + y2 - 2 * xy, 0.0))
 
 
 @DistanceFactory.register("manhattan", "l1")
@@ -160,11 +161,7 @@ class ManhattanDistance(BaseDistance):
         x = np.asarray(x)
         y = np.asarray(y)
 
-        return np.sum(
-            np.abs(x[:, None, :] - y[None, :, :]),
-            axis=2,
-        )
-
+        return distance_matrix(x, y, p=1)
 
 @DistanceFactory.register("hamming")
 class HammingDistance(BaseDistance):
