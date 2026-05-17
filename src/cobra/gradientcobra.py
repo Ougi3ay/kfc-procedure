@@ -36,15 +36,12 @@ from cobra.core.losses.base import (
     LossFactory,
 )
 from cobra.core.optimizers.base import OptimizerFactory
-from cobra.core.spaces.base import (
-    BaseSpaceNormalizer,
-    SpaceNormalizerFactory,
-)
 
 from cobra.core.validators.base import (
     BaseCrossValidator,
     CVFactory
 )
+from cobra.utils.preprocessing import compute_normalization_constant
 from cobra.utils.resolve import (
     fit_estimators,
     predict_estimators,
@@ -123,21 +120,7 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
             estimators=self.estimators_,
             n_jobs=self.n_jobs
         )
-    
-    def _space_normalize(
-        self,
-        X,
-        prediction_space,
-    ):
-        normalizer: BaseSpaceNormalizer = SpaceNormalizerFactory.create(
-            "gradientcobra",
-            norm_constant=self.norm_constant,
-        )
-        return normalizer.transform(
-            X,
-            prediction_space,
-        )
-    
+
     def _resolve_components(self):
         self.distance_: BaseDistance = (
             DistanceFactory.create(
@@ -200,6 +183,7 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
             # np.ix_ creates a 2D indexing grid (rows = validation, columns = training)
             K_val_train = K[np.ix_(val_idx, train_idx)]
             y_train = self.y_l_[train_idx]
+            y_val = self.y_l_[val_idx]
 
             numerator = K_val_train @ y_train
             denominator = np.sum(K_val_train, axis=1)
@@ -211,8 +195,9 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
                     0.0,
                 )
 
-            error = self.loss_(self.y_l_[val_idx], pred_fold)
+            error = self.loss_(y_val, pred_fold)
             errors.append(error)
+        print(f"Cost : {errors}")
         return np.mean(errors)
 
     def _optimize_hyperparameters(self):
@@ -319,7 +304,7 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         split_ratio=0.5,
         overlap=0.0,
         as_predictions=False,
-    ):
+    ):  
         ctx = resolve_training_context(
             X,
             y,
@@ -348,9 +333,18 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         else:
             prediction_space = self.X_l_
         
-        self.X_l_norm_, self.Y_l_norm_ = self._space_normalize(
-            self.X_l_,
-            prediction_space,
+        self.normalize_constant_ = (
+            compute_normalization_constant(
+                y=y,
+                norm_constant=self.norm_constant,
+                scale_factor=30.0,
+                M=prediction_space.shape[1]
+            )
+        )
+        
+        self.Y_l_norm_ = (
+            prediction_space
+            * self.normalize_constant_
         )
 
         self._resolve_components()
@@ -360,7 +354,7 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
             self.Y_l_norm_
         )
 
-        self.cv_folds_ = list(self.cv_.split(self.X_l_norm_, self.Y_l_norm_))
+        self.cv_folds_ = list(self.cv_.split(self.X_l_, self.Y_l_norm_))
 
         self._optimize_hyperparameters()
 
@@ -375,9 +369,9 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         else:
             prediction_space = self._load_predictions(X)
         
-        X_norm, Y_norm = self._space_normalize(
-            X,
-            prediction_space,
+        Y_norm = (
+            prediction_space
+            * self.normalize_constant_
         )
 
         distance_matrix = self.distance_.matrix(
