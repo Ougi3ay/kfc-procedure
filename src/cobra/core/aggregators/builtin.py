@@ -45,6 +45,26 @@ class WeightedMeanAggregator(BaseAggregator):
 
         return float(np.dot(vals, w) / w_sum)
 
+    def aggregate_matrix(self, values, weights, fallback=None, **kwargs):
+        V = np.asarray(values)
+        W = np.asarray(weights)
+
+        if fallback is None:
+            fallback = np.mean(V)
+        
+        mask = np.isfinite(W)
+        W = np.where(mask, W, 0.0)
+
+        denom = np.sum(W, axis=1)
+        numer = W @ V
+
+        return np.divide(
+            numer,
+            denom,
+            out=np.full_like(denom, fallback, dtype=float),
+            where=denom != 0,
+        )
+
 
 @AggregatorFactory.register("weighted_vote")
 class WeightedVoteAggregator(BaseAggregator):
