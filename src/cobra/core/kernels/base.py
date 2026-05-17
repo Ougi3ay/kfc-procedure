@@ -47,132 +47,81 @@ Examples
 >>> weights = kernel(distance_matrix)
 """
 
+
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Dict, Any, Literal
+
+import numpy as np
 
 from cobra.core.factory import BaseFactory
 
 
 class BaseKernel(ABC):
     """
-    Abstract base class for kernel functions.
+    Base class for all COBRA kernel functions.
 
-    Kernels transform distance values into similarity weights used
-    for neighbor influence modeling in the COBRA pipeline.
+    Kernels convert distance matrices into similarity weights used
+    for aggregation in the COBRA / GradientCOBRA pipeline.
 
-    Parameters
-    ----------
-    **kwargs : dict
-        Kernel hyperparameters (e.g., bandwidth, gamma).
+    Two orthogonal concepts are supported:
 
-    Attributes
-    ----------
-    params : dict
-        Stored kernel configuration parameters.
+    1. mode:
+        - continuous: smooth weighting (RBF, Laplace)
+        - discrete: hard selection (Indicator, COBRA voting)
 
-    Notes
-    -----
-    Subclasses must implement the ``__call__`` method.
-
-    Kernels are typically used after the kernel adapter stage.
-
-    Examples
-    --------
-    >>> class LinearKernel(BaseKernel):
-    ...     def __call__(self, x):
-    ...         return 1 - x
+    2. requires_grad:
+        - whether kernel supports gradient-based optimization
     """
-    requires_grad = True
+
+    requires_grad: bool = True
+    mode: str = "continuous"  # continuous | compact | discrete
 
     def __init__(self, **kwargs):
+        self.params: Dict[str, Any] = dict(kwargs)
+
+        for k, v in self.params.items():
+            setattr(self, k, v)
+
+    def set_params(self, **params) -> "BaseKernel":
         """
-        Initialize kernel with hyperparameters.
-
-        Parameters
-        ----------
-        **kwargs : dict
-            Kernel configuration parameters.
+        Update kernel hyperparameters.
         """
-        self.params = dict(kwargs)
-
-        for key, value in self.params.items():
-            setattr(self, key, value)
-
-    def set_params(self, **params):
-        """
-        Update kernel parameters.
-
-        Parameters
-        ----------
-        **params : dict
-            Parameters to update.
-
-        Returns
-        -------
-        BaseKernel
-            Returns self for method chaining.
-
-        Examples
-        --------
-        >>> kernel.set_params(gamma=0.1)
-        """
-        for key, value in params.items():
-            setattr(self, key, value)
-            self.params[key] = value
-
+        for k, v in params.items():
+            setattr(self, k, v)
+            self.params[k] = v
         return self
 
-    def get_params(self, deep=True):
+    def get_params(self, deep: bool = True) -> Dict[str, Any]:
         """
-        Return kernel parameters.
-
-        Parameters
-        ----------
-        deep : bool, default=True
-            Included for sklearn compatibility.
-
-        Returns
-        -------
-        dict
-            Kernel parameter dictionary.
-
-        Examples
-        --------
-        >>> kernel.get_params()
-        {'gamma': 0.5}
+        Return kernel parameters (sklearn-compatible).
         """
         return dict(self.params)
 
     @abstractmethod
-    def __call__(self, *args, **kwargs):
+    def __call__(self, D: np.ndarray) -> np.ndarray:
         """
-        Compute the kernel transformation on distance matrices.
+        Transform distance matrix into similarity weights.
 
         Parameters
         ----------
-        distances : array-like
-            One or more distance matrices. Typical shape is
-            ``(n_queries, n_references)`` for a pairwise distance from a
-            set of query samples to reference samples. Some kernels accept a
-            single square distance matrix of shape ``(n_samples, n_samples)``.
+        D : np.ndarray
+            Distance matrix of shape (n_samples, n_samples)
+            or (n_queries, n_references)
 
         Returns
         -------
         np.ndarray
-            Kernel-weighted similarity matrix. Output shape matches the
-            primary distance input, typically ``(n_queries, n_references)``.
-
-        Raises
-        ------
-        NotImplementedError
-            Must be implemented by subclasses.
-
-        Examples
-        --------
-        >>> weights = kernel(distances)
+            Kernel weight matrix (same shape as D input).
         """
         raise NotImplementedError
+
+    def is_continuous(self) -> bool:
+        return self.mode == "continuous"
+
+    def is_discrete(self) -> bool:
+        return self.mode == "discrete"
 
 
 class KernelFactory(BaseFactory):

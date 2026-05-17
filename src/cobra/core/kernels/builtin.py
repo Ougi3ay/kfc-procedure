@@ -22,21 +22,6 @@ These kernels control:
 - robustness to noise
 - locality of the estimator pool
 
-Kernel types
-------------
-
-1. IndicatorKernel (hard kernel)
-
-    Produces binary weights based on a distance threshold.
-
-2. RBFKernel (Gaussian kernel)
-
-    Smooth exponential decay based on squared distance.
-
-3. LaplaceKernel
-
-    Exponential decay based on absolute distance.
-
 Design goal
 -----------
 These kernels provide interchangeable weighting strategies for:
@@ -53,166 +38,94 @@ Examples
 
 from __future__ import annotations
 
+from cycler import V
 import numpy as np
 
 from .base import BaseKernel, KernelFactory
 
+@KernelFactory.register("reverse_cosh")
+class ReverseCoshKernel(BaseKernel):
+    requires_grad = True
+    mode = "continuous"
 
-@KernelFactory.register("indicator", "hard")
-class IndicatorKernel(BaseKernel):
-    """
-    Hard threshold kernel (indicator function).
+    def __init__(self, exponent: float = 1.0):
+        super().__init__(exponent=exponent)
 
-    This kernel assigns binary weights based on whether distances
-    are below a given threshold.
+    def __call__(self, D):
+        return 1.0 / (np.cosh(D) ** self.exponent)
 
-    Mathematical form
-    -----------------
-    K(D) = 1 if D < threshold else 0
+@KernelFactory.register("exponential")
+class ExponentialKernel(BaseKernel):
+    requires_grad = True
+    mode = "continuous"
+    def __init__(self, exponent: float = 1.0):
+        super().__init__(exponent=exponent)
 
-    Parameters
-    ----------
-    threshold : float, default=0.5
-        Maximum distance allowed to be considered a neighbor.
+    def __call__(self, D):
+        return np.exp(-(D ** self.exponent))
 
-    Notes
-    -----
-    This kernel performs hard selection of neighbors and is often used
-    in strict COBRA variants.
+@KernelFactory.register("radial", "gaussian", "rbf")
+class RadialKernel(BaseKernel):
+    requires_grad = True
+    mode = "continuous"
+    def __call__(self, D):
+        return np.exp(-D)
 
-    Examples
-    --------
-    >>> kernel = IndicatorKernel(threshold=0.3)
-    >>> weights = kernel(D)
-    """
+@KernelFactory.register("cauchy")
+class CauchyKernel(BaseKernel):
+    requires_grad = True
+    mode = "continuous"
+    def __call__(self, D):
+        return 1.0 / (1.0 + D)
+
+@KernelFactory.register("epanechnikov")
+class EpanechnikovKernel(BaseKernel):
+    mode = "compact"
     requires_grad = False
-    
+
+    def __call__(self, D):
+        return np.where(D < 1.0, 1.0 - D, 0.0)
+
+@KernelFactory.register("biweight")
+class BiweightKernel(BaseKernel):
+    mode = "compact"
+    requires_grad = False
+
+    def __call__(self, D):
+        return np.where(D < 1.0, (1.0 - D) ** 2, 0.0)
+
+@KernelFactory.register("triweight")
+class TriweightKernel(BaseKernel):
+    mode = "compact"
+    requires_grad = False
+
+    def __call__(self, D):
+        return np.where(D < 1.0, (1.0 - D) ** 3, 0.0)
+
+@KernelFactory.register("triangular")
+class TriangularKernel(BaseKernel):
+    mode = "compact"
+    requires_grad = False
+
+    def __call__(self, D):
+        return np.where(D < 1.0, 1.0 - np.abs(D), 0.0)
+
+@KernelFactory.register("naive")
+class NaiveKernel(BaseKernel):
+    mode = "discrete"
+    requires_grad = False
+
+    def __call__(self, D):
+        return D
+
+@KernelFactory.register("cobra")
+class COBRAKernel(BaseKernel):
+
+    mode = "discrete"
+    requires_grad = False
+
     def __init__(self, threshold: float = 0.5):
-        """
-        Initialize indicator kernel.
+        super().__init__(threshold=threshold)
 
-        Parameters
-        ----------
-        threshold : float, default=0.5
-            Distance cutoff for neighbor selection.
-        """
-        super().__init__()
-        self.threshold = threshold
-
-    def __call__(self, D: np.ndarray) -> np.ndarray:
-        """
-        Compute binary kernel weights.
-
-        Parameters
-        ----------
-        D : np.ndarray
-            Distance matrix.
-
-        Returns
-        -------
-        np.ndarray
-            Binary weight matrix.
-        """
+    def __call__(self, D):
         return (D < self.threshold).astype(float)
-
-
-@KernelFactory.register("rbf", "gaussian")
-class RBFKernel(BaseKernel):
-    """
-    Radial Basis Function (Gaussian) kernel.
-
-    This kernel applies smooth exponential decay to distances,
-    favoring closer neighbors.
-
-    Mathematical form
-    -----------------
-    K(D) = exp(-gamma × D)
-
-    Parameters
-    ----------
-    gamma : float, default=1.0
-        Controls decay rate (higher = sharper locality).
-
-    Notes
-    -----
-    One of the most commonly used kernels in COBRA-style methods.
-
-    Examples
-    --------
-    >>> kernel = RBFKernel(gamma=0.5)
-    >>> weights = kernel(D)
-    """
-
-    def __init__(self, gamma: float = 1.0):
-        """
-        Initialize RBF kernel.
-
-        Parameters
-        ----------
-        gamma : float, default=1.0
-            Kernel bandwidth parameter.
-        """
-        super().__init__()
-        self.gamma = gamma
-
-    def __call__(self, D: np.ndarray) -> np.ndarray:
-        """
-        Compute Gaussian kernel weights.
-
-        Returns
-        -------
-        np.ndarray
-            Smooth similarity weights.
-        """
-        return np.exp(-self.gamma * D)
-
-
-@KernelFactory.register("laplace")
-class LaplaceKernel(BaseKernel):
-    """
-    Laplace kernel (exponential L1 decay).
-
-    This kernel applies exponential decay based on absolute distance,
-    producing heavier tails than Gaussian kernels.
-
-    Mathematical form
-    -----------------
-    K(D) = exp(-gamma × |D|)
-
-    Parameters
-    ----------
-    gamma : float, default=1.0
-        Decay control parameter.
-
-    Notes
-    -----
-    More robust to outliers compared to Gaussian kernel.
-
-    Examples
-    --------
-    >>> kernel = LaplaceKernel(gamma=0.8)
-    >>> weights = kernel(D)
-    """
-
-    def __init__(self, gamma: float = 1.0):
-        """
-        Initialize Laplace kernel.
-
-        Parameters
-        ----------
-        gamma : float, default=1.0
-            Decay rate parameter.
-        """
-        super().__init__()
-        self.gamma = gamma
-
-    def __call__(self, D: np.ndarray) -> np.ndarray:
-        """
-        Compute Laplace kernel weights.
-
-        Returns
-        -------
-        np.ndarray
-            Exponentially decayed similarity matrix.
-        """
-        return np.exp(-self.gamma * np.abs(D))
