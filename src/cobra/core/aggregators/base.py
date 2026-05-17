@@ -94,37 +94,26 @@ class BaseAggregator(ABC):
         self,
         values: ArrayLike,
         weights: ArrayLike,
-        fallback: float | ArrayLike = 0.0,
+        fallback: float | None = None,
         **kwargs,
     ) -> np.ndarray:
-
+        """
+        Default safe implementation (loop fallback).
+        """
         V = np.asarray(values)
         W = np.asarray(weights)
 
-        # ensure 2D safety
-        if V.ndim == 1:
-            V = np.tile(V, (W.shape[0], 1))
+        n_queries = W.shape[0]
 
-        mask = np.isfinite(W)
-        W = np.where(mask, W, 0.0)
-
-        denom = np.sum(W, axis=1)
-        numer = W @ V
-
-        # fallback logic
-        if np.isscalar(fallback):
-            fallback_vec = np.full(numer.shape, fallback, dtype=float)
-        else:
-            fallback_vec = np.asarray(fallback)
-
-        out = np.divide(
-            numer,
-            denom[:, None] if numer.ndim == 2 else denom,
-            out=fallback_vec,
-            where=denom[:, None] != 0 if numer.ndim == 2 else denom != 0,
-        )
-
-        return out
+        return np.array([
+            self.aggregate(
+                values=V,
+                weights=W[i],
+                fallback=fallback,
+                **kwargs
+            )
+            for i in range(n_queries)
+        ])
 
     def aggregate_proba(
         self,
