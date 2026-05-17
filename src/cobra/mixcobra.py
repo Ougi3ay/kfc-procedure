@@ -30,6 +30,7 @@ from cobra.core.optimizers.base import OptimizerFactory
 from cobra.core.spaces.base import SpaceNormalizerFactory
 from cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
 from cobra.core.validators.base import BaseCrossValidator, CVFactory
+from cobra.utils.preprocessing import compute_normalization_constant
 from cobra.utils.resolve import fit_estimators, predict_estimators, resolve_training_context
 
 class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
@@ -305,19 +306,18 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 
 			K_val_train = K[np.ix_(val_idx, train_idx)]
 			y_train = self.y_l_[train_idx]
+			y_val = self.y_l_[val_idx]
 
-			numerator = K_val_train @ y_train
-			denominator = np.sum(K_val_train, axis=1)
+			preds = self.aggregator_.aggregate_matrix(
+                values=y_train,
+                weights=K_val_train,
+                fallback=0.0
+            )
 
-			with np.errstate(divide='ignore', invalid='ignore'):
-				pred_fold = np.where(
-					denominator > 0,
-					numerator / denominator,
-					0.0
-				)
-			error = self.loss_(self.y_l_[val_idx], pred_fold)
+			error = self.loss_(y_val, preds)
 			errors.append(error)
-		return np.mean(errors)
+		
+		return float(np.mean(errors))
 	
 	def kappa_cross_validation_error_2d(self, params):
 		alpha, beta = params
@@ -334,17 +334,15 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 
 			K_val_train = K[np.ix_(val_idx, train_idx)]
 			y_train = self.y_l_[train_idx]
+			y_val = self.y_l_[val_idx]
 
-			numerator = K_val_train @ y_train
-			denominator = np.sum(K_val_train, axis=1)
+			preds = self.aggregator_.aggregate_matrix(
+                values=y_train,
+                weights=K_val_train,
+                fallback=0.0
+            )
 
-			with np.errstate(divide='ignore', invalid='ignore'):
-				pred_fold = np.where(
-					denominator > 0,
-					numerator / denominator,
-					0.0
-				)
-			error = self.loss_(self.y_l_[val_idx], pred_fold)
+			error = self.loss_(y_val, preds)
 			errors.append(error)
 		return np.mean(errors)
 
@@ -544,6 +542,7 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		self.X_l_ = ctx.X_l
 		self.y_l_ = ctx.y_l
 		self.as_predictions_ = ctx.as_predictions
+		self.global_mean_ = float(np.mean(self.y_l_))
 
 		if not self.as_predictions_:
 			self.estimators_ = self._fit_estimators(self.X_k_, self.y_k_)
@@ -551,10 +550,28 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		else:
 			prediction_space = self.X_l_
 		
-		self.X_l_norm_, self.Y_l_norm_ = self._space_normalize(
-			self.X_l_,
-			prediction_space
+		self.normalize_constant_x_ = (
+			compute_normalization_constant(
+				X,
+				norm_constant=self.norm_constant_x,
+				scale_factor=5.0,
+				M=prediction_space.shape[1]
+			)
+		) 
+		self.normalize_constant_y_ = (
+			compute_normalization_constant(
+				y,
+				norm_constant=self.norm_constant_y,
+				scale_factor=50.0,
+				M=prediction_space.shape[1]
+			)
 		)
+		self.X_l_norm_ = self.X_l_ * self.normalize_constant_x_
+		self.Y_l_norm_ = (
+			prediction_space
+			* self.normalize_constant_y_
+		)
+		
 
 		self._resolve_component()
 
@@ -681,13 +698,11 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 			D = self.adapter_.transform(dist_x, dist_y)
 		
 		K = self.kernel_(D)
-		outputs = np.empty(K.shape[0], dtype=float)
 
-		for i in range(K.shape[0]):
-			w = K[i]
-			if np.allclose(w.sum(), 0.0):
-				outputs[i] = np.mean(self.y_l_)
-			else:
-				outputs[i] = self.aggregator_.aggregate(self.y_l_, w)
+		preds = self.aggregator_.aggregate_matrix(
+            values=self.y_l_,
+            weights=K,
+            fallback=self.global_mean_,
+        )
 
-		return outputs
+		return preds
