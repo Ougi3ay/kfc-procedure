@@ -66,7 +66,7 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         optimizer_params: dict[str, Any] | None = None,
         opt_method: str = "grid",
         bandwidth_list: np.ndarray | None = None,
-        learning_rate: float = 0.01,
+        learning_rate: float = 0.1,
         max_iter: int = 300,
         n_cv: int = 5,
         norm_constant: float | None = None,
@@ -167,38 +167,34 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         )
     
     def kappa_cross_validation_error(self, params):
-        bandwidth = float(
-            np.atleast_1d(params)[0]
-        )
-
+        bandwidth = float(np.atleast_1d(params)[0])
+        
         self.adapter_.set_params(bandwidth=bandwidth)
+
         D = self.adapter_.transform(self.distance_matrix_)
         K = self.kernel_(D)
+
         errors = []
 
         for fold in self.cv_folds_:
             train_idx = fold.train_idx
             val_idx = fold.eval_idx
 
-            # np.ix_ creates a 2D indexing grid (rows = validation, columns = training)
             K_val_train = K[np.ix_(val_idx, train_idx)]
+
             y_train = self.y_l_[train_idx]
             y_val = self.y_l_[val_idx]
 
-            numerator = K_val_train @ y_train
-            denominator = np.sum(K_val_train, axis=1)
+            preds = self.aggregator_.aggregate_matrix(
+                values=y_train,
+                weights=K_val_train,
+                fallback=0.0
+            )
 
-            with np.errstate(divide="ignore", invalid="ignore"):
-                pred_fold = np.where(
-                    denominator > 0,
-                    numerator / denominator,
-                    0.0,
-                )
-
-            error = self.loss_(y_val, pred_fold)
+            error = self.loss_(y_val, preds)
             errors.append(error)
-        print(f"Cost : {errors}")
-        return np.mean(errors)
+        return float(np.mean(errors))
+
 
     def _optimize_hyperparameters(self):
 
@@ -320,6 +316,7 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         self.X_l_ = ctx.X_l
         self.y_l_ = ctx.y_l
         self.as_predictions_ = ctx.as_predictions
+        self.global_mean_ = float(np.mean(self.y_l_))
 
         if not self.as_predictions_:
             self.estimators_ = self._fit_estimators(
@@ -384,18 +381,11 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
         D = self.adapter_.transform(distance_matrix)
         K = self.kernel_(D)
 
-        preds = np.empty(K.shape[0], dtype=float)
-
-        for i in range(K.shape[0]):
-            w = K[i]
-            
-            if np.sum(w) <= 0:
-                preds[i] = np.mean(self.y_l_)
-            else:
-                preds[i] = self.aggregator_.aggregate(
-                    values=self.y_l_,
-                    weights=w
-                )
+        preds = self.aggregator_.aggregate_matrix(
+            values=self.y_l_,
+            weights=K,
+            fallback=self.global_mean_,
+        )
 
         return preds
 
