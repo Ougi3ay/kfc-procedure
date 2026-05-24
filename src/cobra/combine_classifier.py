@@ -243,12 +243,12 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         return self
 
-    def predict(self, X, pred_X=None):
+    def predict(self, X):
 
         X = check_array(X)
 
-        if pred_X is not None:
-            preds_space = check_array(pred_X)
+        if self.as_predictions_:
+            preds_space = X
         else:
             preds_space = self._load_predictions(X)
 
@@ -274,12 +274,12 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         return np.array(outputs)
 
-    def predict_proba(self, X, pred_X=None):
+    def predict_proba(self, X):
 
         X = check_array(X)
 
-        if pred_X is not None:
-            preds_space = check_array(pred_X)
+        if self.as_predictions_:
+            preds_space = X
         else:
             preds_space = self._load_predictions(X)
 
@@ -329,10 +329,10 @@ class CombineClassifierFast(CombineClassifier):
 
         return self
     
-    def predict(self, X, pred_X):
+    def predict(self, X):
         X = check_array(X)
-        if pred_X is not None:
-            preds = pred_X
+        if self.as_predictions_:
+            preds = X
         else:
             preds = self._load_predictions(X).astype(np.float32)
 
