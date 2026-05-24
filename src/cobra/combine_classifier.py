@@ -243,10 +243,14 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         return self
 
-    def predict(self, X):
+    def predict(self, X, pred_X=None):
 
         X = check_array(X)
-        preds_space = X if self.as_predictions_ else self._load_predictions(X)
+
+        if pred_X is not None:
+            preds_space = check_array(pred_X)
+        else:
+            preds_space = self._load_predictions(X)
 
         distance_matrix = self.distance_.matrix(preds_space, self.pred_l_)
 
@@ -270,11 +274,14 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         return np.array(outputs)
 
-    def predict_proba(self, X):
+    def predict_proba(self, X, pred_X=None):
 
         X = check_array(X)
 
-        preds_space = X if self.as_predictions_ else self._load_predictions(X)
+        if pred_X is not None:
+            preds_space = check_array(pred_X)
+        else:
+            preds_space = self._load_predictions(X)
 
         distance_matrix = self.distance_.matrix(preds_space, self.pred_l_)
 
@@ -322,9 +329,12 @@ class CombineClassifierFast(CombineClassifier):
 
         return self
     
-    def predict(self, X):
+    def predict(self, X, pred_X):
         X = check_array(X)
-        preds = self._load_predictions(X).astype(np.float32)
+        if pred_X is not None:
+            preds = pred_X
+        else:
+            preds = self._load_predictions(X).astype(np.float32)
 
         if self.use_faiss and HAS_FAISS and hasattr(self, 'faiss_index_'):
             # Find k nearest neighbors
@@ -351,9 +361,12 @@ class CombineClassifierFast(CombineClassifier):
         else:
             return super().predict(X)
     
-    def predict_proba(self, X):
+    def predict_proba(self, X, pred_X):
         X = check_array(X)
-        preds = self._load_predictions(X).astype(np.float32)
+        if pred_X is not None:
+            preds = pred_X
+        else:
+            preds = self._load_predictions(X).astype(np.float32)
 
         if self.use_faiss and HAS_FAISS and hasattr(self, 'faiss_index_'):
             k = self.faiss_k or min(100, len(self.pred_l_))
