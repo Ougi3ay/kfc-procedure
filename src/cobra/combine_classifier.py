@@ -15,6 +15,7 @@ from cobra.core.kernels.base import BaseKernel, KernelFactory
 from cobra.core.losses.base import BaseLoss, LossFactory
 from cobra.core.optimizers.base import OptimizerFactory
 from cobra.core.validators.base import BaseCrossValidator, CVFactory
+from cobra.utils.preprocessing import history_to_dataframe
 from cobra.utils.resolve import fit_estimators, predict_estimators, resolve_training_context
 
 try:
@@ -153,12 +154,17 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         self.bandwidth_ = float(np.atleast_1d(result["x"])[0])
 
+        # arrange data
+        history_df = history_to_dataframe(
+            result["history"],
+            param_names=["bandwidth"],
+        )
         self.optimization_outputs_ = {
             "method": "grid",
             "optimizer": self.optimizer,
             "bandwidth": self.bandwidth_,
             "score": result["score"],
-            "history": result["history"],
+            "history": history_df,
         }
 
     def kappa_cross_validation_error(self, params):
