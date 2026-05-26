@@ -13,12 +13,13 @@ Supported strategies
 """
 
 from __future__ import annotations
+from collections import Counter
 
 import numpy as np
 from abc import ABC
 
 from sklearn.base import BaseEstimator, clone
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import LinearRegression, LogisticRegression
 
 from kfc_procedure.core.combiner import BaseCombiner
 from kfc_procedure.core.combiner.base import CombinerFactory
@@ -74,7 +75,7 @@ class WeightedMeanCombiner(BaseCombiner):
         return self.model.predict(X)
 
 
-@CombinerFactory.register("stacking", categories={"regression"})
+@CombinerFactory.register("stacking_regressor", categories={"regression"})
 class StackingCombiner(BaseCombiner):
     """
     Meta-learning combiner using a regression model.
@@ -110,32 +111,6 @@ class StackingCombiner(BaseCombiner):
         X = np.asarray(X)
         return self.meta_model_.predict(X)
 
-"""
-Classification combiner strategies.
-
-These combiners merge predictions from multiple base classifiers
-during the C-step into a final ensemble decision.
-
-Supported strategies
---------------------
-
-"majority_vote" – row-wise mode across classifier predictions
-"stacking"      – meta-classifier trained on prediction matrix
-"""
-
-from __future__ import annotations
-
-import numpy as np
-
-from abc import ABC
-from collections import Counter
-
-from sklearn.base import BaseEstimator, clone
-from sklearn.linear_model import LogisticRegression
-
-from kfc_procedure.core.combiner import BaseCombiner
-
-
 @CombinerFactory.register("majority_vote", categories={"classification"})
 class MajorityVoteCombiner(BaseCombiner):
     """
@@ -165,7 +140,7 @@ class MajorityVoteCombiner(BaseCombiner):
     def predict(self, X: np.ndarray) -> np.ndarray:
         return self.combine(X)
 
-@CombinerFactory.register("stacking", categories={"classification"})
+@CombinerFactory.register("stacking_classifier", categories={"classification"})
 class StackingClassifierCombiner(BaseCombiner):
     """
     Meta-classifier trained on prediction matrix.
