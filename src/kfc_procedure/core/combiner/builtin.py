@@ -21,6 +21,9 @@ from abc import ABC
 from sklearn.base import BaseEstimator, clone
 from sklearn.linear_model import LinearRegression, LogisticRegression
 
+from cobra.combine_classifier import CombineClassifier
+from cobra.gradientcobra import GradientCOBRA
+from cobra.mixcobra import MixCOBRARegressor
 from kfc_procedure.core.combiner import BaseCombiner
 from kfc_procedure.core.combiner.base import CombinerFactory
 
@@ -111,6 +114,37 @@ class StackingCombiner(BaseCombiner):
         X = np.asarray(X)
         return self.meta_model_.predict(X)
 
+@CombinerFactory.register("gradientcobra", categories={"regression"})
+class GradientCOBRACombiner(BaseCombiner):
+    def __init__(
+        self,
+        **cobra_params
+    ):
+        self.cobra = GradientCOBRA(**cobra_params)
+    
+    def fit(self, X: np.ndarray, y: np.ndarray):
+        self.cobra.fit(X, y)
+        return self
+    
+    def combine(self, X: np.ndarray) -> np.ndarray:
+        return self.cobra.predict(X)
+
+@CombinerFactory.register("mixcobra", categories={"regression"})
+class GradientCOBRACombiner(BaseCombiner):
+    def __init__(
+        self,
+        **cobra_params
+    ):
+        self.cobra = MixCOBRARegressor(**cobra_params)
+    
+    def fit(self, X: np.ndarray, y: np.ndarray):
+        self.cobra.fit(X, y)
+        return self
+    
+    def combine(self, X: np.ndarray) -> np.ndarray:
+        return self.cobra.predict(X)
+    
+
 @CombinerFactory.register("majority_vote", categories={"classification"})
 class MajorityVoteCombiner(BaseCombiner):
     """
@@ -179,3 +213,20 @@ class StackingClassifierCombiner(BaseCombiner):
     def predict(self, X: np.ndarray) -> np.ndarray:
         return self.combine(X)
 
+@CombinerFactory.register("combiner_classifier", categories={"classification"})
+class CobraClassifierCombiner(BaseCombiner):
+    def __init__(
+        self,
+        **cobra_params
+    ):
+        self.cobra = CombineClassifier(**cobra_params)
+    
+    def fit(self, X: np.ndarray, y: np.ndarray):
+        self.cobra.fit(X, y)
+        return self
+    
+    def combine(self, X: np.ndarray) -> np.ndarray:
+        return self.cobra.predict(X)
+    
+    def predict_proba(self, X: np.ndarray) -> np.ndarray:
+        return self.cobra.predict_proba(X)
