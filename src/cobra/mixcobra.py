@@ -664,12 +664,8 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		if pred_X is None:
 			pred_X = self._load_predictions(X)
 
-		X_norm, Y_norm = (
-            self._space_normalize(
-                X,
-                pred_X,
-            )
-        )
+		X_norm = X * self.normalize_constant_x_
+		Y_norm = pred_X * self.normalize_constant_y_
 
 		if self.one_parameter:
 			bandwidth = (
