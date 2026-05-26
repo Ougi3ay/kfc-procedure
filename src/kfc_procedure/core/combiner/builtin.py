@@ -123,7 +123,7 @@ class GradientCOBRACombiner(BaseCombiner):
         self.cobra = GradientCOBRA(**cobra_params)
     
     def fit(self, X: np.ndarray, y: np.ndarray):
-        self.cobra.fit(X, y)
+        self.cobra.fit(X, y, as_predictions=True)
         return self
     
     def combine(self, X: np.ndarray) -> np.ndarray:
@@ -138,7 +138,7 @@ class GradientCOBRACombiner(BaseCombiner):
         self.cobra = MixCOBRARegressor(**cobra_params)
     
     def fit(self, X: np.ndarray, y: np.ndarray):
-        self.cobra.fit(X, y)
+        self.cobra.fit(X, y, as_predictions=True)
         return self
     
     def combine(self, X: np.ndarray) -> np.ndarray:
@@ -222,7 +222,7 @@ class CobraClassifierCombiner(BaseCombiner):
         self.cobra = CombineClassifier(**cobra_params)
     
     def fit(self, X: np.ndarray, y: np.ndarray):
-        self.cobra.fit(X, y)
+        self.cobra.fit(X, y, as_predictions=True)
         return self
     
     def combine(self, X: np.ndarray) -> np.ndarray:
