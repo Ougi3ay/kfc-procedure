@@ -2,152 +2,105 @@
 C-step aggregation layer for the KFC pipeline.
 
 The C-step aggregates the held-out prediction matrix produced by F-step
-into final outputs. It supports both regression and classification
-aggregation strategies and can be configured by name through a dictionary.
+into final outputs using a configurable combiner strategy.
 """
 
 from __future__ import annotations
+
 from typing import Dict, Union
 import numpy as np
+
 from sklearn.base import BaseEstimator
 from sklearn.utils.validation import check_is_fitted
 
-from kfc_procedure.core.aggregations.base import (
-    AggregationClassifierFactory,
-    AggregationRegressorFactory,
-    BaseAggregationClassifier,
-    BaseAggregationRegressor
-)
+from kfc_procedure.core.combiner.base import BaseCombiner, CombinerFactory
 
 
 class CStep(BaseEstimator):
-    """Aggregation step.
+    """
+    C-step: Combines divergence-level predictions into final output.
 
-    The C-step combines divergence-specific predictions into a final ensemble
-    prediction.
-
-    Parameters
-    ----------
-    aggregation : str or BaseAggregationRegressor or BaseAggregationClassifier
-        Aggregation strategy identifier or instance.
-    aggregation_param : dict
-        Parameters passed to aggregation strategy builder.
-    task : str
-        Either ``"regression"`` or ``"classification"``.
+    This layer selects and applies a combiner strategy such as:
+    - mean
+    - weighted_mean
+    - stacking
+    - majority_vote
     """
 
     def __init__(
         self,
-        aggregation: Union[str, BaseAggregationRegressor, BaseAggregationClassifier],
-        aggregation_param: Dict,
-        task: str,
+        combiner: Union[str, BaseCombiner],
+        combiner_params: Dict = None,
+        task: str = "regression",
     ):
-        self.aggregation = aggregation
-        self.aggregation_param = aggregation_param
+        self.combiner = combiner
+        self.combiner_params = combiner_params or {}
         self.task = task
 
+    # -----------------------------------------------------
+    # Fit
+    # -----------------------------------------------------
     def fit(self, X: np.ndarray, y: np.ndarray):
-        """Fit the aggregation strategy.
-
-        Parameters
-        ----------
-        X : ndarray
-            Feature matrix of divergence-level predictions.
-        y : ndarray
-            Target values.
-
-        Returns
-        -------
-        self : CStep
-            The fitted C-step instance.
         """
-        self.strategy_ = self._build_aggregation()
+        Fit the combiner strategy.
+        """
+        self.strategy_ = self._build_combiner()
         self.strategy_.fit(X, y)
         return self
 
+    # -----------------------------------------------------
+    # Predict
+    # -----------------------------------------------------
     def predict(self, X: np.ndarray) -> np.ndarray:
-        """Predict final outputs using the aggregation strategy.
-
-        Parameters
-        ----------
-        X : ndarray
-            Feature matrix of divergence-level predictions.
-
-        Returns
-        -------
-        ndarray
-            Aggregated predictions.
+        """
+        Predict final aggregated outputs.
         """
         check_is_fitted(self, "strategy_")
         return self.strategy_.predict(X)
 
+
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
-        """Predict class probabilities using the aggregation strategy.
-
-        Parameters
-        ----------
-        X : ndarray
-            Feature matrix of divergence-level predictions.
-
-        Returns
-        -------
-        ndarray
-            Aggregated class probabilities.
-
-        Raises
-        ------
-        AttributeError
-            If the task is not classification or the aggregation strategy does
-            not support prediction probabilities.
+        """
+        Predict class probabilities (classification only).
         """
         if self.task != "classification":
             raise AttributeError("predict_proba only available for classification")
 
+        check_is_fitted(self, "strategy_")
+
         if hasattr(self.strategy_, "predict_proba"):
             return self.strategy_.predict_proba(X)
 
-        raise AttributeError("Aggregation does not support predict_proba")
+        raise AttributeError(
+            f"{type(self.strategy_).__name__} does not support predict_proba"
+        )
 
-    def _build_aggregation(self):
+    def _build_combiner(self):
         """
-        Build aggregation strategy based on task type.
-
-        Returns
-        -------
-        BaseEstimator
-            Aggregation strategy instance.
-
-        Raises
-        ------
-        ValueError
-            If aggregation name is invalid for the selected task.
+        Build combiner strategy from registry.
         """
 
-        if not isinstance(self.aggregation, str):
-            return self.aggregation
+        # already an instance
+        if not isinstance(self.combiner, str):
+            return self.combiner
 
-        name = self.aggregation
+        name = self.combiner.lower()
 
-        if self.task == "regression":
-            if name in AggregationRegressorFactory.available():
-                return AggregationRegressorFactory.create(
-                    name, **self.aggregation_param
-                )
-
+        # check existence
+        if not CombinerFactory.contains(name):
             raise ValueError(
-                f"'{name}' is not a valid REGRESSION aggregation. "
-                f"Available: {AggregationRegressorFactory.available()}"
+                f"'{name}' is not a valid combiner. "
+                f"Available: {CombinerFactory.available()}"
             )
 
-        if self.task == "classification":
-            if name in AggregationClassifierFactory.available():
-                return AggregationClassifierFactory.create(
-                    name, **self.aggregation_param
-                )
-
+        # task compatibility check
+        if not CombinerFactory.supports(name, self.task):
             raise ValueError(
-                f"'{name}' is not a valid CLASSIFICATION aggregation. "
-                f"Available: {AggregationClassifierFactory.available()}"
+                f"'{name}' is not valid for task='{self.task}'. "
+                f"Available: {CombinerFactory.available_by_category(self.task)}"
             )
 
-        raise ValueError(f"Unknown task '{self.task}'")
+        return CombinerFactory.create(
+            name,
+            **self.combiner_params
+        )
