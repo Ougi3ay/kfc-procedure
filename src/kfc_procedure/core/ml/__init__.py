@@ -1,48 +1,26 @@
 """
-kfc_procedure.models
---------------------
-Local model wrappers used by LocalModelFStep.
+kfc_procedure.core.ml
+---------------------
 
-Importing this package registers all built-in models with LocalModelFactory.
+Unified ML layer for F-step local models.
 
-Regression models  (task="regression")
----------------------------------------
-    "linear"        – OrdinaryLeastSquares
-    "ridge"         – Ridge regression
-    "lasso"         – Lasso regression
-    "decision_tree" – DecisionTreeRegressor
-    "random_forest" – RandomForestRegressor
-
-Classification models  (task="classification")
------------------------------------------------
-    "logistic"      – LogisticRegression
-    "decision_tree" – DecisionTreeClassifier
-    "random_forest" – RandomForestClassifier
+This module:
+1. Defines base interfaces
+2. Registers built-in models
+3. Auto-registers sklearn estimators
 """
-from kfc_procedure.core.ml.base import BaseLocalModel, BaseLocalModelRegressor, BaseLocalModelClassifier
-from kfc_procedure.core.ml.regression import (
-    LinearRegression,
-    RidgeRegression,
-    LassoRegression,
-    DecisionTreeRegression,
-    RandomForestRegressor,
-)
-from kfc_procedure.core.ml.classification import (
-    LogisticClassifier,
-    DecisionTreeClassifier,
-    RandomForestClassifier,
-)
+
+from __future__ import annotations
+
+from .base import BaseLocalModel, LocalModelFactory
+from .builtin import DummyRegressor, register_all_sklearn_models
+
+# Trigger sklearn registration on import
+register_all_sklearn_models()
+
 
 __all__ = [
     "BaseLocalModel",
-    "BaseLocalModelRegressor",
-    "BaseLocalModelClassifier",
-    "LinearRegression",
-    "RidgeRegression",
-    "LassoRegression",
-    "DecisionTreeRegression",
-    "RandomForestRegressor",
-    "LogisticClassifier",
-    "DecisionTreeClassifier",
-    "RandomForestClassifier",
+    "LocalModelFactory",
+    "DummyRegressor",
 ]

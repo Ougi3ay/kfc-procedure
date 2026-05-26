@@ -37,9 +37,6 @@ class CStep(BaseEstimator):
         self.combiner_params = combiner_params or {}
         self.task = task
 
-    # -----------------------------------------------------
-    # Fit
-    # -----------------------------------------------------
     def fit(self, X: np.ndarray, y: np.ndarray):
         """
         Fit the combiner strategy.
@@ -48,16 +45,12 @@ class CStep(BaseEstimator):
         self.strategy_.fit(X, y)
         return self
 
-    # -----------------------------------------------------
-    # Predict
-    # -----------------------------------------------------
     def predict(self, X: np.ndarray) -> np.ndarray:
         """
         Predict final aggregated outputs.
         """
         check_is_fitted(self, "strategy_")
         return self.strategy_.predict(X)
-
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
         """
