@@ -3,6 +3,7 @@ from __future__ import annotations
 from typing import Dict
 import numpy as np
 
+from sklearn.model_selection import train_test_split
 from sklearn.utils.validation import check_is_fitted
 from sklearn.base import BaseEstimator
 
@@ -55,6 +56,11 @@ class KFCProcedure(BaseEstimator):
 
     def fit(self, X: np.ndarray, y: np.ndarray):
 
+        # split data into train and aggregation
+        X_k, X_l, y_k, y_l = train_test_split(
+            X, y, test_size=0.5, random_state=self.random_state
+        )
+
         self.kstep_ = KStep(
             self.divergences,
             self.divergences_param,
@@ -63,24 +69,25 @@ class KFCProcedure(BaseEstimator):
             self.tol,
             self.verbose,
             self.random_state,
-        ).fit(X)
+        ).fit(X_k)
 
-        clusters = self.kstep_.clusters_
+        clusters_k = self.kstep_.clusters_
+        clusters_l = self.kstep_.predict(X_l)
 
         self.fstep_ = FStep(
             self.local_model,
             self.local_model_param,
             self.task,
-        ).fit(X, y, clusters)
+        ).fit(X_k, y_k, clusters_k)
 
-        preds = self.fstep_.predict(X, clusters)
+        preds = self.fstep_.predict(X_l, clusters_l)
         X_c = np.hstack(list(preds.values()))
 
         self.cstep_ = CStep(
             self.combiner,
             self.combiner_param,
             self.task,
-        ).fit(X_c, y)
+        ).fit(X_c, y_l)
 
         return self
 
