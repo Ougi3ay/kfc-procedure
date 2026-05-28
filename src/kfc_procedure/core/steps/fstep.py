@@ -1,10 +1,3 @@
-"""
-F-step local fitting stage for the KFC pipeline.
-
-The F-step fits one local model for each combination of divergence and
-cluster assignment returned by the preceding K-step.
-"""
-
 from __future__ import annotations
 
 from abc import ABC
@@ -18,149 +11,87 @@ from kfc_procedure.core.ml.base import (
     BaseLocalModel,
     LocalModelFactory,
 )
-
-
 class FStep(ABC, BaseEstimator):
-    """
-    F-step: trains local models per divergence-cluster pair.
-
-    This version uses a unified LocalModelFactory instead of separate
-    regression/classification factories.
-    """
-
     def __init__(
         self,
         local_model: Union[str, BaseLocalModel],
-        local_model_param: Dict,
-        task: str,
+        local_model_params: Dict = {},
+        task: str = "regression",
     ):
         self.local_model = local_model
-        self.local_model_param = local_model_param or {}
+        self.local_model_params = local_model_params or {}
         self.task = task
 
-    # =========================================================
-    # FIT
-    # =========================================================
-    def fit(self, X: np.ndarray, y: np.ndarray, clusters: Dict[str, np.ndarray]):
-        """
-        Fit local models for each divergence/cluster combination.
-        """
+    def fit(self, X, y, clusters: Dict[str, np.ndarray]):
+        X = np.asarray(X)
+        y = np.asarray(y)
 
-        self.models_: Dict[str, Dict[int, BaseLocalModel]] = {}
+        self.models_ = {}
 
         for div_name, cluster_ids in clusters.items():
             self.models_[div_name] = {}
-
             for k in np.unique(cluster_ids):
                 idx = cluster_ids == k
+                if np.sum(idx) == 0:
+                    continue
+                Xc, yc = X[idx], y[idx]
+                model = self._resolve()
+                model.fit(Xc, yc)
 
-                model = self._build_model()
-
-                model.fit(X[idx], y[idx])
-
-                self.models_[div_name][k] = model
-
+                self.models_[div_name][f"m{k}"] = {
+                    "divergence" : div_name,
+                    "cluster": int(k),
+                    "model": model,
+                }
+        
         return self
-
-    # =========================================================
-    # PREDICT
-    # =========================================================
-    def predict(
-        self,
-        X: np.ndarray,
-        clusters: Dict[str, np.ndarray],
-    ) -> Dict[str, np.ndarray]:
-
+    
+    def predict(self, X, clusters: Dict[str, np.ndarray]):
         check_is_fitted(self, "models_")
+        X = np.asarray(X)
 
-        predictions = {}
+        outputs = []
+        for div_name, models in self.models_.items():
+            pred = np.zeros(X.shape[0])
+            cluster_ids = clusters[div_name]
 
-        for div_name, cluster_ids in clusters.items():
+            for _, meta in models.items():
+                k = meta["cluster"]
+                model = meta["model"]
 
-            preds = np.zeros(X.shape[0], dtype=float)
-
-            for k, model in self.models_[div_name].items():
                 idx = cluster_ids == k
 
                 if np.any(idx):
-                    preds[idx] = model.predict(X[idx])
+                    pred[idx] = model.predict(X[idx])
+            outputs.append(pred.reshape(-1, 1))
 
-            predictions[div_name] = preds.reshape(-1, 1)
+        return np.column_stack(outputs)
 
-        return predictions
 
-    # =========================================================
-    # PROBABILITIES (classification only)
-    # =========================================================
-    def predict_proba(
-        self,
-        X: np.ndarray,
-        clusters: Dict[str, np.ndarray],
-    ) -> Dict[str, np.ndarray]:
-
-        if self.task != "classification":
-            raise AttributeError("predict_proba only available for classification")
-
-        check_is_fitted(self, "models_")
-
-        probas = {}
-
-        for div_name, cluster_ids in clusters.items():
-
-            n_samples = X.shape[0]
-            combined = None
-
-            for k, model in self.models_[div_name].items():
-                idx = cluster_ids == k
-
-                if not np.any(idx):
-                    continue
-
-                if not hasattr(model, "predict_proba"):
-                    continue
-
-                p = model.predict_proba(X[idx])
-
-                if combined is None:
-                    combined = np.zeros((n_samples, p.shape[1]))
-
-                combined[np.where(idx)[0]] = p
-
-            if combined is not None:
-                probas[div_name] = combined
-
-        return probas
-
-    # =========================================================
-    # MODEL BUILDER (NEW UNIFIED FACTORY)
-    # =========================================================
-    def _build_model(self) -> BaseLocalModel:
+    
+    def _resolve(self) -> BaseLocalModel:
         """
-        Build a local model using LocalModelFactory.
+        Build model from factory or reuse instance.
         """
 
-        # already an instance → reuse directly
         if not isinstance(self.local_model, str):
             return self.local_model
 
         name = self.local_model.lower()
 
-        # validate existence
         if not LocalModelFactory.contains(name):
             raise ValueError(
-                f"'{name}' is not a valid local model. "
+                f"Invalid local model: {name}. "
                 f"Available: {LocalModelFactory.available()}"
             )
 
-        # optional task safety check
         if not LocalModelFactory.supports(name, self.task):
             raise ValueError(
-                f"'{name}' is not valid for task='{self.task}'. "
-                f"Available for '{self.task}': "
-                f"{LocalModelFactory.available_by_category(self.task)}"
+                f"{name} not supported for task={self.task}. "
+                f"Available: {LocalModelFactory.available_by_category(self.task)}"
             )
 
         return LocalModelFactory.create(
             name,
-            **self.local_model_param
+            **self.local_model_params
         )

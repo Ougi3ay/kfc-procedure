@@ -14,10 +14,9 @@ from kfc_procedure.core.steps.kstep import KStep
 
 class KFCProcedure(BaseEstimator):
     """
-    Core KFC pipeline.
+    Core KFC pipeline (paper-faithful version).
 
-    Runs:
-        K-step → F-step → C-step
+    K-step → F-step → C-step
     """
 
     def __init__(
@@ -25,9 +24,9 @@ class KFCProcedure(BaseEstimator):
         divergences,
         local_model,
         combiner,
-        divergences_param: Dict = None,
-        local_model_param: Dict = None,
-        combiner_param: Dict = None,
+        divergences_params: Dict = None,
+        local_model_params: Dict = None,
+        combiner_params: Dict = None,
         task: str = "regression",
         n_clusters=3,
         max_iter=300,
@@ -36,17 +35,19 @@ class KFCProcedure(BaseEstimator):
         random_state=None,
     ):
         if task not in {"regression", "classification"}:
-            raise ValueError("task must be 'regression' or 'classification'")
+            raise ValueError(
+                "task must be 'regression' or 'classification'"
+            )
 
         self.task = task
-        self.divergences = divergences
 
+        self.divergences = divergences
         self.local_model = local_model
         self.combiner = combiner
 
-        self.divergences_param = divergences_param or {}
-        self.local_model_param = local_model_param or {}
-        self.combiner_param = combiner_param or {}
+        self.divergences_params = divergences_params or {}
+        self.local_model_params = local_model_params or {}
+        self.combiner_params = combiner_params or {}
 
         self.n_clusters = n_clusters
         self.max_iter = max_iter
@@ -56,71 +57,107 @@ class KFCProcedure(BaseEstimator):
 
     def fit(self, X: np.ndarray, y: np.ndarray):
 
-        # split data into train and aggregation
+        X = np.asarray(X)
+        y = np.asarray(y)
+
         X_k, X_l, y_k, y_l = train_test_split(
-            X, y, test_size=0.5, random_state=self.random_state
+            X,
+            y,
+            test_size=0.5,
+            random_state=self.random_state,
+            stratify=y if self.task == "classification" else None
         )
 
         self.kstep_ = KStep(
-            self.divergences,
-            self.divergences_param,
-            self.n_clusters,
-            self.max_iter,
-            self.tol,
-            self.verbose,
-            self.random_state,
-        ).fit(X_k)
+            divergences=self.divergences,
+            divergences_params=self.divergences_params,
+            n_clusters=self.n_clusters,
+            max_iter=self.max_iter,
+            tol=self.tol,
+            verbose=self.verbose,
+            random_state=self.random_state,
+        )
 
+        self.kstep_.fit(X_k)
+
+        # training cluster assignments
         clusters_k = self.kstep_.clusters_
+
+        # aggregation cluster assignments
         clusters_l = self.kstep_.predict(X_l)
 
         self.fstep_ = FStep(
-            self.local_model,
-            self.local_model_param,
-            self.task,
-        ).fit(X_k, y_k, clusters_k)
+            local_model=self.local_model,
+            local_model_params=self.local_model_params,
+            task=self.task,
+        )
 
-        preds = self.fstep_.predict(X_l, clusters_l)
-        X_c = np.hstack(list(preds.values()))
+        self.fstep_.fit(X_k, y_k, clusters_k)
+        # M × K prediction matrix
+        P_l = self.fstep_.predict(X_l, clusters_l)
+        print(f"P_l : {P_l.shape}, y_l : {y_l.shape}")
 
         self.cstep_ = CStep(
-            self.combiner,
-            self.combiner_param,
-            self.task,
-        ).fit(X_c, y_l)
+            combiner=self.combiner,
+            combiner_params=self.combiner_params,
+            task=self.task,
+        )
+
+        self.cstep_.fit(P_l, y_l)
 
         return self
 
     def predict(self, X: np.ndarray) -> np.ndarray:
 
-        check_is_fitted(self, ["kstep_", "fstep_", "cstep_"])
+        check_is_fitted(
+            self,
+            ["kstep_", "fstep_", "cstep_"]
+        )
 
+        X = np.asarray(X)
+
+        # assign clusters
         clusters = self.kstep_.predict(X)
-        preds = self.fstep_.predict(X, clusters)
-        X_c = np.hstack(list(preds.values()))
 
-        return self.cstep_.predict(X_c)
+        # M × K prediction matrix
+        P = self.fstep_.predict(X, clusters)
+
+        # consensus aggregation
+        return self.cstep_.predict(P)
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
 
         if self.task != "classification":
-            raise AttributeError("Only available for classification")
+            raise AttributeError(
+                "predict_proba only available for classification"
+            )
+
+        check_is_fitted(
+            self,
+            ["kstep_", "fstep_", "cstep_"]
+        )
+
+        X = np.asarray(X)
 
         clusters = self.kstep_.predict(X)
-        probas = self.fstep_.predict_proba(X, clusters)
-        X_c = np.hstack(list(probas.values()))
 
-        return self.cstep_.predict_proba(X_c)
-    
+        P = self.fstep_.predict_proba(X, clusters)
+
+        return self.cstep_.predict_proba(P)
+
 class KFCRegressor(KFCProcedure):
-    """KFC for regression."""
-
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, task="regression", **kwargs)
+        super().__init__(
+            *args,
+            task="regression",
+            **kwargs
+        )
 
 
 class KFCClassifier(KFCProcedure):
-    """KFC for classification."""
-
     def __init__(self, *args, **kwargs):
-        super().__init__(*args, task="classification", **kwargs)
+        super().__init__(
+            *args,
+            task="classification",
+            **kwargs
+        )
