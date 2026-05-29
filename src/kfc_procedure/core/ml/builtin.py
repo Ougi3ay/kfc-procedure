@@ -36,11 +36,30 @@ class SklearnLocalModel(BaseLocalModel):
     Adapter wrapping sklearn estimators into F-step local models.
     """
 
-    def __init__(self, model_cls: Type[BaseEstimator], **kwargs):
-        self.model = model_cls(**kwargs)
+    def __init__(
+        self,
+        model_cls: Type[BaseEstimator],
+        **kwargs,
+    ):
+        self.model_cls = model_cls
 
-        # store capability flags
-        self._has_proba = hasattr(self.model, "predict_proba")
+        # inspect constructor signature
+        sig = inspect.signature(model_cls.__init__)
+
+        # keep only supported kwargs
+        valid_kwargs = {
+            k: v
+            for k, v in kwargs.items()
+            if k in sig.parameters
+        }
+
+        self.model = model_cls(**valid_kwargs)
+
+        # capability flags
+        self._has_proba = hasattr(
+            self.model,
+            "predict_proba",
+        )
 
     def fit(self, X, y):
         self.model.fit(X, y)
@@ -52,7 +71,11 @@ class SklearnLocalModel(BaseLocalModel):
     def predict_proba(self, X):
         if self._has_proba:
             return self.model.predict_proba(X)
-        return None
+
+        raise AttributeError(
+            f"{type(self.model).__name__} "
+            f"does not support predict_proba"
+        )
 
     def get_params(self, deep=True):
         return self.model.get_params(deep=deep)

@@ -90,6 +90,7 @@ class KFCProcedure(BaseEstimator):
             local_model=self.local_model,
             local_model_params=self.local_model_params,
             task=self.task,
+            random_state=self.random_state
         )
 
         self.fstep_.fit(X_k, y_k, clusters_k)
@@ -101,6 +102,7 @@ class KFCProcedure(BaseEstimator):
             combiner=self.combiner,
             combiner_params=self.combiner_params,
             task=self.task,
+            random_state=self.random_state
         )
 
         self.cstep_.fit(P_l, y_l)

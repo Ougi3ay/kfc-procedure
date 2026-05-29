@@ -1,7 +1,7 @@
 from __future__ import annotations
 
 from abc import ABC
-from typing import Dict, Union
+from typing import Dict, Optional, Union
 
 import numpy as np
 from sklearn.base import BaseEstimator
@@ -17,10 +17,12 @@ class FStep(ABC, BaseEstimator):
         local_model: Union[str, BaseLocalModel],
         local_model_params: Dict = {},
         task: str = "regression",
+        random_state: Optional[int] = None,
     ):
         self.local_model = local_model
         self.local_model_params = local_model_params or {}
         self.task = task
+        self.random_state = random_state
 
     def fit(self, X, y, clusters: Dict[str, np.ndarray]):
         X = np.asarray(X)
@@ -90,8 +92,13 @@ class FStep(ABC, BaseEstimator):
                 f"{name} not supported for task={self.task}. "
                 f"Available: {LocalModelFactory.available_by_category(self.task)}"
             )
+        
+        params = dict(self.local_model_params)
+        
+        if "random_state" not in params:
+            params["random_state"] = self.random_state
 
         return LocalModelFactory.create(
             name,
-            **self.local_model_params
+            **params,
         )

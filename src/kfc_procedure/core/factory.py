@@ -50,6 +50,7 @@ Examples
 from __future__ import annotations
 
 from abc import ABC
+import inspect
 from typing import Any, Dict, List, Optional, Set, Type
 
 
@@ -258,8 +259,19 @@ class BaseFactory(ABC):
                 f"'{name}' is not registered in {cls.__name__}. "
                 f"Available: {cls.available()}"
             )
+        
+        target_cls = cls._registry[key]["class"]
 
-        return cls._registry[key]["class"](**kwargs)
+        # inspect constructor signature
+        sig = inspect.signature(target_cls.__init__)
+
+        valid_kwargs = {
+            k: v
+            for k, v in kwargs.items()
+            if k in sig.parameters
+        }
+
+        return target_cls(**valid_kwargs)
 
     @classmethod
     def available(cls) -> List[str]:

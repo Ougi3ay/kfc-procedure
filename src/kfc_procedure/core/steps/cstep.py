@@ -7,7 +7,7 @@ into final outputs using a configurable combiner strategy.
 
 from __future__ import annotations
 
-from typing import Dict, Union
+from typing import Dict, Optional, Union
 import numpy as np
 
 from sklearn.base import BaseEstimator
@@ -32,10 +32,12 @@ class CStep(BaseEstimator):
         combiner: Union[str, BaseCombiner],
         combiner_params: Dict = None,
         task: str = "regression",
+        random_state: Optional[int] = None,
     ):
         self.combiner = combiner
         self.combiner_params = combiner_params or {}
         self.task = task
+        self.random_state = random_state
 
     def fit(self, X: np.ndarray, y: np.ndarray):
         """
@@ -92,8 +94,13 @@ class CStep(BaseEstimator):
                 f"'{name}' is not valid for task='{self.task}'. "
                 f"Available: {CombinerFactory.available_by_category(self.task)}"
             )
+        
+        params = dict(self.combiner_params)
+
+        if "random_state" not in params:
+            params["random_state"] = self.random_state
 
         return CombinerFactory.create(
             name,
-            **self.combiner_params
+            **params
         )
