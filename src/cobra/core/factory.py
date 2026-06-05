@@ -1,28 +1,24 @@
 """
-Base factory module for dynamic class registration and object creation.
+Factory infrastructure for dynamic component registration and instantiation.
 
-This module provides the ``BaseFactory`` abstract base class, which implements
-a registry-based factory pattern. Subclasses can register implementation
-classes using decorators and instantiate them dynamically by name.
+This module provides the :class:`BaseFactory` abstraction used throughout
+the library to implement registry-based discovery and object creation.
 
-The factory is designed to support modular and extensible architectures,
-especially useful for machine learning pipelines where components such as
-splitters, kernels, optimizers, or estimators need to be selected
-dynamically.
+Factories decouple component selection from implementation details by
+allowing classes to be registered under symbolic names and instantiated
+dynamically at runtime. This pattern is used to support extensible
+architectures where kernels, estimators, splitters, optimizers, or other
+components can be added without modifying existing factory logic.
 
-Examples
---------
->>> class KernelFactory(BaseFactory):
-...     pass
+Notes
+-----
+Each factory subclass maintains an independent registry and supports:
 
->>> @KernelFactory.register("gaussian", "rbf")
-... class GaussianKernel:
-...     def __init__(self, sigma=1.0):
-...         self.sigma = sigma
-
->>> kernel = KernelFactory.create("gaussian", sigma=2.0)
->>> type(kernel).__name__
-'GaussianKernel'
+* Dynamic class registration
+* Alias-based lookup
+* Category-based filtering
+* Metadata storage
+* Runtime object creation
 """
 
 from __future__ import annotations
@@ -33,38 +29,40 @@ from typing import Any, Dict, List, Optional, Set, Type
 
 class BaseFactory(ABC):
     """
-    Abstract base class for registry-based factories.
+    Abstract registry-based factory.
 
-    This class provides a generic mechanism for registering classes
-    under string names and creating instances dynamically using those names.
+    The factory pattern provides a centralized mechanism for registering,
+    discovering, and instantiating implementation classes using symbolic
+    names rather than direct class references.
 
-    Each subclass maintains its own independent registry, ensuring that
-    different factory types (e.g., kernels, splitters, optimizers)
-    do not interfere with each other.
+    This abstraction enables loosely coupled and extensible software
+    architectures where new components can be integrated through
+    registration without modifying existing client code.
 
-    Attributes
-    ----------
-    _registry : Dict[str, Any]
-        Internal mapping from registered names to implementation classes.
-
-    Notes
-    -----
-    Registration is case-insensitive. All names are stored in lowercase.
-
-    Subclasses automatically receive a fresh registry through
-    ``__init_subclass__()``.
+    Each subclass maintains an independent registry, allowing multiple
+    factory types to coexist safely within the same framework.
 
     Examples
     --------
-    >>> class DistanceFactory(BaseFactory):
+    Register a component:
+
+    >>> @KernelFactory.register("gaussian")
+    ... class GaussianKernel:
     ...     pass
 
-    >>> @DistanceFactory.register("euclidean")
-    ... class EuclideanDistance:
-    ...     pass
+    Create an instance:
 
-    >>> DistanceFactory.available()
-    ['euclidean']
+    >>> kernel = KernelFactory.create("gaussian")
+
+    Query available implementations:
+
+    >>> KernelFactory.available()
+    ['gaussian']
+
+    Notes
+    -----
+    Registration names are case-insensitive and are stored internally
+    in lowercase form.
     """
 
     _registry: Dict[str, Dict[str, Any]] = {}
@@ -147,29 +145,31 @@ class BaseFactory(ABC):
     @classmethod
     def create(cls, name: str, **kwargs) -> Any:
         """
-        Create an instance of a registered class.
+        Instantiate a registered implementation.
 
         Parameters
         ----------
         name : str
-            Name of the registered class to instantiate.
+            Registered name or alias identifying the desired implementation.
 
-        **kwargs : dict
-            Keyword arguments passed to the class constructor.
+        **kwargs
+            Keyword arguments forwarded directly to the implementation
+            constructor.
 
         Returns
         -------
         Any
-            Instance of the registered class.
+            Newly created instance of the registered implementation.
 
         Raises
         ------
         KeyError
-            If the requested name is not registered.
+            If no implementation is registered under the specified name.
 
-        Examples
-        --------
-        >>> kernel = KernelFactory.create("gaussian", sigma=1.5)
+        Notes
+        -----
+        Factory creation abstracts the concrete implementation class from
+        client code, promoting modularity and configurability.
         """
         key = name.lower()
         if key not in cls._registry:
@@ -221,7 +221,20 @@ class BaseFactory(ABC):
     @classmethod
     def available_categories(cls) -> Set[str]:
         """
-        Note
+        Return all registered categories.
+
+        Categories provide a lightweight mechanism for grouping related
+        implementations within a factory.
+
+        Returns
+        -------
+        set of str
+            Unique category names currently present in the registry.
+
+        Examples
+        --------
+        >>> KernelFactory.available_categories()
+        {'distance', 'similarity'}
         """
         categories: Set[str] = set()
         for meta in cls._registry.values():
@@ -231,6 +244,23 @@ class BaseFactory(ABC):
     
     @classmethod
     def available_by_category(cls, category: str) -> List[str]:
+        """
+        Return registered names belonging to a category.
+
+        Parameters
+        ----------
+        category : str
+            Category label used for filtering.
+
+        Returns
+        -------
+        list of str
+            Sorted registration names associated with the specified category.
+
+        Notes
+        -----
+        Category matching is case-insensitive.
+        """
         category = category.lower()
 
         return sorted(
@@ -241,6 +271,29 @@ class BaseFactory(ABC):
     
     @classmethod
     def info(cls, name: str) -> Dict[str, Any]:
+        """
+        Return metadata associated with a registered implementation.
+
+        Parameters
+        ----------
+        name : str
+            Registered component name.
+
+        Returns
+        -------
+        dict
+            Registration information containing:
+
+            - ``name`` : normalized registration name
+            - ``class`` : implementation class name
+            - ``categories`` : associated categories
+            - ``metadata`` : user-defined metadata
+
+        Raises
+        ------
+        KeyError
+            If the specified name is not registered.
+        """
         key = name.lower()
 
         if key not in cls._registry:
@@ -259,6 +312,23 @@ class BaseFactory(ABC):
     
     @classmethod
     def find_by_class(cls, target_cls: Type) -> List[str]:
+        """
+        Find registration names associated with a class.
+
+        Parameters
+        ----------
+        target_cls : type
+            Implementation class to search for.
+
+        Returns
+        -------
+        list of str
+            Sorted registration names mapped to the specified class.
+
+        Notes
+        -----
+        A single implementation may be registered under multiple aliases.
+        """
         return sorted(
             name
             for name, meta in cls._registry.items()
@@ -271,6 +341,28 @@ class BaseFactory(ABC):
         name: str,
         category: str,
     ) -> bool:
+        """
+        Determine whether a registered implementation belongs to a category.
+
+        Parameters
+        ----------
+        name : str
+            Registered implementation name.
+
+        category : str
+            Category to test.
+
+        Returns
+        -------
+        bool
+            True if the implementation is registered and associated with the
+            specified category; otherwise False.
+
+        Notes
+        -----
+        Both the registration name and category comparison are
+        case-insensitive.
+        """
         key = name.lower()
 
         if key not in cls._registry:

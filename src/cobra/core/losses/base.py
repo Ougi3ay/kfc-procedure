@@ -1,85 +1,47 @@
 """
-Loss module for optimization in the COBRA pipeline.
+Loss module for COBRA framework.
 
-This module defines the loss layer, which quantifies the error between
-predicted outputs and true targets during model optimization.
+This module defines the abstract interface for loss functions and
+provides a factory system for dynamic loss registration.
 
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
+In the COBRA pipeline, loss functions are used to:
+- evaluate prediction quality
+- guide optimization of kernel/adapters
+- compare aggregated outputs with ground truth
 
-Purpose
--------
-Loss functions provide a scalar objective that guides:
-
-- hyperparameter optimization
-- model selection across expert pools
-- kernel and adapter tuning
-- evaluation of ensemble performance
-
-In COBRA-style systems, the loss is typically computed after:
-
-- kernel weighting
-- aggregation of neighbor predictions
-
-and is used to measure final prediction quality.
-
-Design goals
-------------
-- simple and interchangeable loss definitions
-- compatibility with optimization routines
-- extensible for custom metrics
-- factory-based selection for experiments
-
-Examples
---------
->>> @LossFactory.register("mse")
-... class MeanSquaredError(BaseLoss):
-...     def __call__(self, y_true, y_pred):
-...         return float(np.mean((y_true - y_pred) ** 2))
-
->>> loss_fn = LossFactory.create("mse")
->>> loss = loss_fn(y_true, y_pred)
+Loss functions are a key component in the optimization loop,
+linking model predictions to learning signals.
 """
 
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Any
 
 from numpy.typing import ArrayLike
 
 from cobra.core.factory import BaseFactory
 
 
+# =========================================================
+# Base Loss
+# =========================================================
 class BaseLoss(ABC):
     """
     Abstract base class for loss functions.
 
-    Loss functions compute a scalar error between true and predicted
-    values, used for optimization and model evaluation.
+    This class defines the interface for evaluating the difference
+    between true labels and predicted outputs.
 
-    Pipeline role
-    -------------
-    Loss functions guide:
+    Loss functions are used in:
+    - model evaluation
+    - optimization objectives
+    - cross-validation scoring
 
-    - parameter tuning
-    - kernel selection
-    - estimator weighting
-    - ensemble optimization
-
-    Notes
-    -----
-    Subclasses must implement ``__call__``.
-
-    Loss functions are typically used in optimization loops or
-    validation stages.
-
-    Examples
-    --------
-    >>> class MAELoss(BaseLoss):
-    ...     def __call__(self, y_true, y_pred):
-    ...         return np.mean(np.abs(y_true - y_pred))
+    Methods
+    -------
+    __call__(y_true, y_pred)
+        Compute scalar loss value.
     """
 
     @abstractmethod
@@ -89,51 +51,32 @@ class BaseLoss(ABC):
         y_pred: ArrayLike,
     ) -> float:
         """
-        Compute scalar loss value.
+        Compute loss value between true and predicted outputs.
 
         Parameters
         ----------
         y_true : ArrayLike
-            Ground truth target values.
+            Ground truth labels.
 
         y_pred : ArrayLike
-            Predicted values.
+            Model predictions.
 
         Returns
         -------
         float
             Scalar loss value.
-
-        Raises
-        ------
-        NotImplementedError
-            Must be implemented by subclasses.
-
-        Examples
-        --------
-        >>> loss(y_true, y_pred)
-        0.25
         """
         raise NotImplementedError
 
 
+# =========================================================
+# Loss Factory
+# =========================================================
 class LossFactory(BaseFactory):
     """
-    Factory for loss function implementations.
+    Factory for loss functions.
 
-    This registry-based factory enables dynamic selection of loss
-    functions for optimization and evaluation in COBRA pipelines.
-
-    It is commonly used in:
-
-    - hyperparameter tuning loops
-    - automated machine learning pipelines
-    - model benchmarking frameworks
-    - configuration-driven training systems
-
-    Examples
-    --------
-    >>> loss_fn = LossFactory.create("mse")
-
-    >>> value = loss_fn(y_true, y_pred)
+    Enables dynamic registration and creation of loss functions
+    used in COBRA optimization and evaluation pipeline.
     """
+    pass

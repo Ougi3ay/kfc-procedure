@@ -14,7 +14,7 @@ from cobra.core.estimators.base import BaseEstimator
 from cobra.core.kernels.base import BaseKernel, KernelFactory
 from cobra.core.losses.base import BaseLoss, LossFactory
 from cobra.core.optimizers.base import OptimizerFactory
-from cobra.core.validators.base import BaseCrossValidator, CVFactory
+from cobra.core.cv.base import BaseCrossValidator, CVFactory
 from cobra.utils.preprocessing import history_to_dataframe
 from cobra.utils.resolve import fit_estimators, predict_estimators, resolve_training_context
 

@@ -1,81 +1,56 @@
 """
-Data splitting package for COBRA training and calibration workflows.
+Data splitting strategies for COBRA-based learning frameworks.
 
-This package defines the splitting layer responsible for partitioning
-datasets into subsets used throughout the COBRA pipeline.
+This package provides abstractions and concrete implementations for
+partitioning datasets into training and evaluation subsets.
 
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
+Available splitters include:
 
-Purpose
--------
-Data splitting is a foundational component in COBRA-style systems,
-ensuring that learning, calibration, and evaluation operate on
-properly separated data partitions.
+- RandomHoldoutSplitter
+    Random train/evaluation partitioning using holdout sampling.
 
-It is responsible for:
+- OverlapSplitter
+    Partitioning strategy supporting controlled overlap between
+    training and evaluation subsets.
 
-- separating training and calibration sets
-- enabling cross-validation workflows
-- supporting ensemble evaluation strategies
-- preserving index alignment across pipeline stages
-- ensuring reproducible experimental setups
+The package also exposes:
 
-Design philosophy
------------------
-This package is designed to be:
+- BaseDataSplitter
+    Abstract interface implemented by all splitting strategies.
 
-- modular (multiple splitting strategies)
-- extensible (custom splitter implementations)
-- reproducible (seed-controlled randomness)
-- index-based (avoids data duplication issues)
-- factory-driven (configuration-based selection)
-
-Available components
---------------------
-
-Base interface
-^^^^^^^^^^^^^^
-
-- ``BaseDataSplitter``
-    Abstract interface for dataset splitting strategies.
-
-Factory system
-^^^^^^^^^^^^^^
-
-- ``SplitterFactory``
-    Registry-based factory for splitter implementations.
-
-Built-in splitters
-^^^^^^^^^^^^^^^^^^
-
-- ``RandomHoldoutSplitter``
-    Random train/calibration partitioning.
-
-- ``KFoldSplitter``
-    K-fold cross-validation splitting.
+- SplitterFactory
+    Registry-based factory for dynamic splitter discovery and
+    instantiation.
 
 Examples
 --------
->>> from cobra.core.splitters import SplitterFactory
+Create a splitter directly:
 
->>> splitter = SplitterFactory.create("holdout")
->>> train_idx, cal_idx = splitter.split(X, y)
+>>> splitter = RandomHoldoutSplitter(
+...     calibration_size=0.5,
+...     random_state=42,
+... )
 
->>> splitter = SplitterFactory.create("kfold")
->>> folds = splitter.split(X, y)
+Create a splitter through the factory:
 
-Exports
--------
-All splitter components are exposed for use in COBRA pipeline
-configuration and experimentation frameworks.
+>>> splitter = SplitterFactory.create(
+...     "holdout",
+...     calibration_size=0.5,
+... )
+
+List available splitters:
+
+>>> SplitterFactory.available()
+['holdout', 'random_holdout', 'split_overlap']
 """
 
-from .base import BaseDataSplitter
-from .base import SplitterFactory
-from .builtin import RandomHoldoutSplitter, OverlapSplitter
+from __future__ import annotations
+from .base import (
+    BaseDataSplitter,
+    SplitterFactory,
+)
+from .holdout import RandomHoldoutSplitter
+from .overlap import OverlapSplitter
 
 __all__ = [
     "BaseDataSplitter",

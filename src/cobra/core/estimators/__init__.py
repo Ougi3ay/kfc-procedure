@@ -1,109 +1,41 @@
 """
-Estimator package for COBRA consensus expert pool.
+Estimator module for COBRA framework.
 
-This package provides a unified interface for all estimators used in the
-COBRA-style ensemble framework. Each estimator acts as an expert that
-generates candidate predictions before distance computation and
-aggregation.
+This package provides a unified interface for all estimators used
+within COBRA-style ensemble and aggregation systems.
 
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
+It includes:
+- A base estimator interface (BaseEstimator)
+- A registry-based factory system (EstimatorFactory)
+- Native implementations (e.g., MeanRegressor)
+- A scikit-learn adapter layer (SklearnEstimator)
+- Utilities for automatic registration of sklearn models
 
-Purpose
--------
-Estimators form the expert pool of the COBRA architecture. Each model:
-
-- is trained independently on the dataset
-- produces predictions for all input samples
-- contributes to a consensus prediction through aggregation
-
-This design enables:
-
-- heterogeneous model ensembles
-- flexible model selection via factories
-- scalable experimentation across model families
-- consistent integration with kernel-based weighting
-
-Available components
---------------------
-
-Base interface
-^^^^^^^^^^^^^^
-
-- ``BaseEstimator``
-    Abstract interface defining ``fit`` and ``predict``.
-
-Factory system
-^^^^^^^^^^^^^^
-
-- ``EstimatorFactory``
-    Registry-based factory for dynamic estimator creation.
-
-Built-in estimators
-^^^^^^^^^^^^^^^^^^^
-
-- ``MeanRegressor``
-    Baseline model predicting constant mean value.
-
-- ``LinearRegressorEstimator``
-    Ordinary least squares linear regression.
-
-- ``RidgeRegressorEstimator``
-    L2-regularized linear regression.
-
-- ``LassoRegressorEstimator``
-    L1-regularized regression with sparsity.
-
-- ``KNNRegressorEstimator``
-    k-nearest neighbors regression model.
-
-- ``RandomForestRegressorEstimator``
-    Ensemble of decision trees.
-
-- ``SVMRegressorEstimator``
-    Support vector regression (RBF kernel).
-
-- ``DecisionTreeRegressorEstimator``
-    Single decision tree model.
-
-- ``GradientBoostingRegressorEstimator``
-    Boosted ensemble of weak learners.
-
-Examples
---------
->>> from cobra.core.estimators import EstimatorFactory
-
->>> model = EstimatorFactory.create("random_forest")
-
->>> model.fit(X_train, y_train)
-
->>> preds = model.predict(X_test)
-
-Exports
--------
-All estimator components are exposed for convenient import and
-dynamic configuration in pipeline systems.
+Design goals:
+- Consistent fit/predict API across all estimators
+- Support for both custom and external (sklearn) models
+- Dynamic model discovery via factory pattern
 """
+
+from __future__ import annotations
 
 from .base import (
     BaseEstimator,
     EstimatorFactory,
 )
-
+from .mean_regressor import MeanRegressor
 from .sklearn import (
-    register_all_sklearn_estimators
+    SklearnEstimator,
+    register_all_sklearn_estimators,
 )
 
-from .builtin import (
-    MeanRegressor,
-)
-
+# register estimator sklearn
 register_all_sklearn_estimators(EstimatorFactory)
 
 __all__ = [
     "BaseEstimator",
     "EstimatorFactory",
     "MeanRegressor",
+    "SklearnEstimator",
+    "register_all_sklearn_estimators",
 ]

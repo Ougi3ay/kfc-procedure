@@ -1,93 +1,57 @@
 """
-Estimator module for expert pool learning in the COBRA pipeline.
+Base estimator interface and factory for COBRA-style learning systems.
 
-This module defines the estimator layer, which forms the expert pool
-used to generate candidate predictions before distance computation,
-kernel weighting, and aggregation.
+This module defines the abstract contract for all estimators used
+within the COBRA framework, along with a registry-based factory
+for dynamic model instantiation.
 
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
+Estimators in this framework are responsible for:
 
-Purpose
--------
-Estimators are base predictive models (experts) trained on the input data.
-Their predictions are later:
+- Learning a mapping from input features to target outputs
+- Producing predictions used as candidate signals in aggregation
+  or ensemble procedures
 
-- compared using distance metrics
-- filtered by kernel functions
-- combined through aggregation strategies
-
-This design enables ensemble-like behavior where multiple estimators
-contribute to a final consensus prediction.
-
-Typical estimator types include:
-
-- linear regression models
-- decision trees
-- k-nearest neighbors
-- neural networks
-- custom task-specific regressors/classifiers
-
-By isolating estimators into a factory system, the framework supports:
-
-- modular expert pools
-- dynamic model selection
-- experiment reproducibility
-- scalable ensemble construction
-
-Examples
---------
->>> @EstimatorFactory.register("linear")
-... class LinearEstimator(BaseEstimator):
-...     def fit(self, x, y):
-...         return self
-...
-...     def predict(self, x):
-...         return x @ self.coef_
-
->>> model = EstimatorFactory.create("linear")
->>> model.fit(X_train, y_train)
->>> preds = model.predict(X_test)
+The design follows a scikit-learn–like API, enforcing a consistent
+`fit -> predict` workflow across all implementations.
 """
 
 from __future__ import annotations
-
 from abc import ABC, abstractmethod
 
-from numpy.typing import ArrayLike
+import numpy as np
 
 from cobra.core.factory import BaseFactory
 
 
 class BaseEstimator(ABC):
     """
-    Abstract base class for all estimators in the expert pool.
+    Abstract base class for all COBRA estimators.
 
-    Estimators are supervised learning models that produce predictions
-    used as candidate signals for COBRA aggregation.
+    This interface enforces a unified structure for supervised
+    learning models that can be used within ensemble or aggregation
+    pipelines.
 
-    Pipeline role
-    -------------
-    Each estimator contributes:
+    All estimators must implement:
 
-    - fitted model parameters (via ``fit``)
-    - prediction outputs (via ``predict``)
+    - fit: Train the model using input data
+    - predict: Generate predictions for unseen samples
 
-    These predictions are later compared and combined by the COBRA
-    framework.
+    Methods
+    -------
+    fit(x, y, **kwargs)
+        Train the estimator on input features and targets.
+
+    predict(x, **kwargs)
+        Generate predictions for input features.
 
     Notes
     -----
-    Subclasses must implement both ``fit`` and ``predict``.
-
-    Estimators are typically lightweight wrappers around ML models
-    (e.g., scikit-learn compatible estimators).
+    This design is intentionally compatible with scikit-learn-style
+    estimators to simplify integration with external tools.
 
     Examples
     --------
-    >>> class DummyEstimator(BaseEstimator):
+    >>> class MyEstimator(BaseEstimator):
     ...     def fit(self, x, y):
     ...         return self
     ...
@@ -98,80 +62,74 @@ class BaseEstimator(ABC):
     @abstractmethod
     def fit(
         self,
-        x: ArrayLike,
-        y: ArrayLike,
+        x: np.ndarray,
+        y: np.ndarray,
+        **kwargs,
     ) -> "BaseEstimator":
         """
-        Fit estimator to training data.
+        Fit the estimator to training data.
 
         Parameters
         ----------
-        x : ArrayLike
-            Training features.
+        x : np.ndarray
+            Input feature matrix of shape (n_samples, n_features).
 
-        y : ArrayLike
-            Target values.
+        y : np.ndarray
+            Target values of shape (n_samples,).
+
+        **kwargs : dict
+            Additional implementation-specific arguments.
 
         Returns
         -------
         BaseEstimator
-            Fitted estimator instance (``self``). Implementations should
-            return ``self`` to remain compatible with scikit-learn style APIs.
-
-        Notes
-        -----
-        - ``x`` is typically an array of shape ``(n_samples, n_features)``.
-        - ``y`` is typically a 1-D array of shape ``(n_samples,)`` or a 2-D
-          array for multi-output estimators.
-        Examples
-        --------
-        >>> model.fit(X_train, y_train)
+            Fitted estimator instance.
         """
         raise NotImplementedError
 
     @abstractmethod
-    def predict(self, x: ArrayLike):
+    def predict(self, x: np.ndarray, **kwargs) -> np.ndarray:
         """
         Generate predictions for input samples.
 
         Parameters
         ----------
-        x : ArrayLike
-            Input features.
+        x : np.ndarray
+            Input feature matrix of shape (n_samples, n_features).
+
+        **kwargs : dict
+            Additional implementation-specific arguments.
 
         Returns
         -------
         np.ndarray
-            Predicted values. Expected shape is ``(n_samples,)`` for
-            single-output regressors/classifiers or ``(n_samples, n_outputs)``
-            for multi-output estimators.
-
-        Examples
-        --------
-        >>> preds = model.predict(X_test)
+            Predicted values of shape (n_samples,).
         """
         raise NotImplementedError
 
 
 class EstimatorFactory(BaseFactory):
     """
-    Factory for ``BaseEstimator`` implementations.
+    Registry-based factory for estimator classes.
 
-    This registry-based factory enables dynamic selection of estimator
-    implementations for expert pool construction.
+    This factory enables dynamic registration and creation of
+    estimators using string identifiers. It is used to decouple
+    model selection from implementation details.
 
-    It is commonly used in:
+    Notes
+    -----
+    Each estimator registered under this factory can be instantiated
+    using:
 
-    - ensemble learning pipelines
-    - COBRA-style aggregation models
-    - automated machine learning systems
-    - YAML-configured experiments
+    - EstimatorFactory.create(name, **kwargs)
 
     Examples
     --------
-    >>> estimator = EstimatorFactory.create("linear")
+    >>> @EstimatorFactory.register("linear")
+    ... class LinearEstimator(BaseEstimator):
+    ...     pass
 
-    >>> estimator.fit(X_train, y_train)
-
-    >>> preds = estimator.predict(X_test)
+    >>> model = EstimatorFactory.create("linear")
     """
+
+    pass

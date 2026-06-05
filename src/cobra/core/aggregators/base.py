@@ -1,148 +1,165 @@
-"""
-Aggregation module for final prediction consensus.
-
-This module defines the aggregation stage of the COBRA pipeline, where
-neighbor target values (and optional weights) are converted into a single
-final prediction.
-
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
-
-
-Purpose
--------
-After kernel evaluation identifies relevant neighbors and computes
-their associated weights, the aggregation stage combines those neighbor
-target values into one scalar prediction.
-
-This is the final consensus step before producing model output.
-
-Typical aggregation strategies include:
-
-- mean aggregation
-- weighted mean aggregation
-- median aggregation
-- voting-based aggregation
-- robust aggregation rules
-
-By separating aggregation logic into dedicated strategies, the framework
-becomes:
-
-- modular
-- easily extensible
-- compatible with optimization workflows
-- simple to test and benchmark
-
-Examples
---------
->>> @AggregatorFactory.register("mean")
-... class MeanAggregator(BaseAggregator):
-...     def aggregate(self, values, weights=None):
-...         return float(np.mean(values))
-
->>> aggregator = AggregatorFactory.create("mean")
->>> pred = aggregator.aggregate([1.2, 1.5, 1.8])
-"""
-
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Optional
-
 import numpy as np
-from numpy.typing import ArrayLike
 
 from cobra.core.factory import BaseFactory
 
 
-from abc import ABC, abstractmethod
-from typing import Optional
-import numpy as np
-from numpy.typing import ArrayLike
-
-
 class BaseAggregator(ABC):
     """
-    Abstract base class for COBRA aggregation strategies.
+    Base class for COBRA aggregation strategies.
+
+    This class defines the interface for all aggregation methods used
+    in the COBRA framework. Aggregators combine predictions from multiple
+    base estimators using optional weights (e.g., kernel similarities).
 
     Two execution modes are supported:
+    -------------------------------
+    1. Single aggregation (aggregate)
+    2. Batch aggregation (aggregate_matrix)
 
-    1. scalar aggregation (mandatory)
-    2. matrix aggregation (optional but recommended)
-
-    Matrix aggregation is required for:
+    Batch mode is used in:
+    - Cross-validation optimization
     - GradientCOBRA acceleration
-    - batch prediction
-    - CV optimization
+    - Large-scale prediction pipelines
+
+    Design principle:
+    -----------------
+    - Fully compatible with vectorized or iterative implementations
+    - Enforces consistent input validation across aggregators
     """
 
     @abstractmethod
     def aggregate(
         self,
-        values: ArrayLike,
-        weights: ArrayLike | None = None,
+        values: np.ndarray,
+        weights: np.ndarray | None = None,
         **kwargs,
     ):
         """
-        Aggregate a single neighborhood.
+        Aggregate a single set of estimator predictions.
+
+        Parameters
+        ----------
+        values : np.ndarray
+            Predictions from base estimators (shape: n_models)
+
+        weights : np.ndarray or None
+            Optional weights for each estimator (shape: n_models)
+
+        Returns
+        -------
+        Any
+            Aggregated prediction (scalar or vector depending on task)
+
+        Raises
+        ------
+        NotImplementedError
+            Must be implemented by subclass
         """
         raise NotImplementedError
-    
+
     def aggregate_matrix(
         self,
-        values: ArrayLike,
-        weights: ArrayLike,
+        values: np.ndarray,
+        weights: np.ndarray,
         fallback: float | None = None,
         **kwargs,
     ) -> np.ndarray:
         """
-        Default safe implementation (loop fallback).
+        Batch aggregation over multiple queries.
+
+        This method applies `aggregate()` independently to each query.
+
+        Parameters
+        ----------
+        values : np.ndarray
+            Shared estimator predictions (shape: n_models)
+
+        weights : np.ndarray
+            Weight matrix (shape: n_queries × n_models)
+
+        fallback : float, optional
+            Value used when aggregation fails or degenerates
+
+        Returns
+        -------
+        np.ndarray
+            Aggregated predictions for each query (shape: n_queries)
+
+        Raises
+        ------
+        ValueError
+            If weight dimensionality or shape is invalid
         """
+
         V = np.asarray(values)
         W = np.asarray(weights)
 
+        if W.ndim != 2:
+            raise ValueError(
+                f"weights must be 2D (n_queries, n_models), got {W.shape}"
+            )
+
         n_queries = W.shape[0]
 
-        return np.array([
-            self.aggregate(
-                values=V,
-                weights=W[i],
-                fallback=fallback,
-                **kwargs
+        results = []
+
+        for i in range(n_queries):
+            wi = W[i]
+
+            if wi.shape[0] != V.shape[0]:
+                raise ValueError(
+                    f"Shape mismatch: weights[{i}] has {wi.shape[0]} "
+                    f"but values has {V.shape[0]}"
+                )
+
+            results.append(
+                self.aggregate(
+                    values=V,
+                    weights=wi,
+                    fallback=fallback,
+                    **kwargs,
+                )
             )
-            for i in range(n_queries)
-        ])
+
+        return np.asarray(results)
 
     def aggregate_proba(
         self,
-        values: ArrayLike,
-        weights: ArrayLike | None = None,
-        classes: ArrayLike | None = None,
+        values: np.ndarray,
+        weights: np.ndarray | None = None,
+        classes: np.ndarray | None = None,
         **kwargs,
     ):
+        """
+        Aggregate probabilistic outputs for classification tasks.
+
+        This method must be implemented by classification aggregators.
+
+        Parameters
+        ----------
+        values : np.ndarray
+            Probability matrix from base classifiers
+
+        weights : np.ndarray or None
+            Optional weights for each estimator
+
+        classes : np.ndarray or None
+            Class labels (if required by implementation)
+
+        Returns
+        -------
+        np.ndarray
+            Aggregated class probabilities
+
+        Raises
+        ------
+        NotImplementedError
+            Must be implemented by subclass
+        """
         raise NotImplementedError
 
 class AggregatorFactory(BaseFactory):
-    """
-    Factory for ``BaseAggregator`` implementations.
-
-    This registry-based factory enables dynamic creation of aggregation
-    strategies using string identifiers.
-
-    It is especially useful for:
-
-    - YAML-based model configuration
-    - experiment pipelines
-    - hyperparameter search systems
-    - benchmarking multiple aggregation rules
-
-    Examples
-    --------
-    >>> aggregator = AggregatorFactory.create("mean")
-
-    >>> prediction = aggregator.aggregate(
-    ...     values=[1.2, 1.4, 1.8]
-    ... )
-    """
+    pass

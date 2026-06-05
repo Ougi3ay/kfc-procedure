@@ -37,7 +37,7 @@ from cobra.core.losses.base import (
 )
 from cobra.core.optimizers.base import OptimizerFactory
 
-from cobra.core.validators.base import (
+from cobra.core.cv.base import (
     BaseCrossValidator,
     CVFactory
 )

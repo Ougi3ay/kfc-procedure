@@ -97,7 +97,6 @@ from .estimators import *
 from .kernels import *
 from .losses import *
 from .optimizers import *
-from .spaces import *
 from .splitters import *
 
 from .factory import BaseFactory

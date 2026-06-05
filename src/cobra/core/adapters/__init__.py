@@ -1,80 +1,32 @@
 """
-Kernel adapter package.
+Kernel Adapter module for COBRA framework.
 
-This package provides the adapter layer that connects the distance
-computation stage to the kernel evaluation stage in the COBRA pipeline.
+This package provides a set of transformation layers that operate
+on distance matrices before kernel construction and optimization.
 
-Kernel adapters are responsible for transforming raw distance matrices
-by injecting tunable hyperparameters before kernel functions are applied.
+Kernel adapters serve as a bridge between:
+- Distance metrics (geometry space)
+- Kernel functions (similarity mapping)
+- Optimization procedures (parameter tuning)
 
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
-
-Main responsibilities
----------------------
-
-- apply bandwidth scaling
-- combine multiple distance spaces
-- inject optimization parameters
-- prepare kernel-ready distances
-
-Available components
---------------------
-
-Base classes
-^^^^^^^^^^^^
-
-- ``BaseKernelAdapter``
-    Abstract interface for all kernel adapters.
-
-- ``KernelAdapterFactory``
-    Registry-based factory for dynamic adapter creation.
-
-Built-in implementations
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-- ``GradientCOBRAKernelAdapter``
-    Single-distance scaling using a bandwidth parameter.
-
-- ``MixCOBRAKernelAdapter``
-    Weighted combination of input-space and prediction-space distances.
-
-Examples
---------
->>> from cobra.core.adapters import KernelAdapterFactory
-
->>> adapter = KernelAdapterFactory.create(
-...     "mixcobra",
-...     alpha=1.0,
-...     beta=0.5
-... )
-
->>> adapted_distance = adapter.transform(
-...     x_distance,
-...     y_distance
-... )
-
-Exports
--------
-This package exposes the most commonly used adapter classes directly
-for convenient imports.
+These adapters allow COBRA to support:
+- single-parameter learnable parameters
+- multi-parameter linear combination
 """
+
+from __future__ import annotations
 
 from .base import (
     BaseKernelAdapter,
     KernelAdapterFactory,
 )
+from .one_parameter import OneParameterKernelAdapter
+from .two_parameter import TwoParameterKernelAdapter
 
-from .builtin import (
-    OneParameterKernelAdapter,
-    TwoParameterKernelAdapter
-)
 
 __all__ = [
     "BaseKernelAdapter",
-    "KernelAdapterFactory",
     "OneParameterKernelAdapter",
-    "TwoParameterKernelAdapter"
+    "TwoParameterKernelAdapter",
+    "KernelAdapterFactory",
 ]

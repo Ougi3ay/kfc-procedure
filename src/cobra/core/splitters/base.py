@@ -1,149 +1,119 @@
 """
-Data splitting module for COBRA training and calibration workflows.
+Data splitting abstractions and factory registration infrastructure.
 
-This module defines the splitting layer used to partition datasets
-into training and calibration (or validation) subsets while preserving
-index alignment.
+This module defines the common interface for dataset partitioning
+strategies used throughout the COBRA framework.
 
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
+Splitters are responsible for generating index partitions that divide
+a dataset into training and evaluation subsets. These partitions are
+subsequently used during estimator training, calibration, aggregation,
+or model validation procedures.
 
-Purpose
--------
-Data splitting is a foundational step in COBRA pipelines, ensuring that
-estimators and calibration procedures operate on disjoint subsets of data.
-
-Typical roles include:
-
-- separating training data for estimator fitting
-- reserving calibration data for consensus weighting
-- maintaining index consistency across all pipeline stages
-- enabling reproducible experimental setups
-
-Unlike standard ML splits, COBRA-style splitting emphasizes:
-
-- index-based partitioning (not just data copies)
-- alignment across multiple estimator outputs
-- compatibility with ensemble calibration logic
-
-Design goals
-------------
-- provide consistent split interface
-- support multiple splitting strategies
-- ensure reproducibility of index assignments
-- integrate with factory-based pipeline configuration
-- avoid data mutation (index-based design preferred)
-
-Examples
---------
->>> @SplitterFactory.register("holdout")
-... class HoldoutSplitter(BaseDataSplitter):
-...     def split(self, x, y):
-...         n = len(x)
-...         idx = np.random.permutation(n)
-...         return idx[:int(0.8*n)], idx[int(0.8*n):]
+The module also provides a dedicated factory for dynamic splitter
+registration and runtime instantiation.
 """
 
 from __future__ import annotations
-
 from abc import ABC, abstractmethod
 
 import numpy as np
-from numpy.typing import ArrayLike
-
 from cobra.core.factory import BaseFactory
 from cobra.core.types import SplitIndices
 
-
 class BaseDataSplitter(ABC):
     """
-    Abstract base class for dataset splitting strategies.
+    Abstract interface for dataset splitting strategies.
 
-    This interface defines how datasets are partitioned into subsets
-    used for training and calibration in COBRA pipelines.
-
-    Pipeline role
-    -------------
-    Splitters determine:
-
-    - which samples are used for estimator training
-    - which samples are used for calibration
-    - how indices are preserved across pipeline stages
+    A data splitter generates index partitions that separate a dataset
+    into training and evaluation subsets. Concrete implementations may
+    employ random sampling, holdout schemes, overlapping partitions,
+    cross-validation protocols, temporal splits, or other strategies.
 
     Notes
     -----
-    Implementations must return index arrays rather than raw data
-    to ensure consistency across estimator pools.
+    Splitters operate exclusively on sample indices and do not modify
+    the underlying feature matrix or target vector.
+
+    Implementations must define the :meth:`split` method and return a
+    :class:`SplitIndices` object describing the resulting partition.
 
     Examples
     --------
-    >>> class RandomSplitter(BaseDataSplitter):
-    ...     def split(self, x, y):
-    ...         return np.array([0,1]), np.array([2,3])
+    >>> splitter = RandomHoldoutSplitter(
+    ...     calibration_size=0.5,
+    ...     random_state=42,
+    ... )
+    >>> indices = splitter.split(X, y)
+    >>> indices.train_idx
+    >>> indices.eval_idx
     """
 
     @abstractmethod
     def split(
         self,
-        x: ArrayLike,
-        y: ArrayLike,
+        x: np.ndarray,
+        y: np.ndarray,
         *,
-        groups: ArrayLike | None = None,
+        groups: np.ndarray | None = None,
     ) -> SplitIndices:
         """
-        Split dataset into training and calibration indices.
+        Generate a dataset partition.
 
         Parameters
         ----------
-        x : ArrayLike
+        x : ndarray of shape (n_samples, n_features)
             Input feature matrix.
 
-        y : ArrayLike
-            Target values.
+        y : ndarray of shape (n_samples,)
+            Target values associated with the observations.
 
-        groups : ArrayLike | None
-            Optional group labels for stratified splitting.
-        
+        groups : ndarray of shape (n_samples,), optional
+            Group labels used by splitters that enforce
+            group-aware partitioning constraints.
+
         Returns
         -------
-        Container with:
-            - train_idx
-            - eval_idx
+        SplitIndices
+            Object containing the training and evaluation indices
+            produced by the splitting strategy.
 
         Raises
         ------
-        NotImplementedError
-            Must be implemented by subclasses.
+        ValueError
+            If the supplied data are incompatible with the splitting
+            strategy.
 
-        Examples
-        --------
-        >>> split_indices = splitter.split(X, y)
+        Notes
+        -----
+        The exact partitioning behavior is implementation dependent.
         """
         raise NotImplementedError
 
-
 class SplitterFactory(BaseFactory):
     """
-    Factory for dataset splitter implementations.
+    Factory for splitter registration and creation.
 
-    This registry-based factory enables dynamic selection of dataset
-    partitioning strategies used in COBRA pipelines.
-
-    It is commonly used in:
-
-    - train/calibration splitting
-    - ensemble validation setups
-    - reproducible experiment design
-    - configuration-driven pipelines
+    The factory maintains a registry of available data splitting
+    strategies and provides runtime instantiation based on symbolic
+    names.
 
     Examples
     --------
-    >>> splitter = SplitterFactory.create("holdout")
+    Create a registered splitter:
 
-    >>> split_indices = splitter.split(X, y)
-    >>> train_idx = split_indices.train_idx
-    >>> calib_idx = split_indices.eval_idx
+    >>> splitter = SplitterFactory.create(
+    ...     "holdout",
+    ...     calibration_size=0.3,
+    ... )
+
+    Inspect available implementations:
+
+    >>> SplitterFactory.available()
+    ['holdout', 'random_holdout', 'split_overlap']
+
+    Notes
+    -----
+    The factory inherits all registration, discovery, filtering,
+    and metadata capabilities from :class:`BaseFactory`.
     """
     pass

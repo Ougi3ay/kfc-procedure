@@ -1,111 +1,69 @@
 """
-Kernel adapter module for transforming distance outputs before kernel evaluation.
+Kernel Adapter module for COBRA framework.
 
-This module defines the ``BaseKernelAdapter`` abstraction and the
-``KernelAdapterFactory`` registry used to manage adapter implementations.
+This module defines a parametric transformation layer that operates
+on one or more distance matrices before they are passed into kernel
+construction or optimization components.
 
-Kernel adapters act as an intermediate layer between the distance computation
-stage and the kernel function stage in the model pipeline.
+The Kernel Adapter acts as an interface between:
+- Distance metrics (geometry space)
+- Kernel functions (similarity mapping)
+- Optimization procedures (parameter tuning)
 
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
-
-Purpose
--------
-The kernel adapter is responsible for injecting tunable hyperparameters
-into raw distance values before they are passed to the kernel function.
-
-This design is especially useful during optimization, where parameters such as:
-
-- alpha (prediction-space weight)
-- beta (input-space weight)
-- bandwidth
-
-must be adjusted without modifying the distance computation logic itself.
-
-By separating this logic into adapters, the architecture becomes:
-
-- modular
-- extensible
-- optimization-friendly
-- easier to test and maintain
-
-Examples
---------
->>> @KernelAdapterFactory.register("mixcobra")
-... class MixCOBRAKernelAdapter(BaseKernelAdapter):
-...     def __init__(self, alpha=1.0, beta=0.0):
-...         super().__init__(alpha=alpha, beta=beta)
-...
-...     def transform(self, pred_distance, input_distance):
-...         return self.alpha * pred_distance + self.beta * input_distance
-
->>> adapter = KernelAdapterFactory.create(
-...     "mixcobra",
-...     alpha=2.0,
-...     beta=0.5
-... )
+It enables COBRA to support learnable or tunable transformations
+over distance representations.
 """
 
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
+from typing import Dict, Any
+
 import numpy as np
 
 from cobra.core.factory import BaseFactory
 
-
 class BaseKernelAdapter(ABC):
     """
-    Abstract base class for kernel adapters.
+    Abstract base class for kernel transformation adapters.
 
-    A kernel adapter transforms one or more distance matrices into a
-    kernel-ready representation by applying tunable hyperparameters.
+    This class defines a unified interface for transforming one or
+    more distance matrices into adapted representations used by
+    kernel functions.
 
-    This abstraction separates:
-
-    - distance computation
-    - hyperparameter injection
-    - kernel evaluation
-
-    allowing optimization routines to tune parameters independently.
-
-    Parameters
-    ----------
-    **kwargs : dict
-        Hyperparameters used by the adapter.
+    The adapter may contain learnable or tunable parameters that
+    can be optimized by external optimization procedures.
 
     Attributes
     ----------
     params : dict
-        Internal dictionary storing adapter parameters.
+        Dictionary of all adapter parameters.
 
-    Notes
-    -----
-    Subclasses must implement the ``transform()`` method.
+    Methods
+    -------
+    transform(*distances)
+        Transform input distance matrices into adapted representation.
 
-    The ``transform()`` method may accept one or multiple distance arrays,
-    depending on the aggregation strategy.
+    get_params()
+        Return current parameters.
 
-    Examples
-    --------
-    >>> class SimpleAdapter(BaseKernelAdapter):
-    ...     def transform(self, distance):
-    ...         return self.alpha * distance
+    set_params(**params)
+        Update parameters dynamically.
+
+    parameter_vector()
+        Return parameters as a numeric vector for optimization.
     """
 
     def __init__(self, **kwargs):
         """
-        Initialize adapter with hyperparameters.
+        Initialize kernel adapter with parameters.
 
         Parameters
         ----------
         **kwargs : dict
-            Adapter configuration parameters.
+            Initial parameter values (e.g., bandwidth, alpha, beta).
         """
-        self.params = dict(kwargs)
+        self.params: Dict[str, Any] = dict(kwargs)
         self.set_params(**kwargs)
 
     def set_params(self, **params):
@@ -115,16 +73,12 @@ class BaseKernelAdapter(ABC):
         Parameters
         ----------
         **params : dict
-            Parameters to update.
+            Key-value pairs of parameters to update.
 
         Returns
         -------
         BaseKernelAdapter
-            Returns self for method chaining.
-
-        Examples
-        --------
-        >>> adapter.set_params(alpha=2.0)
+            Self for chaining.
         """
         for k, v in params.items():
             setattr(self, k, v)
@@ -132,80 +86,56 @@ class BaseKernelAdapter(ABC):
         self.params.update(params)
         return self
 
-    def get_params(self, deep=True):
+    def get_params(self, deep: bool = True) -> Dict[str, Any]:
         """
-        Return adapter parameters.
+        Retrieve adapter parameters.
 
         Parameters
         ----------
         deep : bool, default=True
-            Included for sklearn compatibility.
-            Currently not used.
+            Included for sklearn-style compatibility.
 
         Returns
         -------
         dict
-            Dictionary of stored parameters.
-
-        Examples
-        --------
-        >>> adapter.get_params()
-        {'alpha': 1.0}
+            Copy of internal parameter dictionary.
         """
         return dict(self.params)
 
-    @abstractmethod
-    def transform(self, *distances: np.ndarray) -> np.ndarray:
+    def parameter_vector(self) -> np.ndarray:
         """
-        Transform distance matrices before kernel evaluation.
+        Convert parameters into numeric vector form.
 
-        The adapter layer combines or rescales one or more distance
-        matrices into a kernel-ready representation. Common usages include
-        linear mixing (alpha*pred + beta*input) or applying a learned
-        transformation to a single distance matrix.
-
-        Parameters
-        ----------
-        *distances : np.ndarray
-            One or more distance matrices. Each matrix is expected to have
-            shape ``(n_queries, n_references)`` or ``(n_samples, n_samples)``
-            for square pairwise distances.
+        This is used by optimizers to update adapter parameters.
 
         Returns
         -------
         np.ndarray
-            Transformed distance matrix ready for kernel computation. Shape
-            should align with the primary distance input (typically
-            ``(n_queries, n_references)``).
+            Vector representation of parameters.
+        """
+        return np.array(list(self.params.values()), dtype=float)
 
-        Raises
-        ------
-        NotImplementedError
-            Must be implemented by subclasses.
+    @abstractmethod
+    def transform(self, *distances: np.ndarray) -> np.ndarray:
+        """
+        Transform one or more distance matrices.
 
-        Examples
-        --------
-        >>> adapter.transform(pred_distance, input_distance)
+        Parameters
+        ----------
+        *distances : np.ndarray
+            One or more distance matrices.
+
+        Returns
+        -------
+        np.ndarray
+            Transformed distance representation.
         """
         raise NotImplementedError
-
-
 class KernelAdapterFactory(BaseFactory):
     """
-    Factory for ``BaseKernelAdapter`` implementations.
+    Factory for kernel adapters.
 
-    This factory enables dynamic registration and instantiation of
-    kernel adapter classes using string identifiers.
-
-    It is commonly used inside configurable pipelines and YAML-based
-    model construction systems.
-
-    Examples
-    --------
-    >>> adapter = KernelAdapterFactory.create(
-    ...     "mixcobra",
-    ...     alpha=1.0,
-    ...     beta=0.5
-    ... )
+    Allows dynamic registration and creation of kernel transformation
+    strategies used in COBRA pipeline.
     """
     pass

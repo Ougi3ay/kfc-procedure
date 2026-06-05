@@ -1,84 +1,97 @@
 """
-Kernel module for similarity weighting in the COBRA pipeline.
+Kernel module for COBRA framework.
 
-This module defines the kernel layer, which transforms adapted distance
-matrices into similarity weights used for neighbor selection and
-final aggregation.
+This module defines the abstract interface for kernel functions and
+provides a factory system for dynamic kernel registration.
 
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
+In the COBRA pipeline, kernels are not standalone transformation
+operators. Instead, they act as evaluation functions applied to
+parameterized distance representations produced by Kernel Adapters.
 
-Purpose
--------
-The kernel stage converts transformed distances into similarity scores
-or weights that determine how much each neighbor contributes to the
-final prediction.
+This design separates concerns into three components:
 
-Unlike distance metrics (which measure dissimilarity), kernels:
+1. Distance Layer
+   - Computes raw pairwise distances between samples.
 
-- convert distances into similarity space
-- emphasize local neighborhoods
-- control smoothness of the prediction function
-- enable non-linear weighting of experts
+2. Kernel Adapter Layer
+   - Injects learnable or tunable parameters into distance space.
+   - Performs transformations such as bandwidth, alpha, beta, etc.
+   - Produces adapted distance representations.
 
-Typical kernel outputs:
+3. Kernel Layer
+   - Maps adapted distances into similarity or weight matrices.
+   - Defines the final kernel function used for aggregation.
 
-- similarity matrices
-- weight distributions
-- neighborhood importance scores
+This separation allows:
+- modular optimization
+- flexible kernel design
+- consistent parameter control across models
+- integration with COBRA aggregation and meta-learning
 
-Design goals
-------------
-- modular kernel implementations
-- interchangeable kernel functions
-- compatibility with optimization routines
-- factory-based instantiation for experiments
-
-Examples
---------
->>> @KernelFactory.register("gaussian")
-... class GaussianKernel(BaseKernel):
-...     def __call__(self, distances):
-...         return np.exp(-distances ** 2)
-
->>> kernel = KernelFactory.create("gaussian")
->>> weights = kernel(distance_matrix)
+Kernel outputs are directly used as:
+- weight matrices for base estimators
+- similarity scores in aggregation rules
+- optimization objectives in learning procedures
 """
-
 
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Literal
-
+from typing import Dict, Any
 import numpy as np
-
 from cobra.core.factory import BaseFactory
-
 
 class BaseKernel(ABC):
     """
-    Base class for all COBRA kernel functions.
+    Abstract base class for kernel functions.
 
-    Kernels convert distance matrices into similarity weights used
-    for aggregation in the COBRA / GradientCOBRA pipeline.
+    This class defines the interface for transforming distance
+    matrices into similarity or weighting matrices.
 
-    Two orthogonal concepts are supported:
+    Attributes
+    ----------
+    requires_grad : bool
+        Indicates whether kernel supports differentiable optimization.
 
-    1. mode:
-        - continuous: smooth weighting (RBF, Laplace)
-        - discrete: hard selection (Indicator, COBRA voting)
+    mode : str
+        Kernel behavior type:
+        - "continuous": smooth kernel (e.g., RBF)
+        - "compact": bounded support kernels
+        - "discrete": non-continuous mappings
 
-    2. requires_grad:
-        - whether kernel supports gradient-based optimization
+    params : dict
+        Kernel hyperparameters stored internally.
+
+    Methods
+    -------
+    __call__(D)
+        Apply kernel transformation to a distance matrix.
+
+    set_params(**params)
+        Update kernel parameters.
+
+    get_params()
+        Retrieve kernel parameters.
+
+    is_continuous()
+        Check if kernel is continuous.
+
+    is_discrete()
+        Check if kernel is discrete.
     """
 
     requires_grad: bool = True
-    mode: str = "continuous"  # continuous | compact | discrete
+    mode: str = "continuous"
 
     def __init__(self, **kwargs):
+        """
+        Initialize kernel with hyperparameters.
+
+        Parameters
+        ----------
+        **kwargs : dict
+            Kernel-specific parameters (e.g., gamma, sigma).
+        """
         self.params: Dict[str, Any] = dict(kwargs)
 
         for k, v in self.params.items():
@@ -87,6 +100,16 @@ class BaseKernel(ABC):
     def set_params(self, **params) -> "BaseKernel":
         """
         Update kernel hyperparameters.
+
+        Parameters
+        ----------
+        **params : dict
+            Key-value pairs of parameters to update.
+
+        Returns
+        -------
+        BaseKernel
+            Self instance for chaining.
         """
         for k, v in params.items():
             setattr(self, k, v)
@@ -95,53 +118,64 @@ class BaseKernel(ABC):
 
     def get_params(self, deep: bool = True) -> Dict[str, Any]:
         """
-        Return kernel parameters (sklearn-compatible).
+        Retrieve kernel parameters.
+
+        Parameters
+        ----------
+        deep : bool, default=True
+            Included for sklearn compatibility.
+
+        Returns
+        -------
+        dict
+            Copy of kernel parameters.
         """
         return dict(self.params)
 
     @abstractmethod
     def __call__(self, D: np.ndarray) -> np.ndarray:
         """
-        Transform distance matrix into similarity weights.
+        Transform distance matrix into similarity/kernel matrix.
 
         Parameters
         ----------
         D : np.ndarray
-            Distance matrix of shape (n_samples, n_samples)
-            or (n_queries, n_references)
+            Distance matrix of shape (n_samples, n_samples).
 
         Returns
         -------
         np.ndarray
-            Kernel weight matrix (same shape as D input).
+            Kernel (similarity) matrix.
         """
         raise NotImplementedError
 
     def is_continuous(self) -> bool:
+        """
+        Check whether kernel is continuous.
+
+        Returns
+        -------
+        bool
+            True if kernel is continuous.
+        """
         return self.mode == "continuous"
 
     def is_discrete(self) -> bool:
-        return self.mode == "discrete"
+        """
+        Check whether kernel is discrete.
 
+        Returns
+        -------
+        bool
+            True if kernel is discrete.
+        """
+        return self.mode == "discrete"
 
 class KernelFactory(BaseFactory):
     """
-    Factory for kernel implementations.
+    Factory for kernel functions.
 
-    This registry-based factory enables dynamic creation of kernel
-    functions using string identifiers.
-
-    It is used in:
-
-    - COBRA-style ensemble pipelines
-    - hyperparameter optimization
-    - YAML-based configuration systems
-    - kernel benchmarking experiments
-
-    Examples
-    --------
-    >>> kernel = KernelFactory.create("gaussian")
-
-    >>> weights = kernel(distance_matrix)
+    Enables dynamic registration and creation of kernel functions
+    used in COBRA similarity learning pipeline.
     """
     pass

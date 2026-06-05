@@ -27,9 +27,7 @@ from cobra.core.estimators.base import BaseEstimator, EstimatorFactory
 from cobra.core.kernels.base import BaseKernel, KernelFactory
 from cobra.core.losses.base import BaseLoss, LossFactory
 from cobra.core.optimizers.base import OptimizerFactory
-from cobra.core.spaces.base import SpaceNormalizerFactory
-from cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
-from cobra.core.validators.base import BaseCrossValidator, CVFactory
+from cobra.core.cv.base import BaseCrossValidator, CVFactory
 from cobra.utils.preprocessing import compute_normalization_constant, history_to_dataframe
 from cobra.utils.resolve import fit_estimators, predict_estimators, resolve_training_context
 
@@ -219,21 +217,6 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
             estimators=self.estimators_,
             n_jobs=self.n_jobs
         )
-
-	def _space_normalize(self, X, model_outputs):
-		"""
-		Normalize input and output spaces before distance computation.
-
-		Returns
-		-------
-		X_norm, Y_norm
-		"""
-		normalizer = SpaceNormalizerFactory.create(
-			"mixcobra",
-			norm_constant_x=self.norm_constant_x,
-			norm_constant_y=self.norm_constant_y
-		)
-		return normalizer.transform(X, model_outputs)
 
 	def _resolve_component(self):
 		"""

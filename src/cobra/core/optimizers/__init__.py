@@ -1,90 +1,50 @@
 """
-Optimizer package for COBRA pipeline parameter tuning.
+Optimizers module for COBRA framework.
 
-This package defines the optimization layer used across the COBRA
-framework to tune model components such as:
+This module provides all optimization strategies used in COBRA,
+including:
 
-- estimators
-- distance metrics
-- kernel adapters
-- kernel functions
-- loss objectives
+- Gradient-based optimizers (GD, Momentum, Adam)
+- Search-based optimizers (Grid Search, Random Search)
 
-Pipeline position
------------------
-Input -> Splitter -> Estimators -> Normalize Constants -> Distance
--> Kernel Adapter -> Kernel -> Optimize + Loss -> Aggregation -> Output
+These optimizers are used to tune:
+- kernel parameters
+- adapter weights
+- loss functions
+- model hyperparameters
 
-Purpose
--------
-Optimizers are responsible for searching or refining parameters that
-minimize a given objective function. This package supports both:
-
-1. Continuous optimization (gradient-based)
-2. Discrete/structured search (grid, sampling)
-
-Together, they provide a unified interface for all COBRA tuning
-strategies.
-
-Design philosophy
------------------
-This package is designed to be:
-
-- modular (swap optimization strategies easily)
-- extensible (add custom optimizers)
-- unified (shared BaseOptimizer interface)
-- factory-driven (string-based configuration)
-- compatible with black-box objectives
-
-Optimization families
----------------------
-
-Gradient-based optimizers
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Used for continuous parameters (e.g., gamma, alpha):
-
-- ``BaseGradientOptimizer``
-- ``GradientOptimizerFactory``
-- ``GradientDescentOptimizer``
-
-Search-based optimizers
-^^^^^^^^^^^^^^^^^^^^^^^
-
-Used for discrete or categorical parameters:
-
-- ``BaseSearchOptimizer``
-- ``SearchOptimizerFactory``
-- ``GridSearchOptimizer``
-
-Base interface
-^^^^^^^^^^^^^^
-
-- ``BaseOptimizer``
-    Common abstraction for all optimizer types.
-
-Examples
---------
-Gradient optimization:
-
->>> optimizer = GradientOptimizerFactory.create("gradient_descent")
->>> params, history = optimizer(objective_fn, init_params)
-
-Grid search:
-
->>> optimizer = SearchOptimizerFactory.create("grid_search")
->>> best_params, history = optimizer(objective_fn)
-
-Exports
--------
-All optimizer components are exposed for easy integration into COBRA
-configuration pipelines.
+All optimizers share a unified interface via BaseOptimizer
+and are accessible through OptimizerFactory.
 """
 
-from .base import BaseOptimizer
-from .gradient import *
-from .search import *
+from __future__ import annotations
+
+from .base import BaseOptimizer, OptimizerFactory
+
+from .gradient import (
+    BaseGradientOptimizer,
+    GradientDescentOptimizer,
+    MomentumOptimizer,
+    AdamOptimizer,
+)
+
+from .search import (
+    BaseSearchOptimizer,
+    GridSearchOptimizer,
+)
 
 __all__ = [
+    # base
     "BaseOptimizer",
+    "OptimizerFactory",
+
+    # gradient-based
+    "BaseGradientOptimizer",
+    "GradientDescentOptimizer",
+    "MomentumOptimizer",
+    "AdamOptimizer",
+
+    # search-based
+    "BaseSearchOptimizer",
+    "GridSearchOptimizer",
 ]
