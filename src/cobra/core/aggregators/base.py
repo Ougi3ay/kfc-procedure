@@ -102,29 +102,11 @@ class BaseAggregator(ABC):
                 f"weights must be 2D (n_queries, n_models), got {W.shape}"
             )
 
-        n_queries = W.shape[0]
+        out = np.empty(W.shape[0], dtype=object)
+        for i in range(W.shape[0]):
+            out[i] = self.aggregate(V, W[i], fallback=fallback, **kwargs)
 
-        results = []
-
-        for i in range(n_queries):
-            wi = W[i]
-
-            if wi.shape[0] != V.shape[0]:
-                raise ValueError(
-                    f"Shape mismatch: weights[{i}] has {wi.shape[0]} "
-                    f"but values has {V.shape[0]}"
-                )
-
-            results.append(
-                self.aggregate(
-                    values=V,
-                    weights=wi,
-                    fallback=fallback,
-                    **kwargs,
-                )
-            )
-
-        return np.asarray(results)
+        return np.asarray(out)
 
     def aggregate_proba(
         self,
