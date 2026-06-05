@@ -1,199 +1,104 @@
-"""
-F-step local fitting stage for the KFC pipeline.
-
-The F-step fits one local model for each combination of divergence and
-cluster assignment returned by the preceding K-step.
-"""
-
 from __future__ import annotations
+
 from abc import ABC
-from typing import Dict, Union
+from typing import Dict, Optional, Union
 
 import numpy as np
 from sklearn.base import BaseEstimator
-
 from sklearn.utils.validation import check_is_fitted
 
 from kfc_procedure.core.ml.base import (
-    BaseLocalModelClassifier,
-    BaseLocalModelRegressor,
-    LocalModelClassifierFactory,
-    LocalModelRegressorFactory
+    BaseLocalModel,
+    LocalModelFactory,
 )
-
 class FStep(ABC, BaseEstimator):
-    """Local model learning step.
-
-    The F-step fits one local model for each divergence/cluster pair.
-
-    Parameters
-    ----------
-    local_model : str or BaseLocalModelRegressor or BaseLocalModelClassifier
-        Local model identifier or instance to train on each cluster.
-    local_model_param : dict
-        Parameters passed to the local model factory when building models.
-    task : str
-        Either ``"regression"`` or ``"classification"``.
-
-    Attributes
-    ----------
-    models_ : dict
-        Nested dictionary of fitted local models indexed by divergence name
-        and cluster label.
-    """
-
     def __init__(
         self,
-        local_model: Union[str, BaseLocalModelRegressor, BaseLocalModelClassifier],
-        local_model_param: Dict,
-        task: str,
+        local_model: Union[str, BaseLocalModel],
+        local_model_params: Dict = {},
+        task: str = "regression",
+        random_state: Optional[int] = None,
     ):
         self.local_model = local_model
-        self.local_model_param = local_model_param
+        self.local_model_params = local_model_params or {}
         self.task = task
+        self.random_state = random_state
 
-    def fit(self, X: np.ndarray, y: np.ndarray, clusters: Dict[str, np.ndarray]):
-        """Fit local models for each divergence/cluster combination.
+    def fit(self, X, y, clusters: Dict[str, np.ndarray]):
+        X = np.asarray(X)
+        y = np.asarray(y)
 
-        Parameters
-        ----------
-        X : ndarray
-            Training features.
-        y : ndarray
-            Training targets.
-        clusters : dict
-            Cluster labels for each divergence, keyed by divergence name.
-
-        Returns
-        -------
-        self : FStep
-            The fitted F-step instance.
-        """
         self.models_ = {}
 
         for div_name, cluster_ids in clusters.items():
             self.models_[div_name] = {}
-
             for k in np.unique(cluster_ids):
                 idx = cluster_ids == k
-                model = self._build_model()
-                model.fit(X[idx], y[idx])
-                self.models_[div_name][k] = model
+                if np.sum(idx) == 0:
+                    continue
+                Xc, yc = X[idx], y[idx]
+                model = self._resolve()
+                model.fit(Xc, yc)
 
+                self.models_[div_name][f"m{k}"] = {
+                    "divergence" : div_name,
+                    "cluster": int(k),
+                    "model": model,
+                }
+        
         return self
-
-    def predict(self, X: np.ndarray, clusters: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
-        """Predict using local models for each divergence.
-
-        Parameters
-        ----------
-        X : ndarray
-            Input features to predict.
-        clusters : dict
-            Cluster labels for each divergence.
-
-        Returns
-        -------
-        dict
-            Predictions for each divergence, with shape (n_samples, 1).
-        """
+    
+    def predict(self, X, clusters: Dict[str, np.ndarray]):
         check_is_fitted(self, "models_")
-        predictions = {}
+        X = np.asarray(X)
 
-        for div_name, cluster_ids in clusters.items():
-            preds = np.zeros(X.shape[0])
+        outputs = []
+        for div_name, models in self.models_.items():
+            pred = np.zeros(X.shape[0])
+            cluster_ids = clusters[div_name]
 
-            for k, model in self.models_[div_name].items():
+            for _, meta in models.items():
+                k = meta["cluster"]
+                model = meta["model"]
+
                 idx = cluster_ids == k
+
                 if np.any(idx):
-                    preds[idx] = model.predict(X[idx])
+                    pred[idx] = model.predict(X[idx])
+            outputs.append(pred.reshape(-1, 1))
 
-            predictions[div_name] = preds.reshape(-1, 1)
+        return np.column_stack(outputs)
 
-        return predictions
 
-    def predict_proba(self, X: np.ndarray, clusters: Dict[str, np.ndarray]) -> Dict[str, np.ndarray]:
-        """Predict class probabilities for classification local models.
-
-        Parameters
-        ----------
-        X : ndarray
-            Input features to predict.
-        clusters : dict
-            Cluster labels for each divergence.
-
-        Returns
-        -------
-        dict
-            Class probability arrays for each divergence.
-
-        Raises
-        ------
-        AttributeError
-            If the task is not classification.
+    
+    def _resolve(self) -> BaseLocalModel:
         """
-        if self.task != "classification":
-            raise AttributeError("predict_proba only available for classification")
-
-        probas = {}
-
-        for div_name, cluster_ids in clusters.items():
-            n_samples = X.shape[0]
-            probs_list = []
-
-            for k, model in self.models_[div_name].items():
-                idx = cluster_ids == k
-                if np.any(idx) and hasattr(model, "predict_proba"):
-                    probs_list.append((np.where(idx)[0], model.predict_proba(X[idx])))
-
-            if probs_list:
-                n_classes = probs_list[0][1].shape[1]
-                combined_probs = np.zeros((n_samples, n_classes))
-                for sample_indices, model_probs in probs_list:
-                    combined_probs[sample_indices] = model_probs
-                probas[div_name] = combined_probs
-
-        return probas
-
-    def _build_model(self):
+        Build model from factory or reuse instance.
         """
-        Build a local model based on task type and configuration.
 
-        Returns
-        -------
-        BaseEstimator
-            Instantiated local model.
-
-        Raises
-        ------
-        ValueError
-            If the model name is not found in the corresponding factory.
-        """
         if not isinstance(self.local_model, str):
             return self.local_model
 
-        name = self.local_model
+        name = self.local_model.lower()
 
-        if self.task == "regression":
-            if name in LocalModelRegressorFactory.available():
-                return LocalModelRegressorFactory.create(
-                    name, **self.local_model_param
-                )
-
+        if not LocalModelFactory.contains(name):
             raise ValueError(
-                f"'{name}' is not a valid REGRESSION model. "
-                f"Available: {LocalModelRegressorFactory.available()}"
+                f"Invalid local model: {name}. "
+                f"Available: {LocalModelFactory.available()}"
             )
 
-        if self.task == "classification":
-            if name in LocalModelClassifierFactory.available():
-                return LocalModelClassifierFactory.create(
-                    name, **self.local_model_param
-                )
-
+        if not LocalModelFactory.supports(name, self.task):
             raise ValueError(
-                f"'{name}' is not a valid CLASSIFICATION model. "
-                f"Available: {LocalModelClassifierFactory.available()}"
+                f"{name} not supported for task={self.task}. "
+                f"Available: {LocalModelFactory.available_by_category(self.task)}"
             )
+        
+        params = dict(self.local_model_params)
+        
+        if "random_state" not in params:
+            params["random_state"] = self.random_state
 
-        raise ValueError(f"Unknown task '{self.task}'")
+        return LocalModelFactory.create(
+            name,
+            **params,
+        )

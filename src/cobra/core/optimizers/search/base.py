@@ -12,8 +12,9 @@ class BaseSearchOptimizer(BaseOptimizer, ABC):
     Base class for derivative-free optimization.
     """
 
-    def __init__(self, show_process: bool = True, **kwargs):
+    def __init__(self, show_process: bool = True, risk_strategy: str = "min", **kwargs):
         super().__init__(show_process=show_process, **kwargs)
+        self.risk_strategy = risk_strategy
 
     @abstractmethod
     def candidates(self) -> np.ndarray:
@@ -21,6 +22,46 @@ class BaseSearchOptimizer(BaseOptimizer, ABC):
         Returns:
             array shape = (n_candidates, dim)
         """
+    
+    def reduce_risk(self, score):
+        if np.ndim(score) == 0:
+            return float(score)
+        
+        score = np.asarray(score, dtype=float)
+
+        if self.risk_strategy == "mean":
+            return np.mean(score)
+
+        elif self.risk_strategy == "sum":
+            return np.sum(score)
+
+        elif self.risk_strategy == "max":
+            return np.max(score)
+
+        elif self.risk_strategy == "min":
+            return np.min(score)
+
+        elif self.risk_strategy == "median":
+            return np.median(score)
+
+        elif self.risk_strategy == "l2":
+            return np.linalg.norm(score)
+
+        else:
+            raise ValueError(
+                f"Unknown risk strategy: {self.risk_strategy}"
+            )
+    
+    def select_best_index(self, risks):
+        risks = np.asarray(risks)
+        best = np.min(risks)
+
+        ids = np.where(risks == best)[0]
+
+        if len(ids) == 1:
+            return ids[0]
+        
+        return ids[len(ids) // 2]
     
     def optimize(
         self,
@@ -32,8 +73,9 @@ class BaseSearchOptimizer(BaseOptimizer, ABC):
 
         iterator = tqdm(range(n), desc="search") if self.show_process else range(n)
 
-        scores = []
         history = []
+        raw_scores = []
+        reduced_scores = []
 
         best_score = np.inf
         best_x = None
@@ -42,24 +84,27 @@ class BaseSearchOptimizer(BaseOptimizer, ABC):
             x = X[i]
             score = objective(x)
 
-            scores.append(score)
+            risk = self.reduce_risk(score)
+            raw_scores.append(score)
+            reduced_scores.append(risk)
 
-            value = np.min(score) if np.ndim(score) > 0 else score
-
-            if value < best_score:
-                best_score = value
-                best_x = x.copy()
-            
             history.append({
                 "iter": i,
                 "x": x.copy(),
-                "score": score
+                "score": score,
+                "risk": risk,
             })
+        
+        reduced_scores = np.asarray(reduced_scores)
+        best_idx = self.select_best_index(reduced_scores)
 
         return {
-            "x": best_x,
-            "score": best_score,
+            "x": X[best_idx],
+            "score": raw_scores[best_idx],
+            "risk": reduced_scores[best_idx],
+            "best_index": best_idx,
             "history": history,
-            "scores": np.array(scores)
+            "scores": np.array(raw_scores, dtype=object),
+            "risks": reduced_scores,
         }
         

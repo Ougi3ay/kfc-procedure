@@ -210,3 +210,4 @@ __marimo__/
 # custom
 docs/
 backup/
+*_old.py

@@ -15,6 +15,7 @@ from cobra.core.kernels.base import BaseKernel, KernelFactory
 from cobra.core.losses.base import BaseLoss, LossFactory
 from cobra.core.optimizers.base import OptimizerFactory
 from cobra.core.validators.base import BaseCrossValidator, CVFactory
+from cobra.utils.preprocessing import history_to_dataframe
 from cobra.utils.resolve import fit_estimators, predict_estimators, resolve_training_context
 
 try:
@@ -153,12 +154,17 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         self.bandwidth_ = float(np.atleast_1d(result["x"])[0])
 
+        # arrange data
+        history_df = history_to_dataframe(
+            result["history"],
+            param_names=["bandwidth"],
+        )
         self.optimization_outputs_ = {
             "method": "grid",
             "optimizer": self.optimizer,
             "bandwidth": self.bandwidth_,
             "score": result["score"],
-            "history": result["history"],
+            "history": history_df,
         }
 
     def kappa_cross_validation_error(self, params):
@@ -240,7 +246,11 @@ class CombineClassifier(ABC, SkBaseEstimator):
     def predict(self, X):
 
         X = check_array(X)
-        preds_space = X if self.as_predictions_ else self._load_predictions(X)
+
+        if self.as_predictions_:
+            preds_space = X
+        else:
+            preds_space = self._load_predictions(X)
 
         distance_matrix = self.distance_.matrix(preds_space, self.pred_l_)
 
@@ -268,7 +278,10 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         X = check_array(X)
 
-        preds_space = X if self.as_predictions_ else self._load_predictions(X)
+        if self.as_predictions_:
+            preds_space = X
+        else:
+            preds_space = self._load_predictions(X)
 
         distance_matrix = self.distance_.matrix(preds_space, self.pred_l_)
 
@@ -318,7 +331,10 @@ class CombineClassifierFast(CombineClassifier):
     
     def predict(self, X):
         X = check_array(X)
-        preds = self._load_predictions(X).astype(np.float32)
+        if self.as_predictions_:
+            preds = X
+        else:
+            preds = self._load_predictions(X).astype(np.float32)
 
         if self.use_faiss and HAS_FAISS and hasattr(self, 'faiss_index_'):
             # Find k nearest neighbors
@@ -345,9 +361,12 @@ class CombineClassifierFast(CombineClassifier):
         else:
             return super().predict(X)
     
-    def predict_proba(self, X):
+    def predict_proba(self, X, pred_X):
         X = check_array(X)
-        preds = self._load_predictions(X).astype(np.float32)
+        if pred_X is not None:
+            preds = pred_X
+        else:
+            preds = self._load_predictions(X).astype(np.float32)
 
         if self.use_faiss and HAS_FAISS and hasattr(self, 'faiss_index_'):
             k = self.faiss_k or min(100, len(self.pred_l_))

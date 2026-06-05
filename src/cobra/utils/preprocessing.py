@@ -50,6 +50,7 @@ from __future__ import annotations
 import re
 from typing import Optional, Tuple
 import numpy as np
+import pandas as pd
 from sklearn.utils import shuffle as sklearn_shuffle
 
 
@@ -222,3 +223,43 @@ def clean_sklearn_name(name: str) -> str:
     s2 = re.sub(r"([a-z0-9])([A-Z])", r"\1_\2", s1)
 
     return s2.lower()
+
+def history_to_dataframe(
+    history,
+    param_names=None,
+):
+    """
+    Convert optimizer history into pandas DataFrame.
+
+    Parameters
+    ----------
+    history : list[dict]
+        Optimization history.
+
+    param_names : list[str], optional
+        Parameter names corresponding to x dimensions.
+
+    Returns
+    -------
+    pd.DataFrame
+    """
+
+    df = pd.DataFrame(history)
+
+    if "x" not in df.columns:
+        return df
+
+    X = np.vstack(df["x"].values)
+
+    if param_names is None:
+        param_names = [
+            f"param_{i}"
+            for i in range(X.shape[1])
+        ]
+
+    for i, name in enumerate(param_names):
+        df[name] = X[:, i]
+
+    df = df.drop(columns=["x"])
+
+    return df

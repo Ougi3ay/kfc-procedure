@@ -41,7 +41,7 @@ from cobra.core.validators.base import (
     BaseCrossValidator,
     CVFactory
 )
-from cobra.utils.preprocessing import compute_normalization_constant
+from cobra.utils.preprocessing import compute_normalization_constant, history_to_dataframe
 from cobra.utils.resolve import (
     fit_estimators,
     predict_estimators,
@@ -282,12 +282,17 @@ class GradientCOBRA(SkBaseEstimator, RegressorMixin):
             np.atleast_1d(result["x"])[0]
         )
 
+        history_df = history_to_dataframe(
+            result["history"],
+            param_names=["bandwidth"],
+        )
+
         self.optimization_outputs_ = {
             "method": method,
             "optimizer": optimizer,
             "bandwidth": self.bandwidth_,
             "score": result["score"],
-            "history": result["history"],
+            "history": history_df,
             "evaluations": len(result["history"]),
         }
     

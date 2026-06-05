@@ -30,7 +30,7 @@ from cobra.core.optimizers.base import OptimizerFactory
 from cobra.core.spaces.base import SpaceNormalizerFactory
 from cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
 from cobra.core.validators.base import BaseCrossValidator, CVFactory
-from cobra.utils.preprocessing import compute_normalization_constant
+from cobra.utils.preprocessing import compute_normalization_constant, history_to_dataframe
 from cobra.utils.resolve import fit_estimators, predict_estimators, resolve_training_context
 
 class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
@@ -458,11 +458,14 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 					self.kappa_cross_validation_error_2d,
 					param_grid
 				)
-		
+		history_df = history_to_dataframe(
+            result["history"],
+            param_names=["alpha", "beta"],
+        )
 		self.optimization_outputs_ = {
             "method": self.opt_method,
             "score": result["score"],
-            "history": result["history"],
+            "history": history_df,
             "evaluations": len(result["history"]),
 			"params" : result['x']
         }
@@ -661,12 +664,8 @@ class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 		if pred_X is None:
 			pred_X = self._load_predictions(X)
 
-		X_norm, Y_norm = (
-            self._space_normalize(
-                X,
-                pred_X,
-            )
-        )
+		X_norm = X * self.normalize_constant_x_
+		Y_norm = pred_X * self.normalize_constant_y_
 
 		if self.one_parameter:
 			bandwidth = (
