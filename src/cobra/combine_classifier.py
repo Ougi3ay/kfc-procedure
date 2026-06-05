@@ -1,3 +1,38 @@
+"""
+
+Combine Classifier Module
+=========================
+
+This module implements a hybrid ensemble aggregation framework based on
+prediction-space similarity, kernel weighting, and optimized bandwidth
+selection. The system integrates multiple base estimators, distance
+functions, kernel transformations, and aggregation strategies into a unified
+classifier.
+
+Core Idea
+---------
+The classifier transforms base estimator outputs into a prediction space,
+computes pairwise similarity using a distance metric and kernel function,
+and performs weighted aggregation of labels using locally optimized
+bandwidth parameters.
+Two variants are provided:
+- CombineClassifier: Full implementation with exact kernel computation.
+- CombineClassifierFast: Approximate version using FAISS nearest neighbor search.
+
+Main Components
+---------------
+
+- Base Estimators: Supervised learners producing intermediate predictions
+- Distance Functions: Measure similarity between prediction vectors
+- Kernel Functions: Transform distances into similarity weights
+- Aggregators: Combine weighted labels into final predictions
+- Loss Functions: Evaluate cross-validation performance
+- Optimizers: Tune kernel bandwidth parameters
+- Cross-Validation: Estimate generalization error during optimization
+
+Author: COBRA Framework
+
+"""
 from __future__ import annotations
 
 from abc import ABC
@@ -25,7 +60,71 @@ except ImportError:
     HAS_FAISS = False
 
 class CombineClassifier(ABC, SkBaseEstimator):
+    """
 
+    CombineClassifier
+    =================
+
+    A kernel-based ensemble aggregation classifier that operates on
+    prediction-space representations of base estimators.
+    The model works in three main stages:
+    1. Train base estimators on kernel dataset
+    2. Transform data into prediction space
+    3. Perform kernel-weighted aggregation using optimized bandwidth
+
+    Parameters
+    ----------
+    estimators : list of str or BaseEstimator, optional
+        List of base estimators used to generate prediction space.
+
+    estimators_params : dict, optional
+        Hyperparameters for base estimators.
+
+    distance : str, default="hamming"
+        Distance metric used in prediction space.
+
+    distance_params : dict, optional
+        Parameters for distance function.
+
+    kernel : str, default="rbf"
+        Kernel function used to transform distances into similarities.
+
+    kernel_params : dict, optional
+        Parameters for kernel function.
+
+    aggregator : str, default="weighted_vote"
+        Aggregation strategy for combining weighted labels.
+
+    aggregator_params : dict, optional
+        Parameters for aggregator.
+
+    loss : str, default="mse"
+        Loss function used for cross-validation optimization.
+
+    loss_params : dict, optional
+        Parameters for loss function.
+
+    optimizer : str, default="grid"
+        Optimization strategy for bandwidth selection.
+
+    optimizer_params : dict, optional
+        Parameters for optimizer.
+
+    n_jobs : int, default=1
+        Number of parallel jobs.
+
+    bandwidth_list : array-like, optional
+        Candidate bandwidth values for optimization.
+
+    max_iter : int, default=300
+        Maximum iterations for optimizer search.
+
+    n_cv : int, default=5
+        Number of cross-validation folds.
+
+    random_state : int, optional
+        Random seed for reproducibility.
+    """
     def __init__(
         self,
         estimators: List[Union[str, BaseEstimator]] | None = None,
@@ -206,7 +305,21 @@ class CombineClassifier(ABC, SkBaseEstimator):
         return np.mean(errors)
 
     def fit(self, X, y, X_l=None, y_l=None, split_ratio=0.5, overlap=False, as_predictions=False):
+        """
+        Fit the CombineClassifier model.
+        
+        This method:
+        - Splits or resolves training context
+        - Fits base estimators
+        - Constructs prediction space
+        - Builds kernel similarity matrix
+        - Optimizes bandwidth via cross-validation
+        
+        Returns
+        -------
+        self
 
+        """
         ctx = resolve_training_context(
             X,
             y,
