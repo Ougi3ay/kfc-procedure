@@ -59,7 +59,7 @@ try:
 except ImportError:
     HAS_FAISS = False
 
-class CombineClassifier(ABC, SkBaseEstimator):
+class CombinedClassifier(ABC, SkBaseEstimator):
     """
 
     CombineClassifier
@@ -421,7 +421,7 @@ class CombineClassifier(ABC, SkBaseEstimator):
 
         return proba
 
-class CombineClassifierFast(CombineClassifier):
+class CombinedClassifierFast(CombinedClassifier):
     def __init__(
         self,
         use_faiss: bool = False,
