@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=61", "wheel"]
+requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,16 +8,18 @@ version = "0.1.0"
 description = "Clusterwise predictive modeling library"
 readme = "README.md"
 requires-python = ">=3.11"
-license = { text = "MIT" }
+license = "MIT"
 
-authors = [ { name = "OUGI POV", email = "ougipov113@gmail.com" } ]
+authors = [
+  { name = "OUGI POV", email = "ougipov113@gmail.com" }
+]
 
 dependencies = [
-    "pandas",
-    "numpy",
-    "xgboost",
-    "scikit-learn",
-    "matplotlib"
+  "pandas",
+  "numpy",
+  "scikit-learn",
+  "matplotlib",
+  "xgboost"
 ]
 
 classifiers = [
@@ -30,41 +32,51 @@ classifiers = [
 [project.urls]
 Homepage = "https://github.com/Ougi3ay/kfc-procedure"
 
+# --------------------------
+# Optional dependencies (extras)
+# --------------------------
 [project.optional-dependencies]
 
 core = [
-    "numpy",
-    "scikit-learn"
+  "numpy",
+  "scikit-learn"
 ]
 
 cobra = [
-    "numba",
-    "faiss-cpu",
-    "xgboost",
-    "gradientcobra",
-    "pandas",
-    "matplotlib"
+  "numba",
+  "faiss-cpu",
+  "xgboost",
+  "pandas",
+  "numpy",
+  "scikit-learn",
+  "matplotlib"
 ]
 
 dev = [
-    "pytest",
-    "build",
-    "twine",
-    "jupyter"
+  "pytest",
+  "build",
+  "twine",
+  "jupyter"
 ]
 
 all = [
-    "kfc_procedure[cobra]",
-    "kfc_procedure[dev]"
+  "kfc-procedure[cobra]",
+  "kfc-procedure[dev]"
 ]
 
 # --------------------------
-# Use setuptools to find packages in src/
+# setuptools config (src layout)
 # --------------------------
+[tool.setuptools]
+package-dir = {"" = "src"}
+
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["kfc_procedure*"]
 
+# --------------------------
+# pytest config
+# --------------------------
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 python_files = ["test_*.py"]
