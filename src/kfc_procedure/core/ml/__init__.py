@@ -13,7 +13,7 @@ This module:
 from __future__ import annotations
 
 from .base import BaseLocalModel, LocalModelFactory
-from .builtin import DummyRegressor, register_all_sklearn_models
+from .sklearn import DummyRegressor, register_all_sklearn_models
 
 # Trigger sklearn registration on import
 register_all_sklearn_models()

@@ -1,9 +1,73 @@
 """
-K-step clustering stage for the KFC pipeline.
+K-step clustering stage for KFCProcedure.
 
-The K-step fits one BregmanKMeans model per divergence configuration and
-tracks cluster assignments for each divergence variant.
+This module implements the K-step of the KFC pipeline, where multiple
+Bregman-KMeans models are trained independently under different
+divergence assumptions.
+
+Each divergence induces a different geometric view of the data space,
+resulting in multiple clustering partitions of the same dataset.
+
+Overview
+--------
+Given a set of divergences:
+
+    D = {d_1, d_2, ..., d_m}
+
+the K-step fits one BregmanKMeans model per divergence:
+
+    model_i = KMeans(d_i, K)
+
+This produces a collection of clustering assignments:
+
+    C_i = model_i.predict(X)
+
+which are stored for downstream fusion or selection stages.
+
+Key Idea
+--------
+Instead of committing to a single metric space, the K-step maintains
+multiple clustering hypotheses induced by different Bregman divergences.
+This enables robust clustering under heterogeneous data distributions.
+
+Supported divergences
+---------------------
+Divergences can be provided either as:
+
+* string identifiers (resolved via BregmanDivergenceFactory)
+* instantiated BaseBregmanDivergence objects
+
+Examples include:
+* squared Euclidean
+* generalized KL divergence
+* Itakura–Saito divergence
+* logistic divergence
+
+Outputs
+-------
+models_
+    Dictionary mapping divergence name → fitted BregmanKMeans model.
+
+clusters_
+    Dictionary mapping divergence name → training cluster labels.
+
+Methods
+-------
+fit(X)
+    Fit one clustering model per divergence.
+
+predict(X)
+    Return cluster assignments for each divergence model.
+
+Notes
+-----
+This stage does not enforce consensus across divergences.
+Each model is trained independently and stored separately.
+
+The resulting structure is intended for ensemble clustering or
+subsequent aggregation steps in the KFC pipeline.
 """
+
 from __future__ import annotations
 from abc import ABC
 from typing import Any, Dict, List, Union
@@ -16,6 +80,72 @@ from kfc_procedure.core.clustering.divergences.base import BaseBregmanDivergence
 from kfc_procedure.core.clustering.bregman import BregmanKMeans
 
 class KStep(ABC, BaseEstimator, ClusterMixin):
+    """
+    Multi-divergence clustering stage in the KFC pipeline.
+
+    This estimator fits multiple BregmanKMeans models, each using a
+    different Bregman divergence. The goal is to produce multiple
+    clustering representations of the same dataset under different
+    geometric assumptions.
+
+    Parameters
+    ----------
+    divergences : list of str or BaseBregmanDivergence
+        List of divergence specifications. Each element can be:
+        - a string identifier resolved via BregmanDivergenceFactory
+        - an instantiated divergence object
+
+    divergences_params : dict, default={}
+        Optional parameter dictionary per divergence name.
+
+        Example:
+            {
+                "gkl": {"alpha": 1.0},
+                "is": {"scale": 0.5}
+            }
+
+    n_clusters : int, default=3
+        Number of clusters per divergence model.
+
+    max_iter : int, default=300
+        Maximum number of Lloyd iterations per KMeans model.
+
+    tol : float, default=1e-4
+        Convergence tolerance for distortion change.
+
+    verbose : bool, default=False
+        If True, prints convergence diagnostics.
+
+    random_state : int or None, default=None
+        Random seed for reproducibility across all models.
+
+    Attributes
+    ----------
+    models_ : dict
+        Fitted BregmanKMeans models keyed by divergence name.
+
+    clusters_ : dict
+        Training cluster assignments per divergence model.
+
+    Methods
+    -------
+    fit(X, y=None)
+        Fit one clustering model per divergence.
+
+    predict(X)
+        Return cluster assignments for each divergence model.
+
+    Notes
+    -----
+    This stage is purely model-parallel:
+
+    * No divergence interaction occurs during training
+    * Each model is independent
+    * Outputs are intended for downstream ensemble fusion
+
+    The design supports heterogeneous metric learning where no single
+    divergence is assumed optimal for the dataset structure.
+    """
     def __init__(
         self,
         divergences: List[Union[str, BaseBregmanDivergence]],

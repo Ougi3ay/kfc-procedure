@@ -1,19 +1,68 @@
 """
-Bregman K-Means clustering implementation
------------------------------------------
+Bregman K-Means clustering.
 
-Implements Lloyd-style clustering with arbitrary Bregman divergences.
-Supports any Bregman divergence via pluggable divergence objects.
+This module implements the Bregman K-Means algorithm, a generalization
+of classical k-means in which the Euclidean distance is replaced by an
+arbitrary Bregman divergence.
 
-The algorithm iteratively:
-    1. Assigns points to nearest cluster centroid (using Bregman distance)
-    2. Updates centroids as Euclidean means of assigned points
-    3. Monitors convergence via distortion change
+The algorithm follows Lloyd's iterative optimization procedure:
 
-Reference
+1. Assign each sample to the nearest centroid according to a chosen
+   Bregman divergence.
+2. Update cluster centroids using the arithmetic mean of assigned
+   samples.
+3. Repeat until convergence or until the maximum number of iterations
+   is reached.
+
+The implementation supports any divergence derived from
+``BaseBregmanDivergence`` and is compatible with the scikit-learn
+estimator API.
+
+Functions
 ---------
-Has, Fischer & Mougeot (Algorithm 1)
-Banerjee et al. (2005), JMLR
+validate_divergence_domain
+    Validate that input data satisfy the domain requirements of a
+    divergence.
+
+Classes
+-------
+BregmanKMeans
+    Lloyd-style clustering estimator based on Bregman divergences.
+
+Notes
+-----
+For a strictly convex generator function ``phi``, the Bregman
+divergence between points ``x`` and ``y`` is
+
+    D_phi(x, y)
+    =
+    phi(x)
+    - phi(y)
+    - <grad_phi(y), x - y>
+
+Common special cases include:
+
+* Squared Euclidean divergence (Gaussian family)
+* Generalized Kullback-Leibler divergence (Poisson family)
+* Itakura-Saito divergence (Gamma family)
+* Logistic divergence (Bernoulli family)
+
+This implementation uses multiple random initializations and selects
+the solution with the lowest average cluster distortion.
+
+References
+----------
+Banerjee, A., Merugu, S., Dhillon, I. S., and Ghosh, J. (2005).
+"Clustering with Bregman Divergences."
+Journal of Machine Learning Research, 6, 1705-1749.
+
+Lloyd, S. P. (1982).
+"Least Squares Quantization in PCM."
+IEEE Transactions on Information Theory, 28(2), 129-137.
+
+Hartigan, J. A., and Wong, M. A. (1979).
+"A K-Means Clustering Algorithm."
+Applied Statistics, 28(1), 100-108.
 """
 
 from __future__ import annotations
@@ -31,10 +80,6 @@ from kfc_procedure.core.clustering.divergences.base import (
     BaseBregmanDivergence
 )
 
-
-# ============================================================
-# Validation
-# ============================================================
 
 def validate_divergence_domain(div: BaseBregmanDivergence, X: np.ndarray) -> None:
     """
@@ -68,10 +113,6 @@ def validate_divergence_domain(div: BaseBregmanDivergence, X: np.ndarray) -> Non
             f"[{div.name}] Input outside valid domain."
         )
 
-
-# ============================================================
-# Main Model
-# ============================================================
 
 class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
     """
@@ -135,10 +176,6 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         self.random_state = random_state
         self.verbose = verbose
 
-    # --------------------------------------------------------
-    # initialization
-    # --------------------------------------------------------
-
     def _init_centroids(
         self,
         X: np.ndarray,
@@ -175,10 +212,6 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         # Random k-means++ style initialization: sample random data points
         idx = rng.choice(X.shape[0], self.n_clusters, replace=False)
         return X[idx].copy()
-
-    # --------------------------------------------------------
-    # centroid update (Euclidean mean surrogate)
-    # --------------------------------------------------------
 
     def _compute_centroids(
         self,
@@ -228,10 +261,6 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
 
         return centroids
 
-    # --------------------------------------------------------
-    # distortion
-    # --------------------------------------------------------
-
     @staticmethod
     def _distortion(
         div: BaseBregmanDivergence,
@@ -257,10 +286,6 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
             total += np.sum(np.min(D, axis=1))
 
         return total / n
-
-    # --------------------------------------------------------
-    # Lloyd iteration
-    # --------------------------------------------------------
 
     def _Lloyd(
         self,
@@ -323,10 +348,6 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
 
         return labels, centroids, dist, it + 1
 
-    # --------------------------------------------------------
-    # fit
-    # --------------------------------------------------------
-
     def fit(self, X: ArrayLike, y=None, init=None):
 
         X = check_array(X, dtype=float, ensure_2d=True)
@@ -355,27 +376,15 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
 
         return self
 
-    # --------------------------------------------------------
-    # predict
-    # --------------------------------------------------------
-
     def predict(self, X: ArrayLike) -> NDArray:
         check_is_fitted(self)
         X = check_array(X, dtype=float, ensure_2d=True)
         return self.divergence.assign_clusters(X, self.cluster_centers_)
 
-    # --------------------------------------------------------
-    # transform
-    # --------------------------------------------------------
-
     def transform(self, X: ArrayLike) -> NDArray:
         check_is_fitted(self)
         X = check_array(X, dtype=float, ensure_2d=True)
         return self.divergence.distance(X, self.cluster_centers_)
-
-    # --------------------------------------------------------
-    # sklearn API
-    # --------------------------------------------------------
 
     def fit_predict(self, X, y=None):
         return self.fit(X).labels_
@@ -388,9 +397,6 @@ class BregmanKMeans(TransformerMixin, ClusterMixin, BaseEstimator):
         X = check_array(X, dtype=float, ensure_2d=True)
         return -self._distortion(self.divergence, X, self.cluster_centers_)
 
-    # --------------------------------------------------------
-    # repr
-    # --------------------------------------------------------
     def __repr__(self):
         return (
             f"BregmanKMeans("

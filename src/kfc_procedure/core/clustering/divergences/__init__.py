@@ -10,13 +10,15 @@ Importing this package registers all four paper divergences:
     "is"         –  Itakura-Saito      /  Gamma / spectral
     "logistic"   –  Logistic loss      /  Bernoulli
 """
-from kfc_procedure.core.clustering.divergences.base import BaseBregmanDivergence, BregmanDivergenceFactory
-from kfc_procedure.core.clustering.divergences.builtin import (
-    GKLDivergence,
-    ItakuraSaito,
-    LogisticLoss,
-    SquaredEuclidean,
+from .base import (
+    BaseBregmanDivergence,
+    BregmanDivergenceFactory
 )
+
+from .euclidean import SquaredEuclidean
+from .gkl import GKLDivergence
+from .itakura_saito import ItakuraSaito
+from .logistic import LogisticLoss
 
 __all__ = [
     "BaseBregmanDivergence",
