@@ -27,8 +27,8 @@ from typing import Any, Dict
 
 import numpy as np
 
-from cobra.core.optimizers.base import OptimizerFactory
-from cobra.core.optimizers.gradient.base import BaseGradientOptimizer
+from kfc_procedure.cobra.core.optimizers.base import OptimizerFactory
+from kfc_procedure.cobra.core.optimizers.gradient.base import BaseGradientOptimizer
 
 
 @OptimizerFactory.register(

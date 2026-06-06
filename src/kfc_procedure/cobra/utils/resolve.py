@@ -66,13 +66,13 @@ import numpy as np
 from numpy.typing import ArrayLike
 from sklearn.utils import check_X_y
 
-from cobra.core.aggregators.base import AggregatorFactory
-from cobra.core.distances.base import DistanceFactory
-from cobra.core.estimators.base import BaseEstimator, EstimatorFactory
-from cobra.core.kernels.base import KernelFactory
-from cobra.core.losses.base import LossFactory
-from cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
-from cobra.core.types import SplitIndices, TrainingContext
+from kfc_procedure.cobra.core.aggregators.base import AggregatorFactory
+from kfc_procedure.cobra.core.distances.base import DistanceFactory
+from kfc_procedure.cobra.core.estimators.base import BaseEstimator, EstimatorFactory
+from kfc_procedure.cobra.core.kernels.base import KernelFactory
+from kfc_procedure.cobra.core.losses.base import LossFactory
+from kfc_procedure.cobra.core.splitters.base import BaseDataSplitter, SplitterFactory
+from kfc_procedure.cobra.core.types import SplitIndices, TrainingContext
 
 
 def resolve_from_estimators(

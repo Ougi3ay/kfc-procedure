@@ -12,8 +12,8 @@ optimization and improve distance-based methods.
 
 import numpy as np
 
-from cobra.core.normalizers.base import BaseNormalizer
-from cobra.core.normalizers.base import NormalizerFactory
+from kfc_procedure.cobra.core.normalizers.base import BaseNormalizer
+from kfc_procedure.cobra.core.normalizers.base import NormalizerFactory
 
 
 @NormalizerFactory.register("standard", "zscore")

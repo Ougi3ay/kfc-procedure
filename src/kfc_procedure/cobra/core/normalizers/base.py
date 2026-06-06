@@ -20,7 +20,7 @@ from typing import Any, Type
 
 import numpy as np
 
-from cobra.core.factory import BaseFactory
+from kfc_procedure.cobra.core.factory import BaseFactory
 
 
 class BaseNormalizer(ABC):

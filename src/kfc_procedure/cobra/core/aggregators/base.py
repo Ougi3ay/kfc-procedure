@@ -3,7 +3,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 import numpy as np
 
-from cobra.core.factory import BaseFactory
+from kfc_procedure.cobra.core.factory import BaseFactory
 
 
 class BaseAggregator(ABC):

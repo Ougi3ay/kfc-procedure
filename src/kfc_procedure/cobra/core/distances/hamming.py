@@ -22,8 +22,8 @@ from __future__ import annotations
 import numpy as np
 import numba as nb
 
-from cobra.core.distances.base import BaseDistance
-from cobra.core.distances.base import DistanceFactory
+from kfc_procedure.cobra.core.distances.base import BaseDistance
+from kfc_procedure.cobra.core.distances.base import DistanceFactory
 
 @nb.jit(nopython=True, parallel=True, fastmath=True)
 def hamming_matrix_numba(x: np.ndarray, y: np.ndarray) -> np.ndarray:

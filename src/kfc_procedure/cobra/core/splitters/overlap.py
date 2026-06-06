@@ -18,7 +18,7 @@ from __future__ import annotations
 
 import numpy as np
 
-from cobra.core.types import SplitIndices
+from kfc_procedure.cobra.core.types import SplitIndices
 from .base import BaseDataSplitter, SplitterFactory
 
 

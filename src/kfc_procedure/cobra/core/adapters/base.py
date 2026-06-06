@@ -21,7 +21,7 @@ from typing import Dict, Any
 
 import numpy as np
 
-from cobra.core.factory import BaseFactory
+from kfc_procedure.cobra.core.factory import BaseFactory
 
 class BaseKernelAdapter(ABC):
     """

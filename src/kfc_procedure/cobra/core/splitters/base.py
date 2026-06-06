@@ -17,8 +17,8 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 
 import numpy as np
-from cobra.core.factory import BaseFactory
-from cobra.core.types import SplitIndices
+from kfc_procedure.cobra.core.factory import BaseFactory
+from kfc_procedure.cobra.core.types import SplitIndices
 
 class BaseDataSplitter(ABC):
     """

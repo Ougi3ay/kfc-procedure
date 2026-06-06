@@ -18,7 +18,7 @@ from __future__ import annotations
 import numpy as np
 from .base import BaseDataSplitter, SplitterFactory
 
-from cobra.core.types import SplitIndices
+from kfc_procedure.cobra.core.types import SplitIndices
 from sklearn.model_selection import train_test_split
 
 @SplitterFactory.register("holdout", "random_holdout")

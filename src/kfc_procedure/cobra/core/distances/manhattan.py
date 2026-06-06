@@ -20,8 +20,8 @@ from __future__ import annotations
 import numpy as np
 from scipy.spatial import distance_matrix
 
-from cobra.core.distances.base import BaseDistance
-from cobra.core.distances.base import DistanceFactory
+from kfc_procedure.cobra.core.distances.base import BaseDistance
+from kfc_procedure.cobra.core.distances.base import DistanceFactory
 
 
 @DistanceFactory.register("manhattan", "l1")

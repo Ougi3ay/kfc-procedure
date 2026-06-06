@@ -19,8 +19,8 @@ from sklearn.base import BaseEstimator as SkBaseEstimator
 from sklearn.base import ClassifierMixin, RegressorMixin
 from sklearn.utils import all_estimators
 
-from cobra.core.estimators.base import BaseEstimator
-from cobra.utils.preprocessing import clean_sklearn_name
+from kfc_procedure.cobra.core.estimators.base import BaseEstimator
+from kfc_procedure.cobra.utils.preprocessing import clean_sklearn_name
 
 class SklearnEstimator(BaseEstimator):
     """

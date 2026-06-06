@@ -20,16 +20,16 @@ from typing import Any
 import numpy as np
 from sklearn.base import BaseEstimator as SkBaseEstimator, RegressorMixin, clone
 from sklearn.utils.validation import check_X_y, check_array, check_is_fitted
-from cobra.core.adapters.base import BaseKernelAdapter, KernelAdapterFactory
-from cobra.core.aggregators.base import AggregatorFactory, BaseAggregator
-from cobra.core.distances.base import BaseDistance, DistanceFactory
-from cobra.core.estimators.base import BaseEstimator, EstimatorFactory
-from cobra.core.kernels.base import BaseKernel, KernelFactory
-from cobra.core.losses.base import BaseLoss, LossFactory
-from cobra.core.optimizers.base import OptimizerFactory
-from cobra.core.cv.base import BaseCrossValidator, CVFactory
-from cobra.utils.preprocessing import compute_normalization_constant, history_to_dataframe
-from cobra.utils.resolve import fit_estimators, predict_estimators, resolve_training_context
+from kfc_procedure.cobra.core.adapters.base import BaseKernelAdapter, KernelAdapterFactory
+from kfc_procedure.cobra.core.aggregators.base import AggregatorFactory, BaseAggregator
+from kfc_procedure.cobra.core.distances.base import BaseDistance, DistanceFactory
+from kfc_procedure.cobra.core.estimators.base import BaseEstimator, EstimatorFactory
+from kfc_procedure.cobra.core.kernels.base import BaseKernel, KernelFactory
+from kfc_procedure.cobra.core.losses.base import BaseLoss, LossFactory
+from kfc_procedure.cobra.core.optimizers.base import OptimizerFactory
+from kfc_procedure.cobra.core.cv.base import BaseCrossValidator, CVFactory
+from kfc_procedure.cobra.utils.preprocessing import compute_normalization_constant, history_to_dataframe
+from kfc_procedure.cobra.utils.resolve import fit_estimators, predict_estimators, resolve_training_context
 
 class MixCOBRARegressor(ABC, SkBaseEstimator, RegressorMixin):
 	"""

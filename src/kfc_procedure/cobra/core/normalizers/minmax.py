@@ -11,8 +11,8 @@ especially for distance-based learning systems like COBRA.
 
 import numpy as np
 
-from cobra.core.normalizers.base import BaseNormalizer
-from cobra.core.normalizers.base import NormalizerFactory
+from kfc_procedure.cobra.core.normalizers.base import BaseNormalizer
+from kfc_procedure.cobra.core.normalizers.base import NormalizerFactory
 
 
 @NormalizerFactory.register("minmax")

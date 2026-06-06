@@ -31,8 +31,8 @@ from typing import Any, Callable, Dict, Optional
 
 import numpy as np
 
-from cobra.core.optimizers._utils import compute_gradient
-from cobra.core.optimizers.base import BaseOptimizer, tqdm
+from kfc_procedure.cobra.core.optimizers._utils import compute_gradient
+from kfc_procedure.cobra.core.optimizers.base import BaseOptimizer, tqdm
 
 
 class BaseGradientOptimizer(BaseOptimizer, ABC):

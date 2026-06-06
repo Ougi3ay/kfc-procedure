@@ -5,7 +5,7 @@ This module integrates COBRA CombinedClassifier into the combiner API.
 """
 
 import numpy as np
-from cobra.combined_classifier import CombinedClassifier
+from kfc_procedure.cobra.combined_classifier import CombinedClassifier
 
 from kfc_procedure.core.combiner.base import BaseCombiner
 from kfc_procedure.core.combiner import CombinerFactory

@@ -29,7 +29,7 @@ from typing import Any, Dict
 
 import numpy as np
 
-from cobra.core.factory import BaseFactory
+from kfc_procedure.cobra.core.factory import BaseFactory
 
 try:
     from tqdm import tqdm

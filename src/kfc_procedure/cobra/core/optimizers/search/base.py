@@ -29,7 +29,7 @@ from typing import Callable, Dict, Any
 
 import numpy as np
 
-from cobra.core.optimizers.base import BaseOptimizer, tqdm
+from kfc_procedure.cobra.core.optimizers.base import BaseOptimizer, tqdm
 
 
 class BaseSearchOptimizer(BaseOptimizer, ABC):

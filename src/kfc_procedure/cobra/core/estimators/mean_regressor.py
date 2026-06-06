@@ -4,8 +4,8 @@ Mean Regressor implementation for regression tasks.
 from __future__ import annotations
 import numpy as np
 
-from cobra.core.estimators.base import BaseEstimator
-from cobra.core.estimators.base import EstimatorFactory
+from kfc_procedure.cobra.core.estimators.base import BaseEstimator
+from kfc_procedure.cobra.core.estimators.base import EstimatorFactory
 
 
 @EstimatorFactory.register("mean_regressor", "mean")

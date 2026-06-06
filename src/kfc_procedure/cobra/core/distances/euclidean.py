@@ -19,8 +19,8 @@ from __future__ import annotations
 
 import numpy as np
 
-from cobra.core.distances.base import BaseDistance
-from cobra.core.distances.base import DistanceFactory
+from kfc_procedure.cobra.core.distances.base import BaseDistance
+from kfc_procedure.cobra.core.distances.base import DistanceFactory
 
 
 @DistanceFactory.register("euclidean", "l2")

@@ -39,7 +39,7 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import Dict, Any
 import numpy as np
-from cobra.core.factory import BaseFactory
+from kfc_procedure.cobra.core.factory import BaseFactory
 
 class BaseKernel(ABC):
     """

@@ -21,8 +21,8 @@ from typing import Iterator
 import numpy as np
 from numpy.typing import ArrayLike
 
-from cobra.core.types import SplitIndices
-from cobra.core.cv.base import BaseCrossValidator, CVFactory
+from kfc_procedure.cobra.core.types import SplitIndices
+from kfc_procedure.cobra.core.cv.base import BaseCrossValidator, CVFactory
 
 
 @CVFactory.register("kfold")

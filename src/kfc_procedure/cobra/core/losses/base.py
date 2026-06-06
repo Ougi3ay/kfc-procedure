@@ -20,7 +20,7 @@ from typing import Any
 
 from numpy.typing import ArrayLike
 
-from cobra.core.factory import BaseFactory
+from kfc_procedure.cobra.core.factory import BaseFactory
 
 
 # =========================================================

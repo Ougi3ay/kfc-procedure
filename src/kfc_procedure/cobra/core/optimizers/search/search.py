@@ -26,8 +26,8 @@ from typing import Dict, List
 
 import numpy as np
 
-from cobra.core.optimizers.base import OptimizerFactory
-from cobra.core.optimizers.search.base import BaseSearchOptimizer
+from kfc_procedure.cobra.core.optimizers.base import OptimizerFactory
+from kfc_procedure.cobra.core.optimizers.search.base import BaseSearchOptimizer
 
 
 @OptimizerFactory.register(

@@ -14,7 +14,7 @@ import numpy as np
 from numpy.typing import ArrayLike
 
 from .base import BaseCrossValidator, CVFactory
-from cobra.core.types import SplitIndices
+from kfc_procedure.cobra.core.types import SplitIndices
 
 
 @CVFactory.register("stratified_kfold")

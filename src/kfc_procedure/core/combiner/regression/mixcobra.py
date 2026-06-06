@@ -5,7 +5,7 @@ This module wraps MixCOBRARegressor into a sklearn-style combiner.
 """
 
 import numpy as np
-from cobra.mixcobra import MixCOBRARegressor
+from kfc_procedure.cobra.mixcobra import MixCOBRARegressor
 
 from kfc_procedure.core.combiner.base import BaseCombiner
 from kfc_procedure.core.combiner import CombinerFactory

@@ -5,7 +5,7 @@ This module wraps GradientCOBRA into a sklearn-style combiner.
 """
 
 import numpy as np
-from cobra.gradientcobra import GradientCOBRA
+from kfc_procedure.cobra.gradientcobra import GradientCOBRA
 
 from kfc_procedure.core.combiner.base import BaseCombiner
 from kfc_procedure.core.combiner import CombinerFactory
