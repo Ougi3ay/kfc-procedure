@@ -60,7 +60,7 @@ Notes
 
 from __future__ import annotations
 
-from typing import Dict
+from typing import Dict, Optional
 import numpy as np
 
 from sklearn.model_selection import train_test_split
@@ -166,9 +166,9 @@ class KFCProcedure(BaseEstimator):
         divergences,
         local_model,
         combiner,
-        divergences_params: Dict = None,
-        local_model_params: Dict = None,
-        combiner_params: Dict = None,
+        divergences_params: Optional[Dict] = None,
+        local_model_params: Optional[Dict] = None,
+        combiner_params: Optional[Dict] = None,
         task: str = "regression",
         n_clusters=3,
         max_iter=300,

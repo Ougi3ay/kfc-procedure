@@ -158,7 +158,16 @@ class FStep(ABC, BaseEstimator):
                     continue
                 Xc, yc = X[idx], y[idx]
                 model = self._resolve()
-                model.fit(Xc, yc)
+
+                try:
+                    model.fit(Xc, yc)
+
+                except ValueError as e:
+                    raise ValueError(
+                        f"[FSTEP ERROR] divergence='{div_name}', cluster={k} failed.\n"
+                        f"Reason: {str(e)}\n"
+                        f"Hint: cluster contains invalid label distribution."
+                    ) from e
 
                 self.models_[div_name][f"m{k}"] = {
                     "divergence" : div_name,
