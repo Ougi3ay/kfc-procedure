@@ -48,7 +48,8 @@ cobra = [
   "pandas",
   "numpy",
   "scikit-learn",
-  "matplotlib"
+  "matplotlib",
+  "plotly"
 ]
 
 dev = [
