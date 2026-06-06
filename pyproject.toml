@@ -31,7 +31,32 @@ classifiers = [
 Homepage = "https://github.com/Ougi3ay/kfc-procedure"
 
 [project.optional-dependencies]
-dev = ["pytest", "black", "mypy"]
+
+core = [
+    "numpy",
+    "scikit-learn"
+]
+
+cobra = [
+    "numba",
+    "faiss-cpu",
+    "xgboost",
+    "gradientcobra",
+    "pandas",
+    "matplotlib"
+]
+
+dev = [
+    "pytest",
+    "build",
+    "twine",
+    "jupyter"
+]
+
+all = [
+    "kfc_procedure[cobra]",
+    "kfc_procedure[dev]"
+]
 
 # --------------------------
 # Use setuptools to find packages in src/
