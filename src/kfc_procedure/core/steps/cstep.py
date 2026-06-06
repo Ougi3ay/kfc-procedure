@@ -1,9 +1,80 @@
 """
-C-step aggregation layer for the KFC pipeline.
+C-step aggregation layer in the KFC pipeline.
 
-The C-step aggregates the held-out prediction matrix produced by F-step
+This module implements the C-step of the KFCProcedure framework, where
+divergence-specific predictions produced by the F-step are aggregated
 into final outputs using a configurable combiner strategy.
+
+Overview
+--------
+The C-step receives a prediction matrix:
+
+    X ∈ R^{n_samples × n_divergences}
+
+where each column corresponds to predictions obtained under a specific
+divergence-induced model family.
+
+The goal is to learn or apply an aggregation function:
+
+    f: R^{n × m} → R^n
+
+that fuses multiple divergence-aware predictions into a single final
+output.
+
+Aggregation strategies
+----------------------
+The following combiner families are supported:
+
+Regression:
+* mean
+* weighted_mean
+* stacking
+* gradientcobra
+* mixcobra
+
+Classification:
+* majority_vote
+* stacking_classifier
+* combined_classifier (COBRA-based probabilistic aggregation)
+
+Key Idea
+--------
+Each divergence produces a distinct predictive view of the data.
+The C-step acts as a fusion layer that reconciles these views into a
+single decision or prediction.
+
+This enables:
+
+* ensemble learning across divergence spaces
+* model selection and weighting across metrics
+* meta-learning over divergence-induced predictors
+
+Inputs
+------
+X : ndarray of shape (n_samples, n_divergences)
+    Prediction matrix from F-step.
+
+y : ndarray of shape (n_samples,)
+    Ground truth labels (used for training combiners that require supervision).
+
+Outputs
+-------
+y_pred : ndarray of shape (n_samples,)
+    Final aggregated predictions.
+
+Optional:
+y_proba : ndarray of shape (n_samples, n_classes)
+    Class probabilities (only for classification models supporting it).
+
+Notes
+-----
+* Stateless combiners (e.g., mean, majority vote) do not require fitting.
+* Learned combiners (e.g., stacking, COBRA) require training on X and y.
+* The C-step is task-aware (regression vs classification).
+
+This stage is the final fusion layer of the KFC pipeline.
 """
+
 
 from __future__ import annotations
 
@@ -18,19 +89,69 @@ from kfc_procedure.core.combiner.base import BaseCombiner, CombinerFactory
 
 class CStep(BaseEstimator):
     """
-    C-step: Combines divergence-level predictions into final output.
+    C-step: Aggregation layer for divergence-aware predictions.
 
-    This layer selects and applies a combiner strategy such as:
-    - mean
-    - weighted_mean
-    - stacking
-    - majority_vote
+    The C-step combines outputs from multiple divergence-specific models
+    into a final prediction using a configurable combiner strategy.
+
+    Parameters
+    ----------
+    combiner : str or BaseCombiner
+        Aggregation strategy. Can be:
+        - string identifier resolved via CombinerFactory
+        - pre-instantiated BaseCombiner object
+
+    combiner_params : dict, default=None
+        Parameters passed to the combiner constructor.
+
+    task : str, default="regression"
+        Learning task type:
+        - "regression"
+        - "classification"
+
+    random_state : int or None, default=None
+        Random seed forwarded to stochastic combiners.
+
+    Attributes
+    ----------
+    strategy_ : BaseCombiner
+        Fitted combiner strategy instance.
+
+    Methods
+    -------
+    fit(X, y)
+        Fit the aggregation strategy on prediction matrix.
+
+    predict(X)
+        Return aggregated regression or class predictions.
+
+    predict_proba(X)
+        Return class probabilities (classification only).
+
+    Notes
+    -----
+    The C-step operates on the output of the F-step:
+
+        X = F_step(X_input)
+
+    Each column of X corresponds to a divergence-specific prediction.
+
+    The C-step performs:
+
+        y = f(X)
+
+    where f is a learned or rule-based aggregation function.
+
+    Raises
+    ------
+    AttributeError
+        If predict_proba is called on a regression task or unsupported
+        combiner.
     """
-
     def __init__(
         self,
         combiner: Union[str, BaseCombiner],
-        combiner_params: Dict = None,
+        combiner_params: Optional[Dict] = None,
         task: str = "regression",
         random_state: Optional[int] = None,
     ):
