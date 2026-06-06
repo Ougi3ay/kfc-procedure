@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from cobra.core.distances import DistanceFactory
+from kfc_procedure.cobra.core.distances import DistanceFactory
 
 
 # =========================================================

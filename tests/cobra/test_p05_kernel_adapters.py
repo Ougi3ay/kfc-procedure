@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from cobra.core.adapters import KernelAdapterFactory
-from cobra.core.adapters import (
+from kfc_procedure.cobra.core.adapters import KernelAdapterFactory
+from kfc_procedure.cobra.core.adapters import (
     OneParameterKernelAdapter,
     TwoParameterKernelAdapter,
 )

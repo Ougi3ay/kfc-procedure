@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from cobra.core.splitters import (
+from kfc_procedure.cobra.core.splitters import (
     OverlapSplitter,
     RandomHoldoutSplitter,
     SplitterFactory,

@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from cobra.core.normalizers import (
+from kfc_procedure.cobra.core.normalizers import (
     StandardNormalizer,
     MinMaxNormalizer,
     NormalizerFactory,

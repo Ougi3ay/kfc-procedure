@@ -1,13 +1,13 @@
 import numpy as np
 import pytest
 
-from cobra.core.optimizers import OptimizerFactory
-from cobra.core.optimizers.gradient import (
+from kfc_procedure.cobra.core.optimizers import OptimizerFactory
+from kfc_procedure.cobra.core.optimizers.gradient import (
     GradientDescentOptimizer,
     MomentumOptimizer,
     AdamOptimizer,
 )
-from cobra.core.optimizers.search import GridSearchOptimizer
+from kfc_procedure.cobra.core.optimizers.search import GridSearchOptimizer
 
 
 # ============================================================

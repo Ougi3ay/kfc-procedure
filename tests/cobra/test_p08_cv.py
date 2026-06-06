@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from cobra.core.cv import CVFactory
-from cobra.core.cv import KFoldCV
+from kfc_procedure.cobra.core.cv import CVFactory
+from kfc_procedure.cobra.core.cv import KFoldCV
 
 
 # =========================================================

@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from cobra.core.aggregators.weighted_mean import WeightedMeanAggregator
-from cobra.core.aggregators.weighted_vote import WeightedVoteAggregator
+from kfc_procedure.cobra.core.aggregators.weighted_mean import WeightedMeanAggregator
+from kfc_procedure.cobra.core.aggregators.weighted_vote import WeightedVoteAggregator
 
 
 # ======================================================

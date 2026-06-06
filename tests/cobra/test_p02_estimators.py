@@ -1,7 +1,7 @@
 import numpy as np
 import pytest
 
-from cobra.core.estimators import (
+from kfc_procedure.cobra.core.estimators import (
     MeanRegressor,
     EstimatorFactory,
     SklearnEstimator,

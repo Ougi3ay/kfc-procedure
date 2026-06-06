@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from cobra.core.losses import LossFactory
-from cobra.core.losses import (
+from kfc_procedure.cobra.core.losses import LossFactory
+from kfc_procedure.cobra.core.losses import (
     MSELoss,
     MAELoss,
     HuberLoss,

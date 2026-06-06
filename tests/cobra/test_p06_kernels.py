@@ -1,8 +1,8 @@
 import numpy as np
 import pytest
 
-from cobra.core.kernels import KernelFactory
-from cobra.core.kernels import (
+from kfc_procedure.cobra.core.kernels import KernelFactory
+from kfc_procedure.cobra.core.kernels import (
     ReverseCoshKernel,
     ExponentialKernel,
     RadialKernel,
