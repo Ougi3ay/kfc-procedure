@@ -39,3 +39,9 @@ dev = ["pytest", "black", "mypy"]
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["kfc_procedure*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+addopts = "-vv --disable-warnings --strict-markers"
