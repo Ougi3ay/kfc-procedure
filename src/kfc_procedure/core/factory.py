@@ -265,11 +265,19 @@ class BaseFactory(ABC):
         # inspect constructor signature
         sig = inspect.signature(target_cls.__init__)
 
-        valid_kwargs = {
-            k: v
-            for k, v in kwargs.items()
-            if k in sig.parameters
-        }
+        accepts_kwargs = any(
+            p.kind == inspect.Parameter.VAR_KEYWORD
+            for p in sig.parameters.values()
+        )
+
+        if accepts_kwargs:
+            valid_kwargs = kwargs
+        else:
+            valid_kwargs = {
+                k: v
+                for k, v in kwargs.items()
+                if k in sig.parameters
+            }
 
         return target_cls(**valid_kwargs)
 

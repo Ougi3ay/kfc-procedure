@@ -1,0 +1,8 @@
+Rank,Model,Mean Accuracy
+1,KNeighborsClassifier,0.8229508196721312
+2,GaussianNB,0.8196721311475409
+3,SVC,0.8032786885245902
+4,CombinedClassifier,0.8
+5,Logistic Regression,0.7934426229508197
+6,Random Forest Classifier,0.7901639344262295
+7,KFCClassifier,0.7836065573770492
