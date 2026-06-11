@@ -29,6 +29,9 @@ classifiers = [
 
 [project.urls]
 Homepage = "https://github.com/Ougi3ay/kfc-procedure"
+Documentation = "https://ougi3ay.github.io/kfc-procedure/"
+Source = "https://github.com/Ougi3ay/kfc-procedure"
+Issues = "https://github.com/Ougi3ay/kfc-procedure/issues"
 
 # --------------------------
 # Optional dependencies (extras)

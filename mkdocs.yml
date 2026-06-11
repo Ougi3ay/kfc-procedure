@@ -1,0 +1,54 @@
+site_name: KFCProcedure Developer Documentation
+site_description: Source-grounded developer documentation for kfc_procedure
+repo_url: https://github.com/Ougi3ay/kfc-procedure
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.expand
+    - content.code.copy
+markdown_extensions:
+  - admonition
+  - toc:
+      permalink: true
+  - tables
+  - fenced_code
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+extra_javascript:
+  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+nav:
+  - Home: index.md
+  - Getting Started:
+      - Installation: getting-started/installation.md
+      - Quick Start: getting-started/quick-start.md
+  - Architecture:
+      - Overview: architecture/overview.md
+      - Functional Workflow: architecture/workflow.md
+  - API Reference:
+      - API Index: api/index.md
+      - Public Estimators: api/estimators.md
+      - KFC Core API: api/kfc-core.md
+      - COBRA Core API: api/cobra-core.md
+      - Factory Registries: api/factories.md
+      - Complete Generated API Inventory: api/generated.md
+  - Examples: examples/basic.md
+  - Configuration: configuration.md
+  - Developer Guide:
+      - Overview: developer-guide/index.md
+      - Extending Components: developer-guide/extending.md
+      - Testing and QA: developer-guide/testing.md
+  - Performance: performance.md
+  - Design Decisions: design-decisions.md
+  - Mathematical Foundations: mathematical-foundations.md
+  - Research Context: research-context.md
+  - FAQ: faq.md
+  - Troubleshooting: troubleshooting.md
+  - Changelog Template: changelog-template.md
+  - Source Analysis Report: source-analysis.md
+  - Full Single-File Documentation: full-developer-documentation.md
