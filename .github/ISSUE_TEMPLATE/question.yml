@@ -1,0 +1,23 @@
+name: Question
+description: Ask a usage or development question
+title: "[Question]: "
+labels: ["question", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please check the documentation first: https://ougi3ay.github.io/kfc-procedure/
+  - type: textarea
+    id: question
+    attributes:
+      label: Question
+      description: What do you want to know?
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: Include code, package version, or links if relevant.
+    validations:
+      required: false

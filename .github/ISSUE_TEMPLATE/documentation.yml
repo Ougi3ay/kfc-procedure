@@ -1,0 +1,41 @@
+name: Documentation issue
+description: Report missing, unclear, or incorrect documentation
+title: "[Docs]: "
+labels: ["documentation", "needs-triage"]
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Documentation page or file
+      description: Link to the page or name the file.
+      placeholder: "https://ougi3ay.github.io/kfc-procedure/ or README.md"
+    validations:
+      required: false
+  - type: dropdown
+    id: issue-type
+    attributes:
+      label: Issue type
+      options:
+        - Missing information
+        - Incorrect information
+        - Unclear explanation
+        - Broken link
+        - Typo or formatting
+        - Example does not run
+        - Other
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What should be improved?
+      description: Describe the documentation problem.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested change
+      description: Suggest wording, examples, or sections to add.
+    validations:
+      required: false

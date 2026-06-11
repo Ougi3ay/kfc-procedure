@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+title: "KFCProcedure"
+message: "If you use this software in academic work, please cite it using the metadata below."
+type: software
+authors:
+  - family-names: "Pov"
+    given-names: "Ougi"
+repository-code: "https://github.com/Ougi3ay/kfc-procedure"
+url: "https://ougi3ay.github.io/kfc-procedure/"
+license: "MIT"
+version: "0.1.1"
+date-released: "2026-06-12"
+abstract: "Python package for clusterwise predictive modeling and COBRA-based ensemble aggregation."
+keywords:
+  - machine-learning
+  - clusterwise-learning
+  - ensemble-learning
+  - COBRA
+  - Bregman-divergence
