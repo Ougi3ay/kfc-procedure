@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://ougi3ay.github.io/kfc-procedure/
+    about: Read the official documentation before opening an issue.
+  - name: PyPI package
+    url: https://pypi.org/project/kfc-procedure/
+    about: View the published package and release files.
+  - name: Security policy
+    url: https://github.com/Ougi3ay/kfc-procedure/security/policy
+    about: Please do not report security vulnerabilities in public issues.
