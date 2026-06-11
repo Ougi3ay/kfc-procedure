@@ -208,6 +208,6 @@ __marimo__/
 
 
 # custom
-docs/
+abcdocs/
 backup/
 *_old.py
