@@ -410,4 +410,6 @@ This project is distributed under the MIT License. See `LICENSE` for details.
 ## Links
 
 - Homepage: <https://github.com/Ougi3ay/kfc-procedure>
-- Documentation: see the `docs/` directory in the repository.
+- PyPI: <https://pypi.org/project/kfc-procedure/>
+- Documentation: <https://ougi3ay.github.io/kfc-procedure/>
+- Issues: <https://github.com/Ougi3ay/kfc-procedure/issues>
