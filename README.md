@@ -1,5 +1,9 @@
 # KFCProcedure
 
+[![PyPI version](https://img.shields.io/pypi/v/kfc-procedure.svg)](https://pypi.org/project/kfc-procedure/)
+[![Python versions](https://img.shields.io/pypi/pyversions/kfc-procedure.svg)](https://pypi.org/project/kfc-procedure/)
+[![Documentation](https://img.shields.io/badge/docs-online-blue.svg)](https://ougi3ay.github.io/kfc-procedure/)
+
 `kfc-procedure` is a Python package for clusterwise predictive modeling and COBRA-based ensemble aggregation. It implements a modular **K-step → F-step → C-step** learning pipeline, where data are clustered under one or more Bregman divergences, local predictive models are trained inside the induced clusters, and the resulting predictions are combined by an aggregation strategy.
 
 The package is intended for research and development workflows involving heterogeneous data, local modeling, and ensemble aggregation.
