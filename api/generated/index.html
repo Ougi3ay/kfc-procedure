@@ -1,0 +1,4779 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Source-grounded developer documentation for kfc_procedure">
+      
+      
+      
+      
+        <link rel="prev" href="../factories/">
+      
+      
+        <link rel="next" href="../../examples/basic/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Complete Generated API Inventory - KFCProcedure Developer Documentation</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#complete-generated-api-inventory" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="KFCProcedure Developer Documentation" class="md-header__button md-logo" aria-label="KFCProcedure Developer Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KFCProcedure Developer Documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Complete Generated API Inventory
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="KFCProcedure Developer Documentation" class="md-nav__button md-logo" aria-label="KFCProcedure Developer Documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KFCProcedure Developer Documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    GitHub
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../architecture/workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Functional Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../estimators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Estimators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kfc-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Core API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cobra-core/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    COBRA Core API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../factories/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Factory Registries
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Generated API Inventory
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Complete Generated API Inventory
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kfc_procedurecobracombined_classifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kfc_procedure.cobra.combined_classifier
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="kfc_procedure.cobra.combined_classifier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#combinedclassifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CombinedClassifier
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../examples/basic/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Guide
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer-guide/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer-guide/extending/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extending Components
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer-guide/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing and QA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../performance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Performance
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../design-decisions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Design Decisions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../mathematical-foundations/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematical Foundations
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../research-context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Research Context
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../changelog-template/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Changelog Template
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../source-analysis/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Source Analysis Report
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../full-developer-documentation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Full Single-File Documentation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#kfc_procedurecobracombined_classifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        kfc_procedure.cobra.combined_classifier
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="kfc_procedure.cobra.combined_classifier">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#combinedclassifier" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CombinedClassifier
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="complete-generated-api-inventory">Complete Generated API Inventory<a class="headerlink" href="#complete-generated-api-inventory" title="Permanent link">&para;</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Source-grounded documentation</p>
+<p>This documentation was generated from direct inspection of the provided repository, packaging metadata, notebooks, tests, and thesis files. It documents behavior observed in source code and tests only. Analysis date: <strong>2026-06-12</strong>.</p>
+</div>
+<p>This page lists public modules, classes, methods, and functions extracted from the implementation.</p>
+<h2 id="kfc_procedurecobracombined_classifier"><code>kfc_procedure.cobra.combined_classifier</code><a class="headerlink" href="#kfc_procedurecobracombined_classifier" title="Permanent link">&para;</a></h2>
+<h3 id="combinedclassifier"><code>CombinedClassifier</code><a class="headerlink" href="#combinedclassifier" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">CombinedClassifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimators</span><span class="p">:</span> <span class="s1">&#39;List[Union[str, BaseEstimator]] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">estimators_params</span><span class="p">:</span> <span class="s1">&#39;Dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;hamming&#39;</span><span class="p">,</span> <span class="n">distance_params</span><span class="p">:</span> <span class="s1">&#39;Dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">kernel</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">kernel_params</span><span class="p">:</span> <span class="s1">&#39;Dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aggregator</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;weighted_vote&#39;</span><span class="p">,</span> <span class="n">aggregator_params</span><span class="p">:</span> <span class="s1">&#39;Dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">loss</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="n">loss_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;grid&#39;</span><span class="p">,</span> <span class="n">optimizer_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">bandwidth_list</span><span class="p">:</span> <span class="s1">&#39;np.ndarray | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="n">n_cv</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="s1">&#39;int | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<h1 id="combineclassifier">CombineClassifier<a class="headerlink" href="#combineclassifier" title="Permanent link">&para;</a></h1>
+<h4 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X, y, X_l=None, y_l=None, split_ratio=0.5, overlap=False, as_predictions=False)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>kappa_cross_validation_error</code></td>
+<td><code>(self, params)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X)</code></td>
+</tr>
+<tr>
+<td><code>predict_proba</code></td>
+<td><code>(self, X)</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="combinedclassifierfast"><code>CombinedClassifierFast</code><a class="headerlink" href="#combinedclassifierfast" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">CombinedClassifierFast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_faiss</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">faiss_k</span><span class="p">:</span> <span class="s1">&#39;int | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<h1 id="combineclassifier_1">CombineClassifier<a class="headerlink" href="#combineclassifier_1" title="Permanent link">&para;</a></h1>
+<h4 id="methods_1">Methods<a class="headerlink" href="#methods_1" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X, y, X_l=None, y_l=None, split_ratio=0.5, overlap=False, as_predictions=False)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>kappa_cross_validation_error</code></td>
+<td><code>(self, params)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X)</code></td>
+</tr>
+<tr>
+<td><code>predict_proba</code></td>
+<td><code>(self, X, pred_X)</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreadaptersbase"><code>kfc_procedure.cobra.core.adapters.base</code><a class="headerlink" href="#kfc_procedurecobracoreadaptersbase" title="Permanent link">&para;</a></h2>
+<h3 id="basekerneladapter"><code>BaseKernelAdapter</code><a class="headerlink" href="#basekerneladapter" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseKernelAdapter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for kernel transformation adapters.</p>
+<h4 id="methods_2">Methods<a class="headerlink" href="#methods_2" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>parameter_vector</code></td>
+<td><code>(self) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+<tr>
+<td><code>transform</code></td>
+<td><code>(self, *distances: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="kerneladapterfactory"><code>KernelAdapterFactory</code><a class="headerlink" href="#kerneladapterfactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">KernelAdapterFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Factory for kernel adapters.</p>
+<h4 id="methods_3">Methods<a class="headerlink" href="#methods_3" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreadaptersone_parameter"><code>kfc_procedure.cobra.core.adapters.one_parameter</code><a class="headerlink" href="#kfc_procedurecobracoreadaptersone_parameter" title="Permanent link">&para;</a></h2>
+<h3 id="oneparameterkerneladapter"><code>OneParameterKernelAdapter</code><a class="headerlink" href="#oneparameterkerneladapter" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">OneParameterKernelAdapter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bandwidth</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
+</code></pre></div>
+<p>Simple scaling kernel adapter.</p>
+<h4 id="methods_4">Methods<a class="headerlink" href="#methods_4" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>parameter_vector</code></td>
+<td><code>(self) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+<tr>
+<td><code>transform</code></td>
+<td><code>(self, *distances: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreadapterstwo_parameter"><code>kfc_procedure.cobra.core.adapters.two_parameter</code><a class="headerlink" href="#kfc_procedurecobracoreadapterstwo_parameter" title="Permanent link">&para;</a></h2>
+<h3 id="twoparameterkerneladapter"><code>TwoParameterKernelAdapter</code><a class="headerlink" href="#twoparameterkerneladapter" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">TwoParameterKernelAdapter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">alpha</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span> <span class="n">beta</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">)</span>
+</code></pre></div>
+<p>Linear combination kernel adapter.</p>
+<h4 id="methods_5">Methods<a class="headerlink" href="#methods_5" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>parameter_vector</code></td>
+<td><code>(self) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+<tr>
+<td><code>transform</code></td>
+<td><code>(self, *distances: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreaggregatorsbase"><code>kfc_procedure.cobra.core.aggregators.base</code><a class="headerlink" href="#kfc_procedurecobracoreaggregatorsbase" title="Permanent link">&para;</a></h2>
+<h3 id="aggregatorfactory"><code>AggregatorFactory</code><a class="headerlink" href="#aggregatorfactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">AggregatorFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract registry-based factory.</p>
+<h4 id="methods_6">Methods<a class="headerlink" href="#methods_6" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="baseaggregator"><code>BaseAggregator</code><a class="headerlink" href="#baseaggregator" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseAggregator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Base class for COBRA aggregation strategies.</p>
+<h4 id="methods_7">Methods<a class="headerlink" href="#methods_7" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>aggregate</code></td>
+<td><code>(self, values: 'np.ndarray', weights: 'np.ndarray \| None' = None, **kwargs)</code></td>
+</tr>
+<tr>
+<td><code>aggregate_matrix</code></td>
+<td><code>(self, values: 'np.ndarray', weights: 'np.ndarray', fallback: 'float \| None' = None, **kwargs) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>aggregate_proba</code></td>
+<td><code>(self, values: 'np.ndarray', weights: 'np.ndarray \| None' = None, classes: 'np.ndarray \| None' = None, **kwargs)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreaggregatorsweighted_mean"><code>kfc_procedure.cobra.core.aggregators.weighted_mean</code><a class="headerlink" href="#kfc_procedurecobracoreaggregatorsweighted_mean" title="Permanent link">&para;</a></h2>
+<h3 id="weightedmeanaggregator"><code>WeightedMeanAggregator</code><a class="headerlink" href="#weightedmeanaggregator" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">WeightedMeanAggregator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Weighted mean aggregation (regression).</p>
+<h4 id="methods_8">Methods<a class="headerlink" href="#methods_8" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>aggregate</code></td>
+<td><code>(self, values, weights=None, fallback=None, **kwargs)</code></td>
+</tr>
+<tr>
+<td><code>aggregate_matrix</code></td>
+<td><code>(self, values: 'np.ndarray', weights: 'np.ndarray', fallback: 'float \| None' = None, **kwargs) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>aggregate_proba</code></td>
+<td><code>(self, values, weights=None, classes=None, **kwargs)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreaggregatorsweighted_vote"><code>kfc_procedure.cobra.core.aggregators.weighted_vote</code><a class="headerlink" href="#kfc_procedurecobracoreaggregatorsweighted_vote" title="Permanent link">&para;</a></h2>
+<h3 id="weightedvoteaggregator"><code>WeightedVoteAggregator</code><a class="headerlink" href="#weightedvoteaggregator" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">WeightedVoteAggregator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Fully vectorized weighted majority vote.</p>
+<h4 id="methods_9">Methods<a class="headerlink" href="#methods_9" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>aggregate</code></td>
+<td><code>(self, values, weights=None, **kwargs)</code></td>
+</tr>
+<tr>
+<td><code>aggregate_matrix</code></td>
+<td><code>(self, values, weights, **kwargs)</code></td>
+</tr>
+<tr>
+<td><code>aggregate_proba</code></td>
+<td><code>(self, values, weights=None, classes=None, **kwargs)</code></td>
+</tr>
+<tr>
+<td><code>aggregate_proba_batch</code></td>
+<td><code>(self, values, weights, classes=None, **kwargs)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorecvbase"><code>kfc_procedure.cobra.core.cv.base</code><a class="headerlink" href="#kfc_procedurecobracorecvbase" title="Permanent link">&para;</a></h2>
+<h3 id="basecrossvalidator"><code>BaseCrossValidator</code><a class="headerlink" href="#basecrossvalidator" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseCrossValidator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for cross-validation strategies.</p>
+<h4 id="methods_10">Methods<a class="headerlink" href="#methods_10" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_n_splits</code></td>
+<td><code>(self) -&gt; 'int'</code></td>
+</tr>
+<tr>
+<td><code>split</code></td>
+<td><code>(self, x: 'ArrayLike', y: 'ArrayLike', *, groups: 'ArrayLike \| None' = None) -&gt; 'Iterator[SplitIndices]'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="cvfactory"><code>CVFactory</code><a class="headerlink" href="#cvfactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">CVFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Factory for cross-validation strategies.</p>
+<h4 id="methods_11">Methods<a class="headerlink" href="#methods_11" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorecvkfold"><code>kfc_procedure.cobra.core.cv.kfold</code><a class="headerlink" href="#kfc_procedurecobracorecvkfold" title="Permanent link">&para;</a></h2>
+<h3 id="kfoldcv"><code>KFoldCV</code><a class="headerlink" href="#kfoldcv" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">KFoldCV</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">shuffle</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="s1">&#39;int | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>K-Fold Cross-Validation.</p>
+<h4 id="methods_12">Methods<a class="headerlink" href="#methods_12" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_n_splits</code></td>
+<td><code>(self, x: 'ArrayLike \| None' = None, y: 'ArrayLike \| None' = None) -&gt; 'int'</code></td>
+</tr>
+<tr>
+<td><code>split</code></td>
+<td><code>(self, x: 'ArrayLike', y: 'ArrayLike') -&gt; 'Iterator[SplitIndices]'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorecvstratified_kfold"><code>kfc_procedure.cobra.core.cv.stratified_kfold</code><a class="headerlink" href="#kfc_procedurecobracorecvstratified_kfold" title="Permanent link">&para;</a></h2>
+<h3 id="stratifiedkfoldcv"><code>StratifiedKFoldCV</code><a class="headerlink" href="#stratifiedkfoldcv" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">StratifiedKFoldCV</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="s1">&#39;int | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Stratified K-Fold Cross Validation.</p>
+<h4 id="methods_13">Methods<a class="headerlink" href="#methods_13" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_n_splits</code></td>
+<td><code>(self) -&gt; 'int'</code></td>
+</tr>
+<tr>
+<td><code>split</code></td>
+<td><code>(self, x: 'ArrayLike', y: 'ArrayLike')</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorecvtime_series"><code>kfc_procedure.cobra.core.cv.time_series</code><a class="headerlink" href="#kfc_procedurecobracorecvtime_series" title="Permanent link">&para;</a></h2>
+<h3 id="timeseriescv"><code>TimeSeriesCV</code><a class="headerlink" href="#timeseriescv" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">TimeSeriesCV</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">test_size</span><span class="p">:</span> <span class="s1">&#39;int | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Time Series Cross Validation.</p>
+<h4 id="methods_14">Methods<a class="headerlink" href="#methods_14" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_n_splits</code></td>
+<td><code>(self) -&gt; 'int'</code></td>
+</tr>
+<tr>
+<td><code>split</code></td>
+<td><code>(self, x: 'ArrayLike', y: 'ArrayLike')</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoredistancesbase"><code>kfc_procedure.cobra.core.distances.base</code><a class="headerlink" href="#kfc_procedurecobracoredistancesbase" title="Permanent link">&para;</a></h2>
+<h3 id="basedistance"><code>BaseDistance</code><a class="headerlink" href="#basedistance" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for all distance metrics.</p>
+<h4 id="methods_15">Methods<a class="headerlink" href="#methods_15" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True)</code></td>
+</tr>
+<tr>
+<td><code>matrix</code></td>
+<td><code>(self, x: 'np.ndarray', y: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="distancefactory"><code>DistanceFactory</code><a class="headerlink" href="#distancefactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">DistanceFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Factory class for distance metrics.</p>
+<h4 id="methods_16">Methods<a class="headerlink" href="#methods_16" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoredistancescosine"><code>kfc_procedure.cobra.core.distances.cosine</code><a class="headerlink" href="#kfc_procedurecobracoredistancescosine" title="Permanent link">&para;</a></h2>
+<h3 id="cosinedistance"><code>CosineDistance</code><a class="headerlink" href="#cosinedistance" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">CosineDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Cosine distance metric.</p>
+<h4 id="methods_17">Methods<a class="headerlink" href="#methods_17" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True)</code></td>
+</tr>
+<tr>
+<td><code>matrix</code></td>
+<td><code>(self, x: 'np.ndarray', y: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoredistanceseuclidean"><code>kfc_procedure.cobra.core.distances.euclidean</code><a class="headerlink" href="#kfc_procedurecobracoredistanceseuclidean" title="Permanent link">&para;</a></h2>
+<h3 id="euclideandistance"><code>EuclideanDistance</code><a class="headerlink" href="#euclideandistance" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">EuclideanDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Euclidean (L2) distance metric.</p>
+<h4 id="methods_18">Methods<a class="headerlink" href="#methods_18" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True)</code></td>
+</tr>
+<tr>
+<td><code>matrix</code></td>
+<td><code>(self, x: 'np.ndarray', y: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoredistanceshamming"><code>kfc_procedure.cobra.core.distances.hamming</code><a class="headerlink" href="#kfc_procedurecobracoredistanceshamming" title="Permanent link">&para;</a></h2>
+<h3 id="hammingdistance"><code>HammingDistance</code><a class="headerlink" href="#hammingdistance" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">HammingDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Hamming distance metric.</p>
+<h4 id="methods_19">Methods<a class="headerlink" href="#methods_19" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True)</code></td>
+</tr>
+<tr>
+<td><code>matrix</code></td>
+<td><code>(self, x: 'np.ndarray', y: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoredistancesmanhattan"><code>kfc_procedure.cobra.core.distances.manhattan</code><a class="headerlink" href="#kfc_procedurecobracoredistancesmanhattan" title="Permanent link">&para;</a></h2>
+<h3 id="manhattandistance"><code>ManhattanDistance</code><a class="headerlink" href="#manhattandistance" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">ManhattanDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Manhattan (L1) distance metric.</p>
+<h4 id="methods_20">Methods<a class="headerlink" href="#methods_20" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True)</code></td>
+</tr>
+<tr>
+<td><code>matrix</code></td>
+<td><code>(self, x: 'np.ndarray', y: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoredistancesminkowski"><code>kfc_procedure.cobra.core.distances.minkowski</code><a class="headerlink" href="#kfc_procedurecobracoredistancesminkowski" title="Permanent link">&para;</a></h2>
+<h3 id="minkowskidistance"><code>MinkowskiDistance</code><a class="headerlink" href="#minkowskidistance" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">MinkowskiDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Minkowski (Lp) distance metric.</p>
+<h4 id="methods_21">Methods<a class="headerlink" href="#methods_21" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True)</code></td>
+</tr>
+<tr>
+<td><code>matrix</code></td>
+<td><code>(self, x: 'np.ndarray', y: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreestimatorsbase"><code>kfc_procedure.cobra.core.estimators.base</code><a class="headerlink" href="#kfc_procedurecobracoreestimatorsbase" title="Permanent link">&para;</a></h2>
+<h3 id="baseestimator"><code>BaseEstimator</code><a class="headerlink" href="#baseestimator" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseEstimator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for all COBRA estimators.</p>
+<h4 id="methods_22">Methods<a class="headerlink" href="#methods_22" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, x: 'np.ndarray', y: 'np.ndarray', **kwargs) -&gt; "'BaseEstimator'"</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, x: 'np.ndarray', **kwargs) -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="estimatorfactory"><code>EstimatorFactory</code><a class="headerlink" href="#estimatorfactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">EstimatorFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Registry-based factory for estimator classes.</p>
+<h4 id="methods_23">Methods<a class="headerlink" href="#methods_23" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreestimatorsmean_regressor"><code>kfc_procedure.cobra.core.estimators.mean_regressor</code><a class="headerlink" href="#kfc_procedurecobracoreestimatorsmean_regressor" title="Permanent link">&para;</a></h2>
+<h3 id="meanregressor"><code>MeanRegressor</code><a class="headerlink" href="#meanregressor" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">MeanRegressor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;None&#39;</span>
+</code></pre></div>
+<p>Mean baseline regressor.</p>
+<h4 id="methods_24">Methods<a class="headerlink" href="#methods_24" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, x: 'np.ndarray', y: 'np.ndarray', **kwargs) -&gt; "'MeanRegressor'"</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, x: 'np.ndarray', **kwargs) -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreestimatorssklearn"><code>kfc_procedure.cobra.core.estimators.sklearn</code><a class="headerlink" href="#kfc_procedurecobracoreestimatorssklearn" title="Permanent link">&para;</a></h2>
+<h3 id="sklearnestimator"><code>SklearnEstimator</code><a class="headerlink" href="#sklearnestimator" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">SklearnEstimator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimator_cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">sklearn</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">BaseEstimator</span><span class="p">],</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Wrapper for sklearn estimators to make them compatible
+with the COBRA BaseEstimator interface.</p>
+<h4 id="methods_25">Methods<a class="headerlink" href="#methods_25" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, x, y)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: bool = True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, x)</code></td>
+</tr>
+<tr>
+<td><code>predict_proba</code></td>
+<td><code>(self, x)</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="functions">Functions<a class="headerlink" href="#functions" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>register_all_sklearn_estimators</code></td>
+<td><code>(factory)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorefactory"><code>kfc_procedure.cobra.core.factory</code><a class="headerlink" href="#kfc_procedurecobracorefactory" title="Permanent link">&para;</a></h2>
+<h3 id="basefactory"><code>BaseFactory</code><a class="headerlink" href="#basefactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract registry-based factory.</p>
+<h4 id="methods_26">Methods<a class="headerlink" href="#methods_26" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorekernelsbase"><code>kfc_procedure.cobra.core.kernels.base</code><a class="headerlink" href="#kfc_procedurecobracorekernelsbase" title="Permanent link">&para;</a></h2>
+<h3 id="basekernel"><code>BaseKernel</code><a class="headerlink" href="#basekernel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseKernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for kernel functions.</p>
+<h4 id="methods_27">Methods<a class="headerlink" href="#methods_27" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>is_continuous</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>is_discrete</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params) -&gt; "'BaseKernel'"</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="kernelfactory"><code>KernelFactory</code><a class="headerlink" href="#kernelfactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">KernelFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Factory for kernel functions.</p>
+<h4 id="methods_28">Methods<a class="headerlink" href="#methods_28" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorekernelsbiweight"><code>kfc_procedure.cobra.core.kernels.biweight</code><a class="headerlink" href="#kfc_procedurecobracorekernelsbiweight" title="Permanent link">&para;</a></h2>
+<h3 id="biweightkernel"><code>BiweightKernel</code><a class="headerlink" href="#biweightkernel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BiweightKernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Biweight kernel (compact support).</p>
+<h4 id="methods_29">Methods<a class="headerlink" href="#methods_29" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>is_continuous</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>is_discrete</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params) -&gt; "'BaseKernel'"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorekernelscauchy"><code>kfc_procedure.cobra.core.kernels.cauchy</code><a class="headerlink" href="#kfc_procedurecobracorekernelscauchy" title="Permanent link">&para;</a></h2>
+<h3 id="cauchykernel"><code>CauchyKernel</code><a class="headerlink" href="#cauchykernel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">CauchyKernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Cauchy kernel with heavy-tailed decay.</p>
+<h4 id="methods_30">Methods<a class="headerlink" href="#methods_30" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>is_continuous</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>is_discrete</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params) -&gt; "'BaseKernel'"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorekernelscobra"><code>kfc_procedure.cobra.core.kernels.cobra</code><a class="headerlink" href="#kfc_procedurecobracorekernelscobra" title="Permanent link">&para;</a></h2>
+<h3 id="cobrakernel"><code>COBRAKernel</code><a class="headerlink" href="#cobrakernel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">COBRAKernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">threshold</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+</code></pre></div>
+<p>Binary threshold kernel.</p>
+<h4 id="methods_31">Methods<a class="headerlink" href="#methods_31" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>is_continuous</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>is_discrete</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params) -&gt; "'BaseKernel'"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorekernelsepanechnikov"><code>kfc_procedure.cobra.core.kernels.epanechnikov</code><a class="headerlink" href="#kfc_procedurecobracorekernelsepanechnikov" title="Permanent link">&para;</a></h2>
+<h3 id="epanechnikovkernel"><code>EpanechnikovKernel</code><a class="headerlink" href="#epanechnikovkernel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">EpanechnikovKernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Compact-support Epanechnikov kernel.</p>
+<h4 id="methods_32">Methods<a class="headerlink" href="#methods_32" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>is_continuous</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>is_discrete</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params) -&gt; "'BaseKernel'"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorekernelsexponential"><code>kfc_procedure.cobra.core.kernels.exponential</code><a class="headerlink" href="#kfc_procedurecobracorekernelsexponential" title="Permanent link">&para;</a></h2>
+<h3 id="exponentialkernel"><code>ExponentialKernel</code><a class="headerlink" href="#exponentialkernel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">ExponentialKernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
+</code></pre></div>
+<p>Exponential decay kernel.</p>
+<h4 id="methods_33">Methods<a class="headerlink" href="#methods_33" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>is_continuous</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>is_discrete</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params) -&gt; "'BaseKernel'"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorekernelsnaive"><code>kfc_procedure.cobra.core.kernels.naive</code><a class="headerlink" href="#kfc_procedurecobracorekernelsnaive" title="Permanent link">&para;</a></h2>
+<h3 id="naivekernel"><code>NaiveKernel</code><a class="headerlink" href="#naivekernel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">NaiveKernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Identity kernel (no transformation).</p>
+<h4 id="methods_34">Methods<a class="headerlink" href="#methods_34" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>is_continuous</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>is_discrete</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params) -&gt; "'BaseKernel'"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorekernelsradial"><code>kfc_procedure.cobra.core.kernels.radial</code><a class="headerlink" href="#kfc_procedurecobracorekernelsradial" title="Permanent link">&para;</a></h2>
+<h3 id="radialkernel"><code>RadialKernel</code><a class="headerlink" href="#radialkernel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">RadialKernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Radial basis kernel (simplified form).</p>
+<h4 id="methods_35">Methods<a class="headerlink" href="#methods_35" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>is_continuous</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>is_discrete</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params) -&gt; "'BaseKernel'"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorekernelsreverse_cosh"><code>kfc_procedure.cobra.core.kernels.reverse_cosh</code><a class="headerlink" href="#kfc_procedurecobracorekernelsreverse_cosh" title="Permanent link">&para;</a></h2>
+<h3 id="reversecoshkernel"><code>ReverseCoshKernel</code><a class="headerlink" href="#reversecoshkernel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">ReverseCoshKernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exponent</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
+</code></pre></div>
+<p>Reverse hyperbolic cosine kernel.</p>
+<h4 id="methods_36">Methods<a class="headerlink" href="#methods_36" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>is_continuous</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>is_discrete</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params) -&gt; "'BaseKernel'"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorekernelstriangular"><code>kfc_procedure.cobra.core.kernels.triangular</code><a class="headerlink" href="#kfc_procedurecobracorekernelstriangular" title="Permanent link">&para;</a></h2>
+<h3 id="triangularkernel"><code>TriangularKernel</code><a class="headerlink" href="#triangularkernel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">TriangularKernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Linear triangular kernel.</p>
+<h4 id="methods_37">Methods<a class="headerlink" href="#methods_37" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>is_continuous</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>is_discrete</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params) -&gt; "'BaseKernel'"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorekernelstriweight"><code>kfc_procedure.cobra.core.kernels.triweight</code><a class="headerlink" href="#kfc_procedurecobracorekernelstriweight" title="Permanent link">&para;</a></h2>
+<h3 id="triweightkernel"><code>TriweightKernel</code><a class="headerlink" href="#triweightkernel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">TriweightKernel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Triweight compact kernel.</p>
+<h4 id="methods_38">Methods<a class="headerlink" href="#methods_38" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep: 'bool' = True) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>is_continuous</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>is_discrete</code></td>
+<td><code>(self) -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params) -&gt; "'BaseKernel'"</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorelossesbase"><code>kfc_procedure.cobra.core.losses.base</code><a class="headerlink" href="#kfc_procedurecobracorelossesbase" title="Permanent link">&para;</a></h2>
+<h3 id="baseloss"><code>BaseLoss</code><a class="headerlink" href="#baseloss" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseLoss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for loss functions.</p>
+<h3 id="lossfactory"><code>LossFactory</code><a class="headerlink" href="#lossfactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">LossFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Factory for loss functions.</p>
+<h4 id="methods_39">Methods<a class="headerlink" href="#methods_39" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorelosseshinge"><code>kfc_procedure.cobra.core.losses.hinge</code><a class="headerlink" href="#kfc_procedurecobracorelosseshinge" title="Permanent link">&para;</a></h2>
+<h3 id="hingeloss"><code>HingeLoss</code><a class="headerlink" href="#hingeloss" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">HingeLoss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for loss functions.</p>
+<h2 id="kfc_procedurecobracorelosseshuber"><code>kfc_procedure.cobra.core.losses.huber</code><a class="headerlink" href="#kfc_procedurecobracorelosseshuber" title="Permanent link">&para;</a></h2>
+<h3 id="huberloss"><code>HuberLoss</code><a class="headerlink" href="#huberloss" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">HuberLoss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">delta</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for loss functions.</p>
+<h2 id="kfc_procedurecobracorelosseslog_loss"><code>kfc_procedure.cobra.core.losses.log_loss</code><a class="headerlink" href="#kfc_procedurecobracorelosseslog_loss" title="Permanent link">&para;</a></h2>
+<h3 id="logloss"><code>LogLoss</code><a class="headerlink" href="#logloss" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">LogLoss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for loss functions.</p>
+<h2 id="kfc_procedurecobracorelossesmae"><code>kfc_procedure.cobra.core.losses.mae</code><a class="headerlink" href="#kfc_procedurecobracorelossesmae" title="Permanent link">&para;</a></h2>
+<h3 id="maeloss"><code>MAELoss</code><a class="headerlink" href="#maeloss" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">MAELoss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for loss functions.</p>
+<h2 id="kfc_procedurecobracorelossesmse"><code>kfc_procedure.cobra.core.losses.mse</code><a class="headerlink" href="#kfc_procedurecobracorelossesmse" title="Permanent link">&para;</a></h2>
+<h3 id="mseloss"><code>MSELoss</code><a class="headerlink" href="#mseloss" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">MSELoss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for loss functions.</p>
+<h2 id="kfc_procedurecobracorelossesquantile"><code>kfc_procedure.cobra.core.losses.quantile</code><a class="headerlink" href="#kfc_procedurecobracorelossesquantile" title="Permanent link">&para;</a></h2>
+<h3 id="quantileloss"><code>QuantileLoss</code><a class="headerlink" href="#quantileloss" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">QuantileLoss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">tau</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for loss functions.</p>
+<h2 id="kfc_procedurecobracorenormalizersbase"><code>kfc_procedure.cobra.core.normalizers.base</code><a class="headerlink" href="#kfc_procedurecobracorenormalizersbase" title="Permanent link">&para;</a></h2>
+<h3 id="basenormalizer"><code>BaseNormalizer</code><a class="headerlink" href="#basenormalizer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseNormalizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for all normalization strategies.</p>
+<h4 id="methods_40">Methods<a class="headerlink" href="#methods_40" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, x: 'np.ndarray', **kwargs) -&gt; "'BaseNormalizer'"</code></td>
+</tr>
+<tr>
+<td><code>fit_transform</code></td>
+<td><code>(self, x: 'np.ndarray', **kwargs) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>transform</code></td>
+<td><code>(self, x: 'np.ndarray', **kwargs) -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="normalizerfactory"><code>NormalizerFactory</code><a class="headerlink" href="#normalizerfactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">NormalizerFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Factory class for normalization strategies.</p>
+<h4 id="methods_41">Methods<a class="headerlink" href="#methods_41" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorenormalizersminmax"><code>kfc_procedure.cobra.core.normalizers.minmax</code><a class="headerlink" href="#kfc_procedurecobracorenormalizersminmax" title="Permanent link">&para;</a></h2>
+<h3 id="minmaxnormalizer"><code>MinMaxNormalizer</code><a class="headerlink" href="#minmaxnormalizer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">MinMaxNormalizer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+<p>Min-Max normalizer.</p>
+<h4 id="methods_42">Methods<a class="headerlink" href="#methods_42" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, x: numpy.ndarray, **kwargs) -&gt; 'MinMaxNormalizer'</code></td>
+</tr>
+<tr>
+<td><code>fit_transform</code></td>
+<td><code>(self, x: 'np.ndarray', **kwargs) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>transform</code></td>
+<td><code>(self, x: numpy.ndarray, **kwargs) -&gt; numpy.ndarray</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracorenormalizersstandard"><code>kfc_procedure.cobra.core.normalizers.standard</code><a class="headerlink" href="#kfc_procedurecobracorenormalizersstandard" title="Permanent link">&para;</a></h2>
+<h3 id="standardnormalizer"><code>StandardNormalizer</code><a class="headerlink" href="#standardnormalizer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">StandardNormalizer</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+</code></pre></div>
+<p>Standard (Z-score) normalizer.</p>
+<h4 id="methods_43">Methods<a class="headerlink" href="#methods_43" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, x: numpy.ndarray, **kwargs) -&gt; 'StandardNormalizer'</code></td>
+</tr>
+<tr>
+<td><code>fit_transform</code></td>
+<td><code>(self, x: 'np.ndarray', **kwargs) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>transform</code></td>
+<td><code>(self, x: numpy.ndarray, **kwargs) -&gt; numpy.ndarray</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreoptimizers_utils"><code>kfc_procedure.cobra.core.optimizers._utils</code><a class="headerlink" href="#kfc_procedurecobracoreoptimizers_utils" title="Permanent link">&para;</a></h2>
+<h3 id="functions_1">Functions<a class="headerlink" href="#functions_1" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>central_difference_gradient</code></td>
+<td><code>(objective: 'Callable', params: 'np.ndarray', eps: 'float' = 1e-07) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>complex_step_gradient</code></td>
+<td><code>(objective: 'Callable', params: 'np.ndarray', eps: 'float' = 1e-20) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>compute_gradient</code></td>
+<td><code>(objective: 'Callable', params: 'np.ndarray', gradient: 'Optional[Callable]' = None, method: 'str' = 'central', eps: 'float' = 1e-07, n_jobs: 'Optional[int]' = None) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>forward_difference_gradient</code></td>
+<td><code>(objective: 'Callable', params: 'np.ndarray', eps: 'float' = 1e-07) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>parallel_central_difference_gradient</code></td>
+<td><code>(objective: 'Callable', params: 'np.ndarray', eps: 'float' = 1e-07, n_jobs: 'int' = -1) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>spsa_gradient</code></td>
+<td><code>(objective: 'Callable', params: 'np.ndarray', eps: 'float' = 1e-07) -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreoptimizersbase"><code>kfc_procedure.cobra.core.optimizers.base</code><a class="headerlink" href="#kfc_procedurecobracoreoptimizersbase" title="Permanent link">&para;</a></h2>
+<h3 id="baseoptimizer"><code>BaseOptimizer</code><a class="headerlink" href="#baseoptimizer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_process</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract optimizer interface for COBRA.</p>
+<h4 id="methods_44">Methods<a class="headerlink" href="#methods_44" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>optimize</code></td>
+<td><code>(self, objective: 'Callable[[np.ndarray], float]', init_param: 'np.ndarray \| None' = None, **kwargs) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="optimizerfactory"><code>OptimizerFactory</code><a class="headerlink" href="#optimizerfactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">OptimizerFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Factory for registering and instantiating optimizers.</p>
+<h4 id="methods_45">Methods<a class="headerlink" href="#methods_45" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreoptimizersgradientadam"><code>kfc_procedure.cobra.core.optimizers.gradient.adam</code><a class="headerlink" href="#kfc_procedurecobracoreoptimizersgradientadam" title="Permanent link">&para;</a></h2>
+<h3 id="adamoptimizer"><code>AdamOptimizer</code><a class="headerlink" href="#adamoptimizer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">AdamOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">beta1</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span> <span class="n">beta2</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.999</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Adam (Adaptive Moment Estimation) optimizer.</p>
+<h4 id="methods_46">Methods<a class="headerlink" href="#methods_46" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gradient</code></td>
+<td><code>(self, objective: 'Callable', params: 'np.ndarray', grad_fn: 'Optional[Callable]' = None) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>optimize</code></td>
+<td><code>(self, objective: 'Callable[[np.ndarray], float]', init_param: 'np.ndarray \| None' = None, grad_fn: 'Optional[Callable]' = None) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>step</code></td>
+<td><code>(self, x: 'np.ndarray', lr: 'float', grad: 'np.ndarray', state: 'Dict[str, Any]')</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreoptimizersgradientbase"><code>kfc_procedure.cobra.core.optimizers.gradient.base</code><a class="headerlink" href="#kfc_procedurecobracoreoptimizersgradientbase" title="Permanent link">&para;</a></h2>
+<h3 id="basegradientoptimizer"><code>BaseGradientOptimizer</code><a class="headerlink" href="#basegradientoptimizer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseGradientOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">1e-07</span><span class="p">,</span> <span class="n">speed</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">gradient_method</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;central&#39;</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">1e-07</span><span class="p">,</span> <span class="n">n_tries</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">init_range</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span> <span class="n">show_process</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Base class for gradient-based optimization algorithms.</p>
+<h4 id="methods_47">Methods<a class="headerlink" href="#methods_47" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gradient</code></td>
+<td><code>(self, objective: 'Callable', params: 'np.ndarray', grad_fn: 'Optional[Callable]' = None) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>optimize</code></td>
+<td><code>(self, objective: 'Callable[[np.ndarray], float]', init_param: 'np.ndarray \| None' = None, grad_fn: 'Optional[Callable]' = None) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>step</code></td>
+<td><code>(self, x: 'np.ndarray', lr: 'float', grad: 'np.ndarray', state: 'Dict[str, Any]')</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreoptimizersgradientgd"><code>kfc_procedure.cobra.core.optimizers.gradient.gd</code><a class="headerlink" href="#kfc_procedurecobracoreoptimizersgradientgd" title="Permanent link">&para;</a></h2>
+<h3 id="gradientdescentoptimizer"><code>GradientDescentOptimizer</code><a class="headerlink" href="#gradientdescentoptimizer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">GradientDescentOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">1e-07</span><span class="p">,</span> <span class="n">speed</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">gradient_method</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;central&#39;</span><span class="p">,</span> <span class="n">eps</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">1e-07</span><span class="p">,</span> <span class="n">n_tries</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">init_range</span><span class="o">=</span><span class="p">(</span><span class="mf">0.0001</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">),</span> <span class="n">show_process</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Standard Gradient Descent optimizer.</p>
+<h4 id="methods_48">Methods<a class="headerlink" href="#methods_48" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gradient</code></td>
+<td><code>(self, objective: 'Callable', params: 'np.ndarray', grad_fn: 'Optional[Callable]' = None) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>optimize</code></td>
+<td><code>(self, objective: 'Callable[[np.ndarray], float]', init_param: 'np.ndarray \| None' = None, grad_fn: 'Optional[Callable]' = None) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>step</code></td>
+<td><code>(self, x: 'np.ndarray', lr: 'float', grad: 'np.ndarray', state: 'Dict[str, Any]')</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreoptimizersgradientmomentum"><code>kfc_procedure.cobra.core.optimizers.gradient.momentum</code><a class="headerlink" href="#kfc_procedurecobracoreoptimizersgradientmomentum" title="Permanent link">&para;</a></h2>
+<h3 id="momentumoptimizer"><code>MomentumOptimizer</code><a class="headerlink" href="#momentumoptimizer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">MomentumOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">momentum</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.9</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Momentum-based gradient descent optimizer.</p>
+<h4 id="methods_49">Methods<a class="headerlink" href="#methods_49" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>gradient</code></td>
+<td><code>(self, objective: 'Callable', params: 'np.ndarray', grad_fn: 'Optional[Callable]' = None) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>optimize</code></td>
+<td><code>(self, objective: 'Callable[[np.ndarray], float]', init_param: 'np.ndarray \| None' = None, grad_fn: 'Optional[Callable]' = None) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>step</code></td>
+<td><code>(self, x: 'np.ndarray', lr: 'float', grad: 'np.ndarray', state: 'Dict[str, Any]')</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreoptimizerssearchbase"><code>kfc_procedure.cobra.core.optimizers.search.base</code><a class="headerlink" href="#kfc_procedurecobracoreoptimizerssearchbase" title="Permanent link">&para;</a></h2>
+<h3 id="basesearchoptimizer"><code>BaseSearchOptimizer</code><a class="headerlink" href="#basesearchoptimizer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseSearchOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_process</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">risk_strategy</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;mean&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Base class for derivative-free (search-based) optimizers.</p>
+<h4 id="methods_50">Methods<a class="headerlink" href="#methods_50" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>candidates</code></td>
+<td><code>(self) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>optimize</code></td>
+<td><code>(self, objective: 'Callable[[np.ndarray], Any]', init_param: 'np.ndarray \| None' = None) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>reduce_risk</code></td>
+<td><code>(self, score)</code></td>
+</tr>
+<tr>
+<td><code>select_best_index</code></td>
+<td><code>(self, risks: 'np.ndarray') -&gt; 'int'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoreoptimizerssearchsearch"><code>kfc_procedure.cobra.core.optimizers.search.search</code><a class="headerlink" href="#kfc_procedurecobracoreoptimizerssearchsearch" title="Permanent link">&para;</a></h2>
+<h3 id="gridsearchoptimizer"><code>GridSearchOptimizer</code><a class="headerlink" href="#gridsearchoptimizer" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">GridSearchOptimizer</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param_grid</span><span class="p">:</span> <span class="s1">&#39;Dict[str, List[float]]&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Grid Search optimizer.</p>
+<h4 id="methods_51">Methods<a class="headerlink" href="#methods_51" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>candidates</code></td>
+<td><code>(self) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>optimize</code></td>
+<td><code>(self, objective: 'Callable[[np.ndarray], Any]', init_param: 'np.ndarray \| None' = None) -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>reduce_risk</code></td>
+<td><code>(self, score)</code></td>
+</tr>
+<tr>
+<td><code>select_best_index</code></td>
+<td><code>(self, risks: 'np.ndarray') -&gt; 'int'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoresplittersbase"><code>kfc_procedure.cobra.core.splitters.base</code><a class="headerlink" href="#kfc_procedurecobracoresplittersbase" title="Permanent link">&para;</a></h2>
+<h3 id="basedatasplitter"><code>BaseDataSplitter</code><a class="headerlink" href="#basedatasplitter" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseDataSplitter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract interface for dataset splitting strategies.</p>
+<h4 id="methods_52">Methods<a class="headerlink" href="#methods_52" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>split</code></td>
+<td><code>(self, x: 'np.ndarray', y: 'np.ndarray', *, groups: 'np.ndarray \| None' = None) -&gt; 'SplitIndices'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="splitterfactory"><code>SplitterFactory</code><a class="headerlink" href="#splitterfactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">SplitterFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Factory for splitter registration and creation.</p>
+<h4 id="methods_53">Methods<a class="headerlink" href="#methods_53" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoresplittersholdout"><code>kfc_procedure.cobra.core.splitters.holdout</code><a class="headerlink" href="#kfc_procedurecobracoresplittersholdout" title="Permanent link">&para;</a></h2>
+<h3 id="randomholdoutsplitter"><code>RandomHoldoutSplitter</code><a class="headerlink" href="#randomholdoutsplitter" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">RandomHoldoutSplitter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">calibration_size</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="s1">&#39;int | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;None&#39;</span>
+</code></pre></div>
+<p>Random holdout data splitter.</p>
+<h4 id="methods_54">Methods<a class="headerlink" href="#methods_54" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>split</code></td>
+<td><code>(self, x: 'np.ndarray', y: 'np.ndarray') -&gt; 'SplitIndices'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoresplittersoverlap"><code>kfc_procedure.cobra.core.splitters.overlap</code><a class="headerlink" href="#kfc_procedurecobracoresplittersoverlap" title="Permanent link">&para;</a></h2>
+<h3 id="overlapsplitter"><code>OverlapSplitter</code><a class="headerlink" href="#overlapsplitter" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">OverlapSplitter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">split_ratio</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="n">overlap</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">shuffle</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="s1">&#39;int | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;None&#39;</span>
+</code></pre></div>
+<p>Splitter supporting overlapping partitions.</p>
+<h4 id="methods_55">Methods<a class="headerlink" href="#methods_55" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>split</code></td>
+<td><code>(self, x: 'np.ndarray', y: 'np.ndarray') -&gt; 'SplitIndices'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobracoretypes"><code>kfc_procedure.cobra.core.types</code><a class="headerlink" href="#kfc_procedurecobracoretypes" title="Permanent link">&para;</a></h2>
+<h3 id="splitindices"><code>SplitIndices</code><a class="headerlink" href="#splitindices" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">SplitIndices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train_idx</span><span class="p">:</span> <span class="s1">&#39;np.ndarray&#39;</span><span class="p">,</span> <span class="n">eval_idx</span><span class="p">:</span> <span class="s1">&#39;np.ndarray&#39;</span><span class="p">,</span> <span class="n">fold_id</span><span class="p">:</span> <span class="s1">&#39;int | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+<p>Index sets defining a train/evaluation partition.</p>
+<h3 id="trainingcontext"><code>TrainingContext</code><a class="headerlink" href="#trainingcontext" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">TrainingContext</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">X_k</span><span class="p">:</span> <span class="s1">&#39;np.ndarray | None&#39;</span><span class="p">,</span> <span class="n">y_k</span><span class="p">:</span> <span class="s1">&#39;np.ndarray | None&#39;</span><span class="p">,</span> <span class="n">X_l</span><span class="p">:</span> <span class="s1">&#39;np.ndarray&#39;</span><span class="p">,</span> <span class="n">y_l</span><span class="p">:</span> <span class="s1">&#39;np.ndarray&#39;</span><span class="p">,</span> <span class="n">as_predictions</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span>
+</code></pre></div>
+<p>Container holding the datasets required during model training.</p>
+<h2 id="kfc_procedurecobragradientcobra"><code>kfc_procedure.cobra.gradientcobra</code><a class="headerlink" href="#kfc_procedurecobragradientcobra" title="Permanent link">&para;</a></h2>
+<h3 id="gradientcobra"><code>GradientCOBRA</code><a class="headerlink" href="#gradientcobra" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">GradientCOBRA</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimators</span><span class="p">:</span> <span class="s1">&#39;List[Union[str, BaseEstimator]] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">estimators_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">distance_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">kernel</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">kernel_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aggregator</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;weighted_mean&#39;</span><span class="p">,</span> <span class="n">aggregator_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">loss</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="n">loss_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;grid&#39;</span><span class="p">,</span> <span class="n">optimizer_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">opt_method</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;grid&#39;</span><span class="p">,</span> <span class="n">bandwidth_list</span><span class="p">:</span> <span class="s1">&#39;np.ndarray | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="n">n_cv</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">norm_constant</span><span class="p">:</span> <span class="s1">&#39;float | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="s1">&#39;int | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Base class for all estimators in scikit-learn.</p>
+<h4 id="methods_56">Methods<a class="headerlink" href="#methods_56" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X, y, X_l=None, y_l=None, split_ratio=0.5, overlap=0.0, as_predictions=False)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>kappa_cross_validation_error</code></td>
+<td><code>(self, params)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X)</code></td>
+</tr>
+<tr>
+<td><code>score</code></td>
+<td><code>(self, X, y, sample_weight=None)</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+<tr>
+<td><code>set_score_request</code></td>
+<td><code>(self: kfc_procedure.cobra.gradientcobra.GradientCOBRA, *, sample_weight: Union[bool, NoneType, str] = '$UNCHANGED$') -&gt; kfc_procedure.cobra.gradientcobra.GradientCOBRA</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobramixcobra"><code>kfc_procedure.cobra.mixcobra</code><a class="headerlink" href="#kfc_procedurecobramixcobra" title="Permanent link">&para;</a></h2>
+<h3 id="mixcobraregressor"><code>MixCOBRARegressor</code><a class="headerlink" href="#mixcobraregressor" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">MixCOBRARegressor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">estimators</span><span class="p">:</span> <span class="s1">&#39;list[str | BaseEstimator] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">estimators_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">distance</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;euclidean&#39;</span><span class="p">,</span> <span class="n">distance_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">kernel</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;rbf&#39;</span><span class="p">,</span> <span class="n">kernel_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">aggregator</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;weighted_mean&#39;</span><span class="p">,</span> <span class="n">aggregator_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">loss</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;mse&#39;</span><span class="p">,</span> <span class="n">loss_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">optimizer</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;grid&#39;</span><span class="p">,</span> <span class="n">optimizer_params</span><span class="p">:</span> <span class="s1">&#39;dict[str, Any] | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">norm_constant_x</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">norm_constant_y</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">alpha_list</span><span class="p">:</span> <span class="s1">&#39;np.ndarray | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">beta_list</span><span class="p">:</span> <span class="s1">&#39;np.ndarray | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">opt_method</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;grid&#39;</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="n">n_cv</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">speed</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;constant&#39;</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">one_parameter</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="s1">&#39;int | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>MixCOBRA regressor that learns mixing weights across input/output spaces.</p>
+<h4 id="methods_57">Methods<a class="headerlink" href="#methods_57" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: 'np.ndarray', y: 'np.ndarray', X_l: 'np.ndarray \| None' = None, y_l: 'np.ndarray \| None' = None, split_ratio: 'float' = 0.5, overlap: 'float' = 0.0, pred_features: 'np.ndarray \| None' = None, as_predictions=False)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>kappa_cross_validation_error_1d</code></td>
+<td><code>(self, params)</code></td>
+</tr>
+<tr>
+<td><code>kappa_cross_validation_error_2d</code></td>
+<td><code>(self, params)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray', pred_X: 'np.ndarray \| None' = None, alpha: 'float \| None' = None, beta: 'float \| None' = None, bandwidth: 'float \| None' = None) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>score</code></td>
+<td><code>(self, X, y, sample_weight=None)</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+<tr>
+<td><code>set_score_request</code></td>
+<td><code>(self: kfc_procedure.cobra.mixcobra.MixCOBRARegressor, *, sample_weight: Union[bool, NoneType, str] = '$UNCHANGED$') -&gt; kfc_procedure.cobra.mixcobra.MixCOBRARegressor</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobrasuperlearner"><code>kfc_procedure.cobra.superlearner</code><a class="headerlink" href="#kfc_procedurecobrasuperlearner" title="Permanent link">&para;</a></h2>
+<h3 id="superlearner"><code>SuperLearner</code><a class="headerlink" href="#superlearner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">SuperLearner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base_learners</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">base_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">meta_learners</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">meta_params_cv</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">n_fold</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">cv_folds</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loss_function</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">loss_weight</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Base class for all estimators in scikit-learn.</p>
+<h4 id="methods_58">Methods<a class="headerlink" href="#methods_58" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>add_extra_learners</code></td>
+<td><code>(self, extra_learner)</code></td>
+</tr>
+<tr>
+<td><code>draw_learning_curve</code></td>
+<td><code>(self, y_test=None, fig_type='qq', save_fig=False, fig_path=False, show_fig=True)</code></td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X, y, train_meta_learners=True, as_predictions=False, show_warning=True)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>loss_func</code></td>
+<td><code>(self, y_true, pred)</code></td>
+</tr>
+<tr>
+<td><code>mae</code></td>
+<td><code>(self, y_true, pred)</code></td>
+</tr>
+<tr>
+<td><code>mape</code></td>
+<td><code>(self, y_true, pred)</code></td>
+</tr>
+<tr>
+<td><code>mse</code></td>
+<td><code>(self, y_true, pred)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X, extra_features=None)</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+<tr>
+<td><code>train_base_learners</code></td>
+<td><code>(self, final=False)</code></td>
+</tr>
+<tr>
+<td><code>train_meta_learners</code></td>
+<td><code>(self)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobrautilspreprocessing"><code>kfc_procedure.cobra.utils.preprocessing</code><a class="headerlink" href="#kfc_procedurecobrautilspreprocessing" title="Permanent link">&para;</a></h2>
+<h3 id="functions_2">Functions<a class="headerlink" href="#functions_2" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>clean_sklearn_name</code></td>
+<td><code>(name: 'str') -&gt; 'str'</code></td>
+</tr>
+<tr>
+<td><code>compute_normalization_constant</code></td>
+<td><code>(y: 'np.ndarray', norm_constant: 'float \| None' = None, scale_factor: 'float' = 30.0, M: 'int' = 1) -&gt; 'float'</code></td>
+</tr>
+<tr>
+<td><code>data_split_overlap</code></td>
+<td><code>(X: 'np.ndarray', y: 'np.ndarray', split: 'float' = 0.5, overlap: 'float' = 0.0, shuffle: 'bool' = True, random_state: 'int' = None) -&gt; 'Tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]'</code></td>
+</tr>
+<tr>
+<td><code>history_to_dataframe</code></td>
+<td><code>(history, param_names=None)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecobrautilsresolve"><code>kfc_procedure.cobra.utils.resolve</code><a class="headerlink" href="#kfc_procedurecobrautilsresolve" title="Permanent link">&para;</a></h2>
+<h3 id="functions_3">Functions<a class="headerlink" href="#functions_3" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit_estimators</code></td>
+<td><code>(X, y, estimators_params=None, estimators=None, n_jobs=1)</code></td>
+</tr>
+<tr>
+<td><code>predict_estimators</code></td>
+<td><code>(X: 'np.ndarray', estimators, n_jobs: 'int' = 1)</code></td>
+</tr>
+<tr>
+<td><code>resolve_from_aggregator</code></td>
+<td><code>(aggregator: 'str \| Any', aggregator_params: 'dict[str, Any] \| None')</code></td>
+</tr>
+<tr>
+<td><code>resolve_from_distance</code></td>
+<td><code>(distance: 'str \| Any', distance_params: 'dict[str, Any] \| None')</code></td>
+</tr>
+<tr>
+<td><code>resolve_from_estimators</code></td>
+<td><code>(estimators: 'list[Any] \| str \| None', estimators_params: 'dict[str, Any] \| None', default_estimators: 'list[str]') -&gt; 'list[Any]'</code></td>
+</tr>
+<tr>
+<td><code>resolve_from_kernel</code></td>
+<td><code>(kernel: 'str \| Any', kernel_params: 'dict[str, Any] \| None')</code></td>
+</tr>
+<tr>
+<td><code>resolve_from_loss</code></td>
+<td><code>(loss: 'str \| Any', loss_params: 'dict[str, Any] \| None')</code></td>
+</tr>
+<tr>
+<td><code>resolve_from_splitter</code></td>
+<td><code>(splitter: 'str \| Any', splitter_params: 'dict[str, Any] \| None')</code></td>
+</tr>
+<tr>
+<td><code>resolve_training_context</code></td>
+<td><code>(X: 'ArrayLike', y: 'ArrayLike', *, X_l: 'ArrayLike \| None' = None, y_l: 'ArrayLike \| None' = None, pred_features: 'ArrayLike \| None' = None, as_predictions: 'bool' = False, splitter: 'BaseDataSplitter \| None' = None, split_ratio: 'float' = 0.5, overlap: 'float' = 0.0, random_state: 'int \| None' = None) -&gt; 'TrainingContext'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecoreclusteringbregman"><code>kfc_procedure.core.clustering.bregman</code><a class="headerlink" href="#kfc_procedurecoreclusteringbregman" title="Permanent link">&para;</a></h2>
+<h3 id="bregmankmeans"><code>BregmanKMeans</code><a class="headerlink" href="#bregmankmeans" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BregmanKMeans</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_clusters</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">divergence</span><span class="p">:</span> <span class="s1">&#39;BaseBregmanDivergence&#39;</span><span class="p">,</span> <span class="n">n_init</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p>K-Means clustering with Bregman divergences.</p>
+<h4 id="methods_59">Methods<a class="headerlink" href="#methods_59" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: 'ArrayLike', y=None, init=None)</code></td>
+</tr>
+<tr>
+<td><code>fit_predict</code></td>
+<td><code>(self, X, y=None)</code></td>
+</tr>
+<tr>
+<td><code>fit_transform</code></td>
+<td><code>(self, X, y=None)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'ArrayLike') -&gt; 'NDArray'</code></td>
+</tr>
+<tr>
+<td><code>score</code></td>
+<td><code>(self, X, y=None) -&gt; 'float'</code></td>
+</tr>
+<tr>
+<td><code>set_output</code></td>
+<td><code>(self, *, transform=None)</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+<tr>
+<td><code>transform</code></td>
+<td><code>(self, X: 'ArrayLike') -&gt; 'NDArray'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="functions_4">Functions<a class="headerlink" href="#functions_4" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>validate_divergence_domain</code></td>
+<td><code>(div: 'BaseBregmanDivergence', X: 'np.ndarray') -&gt; 'None'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecoreclusteringdivergencesbase"><code>kfc_procedure.core.clustering.divergences.base</code><a class="headerlink" href="#kfc_procedurecoreclusteringdivergencesbase" title="Permanent link">&para;</a></h2>
+<h3 id="basebregmandivergence"><code>BaseBregmanDivergence</code><a class="headerlink" href="#basebregmandivergence" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseBregmanDivergence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validate_domain</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for Bregman divergences.</p>
+<h4 id="methods_60">Methods<a class="headerlink" href="#methods_60" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>assign_clusters</code></td>
+<td><code>(self, X: 'np.ndarray', centroids: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>centroid</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>distance</code></td>
+<td><code>(self, X: 'np.ndarray', Y: 'np.ndarray', *, clip: 'bool' = True) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>grad_phi</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>in_domain</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>pairwise</code></td>
+<td><code>(self, X: 'np.ndarray', Y: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>phi</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="bregmandivergencefactory"><code>BregmanDivergenceFactory</code><a class="headerlink" href="#bregmandivergencefactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BregmanDivergenceFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Factory class for Bregman divergence implementations.</p>
+<h4 id="methods_61">Methods<a class="headerlink" href="#methods_61" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecoreclusteringdivergenceseuclidean"><code>kfc_procedure.core.clustering.divergences.euclidean</code><a class="headerlink" href="#kfc_procedurecoreclusteringdivergenceseuclidean" title="Permanent link">&para;</a></h2>
+<h3 id="squaredeuclidean"><code>SquaredEuclidean</code><a class="headerlink" href="#squaredeuclidean" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">SquaredEuclidean</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validate_domain</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Squared Euclidean distance.</p>
+<h4 id="methods_62">Methods<a class="headerlink" href="#methods_62" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>assign_clusters</code></td>
+<td><code>(self, X: 'np.ndarray', centroids: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>centroid</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>distance</code></td>
+<td><code>(self, X: 'np.ndarray', Y: 'np.ndarray', *, clip: 'bool' = True) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>grad_phi</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>in_domain</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>pairwise</code></td>
+<td><code>(self, X: 'np.ndarray', Y: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>phi</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecoreclusteringdivergencesgkl"><code>kfc_procedure.core.clustering.divergences.gkl</code><a class="headerlink" href="#kfc_procedurecoreclusteringdivergencesgkl" title="Permanent link">&para;</a></h2>
+<h3 id="gkldivergence"><code>GKLDivergence</code><a class="headerlink" href="#gkldivergence" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">GKLDivergence</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validate_domain</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Generalised Kullback-Leibler (I-divergence).</p>
+<h4 id="methods_63">Methods<a class="headerlink" href="#methods_63" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>assign_clusters</code></td>
+<td><code>(self, X: 'np.ndarray', centroids: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>centroid</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>distance</code></td>
+<td><code>(self, X: 'np.ndarray', Y: 'np.ndarray', *, clip: 'bool' = True) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>grad_phi</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>in_domain</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>pairwise</code></td>
+<td><code>(self, X: 'np.ndarray', Y: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>phi</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecoreclusteringdivergencesitakura_saito"><code>kfc_procedure.core.clustering.divergences.itakura_saito</code><a class="headerlink" href="#kfc_procedurecoreclusteringdivergencesitakura_saito" title="Permanent link">&para;</a></h2>
+<h3 id="itakurasaito"><code>ItakuraSaito</code><a class="headerlink" href="#itakurasaito" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">ItakuraSaito</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validate_domain</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Itakura-Saito divergence.</p>
+<h4 id="methods_64">Methods<a class="headerlink" href="#methods_64" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>assign_clusters</code></td>
+<td><code>(self, X: 'np.ndarray', centroids: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>centroid</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>distance</code></td>
+<td><code>(self, X: 'np.ndarray', Y: 'np.ndarray', *, clip: 'bool' = True) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>grad_phi</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>in_domain</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>pairwise</code></td>
+<td><code>(self, X: 'np.ndarray', Y: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>phi</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecoreclusteringdivergenceslogistic"><code>kfc_procedure.core.clustering.divergences.logistic</code><a class="headerlink" href="#kfc_procedurecoreclusteringdivergenceslogistic" title="Permanent link">&para;</a></h2>
+<h3 id="logisticloss"><code>LogisticLoss</code><a class="headerlink" href="#logisticloss" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">LogisticLoss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">validate_domain</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Logistic / binary cross-entropy loss.</p>
+<h4 id="methods_65">Methods<a class="headerlink" href="#methods_65" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>assign_clusters</code></td>
+<td><code>(self, X: 'np.ndarray', centroids: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>centroid</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>distance</code></td>
+<td><code>(self, X: 'np.ndarray', Y: 'np.ndarray', *, clip: 'bool' = True) -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>grad_phi</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>in_domain</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>pairwise</code></td>
+<td><code>(self, X: 'np.ndarray', Y: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>phi</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorecombinerbase"><code>kfc_procedure.core.combiner.base</code><a class="headerlink" href="#kfc_procedurecorecombinerbase" title="Permanent link">&para;</a></h2>
+<h3 id="basecombiner"><code>BaseCombiner</code><a class="headerlink" href="#basecombiner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseCombiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for ensemble combination strategies.</p>
+<h4 id="methods_66">Methods<a class="headerlink" href="#methods_66" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>combine</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: 'np.ndarray', y: 'Optional[np.ndarray]' = None)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="combinerfactory"><code>CombinerFactory</code><a class="headerlink" href="#combinerfactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">CombinerFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for registry-driven factories.</p>
+<h4 id="methods_67">Methods<a class="headerlink" href="#methods_67" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorecombinerclassificationcombined_classifier"><code>kfc_procedure.core.combiner.classification.combined_classifier</code><a class="headerlink" href="#kfc_procedurecorecombinerclassificationcombined_classifier" title="Permanent link">&para;</a></h2>
+<h3 id="cobraclassifiercombiner"><code>CobraClassifierCombiner</code><a class="headerlink" href="#cobraclassifiercombiner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">CobraClassifierCombiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">cobra_params</span><span class="p">)</span>
+</code></pre></div>
+<p>COBRA-based classifier combiner.</p>
+<h4 id="methods_68">Methods<a class="headerlink" href="#methods_68" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>combine</code></td>
+<td><code>(self, X: numpy.ndarray) -&gt; numpy.ndarray</code></td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: numpy.ndarray, y: numpy.ndarray)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>predict_proba</code></td>
+<td><code>(self, X: numpy.ndarray) -&gt; numpy.ndarray</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorecombinerclassificationmajority_vote"><code>kfc_procedure.core.combiner.classification.majority_vote</code><a class="headerlink" href="#kfc_procedurecorecombinerclassificationmajority_vote" title="Permanent link">&para;</a></h2>
+<h3 id="majorityvotecombiner"><code>MajorityVoteCombiner</code><a class="headerlink" href="#majorityvotecombiner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">MajorityVoteCombiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Hard voting ensemble combiner.</p>
+<h4 id="methods_69">Methods<a class="headerlink" href="#methods_69" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>combine</code></td>
+<td><code>(self, X: numpy.ndarray) -&gt; numpy.ndarray</code></td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: numpy.ndarray, y=None)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorecombinerclassificationstacking"><code>kfc_procedure.core.combiner.classification.stacking</code><a class="headerlink" href="#kfc_procedurecorecombinerclassificationstacking" title="Permanent link">&para;</a></h2>
+<h3 id="stackingclassifiercombiner"><code>StackingClassifierCombiner</code><a class="headerlink" href="#stackingclassifiercombiner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">StackingClassifierCombiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meta_model</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Logistic regression stacking classifier.</p>
+<h4 id="methods_70">Methods<a class="headerlink" href="#methods_70" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>combine</code></td>
+<td><code>(self, X: numpy.ndarray) -&gt; numpy.ndarray</code></td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: numpy.ndarray, y: numpy.ndarray)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorecombinerregressiongradientcobra"><code>kfc_procedure.core.combiner.regression.gradientcobra</code><a class="headerlink" href="#kfc_procedurecorecombinerregressiongradientcobra" title="Permanent link">&para;</a></h2>
+<h3 id="gradientcobracombiner"><code>GradientCOBRACombiner</code><a class="headerlink" href="#gradientcobracombiner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">GradientCOBRACombiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">cobra_params</span><span class="p">)</span>
+</code></pre></div>
+<p>GradientCOBRA-based regression combiner.</p>
+<h4 id="methods_71">Methods<a class="headerlink" href="#methods_71" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>combine</code></td>
+<td><code>(self, X: numpy.ndarray) -&gt; numpy.ndarray</code></td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: numpy.ndarray, y: numpy.ndarray)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorecombinerregressionmean"><code>kfc_procedure.core.combiner.regression.mean</code><a class="headerlink" href="#kfc_procedurecorecombinerregressionmean" title="Permanent link">&para;</a></h2>
+<h3 id="meancombiner"><code>MeanCombiner</code><a class="headerlink" href="#meancombiner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">MeanCombiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Row-wise mean combiner for regression ensembles.</p>
+<h4 id="methods_72">Methods<a class="headerlink" href="#methods_72" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>combine</code></td>
+<td><code>(self, X: numpy.ndarray) -&gt; numpy.ndarray</code></td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: numpy.ndarray, y=None)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorecombinerregressionmixcobra"><code>kfc_procedure.core.combiner.regression.mixcobra</code><a class="headerlink" href="#kfc_procedurecorecombinerregressionmixcobra" title="Permanent link">&para;</a></h2>
+<h3 id="mixcobracombiner"><code>MixCOBRACombiner</code><a class="headerlink" href="#mixcobracombiner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">MixCOBRACombiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">cobra_params</span><span class="p">)</span>
+</code></pre></div>
+<p>MixCOBRA-based regression combiner.</p>
+<h4 id="methods_73">Methods<a class="headerlink" href="#methods_73" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>combine</code></td>
+<td><code>(self, X: numpy.ndarray) -&gt; numpy.ndarray</code></td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: numpy.ndarray, y: numpy.ndarray)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorecombinerregressionstacking"><code>kfc_procedure.core.combiner.regression.stacking</code><a class="headerlink" href="#kfc_procedurecorecombinerregressionstacking" title="Permanent link">&para;</a></h2>
+<h3 id="stackingregressorcombiner"><code>StackingRegressorCombiner</code><a class="headerlink" href="#stackingregressorcombiner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">StackingRegressorCombiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">meta_model</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Stacking combiner using a regression meta-model.</p>
+<h4 id="methods_74">Methods<a class="headerlink" href="#methods_74" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>combine</code></td>
+<td><code>(self, X: numpy.ndarray) -&gt; numpy.ndarray</code></td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: numpy.ndarray, y: numpy.ndarray)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorecombinerregressionweighted_mean"><code>kfc_procedure.core.combiner.regression.weighted_mean</code><a class="headerlink" href="#kfc_procedurecorecombinerregressionweighted_mean" title="Permanent link">&para;</a></h2>
+<h3 id="weightedmeancombiner"><code>WeightedMeanCombiner</code><a class="headerlink" href="#weightedmeancombiner" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">WeightedMeanCombiner</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fit_intercept</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+</code></pre></div>
+<p>Linear regression-based weighted combiner.</p>
+<h4 id="methods_75">Methods<a class="headerlink" href="#methods_75" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>combine</code></td>
+<td><code>(self, X: numpy.ndarray) -&gt; numpy.ndarray</code></td>
+</tr>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: numpy.ndarray, y: numpy.ndarray)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorefactory"><code>kfc_procedure.core.factory</code><a class="headerlink" href="#kfc_procedurecorefactory" title="Permanent link">&para;</a></h2>
+<h3 id="basefactory_1"><code>BaseFactory</code><a class="headerlink" href="#basefactory_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Abstract base class for registry-driven factories.</p>
+<h4 id="methods_76">Methods<a class="headerlink" href="#methods_76" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecoremlbase"><code>kfc_procedure.core.ml.base</code><a class="headerlink" href="#kfc_procedurecoremlbase" title="Permanent link">&para;</a></h2>
+<h3 id="baselocalmodel"><code>BaseLocalModel</code><a class="headerlink" href="#baselocalmodel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">BaseLocalModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Unified base class for all local models in the F-step.</p>
+<h4 id="methods_77">Methods<a class="headerlink" href="#methods_77" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: 'np.ndarray', y: 'np.ndarray')</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>predict_proba</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="localmodelfactory"><code>LocalModelFactory</code><a class="headerlink" href="#localmodelfactory" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">LocalModelFactory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">/</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Factory for all local models used in F-step.</p>
+<h4 id="methods_78">Methods<a class="headerlink" href="#methods_78" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available</code></td>
+<td><code>() -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_by_category</code></td>
+<td><code>(category: 'str') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>available_categories</code></td>
+<td><code>() -&gt; 'Set[str]'</code></td>
+</tr>
+<tr>
+<td><code>contains</code></td>
+<td><code>(name: 'str') -&gt; 'bool'</code></td>
+</tr>
+<tr>
+<td><code>create</code></td>
+<td><code>(name: 'str', **kwargs) -&gt; 'Any'</code></td>
+</tr>
+<tr>
+<td><code>find_by_class</code></td>
+<td><code>(target_cls: 'Type') -&gt; 'List[str]'</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(name: 'str') -&gt; 'Dict[str, Any]'</code></td>
+</tr>
+<tr>
+<td><code>register</code></td>
+<td><code>(*names: 'str', categories: 'Optional[Set[str] \| str]' = None, **metadata: 'Any')</code></td>
+</tr>
+<tr>
+<td><code>supports</code></td>
+<td><code>(name: 'str', category: 'str') -&gt; 'bool'</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecoremlsklearn"><code>kfc_procedure.core.ml.sklearn</code><a class="headerlink" href="#kfc_procedurecoremlsklearn" title="Permanent link">&para;</a></h2>
+<h3 id="meanregressor_1"><code>MeanRegressor</code><a class="headerlink" href="#meanregressor_1" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">MeanRegressor</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;None&#39;</span>
+</code></pre></div>
+<p>Unified base class for all local models in the F-step.</p>
+<h4 id="methods_79">Methods<a class="headerlink" href="#methods_79" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: 'ArrayLike', y: 'ArrayLike')</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'ArrayLike') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>predict_proba</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="sklearnlocalmodel"><code>SklearnLocalModel</code><a class="headerlink" href="#sklearnlocalmodel" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">SklearnLocalModel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model_cls</span><span class="p">:</span> <span class="s1">&#39;Type[BaseEstimator]&#39;</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Adapter wrapping sklearn estimators into F-step local models.</p>
+<h4 id="methods_80">Methods<a class="headerlink" href="#methods_80" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X, y)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X)</code></td>
+</tr>
+<tr>
+<td><code>predict_proba</code></td>
+<td><code>(self, X)</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="functions_5">Functions<a class="headerlink" href="#functions_5" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>clean_sklearn_name</code></td>
+<td><code>(name: 'str') -&gt; 'str'</code></td>
+</tr>
+<tr>
+<td><code>register_all_sklearn_models</code></td>
+<td><code>()</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorestepscstep"><code>kfc_procedure.core.steps.cstep</code><a class="headerlink" href="#kfc_procedurecorestepscstep" title="Permanent link">&para;</a></h2>
+<h3 id="cstep"><code>CStep</code><a class="headerlink" href="#cstep" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">CStep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">combiner</span><span class="p">:</span> <span class="s1">&#39;Union[str, BaseCombiner]&#39;</span><span class="p">,</span> <span class="n">combiner_params</span><span class="p">:</span> <span class="s1">&#39;Optional[Dict]&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;regression&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="s1">&#39;Optional[int]&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>C-step: Aggregation layer for divergence-aware predictions.</p>
+<h4 id="methods_81">Methods<a class="headerlink" href="#methods_81" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: 'np.ndarray', y: 'np.ndarray')</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>predict_proba</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorestepsfstep"><code>kfc_procedure.core.steps.fstep</code><a class="headerlink" href="#kfc_procedurecorestepsfstep" title="Permanent link">&para;</a></h2>
+<h3 id="fstep"><code>FStep</code><a class="headerlink" href="#fstep" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">FStep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">local_model</span><span class="p">:</span> <span class="s1">&#39;Union[str, BaseLocalModel]&#39;</span><span class="p">,</span> <span class="n">local_model_params</span><span class="p">:</span> <span class="s1">&#39;Optional[Dict]&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;regression&#39;</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="s1">&#39;Optional[int]&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Local model fitting stage of the KFC pipeline.</p>
+<h4 id="methods_82">Methods<a class="headerlink" href="#methods_82" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X, y, clusters: 'Dict[str, np.ndarray]')</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X, clusters: 'Dict[str, np.ndarray]')</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurecorestepskstep"><code>kfc_procedure.core.steps.kstep</code><a class="headerlink" href="#kfc_procedurecorestepskstep" title="Permanent link">&para;</a></h2>
+<h3 id="kstep"><code>KStep</code><a class="headerlink" href="#kstep" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">KStep</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">divergences</span><span class="p">:</span> <span class="s1">&#39;List[Union[str, BaseBregmanDivergence]]&#39;</span><span class="p">,</span> <span class="n">divergences_params</span><span class="p">:</span> <span class="s1">&#39;Dict&#39;</span> <span class="o">=</span> <span class="p">{},</span> <span class="n">n_clusters</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">3</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">:</span> <span class="s1">&#39;int&#39;</span> <span class="o">=</span> <span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="p">:</span> <span class="s1">&#39;float&#39;</span> <span class="o">=</span> <span class="mf">0.0001</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="s1">&#39;bool&#39;</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">random_state</span><span class="p">:</span> <span class="s1">&#39;int | None&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Multi-divergence clustering stage in the KFC pipeline.</p>
+<h4 id="methods_83">Methods<a class="headerlink" href="#methods_83" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: 'np.ndarray', y: 'np.ndarray \| None' = None)</code></td>
+</tr>
+<tr>
+<td><code>fit_predict</code></td>
+<td><code>(self, X, y=None, **kwargs)</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'Dict[str, np.ndarray]'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedurekfc"><code>kfc_procedure.kfc</code><a class="headerlink" href="#kfc_procedurekfc" title="Permanent link">&para;</a></h2>
+<h3 id="kfcclassifier"><code>KFCClassifier</code><a class="headerlink" href="#kfcclassifier" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">KFCClassifier</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Full KFC pipeline estimator (sklearn-compatible).</p>
+<h4 id="methods_84">Methods<a class="headerlink" href="#methods_84" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: 'np.ndarray', y: 'np.ndarray')</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>predict_proba</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="kfcprocedure"><code>KFCProcedure</code><a class="headerlink" href="#kfcprocedure" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">KFCProcedure</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">divergences</span><span class="p">,</span> <span class="n">local_model</span><span class="p">,</span> <span class="n">combiner</span><span class="p">,</span> <span class="n">divergences_params</span><span class="p">:</span> <span class="s1">&#39;Optional[Dict]&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">local_model_params</span><span class="p">:</span> <span class="s1">&#39;Optional[Dict]&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">combiner_params</span><span class="p">:</span> <span class="s1">&#39;Optional[Dict]&#39;</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">task</span><span class="p">:</span> <span class="s1">&#39;str&#39;</span> <span class="o">=</span> <span class="s1">&#39;regression&#39;</span><span class="p">,</span> <span class="n">n_clusters</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">tol</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+</code></pre></div>
+<p>Full KFC pipeline estimator (sklearn-compatible).</p>
+<h4 id="methods_85">Methods<a class="headerlink" href="#methods_85" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: 'np.ndarray', y: 'np.ndarray')</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>predict_proba</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="kfcregressor"><code>KFCRegressor</code><a class="headerlink" href="#kfcregressor" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">KFCRegressor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+</code></pre></div>
+<p>Full KFC pipeline estimator (sklearn-compatible).</p>
+<h4 id="methods_86">Methods<a class="headerlink" href="#methods_86" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>fit</code></td>
+<td><code>(self, X: 'np.ndarray', y: 'np.ndarray')</code></td>
+</tr>
+<tr>
+<td><code>get_params</code></td>
+<td><code>(self, deep=True)</code></td>
+</tr>
+<tr>
+<td><code>predict</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>predict_proba</code></td>
+<td><code>(self, X: 'np.ndarray') -&gt; 'np.ndarray'</code></td>
+</tr>
+<tr>
+<td><code>set_params</code></td>
+<td><code>(self, **params)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedureutilslogger"><code>kfc_procedure.utils.logger</code><a class="headerlink" href="#kfc_procedureutilslogger" title="Permanent link">&para;</a></h2>
+<h3 id="logger"><code>Logger</code><a class="headerlink" href="#logger" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="n">Logger</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">verbose</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+<p>Lightweight structured logger for the KFC pipeline.</p>
+<h4 id="methods_87">Methods<a class="headerlink" href="#methods_87" title="Permanent link">&para;</a></h4>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>debug</code></td>
+<td><code>(self, msg: str)</code></td>
+</tr>
+<tr>
+<td><code>info</code></td>
+<td><code>(self, msg: str)</code></td>
+</tr>
+<tr>
+<td><code>log</code></td>
+<td><code>(self, level: int, msg: str)</code></td>
+</tr>
+<tr>
+<td><code>trace</code></td>
+<td><code>(self, msg: str)</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="functions_6">Functions<a class="headerlink" href="#functions_6" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>timed</code></td>
+<td><code>(logger, name)</code></td>
+</tr>
+</tbody>
+</table>
+<h2 id="kfc_procedureutilsresolve"><code>kfc_procedure.utils.resolve</code><a class="headerlink" href="#kfc_procedureutilsresolve" title="Permanent link">&para;</a></h2>
+<h3 id="functions_7">Functions<a class="headerlink" href="#functions_7" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Function</th>
+<th>Signature</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>resolve_bregman</code></td>
+<td><code>(cfg: Union[str, Dict[str, Any], kfc_procedure.core.clustering.bregman.BregmanKMeans]) -&gt; kfc_procedure.core.clustering.bregman.BregmanKMeans</code></td>
+</tr>
+<tr>
+<td><code>resolve_kstep</code></td>
+<td><code>(cfgs: List[Union[str, Dict[str, Any], kfc_procedure.core.clustering.bregman.BregmanKMeans]]) -&gt; Dict[str, kfc_procedure.core.clustering.bregman.BregmanKMeans]</code></td>
+</tr>
+</tbody>
+</table>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.sections", "navigation.expand", "content.code.copy"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
