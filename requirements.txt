@@ -12,3 +12,9 @@ build
 twine
 pytest
 jupyter
+
+# docs
+mkdocs
+mkdocs-material
+pymdown-extensions
+mkdocstrings[python]
