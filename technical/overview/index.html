@@ -1700,12 +1700,11 @@
 <h2 id="project-goal">Project goal<a class="headerlink" href="#project-goal" title="Permanent link">&para;</a></h2>
 <p>The goal of the project is to support learning from heterogeneous datasets where different regions of the feature space may follow different predictive rules. Instead of fitting a single global model, KFCProcedure first discovers local structure, then trains local predictors, and finally combines their predictions.</p>
 <p>The core idea is:</p>
-<div class="highlight"><pre><span></span><code>flowchart LR
-    X[&quot;Input features X&quot;] --&gt; K[&quot;K-step&lt;br/&gt;Bregman clustering&quot;]
-    K --&gt; F[&quot;F-step&lt;br/&gt;Cluster-local models&quot;]
-    F --&gt; C[&quot;C-step&lt;br/&gt;Prediction combiner&quot;]
-    C --&gt; Y[&quot;Final prediction&quot;]
-</code></pre></div>
+<pre class="mermaid"><code>flowchart LR
+    X["Input features X"] --&gt; K["K-step&lt;br/&gt;Bregman clustering"]
+    K --&gt; F["F-step&lt;br/&gt;Cluster-local models"]
+    F --&gt; C["C-step&lt;br/&gt;Prediction combiner"]
+    C --&gt; Y["Final prediction"]</code></pre>
 <div class="admonition note">
 <p class="admonition-title">Main intuition</p>
 <p>A single global model assumes one predictive pattern across the whole dataset. KFCProcedure relaxes that assumption by learning multiple local models induced by divergence-based cluster partitions.</p>
@@ -1721,34 +1720,33 @@
 </ul>
 <hr />
 <h2 id="high-level-architecture">High-level architecture<a class="headerlink" href="#high-level-architecture" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>flowchart TD
-    User[&quot;User code / notebook&quot;] --&gt; API[&quot;Top-level API&lt;br/&gt;KFCRegressor / KFCClassifier / COBRA estimators&quot;]
+<pre class="mermaid"><code>flowchart TD
+    User["User code / notebook"] --&gt; API["Top-level API&lt;br/&gt;KFCRegressor / KFCClassifier / COBRA estimators"]
 
-    API --&gt; KFC[&quot;KFCProcedure&quot;]
-    KFC --&gt; KStep[&quot;KStep&quot;]
-    KFC --&gt; FStep[&quot;FStep&quot;]
-    KFC --&gt; CStep[&quot;CStep&quot;]
+    API --&gt; KFC["KFCProcedure"]
+    KFC --&gt; KStep["KStep"]
+    KFC --&gt; FStep["FStep"]
+    KFC --&gt; CStep["CStep"]
 
-    KStep --&gt; BKMeans[&quot;BregmanKMeans&quot;]
-    BKMeans --&gt; DivFactory[&quot;BregmanDivergenceFactory&quot;]
-    DivFactory --&gt; Divs[&quot;euclidean / gkl / is / logistic&quot;]
+    KStep --&gt; BKMeans["BregmanKMeans"]
+    BKMeans --&gt; DivFactory["BregmanDivergenceFactory"]
+    DivFactory --&gt; Divs["euclidean / gkl / is / logistic"]
 
-    FStep --&gt; LMFactory[&quot;LocalModelFactory&quot;]
-    LMFactory --&gt; Sklearn[&quot;scikit-learn local models&quot;]
+    FStep --&gt; LMFactory["LocalModelFactory"]
+    LMFactory --&gt; Sklearn["scikit-learn local models"]
 
-    CStep --&gt; CombFactory[&quot;CombinerFactory&quot;]
-    CombFactory --&gt; RegComb[&quot;Regression combiners&quot;]
-    CombFactory --&gt; ClfComb[&quot;Classification combiners&quot;]
-    CombFactory --&gt; Cobra[&quot;COBRA wrappers&quot;]
+    CStep --&gt; CombFactory["CombinerFactory"]
+    CombFactory --&gt; RegComb["Regression combiners"]
+    CombFactory --&gt; ClfComb["Classification combiners"]
+    CombFactory --&gt; Cobra["COBRA wrappers"]
 
-    API --&gt; CobraAPI[&quot;COBRA API&quot;]
-    CobraAPI --&gt; CobraCore[&quot;COBRA core components&quot;]
-    CobraCore --&gt; Distance[&quot;Distances&quot;]
-    CobraCore --&gt; Kernel[&quot;Kernels&quot;]
-    CobraCore --&gt; Loss[&quot;Losses&quot;]
-    CobraCore --&gt; Opt[&quot;Optimizers&quot;]
-    CobraCore --&gt; Agg[&quot;Aggregators&quot;]
-</code></pre></div>
+    API --&gt; CobraAPI["COBRA API"]
+    CobraAPI --&gt; CobraCore["COBRA core components"]
+    CobraCore --&gt; Distance["Distances"]
+    CobraCore --&gt; Kernel["Kernels"]
+    CobraCore --&gt; Loss["Losses"]
+    CobraCore --&gt; Opt["Optimizers"]
+    CobraCore --&gt; Agg["Aggregators"]</code></pre>
 <hr />
 <h2 id="key-design-patterns">Key design patterns<a class="headerlink" href="#key-design-patterns" title="Permanent link">&para;</a></h2>
 <h3 id="1-estimator-pattern">1. Estimator pattern<a class="headerlink" href="#1-estimator-pattern" title="Permanent link">&para;</a></h3>

@@ -1524,12 +1524,11 @@
 <h1 id="kfcprocedure">KFCProcedure<a class="headerlink" href="#kfcprocedure" title="Permanent link">&para;</a></h1>
 <p><code>kfc-procedure</code> is a Python package for <strong>clusterwise predictive modeling</strong> and <strong>COBRA-based ensemble aggregation</strong>.</p>
 <p>It is designed for machine learning workflows where a dataset may contain heterogeneous subgroups. Instead of relying on one global model, KFCProcedure clusters observations, trains local models inside clusters, and combines their predictions into a final output.</p>
-<div class="highlight"><pre><span></span><code>flowchart LR
-    A[&quot;Input Data&quot;] --&gt; K[&quot;K-step&lt;br/&gt;Cluster observations&quot;]
-    K --&gt; F[&quot;F-step&lt;br/&gt;Train local models&quot;]
-    F --&gt; C[&quot;C-step&lt;br/&gt;Combine predictions&quot;]
-    C --&gt; Y[&quot;Final Prediction&quot;]
-</code></pre></div>
+<pre class="mermaid"><code>flowchart LR
+    A["Input Data"] --&gt; K["K-step&lt;br/&gt;Cluster observations"]
+    K --&gt; F["F-step&lt;br/&gt;Train local models"]
+    F --&gt; C["C-step&lt;br/&gt;Combine predictions"]
+    C --&gt; Y["Final Prediction"]</code></pre>
 <div class="admonition note">
 <p class="admonition-title">Package name and import name</p>
 <p>Install with <code>pip install kfc-procedure</code>, but import with <code>import kfc_procedure</code>.</p>

@@ -1506,17 +1506,16 @@
 <h1 id="developer-overview">Developer Overview<a class="headerlink" href="#developer-overview" title="Permanent link">&para;</a></h1>
 <p>This section explains how to maintain, extend, and document <code>kfc-procedure</code>.</p>
 <h2 id="developer-architecture">Developer architecture<a class="headerlink" href="#developer-architecture" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>flowchart TB
-    Public[&quot;kfc.py&lt;br/&gt;KFCProcedure / KFCRegressor / KFCClassifier&quot;]
-    Public --&gt; Steps[&quot;core.steps&quot;]
-    Steps --&gt; K[&quot;KStep&quot;]
-    Steps --&gt; F[&quot;FStep&quot;]
-    Steps --&gt; C[&quot;CStep&quot;]
-    K --&gt; Div[&quot;BregmanDivergenceFactory&quot;]
-    F --&gt; LM[&quot;LocalModelFactory&quot;]
-    C --&gt; Comb[&quot;CombinerFactory&quot;]
-    Comb --&gt; Cobra[&quot;cobra package&quot;]
-</code></pre></div>
+<pre class="mermaid"><code>flowchart TB
+    Public["kfc.py&lt;br/&gt;KFCProcedure / KFCRegressor / KFCClassifier"]
+    Public --&gt; Steps["core.steps"]
+    Steps --&gt; K["KStep"]
+    Steps --&gt; F["FStep"]
+    Steps --&gt; C["CStep"]
+    K --&gt; Div["BregmanDivergenceFactory"]
+    F --&gt; LM["LocalModelFactory"]
+    C --&gt; Comb["CombinerFactory"]
+    Comb --&gt; Cobra["cobra package"]</code></pre>
 <h2 id="development-setup">Development setup<a class="headerlink" href="#development-setup" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code>git<span class="w"> </span>clone<span class="w"> </span>https://github.com/Ougi3ay/kfc-procedure.git
 <span class="nb">cd</span><span class="w"> </span>kfc-procedure

@@ -1527,13 +1527,12 @@
 
 <h1 id="quick-start">Quick Start<a class="headerlink" href="#quick-start" title="Permanent link">&para;</a></h1>
 <h2 id="workflow">Workflow<a class="headerlink" href="#workflow" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>flowchart LR
-    A[&quot;Prepare X, y&quot;] --&gt; B[&quot;Split train/test&quot;]
-    B --&gt; C[&quot;Create estimator&quot;]
-    C --&gt; D[&quot;fit&quot;]
-    D --&gt; E[&quot;predict&quot;]
-    E --&gt; F[&quot;evaluate&quot;]
-</code></pre></div>
+<pre class="mermaid"><code>flowchart LR
+    A["Prepare X, y"] --&gt; B["Split train/test"]
+    B --&gt; C["Create estimator"]
+    C --&gt; D["fit"]
+    D --&gt; E["predict"]
+    E --&gt; F["evaluate"]</code></pre>
 <h2 id="regression">Regression<a class="headerlink" href="#regression" title="Permanent link">&para;</a></h2>
 <div class="highlight"><pre><span></span><code><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_regression</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>

@@ -1717,47 +1717,47 @@
 <p>This page explains how data moves through the package during training and prediction.</p>
 <hr />
 <h2 id="1-package-architecture">1. Package architecture<a class="headerlink" href="#1-package-architecture" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>flowchart TD
-    subgraph PublicAPI[&quot;Public API&quot;]
-        A1[&quot;kfc_procedure.__init__&quot;]
-        A2[&quot;KFCProcedure&quot;]
-        A3[&quot;KFCRegressor&quot;]
-        A4[&quot;KFCClassifier&quot;]
-        A5[&quot;COBRA estimators&quot;]
+<pre class="mermaid"><code>flowchart TD
+    subgraph PublicAPI["Public API"]
+        A1["kfc_procedure.__init__"]
+        A2["KFCProcedure"]
+        A3["KFCRegressor"]
+        A4["KFCClassifier"]
+        A5["COBRA estimators"]
     end
 
-    subgraph KFC[&quot;KFC Core&quot;]
-        K1[&quot;KStep&quot;]
-        K2[&quot;FStep&quot;]
-        K3[&quot;CStep&quot;]
+    subgraph KFC["KFC Core"]
+        K1["KStep"]
+        K2["FStep"]
+        K3["CStep"]
     end
 
-    subgraph Clustering[&quot;Clustering&quot;]
-        B1[&quot;BregmanKMeans&quot;]
-        B2[&quot;Bregman divergences&quot;]
+    subgraph Clustering["Clustering"]
+        B1["BregmanKMeans"]
+        B2["Bregman divergences"]
     end
 
-    subgraph ML[&quot;Local Models&quot;]
-        M1[&quot;LocalModelFactory&quot;]
-        M2[&quot;SklearnLocalModel&quot;]
-        M3[&quot;MeanRegressor&quot;]
+    subgraph ML["Local Models"]
+        M1["LocalModelFactory"]
+        M2["SklearnLocalModel"]
+        M3["MeanRegressor"]
     end
 
-    subgraph Combiner[&quot;Combiners&quot;]
-        C1[&quot;CombinerFactory&quot;]
-        C2[&quot;Regression combiners&quot;]
-        C3[&quot;Classification combiners&quot;]
-        C4[&quot;COBRA wrappers&quot;]
+    subgraph Combiner["Combiners"]
+        C1["CombinerFactory"]
+        C2["Regression combiners"]
+        C3["Classification combiners"]
+        C4["COBRA wrappers"]
     end
 
-    subgraph CobraCore[&quot;COBRA Core&quot;]
-        D1[&quot;Distances&quot;]
-        D2[&quot;Kernels&quot;]
-        D3[&quot;Adapters&quot;]
-        D4[&quot;Aggregators&quot;]
-        D5[&quot;Losses&quot;]
-        D6[&quot;Optimizers&quot;]
-        D7[&quot;CV&quot;]
+    subgraph CobraCore["COBRA Core"]
+        D1["Distances"]
+        D2["Kernels"]
+        D3["Adapters"]
+        D4["Aggregators"]
+        D5["Losses"]
+        D6["Optimizers"]
+        D7["CV"]
     end
 
     PublicAPI --&gt; KFC
@@ -1765,49 +1765,46 @@
     K2 --&gt; ML
     K3 --&gt; Combiner
     C4 --&gt; CobraCore
-    A5 --&gt; CobraCore
-</code></pre></div>
+    A5 --&gt; CobraCore</code></pre>
 <hr />
 <h2 id="2-kfcprocedure-training-data-flow">2. KFCProcedure training data flow<a class="headerlink" href="#2-kfcprocedure-training-data-flow" title="Permanent link">&para;</a></h2>
 <p><code>KFCProcedure.fit(X, y)</code> uses an internal split:</p>
-<div class="highlight"><pre><span></span><code>flowchart LR
-    Input[&quot;X, y&quot;] --&gt; Split[&quot;train_test_split&lt;br/&gt;50% K/F training&lt;br/&gt;50% C calibration&quot;]
+<pre class="mermaid"><code>flowchart LR
+    Input["X, y"] --&gt; Split["train_test_split&lt;br/&gt;50% K/F training&lt;br/&gt;50% C calibration"]
 
-    Split --&gt; XK[&quot;X_k, y_k&quot;]
-    Split --&gt; XL[&quot;X_l, y_l&quot;]
+    Split --&gt; XK["X_k, y_k"]
+    Split --&gt; XL["X_l, y_l"]
 
-    XK --&gt; KStep[&quot;KStep.fit(X_k)&quot;]
-    KStep --&gt; ClustersK[&quot;clusters_k&quot;]
-    KStep --&gt; PredictXL[&quot;KStep.predict(X_l)&quot;]
-    PredictXL --&gt; ClustersL[&quot;clusters_l&quot;]
+    XK --&gt; KStep["KStep.fit(X_k)"]
+    KStep --&gt; ClustersK["clusters_k"]
+    KStep --&gt; PredictXL["KStep.predict(X_l)"]
+    PredictXL --&gt; ClustersL["clusters_l"]
 
-    XK --&gt; FStep[&quot;FStep.fit(X_k, y_k, clusters_k)&quot;]
+    XK --&gt; FStep["FStep.fit(X_k, y_k, clusters_k)"]
     ClustersK --&gt; FStep
 
-    XL --&gt; FPred[&quot;FStep.predict(X_l, clusters_l)&quot;]
+    XL --&gt; FPred["FStep.predict(X_l, clusters_l)"]
     ClustersL --&gt; FPred
     FStep --&gt; FPred
 
-    FPred --&gt; PL[&quot;Prediction matrix P_l&quot;]
-    PL --&gt; CStep[&quot;CStep.fit(P_l, y_l)&quot;]
+    FPred --&gt; PL["Prediction matrix P_l"]
+    PL --&gt; CStep["CStep.fit(P_l, y_l)"]
     XL --&gt; CStep
 
-    CStep --&gt; Model[&quot;Fitted KFCProcedure&quot;]
-</code></pre></div>
+    CStep --&gt; Model["Fitted KFCProcedure"]</code></pre>
 <hr />
 <h2 id="3-kfcprocedure-prediction-data-flow">3. KFCProcedure prediction data flow<a class="headerlink" href="#3-kfcprocedure-prediction-data-flow" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>flowchart LR
-    XNew[&quot;X_new&quot;] --&gt; Cluster[&quot;kstep_.predict(X_new)&quot;]
-    Cluster --&gt; Assignments[&quot;Cluster assignments per divergence&quot;]
-    XNew --&gt; FPred[&quot;fstep_.predict(X_new, assignments)&quot;]
+<pre class="mermaid"><code>flowchart LR
+    XNew["X_new"] --&gt; Cluster["kstep_.predict(X_new)"]
+    Cluster --&gt; Assignments["Cluster assignments per divergence"]
+    XNew --&gt; FPred["fstep_.predict(X_new, assignments)"]
     Assignments --&gt; FPred
-    FPred --&gt; P[&quot;Prediction matrix P&quot;]
-    P --&gt; Combine[&quot;cstep_.predict(P)&quot;]
-    Combine --&gt; Yhat[&quot;Final predictions&quot;]
-</code></pre></div>
+    FPred --&gt; P["Prediction matrix P"]
+    P --&gt; Combine["cstep_.predict(P)"]
+    Combine --&gt; Yhat["Final predictions"]</code></pre>
 <hr />
 <h2 id="4-object-lifecycle">4. Object lifecycle<a class="headerlink" href="#4-object-lifecycle" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>sequenceDiagram
+<pre class="mermaid"><code>sequenceDiagram
     participant User
     participant KFC as KFCProcedure
     participant K as KStep
@@ -1834,49 +1831,45 @@
     F--&gt;&gt;KFC: P_new
     KFC-&gt;&gt;C: predict(P_new)
     C--&gt;&gt;KFC: y_pred
-    KFC--&gt;&gt;User: y_pred
-</code></pre></div>
+    KFC--&gt;&gt;User: y_pred</code></pre>
 <hr />
 <h2 id="5-cobra-training-data-flow">5. COBRA training data flow<a class="headerlink" href="#5-cobra-training-data-flow" title="Permanent link">&para;</a></h2>
 <p>The COBRA estimators follow a separate but related calibration architecture.</p>
-<div class="highlight"><pre><span></span><code>flowchart TD
-    Input[&quot;X, y&quot;] --&gt; Context[&quot;resolve_training_context&quot;]
-    Context --&gt; Train[&quot;X_k, y_k&lt;br/&gt;base estimator training&quot;]
-    Context --&gt; Calib[&quot;X_l, y_l&lt;br/&gt;calibration set&quot;]
+<pre class="mermaid"><code>flowchart TD
+    Input["X, y"] --&gt; Context["resolve_training_context"]
+    Context --&gt; Train["X_k, y_k&lt;br/&gt;base estimator training"]
+    Context --&gt; Calib["X_l, y_l&lt;br/&gt;calibration set"]
 
-    Train --&gt; BaseModels[&quot;Fit base estimators&quot;]
-    BaseModels --&gt; PredCalib[&quot;Predict X_l&quot;]
+    Train --&gt; BaseModels["Fit base estimators"]
+    BaseModels --&gt; PredCalib["Predict X_l"]
     Calib --&gt; PredCalib
 
-    PredCalib --&gt; ZL[&quot;Prediction space Z_l&quot;]
-    ZL --&gt; Normalize[&quot;Normalize prediction space&quot;]
-    Normalize --&gt; Dist[&quot;Pairwise distance matrix&quot;]
-    Dist --&gt; KernelAdapter[&quot;Kernel adapter&lt;br/&gt;bandwidth / alpha-beta&quot;]
-    KernelAdapter --&gt; Kernel[&quot;Kernel weights&quot;]
-    Kernel --&gt; CV[&quot;Cross-validation loss&quot;]
-    CV --&gt; Optimizer[&quot;Optimizer selects parameters&quot;]
-    Optimizer --&gt; Fitted[&quot;Fitted COBRA estimator&quot;]
-</code></pre></div>
+    PredCalib --&gt; ZL["Prediction space Z_l"]
+    ZL --&gt; Normalize["Normalize prediction space"]
+    Normalize --&gt; Dist["Pairwise distance matrix"]
+    Dist --&gt; KernelAdapter["Kernel adapter&lt;br/&gt;bandwidth / alpha-beta"]
+    KernelAdapter --&gt; Kernel["Kernel weights"]
+    Kernel --&gt; CV["Cross-validation loss"]
+    CV --&gt; Optimizer["Optimizer selects parameters"]
+    Optimizer --&gt; Fitted["Fitted COBRA estimator"]</code></pre>
 <hr />
 <h2 id="6-cobra-prediction-data-flow">6. COBRA prediction data flow<a class="headerlink" href="#6-cobra-prediction-data-flow" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>flowchart LR
-    XNew[&quot;X_new&quot;] --&gt; Pred[&quot;Base estimators predict&quot;]
-    Pred --&gt; ZNew[&quot;Prediction vector Z_new&quot;]
-    ZNew --&gt; Dist[&quot;Distance to calibration Z_l&quot;]
-    Dist --&gt; Adapter[&quot;Apply learned bandwidth / mix params&quot;]
-    Adapter --&gt; Kernel[&quot;Kernel weights&quot;]
-    Kernel --&gt; Agg[&quot;Aggregate y_l&quot;]
-    Agg --&gt; Yhat[&quot;Prediction&quot;]
-</code></pre></div>
+<pre class="mermaid"><code>flowchart LR
+    XNew["X_new"] --&gt; Pred["Base estimators predict"]
+    Pred --&gt; ZNew["Prediction vector Z_new"]
+    ZNew --&gt; Dist["Distance to calibration Z_l"]
+    Dist --&gt; Adapter["Apply learned bandwidth / mix params"]
+    Adapter --&gt; Kernel["Kernel weights"]
+    Kernel --&gt; Agg["Aggregate y_l"]
+    Agg --&gt; Yhat["Prediction"]</code></pre>
 <hr />
 <h2 id="7-registry-flow">7. Registry flow<a class="headerlink" href="#7-registry-flow" title="Permanent link">&para;</a></h2>
-<div class="highlight"><pre><span></span><code>flowchart LR
-    Config[&quot;String name in user config&quot;] --&gt; Factory[&quot;Factory.contains / create&quot;]
-    Factory --&gt; Registry[&quot;Internal registry&quot;]
-    Registry --&gt; Class[&quot;Implementation class&quot;]
-    Class --&gt; Instance[&quot;Component instance&quot;]
-    Instance --&gt; Pipeline[&quot;Used by pipeline&quot;]
-</code></pre></div>
+<pre class="mermaid"><code>flowchart LR
+    Config["String name in user config"] --&gt; Factory["Factory.contains / create"]
+    Factory --&gt; Registry["Internal registry"]
+    Registry --&gt; Class["Implementation class"]
+    Class --&gt; Instance["Component instance"]
+    Instance --&gt; Pipeline["Used by pipeline"]</code></pre>
 <p>Example:</p>
 <div class="highlight"><pre><span></span><code><span class="n">CombinerFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;weighted_mean&quot;</span><span class="p">)</span>
 </code></pre></div>
