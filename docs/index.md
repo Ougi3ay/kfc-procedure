@@ -1,43 +1,66 @@
-# KFCProcedure Developer Documentation
+# KFCProcedure
 
+`kfc-procedure` is a Python package for **clusterwise predictive modeling** and **COBRA-based ensemble aggregation**.
 
-!!! note "Source-grounded documentation"
-    This documentation was generated from direct inspection of the provided repository, packaging metadata, notebooks, tests, and thesis files. It documents behavior observed in source code and tests only. Analysis date: **2026-06-12**.
+It is designed for machine learning workflows where a dataset may contain heterogeneous subgroups. Instead of relying on one global model, KFCProcedure clusters observations, trains local models inside clusters, and combines their predictions into a final output.
 
+```mermaid
+flowchart LR
+    A["Input Data"] --> K["K-step<br/>Cluster observations"]
+    K --> F["F-step<br/>Train local models"]
+    F --> C["C-step<br/>Combine predictions"]
+    C --> Y["Final Prediction"]
+```
 
-`kfc_procedure` is a Python package for clusterwise supervised learning and COBRA-style ensemble aggregation. It contains two connected subsystems:
+!!! note "Package name and import name"
+    Install with `pip install kfc-procedure`, but import with `import kfc_procedure`.
 
-1. **KFCProcedure**: a three-stage clusterwise learning pipeline made of K-step clustering, F-step local model fitting, and C-step prediction aggregation.
-2. **COBRA components**: reusable modules for distances, kernels, kernel adapters, losses, splitters, cross-validation, optimization, estimators, normalizers, and aggregation.
+## Documentation sections
 
-The package follows a modular, factory-driven design. Developers select algorithms with registry names such as `"euclidean"`, `"linear_regression"`, `"weighted_mean"`, `"rbf"`, or `"grid"`, and the corresponding component is created by a factory class.
+| Audience | Section | Purpose |
+|---|---|---|
+| Normal users | [User Documentation](user/overview.md) | Installation, quick start, examples, FAQ |
+| ML/technical readers | [Technical Documentation](technical/overview.md) | Methods, algorithms, math, complexity, diagrams |
+| Developers | [Developer Documentation](developer/overview.md) | Project structure, registries, extension, testing |
+| API users | [API Reference](api/main.md) | mkdocstrings-generated class/module reference |
 
-## Project status observed
+## Public API
 
-| Area | Status from source analysis |
-|---|---|
-| Package version | `0.1.0` in `pyproject.toml` |
-| Python requirement | `>=3.11` |
-| Package layout | `src/kfc_procedure/` |
-| Main estimators | `KFCProcedure`, `KFCRegressor`, `KFCClassifier`, `GradientCOBRA`, `MixCOBRARegressor`, `CombinedClassifier`, `SuperLearner` |
-| Automated tests observed | COBRA core tests only |
-| Test result | `============================= 116 passed in 7.43s ==============================` |
-| Known incomplete path | `KFCClassifier.predict_proba()` calls `FStep.predict_proba()`, which is not implemented in the inspected source |
+```python
+from kfc_procedure import KFCProcedure, KFCRegressor, KFCClassifier
+from kfc_procedure.cobra import GradientCOBRA, MixCOBRARegressor, CombinedClassifier, SuperLearner
+```
 
-## Documentation map
+## Quick installation
 
-- [Installation](getting-started/installation.md): environment, editable install, verification, and test commands.
-- [Quick Start](getting-started/quick-start.md): minimal working examples for KFC, GradientCOBRA, and CombinedClassifier.
-- [Architecture Overview](architecture/overview.md): package structure, layers, and component dependencies.
-- [Functional Workflow](architecture/workflow.md): KFC and COBRA execution flows.
-- [API Reference](api/index.md): public classes, methods, functions, and factory registries.
-- [Examples](examples/basic.md): basic, intermediate, advanced, and real-world-style examples.
-- [Configuration Guide](configuration.md): runtime parameters and factory names.
-- [Developer Guide](developer-guide/index.md): extending the package, testing, build process, and coding practices.
-- [Mathematical Foundations](mathematical-foundations.md): Bregman divergences and COBRA aggregation notation.
-- [Troubleshooting](troubleshooting.md): common runtime issues and fixes.
-- [Full Developer Documentation](full-developer-documentation.md): single-file reference version.
+```bash
+pip install kfc-procedure
+```
 
-## Target users
+With COBRA extras:
 
-This documentation is written for package maintainers, thesis/research developers, contributors, and users who need to understand how to configure and extend the library safely.
+```bash
+pip install "kfc-procedure[cobra]"
+```
+
+## Minimal regression example
+
+```python
+from sklearn.datasets import make_regression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error
+from kfc_procedure import KFCRegressor
+
+X, y = make_regression(n_samples=300, n_features=8, noise=0.2, random_state=42)
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+
+model = KFCRegressor(
+    divergences=["euclidean"],
+    local_model="linear_regression",
+    combiner="mean",
+    n_clusters=3,
+    random_state=42,
+)
+model.fit(X_train, y_train)
+print(mean_squared_error(y_test, model.predict(X_test)))
+```

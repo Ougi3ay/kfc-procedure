@@ -61,9 +61,17 @@ dev = [
   "jupyter"
 ]
 
+docs = [
+  "mkdocs",
+  "mkdocs-material",
+  "pymdown-extensions",
+  "mkdocstrings[python]"
+]
+
 all = [
   "kfc-procedure[cobra]",
-  "kfc-procedure[dev]"
+  "kfc-procedure[dev]",
+  "kfc-procedure[docs]"
 ]
 
 # --------------------------

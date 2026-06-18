@@ -1,54 +1,110 @@
-site_name: KFCProcedure Developer Documentation
-site_description: Source-grounded developer documentation for kfc_procedure
+site_name: KFCProcedure
+site_description: Clusterwise predictive modeling and COBRA ensemble aggregation library
+site_url: https://ougi3ay.github.io/kfc-procedure/
 repo_url: https://github.com/Ougi3ay/kfc-procedure
+repo_name: Ougi3ay/kfc-procedure
+edit_uri: edit/main/docs/
+
 theme:
   name: material
+  language: en
   features:
-    - navigation.sections
-    - navigation.expand
+    - navigation.top
+    - navigation.instant
+    - navigation.tracking
     - content.code.copy
-markdown_extensions:
-  - admonition
-  - toc:
-      permalink: true
-  - tables
-  - fenced_code
-  - pymdownx.arithmatex:
-      generic: true
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
-extra_javascript:
-  - https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js
+    - content.code.annotate
+    - search.highlight
+    - search.suggest
+    - toc.follow
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
+
 nav:
   - Home: index.md
-  - Getting Started:
-      - Installation: getting-started/installation.md
-      - Quick Start: getting-started/quick-start.md
-  - Architecture:
-      - Overview: architecture/overview.md
-      - Functional Workflow: architecture/workflow.md
+  - User Documentation:
+      - Overview: user/overview.md
+      - Installation: user/installation.md
+      - Quick Start: user/quick-start.md
+      - Regression: user/regression.md
+      - Classification: user/classification.md
+      - COBRA Usage: user/cobra-usage.md
+      - Examples: user/examples.md
+      - FAQ: user/faq.md
+  - Technical Documentation:
+      - Overview: technical/overview.md
+      - Methods: technical/methods.md
+      - Algorithms: technical/algorithms.md
+      - Mathematics: technical/mathematics.md
+      - Architecture & Data Flow: technical/architecture-data-flow.md
+      - Project Structure: technical/project-structure.md
+      - Usage: technical/usage.md
+      - Limitations & Improvements: technical/limitations-improvements.md
+  - Developer Documentation:
+      - Overview: developer/overview.md
+      - Project Structure: developer/project-structure.md
+      - Registry & Factory Pattern: developer/registry-factory.md
+      - Extending: developer/extending.md
+      - Testing: developer/testing.md
+      - Documentation Workflow: developer/documentation-workflow.md
+      - Known Issues: developer/known-issues.md
   - API Reference:
-      - API Index: api/index.md
-      - Public Estimators: api/estimators.md
-      - KFC Core API: api/kfc-core.md
-      - COBRA Core API: api/cobra-core.md
-      - Factory Registries: api/factories.md
-      - Complete Generated API Inventory: api/generated.md
-  - Examples: examples/basic.md
-  - Configuration: configuration.md
-  - Developer Guide:
-      - Overview: developer-guide/index.md
-      - Extending Components: developer-guide/extending.md
-      - Testing and QA: developer-guide/testing.md
-  - Performance: performance.md
-  - Design Decisions: design-decisions.md
-  - Mathematical Foundations: mathematical-foundations.md
-  - Research Context: research-context.md
-  - FAQ: faq.md
-  - Troubleshooting: troubleshooting.md
-  - Changelog Template: changelog-template.md
-  - Source Analysis Report: source-analysis.md
-  - Full Single-File Documentation: full-developer-documentation.md
+      - Main API: api/main.md
+      - KFC Core Steps: api/core-steps.md
+      - Clustering: api/clustering.md
+      - Combiners: api/combiners.md
+      - Local Models: api/local-models.md
+      - COBRA: api/cobra.md
+      - Utilities: api/utilities.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths:
+            - src
+          options:
+            docstring_style: numpy
+            show_source: false
+            show_signature: false
+            show_root_heading: true
+            show_symbol_type_heading: true
+            members_order: source
+            separate_signature: false
+            show_signature_annotations: false
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - def_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.arithmatex:
+      generic: true
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
+extra_css:
+  - stylesheets/extra.css
