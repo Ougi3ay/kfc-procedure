@@ -1,0 +1,2519 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Clusterwise predictive modeling and COBRA ensemble aggregation library">
+      
+      
+      
+        <link rel="canonical" href="https://ougi3ay.github.io/kfc-procedure/technical/methods/">
+      
+      
+        <link rel="prev" href="../overview/">
+      
+      
+        <link rel="next" href="../algorithms/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Methods - KFCProcedure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#methods" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="KFCProcedure" class="md-header__button md-logo" aria-label="KFCProcedure" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KFCProcedure
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Methods
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="KFCProcedure" class="md-nav__button md-logo" aria-label="KFCProcedure" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KFCProcedure
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/cobra-usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    COBRA Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/examples/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Examples
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../user/faq/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    FAQ
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Technical Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Technical Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methods
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Methods
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-bregman-divergence-based-clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bregman divergence-based clustering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Bregman divergence-based clustering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-is-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-multi-divergence-k-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Multi-divergence K-step
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Multi-divergence K-step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-is-used_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-cluster-local-supervised-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Cluster-local supervised learning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Cluster-local supervised learning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-is-used_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-prediction-matrix-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Prediction matrix construction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-c-step-combiners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. C-step combiners
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. C-step combiners">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regression-combiners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regression combiners
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classification-combiners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classification combiners
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-they-are-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why they are used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-cobra-style-ensemble-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. COBRA-style ensemble aggregation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. COBRA-style ensemble aggregation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-is-used_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-registry-based-component-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Registry-based component resolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Registry-based component resolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-is-used_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-internal-calibration-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Internal calibration split
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../algorithms/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Algorithms
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mathematics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Mathematics
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../architecture-data-flow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture & Data Flow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../project-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../usage/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Usage
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../limitations-improvements/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Limitations & Improvements
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Developer Documentation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Developer Documentation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/project-structure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Project Structure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/registry-factory/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Registry & Factory Pattern
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/extending/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extending
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/testing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Testing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/documentation-workflow/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Documentation Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../developer/known-issues/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Known Issues
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/main/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Main API
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/core-steps/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Core Steps
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/clustering/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clustering
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/combiners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Combiners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/local-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Local Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/cobra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    COBRA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../api/utilities/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Utilities
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#1-bregman-divergence-based-clustering" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1. Bregman divergence-based clustering
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="1. Bregman divergence-based clustering">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-is-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2-multi-divergence-k-step" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2. Multi-divergence K-step
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="2. Multi-divergence K-step">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-is-used_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3-cluster-local-supervised-learning" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3. Cluster-local supervised learning
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="3. Cluster-local supervised learning">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-is-used_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#4-prediction-matrix-construction" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4. Prediction matrix construction
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5-c-step-combiners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5. C-step combiners
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5. C-step combiners">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#regression-combiners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Regression combiners
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#classification-combiners" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Classification combiners
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-they-are-used" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why they are used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#6-cobra-style-ensemble-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        6. COBRA-style ensemble aggregation
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="6. COBRA-style ensemble aggregation">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-is-used_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#7-registry-based-component-resolution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        7. Registry-based component resolution
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="7. Registry-based component resolution">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#what-it-does_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What it does
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#why-it-is-used_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why it is used
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#alternatives_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Alternatives
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#8-internal-calibration-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        8. Internal calibration split
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="methods">Methods<a class="headerlink" href="#methods" title="Permanent link">&para;</a></h1>
+<p>This page explains the main methods implemented in the codebase, why they are used, and possible alternatives.</p>
+<hr />
+<h2 id="1-bregman-divergence-based-clustering">1. Bregman divergence-based clustering<a class="headerlink" href="#1-bregman-divergence-based-clustering" title="Permanent link">&para;</a></h2>
+<h3 id="what-it-does">What it does<a class="headerlink" href="#what-it-does" title="Permanent link">&para;</a></h3>
+<p>The K-step uses <code>BregmanKMeans</code>, a generalization of classical K-Means. Instead of using only squared Euclidean distance, it supports multiple Bregman divergences:</p>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Class</th>
+<th>Domain</th>
+<th>Typical data type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>euclidean</code></td>
+<td><code>SquaredEuclidean</code></td>
+<td>all real values</td>
+<td>generic numerical features</td>
+</tr>
+<tr>
+<td><code>gkl</code></td>
+<td><code>GKLDivergence</code></td>
+<td>strictly positive values</td>
+<td>positive count-like data</td>
+</tr>
+<tr>
+<td><code>is</code></td>
+<td><code>ItakuraSaito</code></td>
+<td>strictly positive values</td>
+<td>scale/spectral positive data</td>
+</tr>
+<tr>
+<td><code>logistic</code></td>
+<td><code>LogisticLoss</code></td>
+<td>values in <code>(0, 1)</code></td>
+<td>probability-like features</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-it-is-used">Why it is used<a class="headerlink" href="#why-it-is-used" title="Permanent link">&para;</a></h3>
+<p>Different divergences imply different geometric assumptions. For heterogeneous data, one distance measure may not capture all useful structure. By fitting one clustering model per divergence, KFCProcedure creates multiple views of the same dataset.</p>
+<h3 id="alternatives">Alternatives<a class="headerlink" href="#alternatives" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Alternative</th>
+<th>When to use</th>
+<th>Trade-off</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Standard K-Means</td>
+<td>General numeric data</td>
+<td>Simpler but only Euclidean geometry.</td>
+</tr>
+<tr>
+<td>Gaussian Mixture Models</td>
+<td>Soft probabilistic clusters</td>
+<td>More assumptions, can be sensitive to covariance estimation.</td>
+</tr>
+<tr>
+<td>Spectral clustering</td>
+<td>Non-convex cluster shapes</td>
+<td>Higher computational cost.</td>
+</tr>
+<tr>
+<td>Hierarchical clustering</td>
+<td>Small datasets and interpretability</td>
+<td>Usually expensive for large <code>n</code>.</td>
+</tr>
+<tr>
+<td>Density-based clustering</td>
+<td>irregular clusters/noise</td>
+<td>Harder to integrate with fixed local models.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="2-multi-divergence-k-step">2. Multi-divergence K-step<a class="headerlink" href="#2-multi-divergence-k-step" title="Permanent link">&para;</a></h2>
+<h3 id="what-it-does_1">What it does<a class="headerlink" href="#what-it-does_1" title="Permanent link">&para;</a></h3>
+<p><code>KStep</code> accepts a list of divergences and fits an independent <code>BregmanKMeans</code> model for each divergence.</p>
+<p>Output:</p>
+<div class="highlight"><pre><span></span><code><span class="n">clusters_</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;euclidean&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="o">...</span><span class="p">]),</span>
+    <span class="s2">&quot;gkl&quot;</span><span class="p">:</span> <span class="n">array</span><span class="p">([</span><span class="o">...</span><span class="p">]),</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</code></pre></div>
+<h3 id="why-it-is-used_1">Why it is used<a class="headerlink" href="#why-it-is-used_1" title="Permanent link">&para;</a></h3>
+<p>Each divergence produces a different partition. Downstream local models can specialize under each partition, and the C-step can combine the resulting predictions.</p>
+<h3 id="alternatives_1">Alternatives<a class="headerlink" href="#alternatives_1" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Use only one divergence for speed and simplicity.</li>
+<li>Use model selection to choose the best divergence.</li>
+<li>Use ensemble clustering or consensus clustering before local modeling.</li>
+</ul>
+<hr />
+<h2 id="3-cluster-local-supervised-learning">3. Cluster-local supervised learning<a class="headerlink" href="#3-cluster-local-supervised-learning" title="Permanent link">&para;</a></h2>
+<h3 id="what-it-does_2">What it does<a class="headerlink" href="#what-it-does_2" title="Permanent link">&para;</a></h3>
+<p><code>FStep</code> trains a separate local supervised model inside each cluster for each divergence.</p>
+<p>For divergence <code>d</code> and cluster <code>k</code>, it trains:</p>
+<div class="highlight"><pre><span></span><code>model[d][k].fit(X_cluster, y_cluster)
+</code></pre></div>
+<p>At prediction time, each sample is assigned to a cluster for each divergence, then predicted by the corresponding local model.</p>
+<h3 id="why-it-is-used_2">Why it is used<a class="headerlink" href="#why-it-is-used_2" title="Permanent link">&para;</a></h3>
+<p>Local models can capture different predictive behavior in different data regions. This can reduce bias when the relationship between <code>X</code> and <code>y</code> is not globally uniform.</p>
+<h3 id="alternatives_2">Alternatives<a class="headerlink" href="#alternatives_2" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Alternative</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single global model</td>
+<td>Simpler and more stable for small datasets.</td>
+</tr>
+<tr>
+<td>Mixture of experts</td>
+<td>Learns soft gating instead of hard clustering.</td>
+</tr>
+<tr>
+<td>Random forest / boosting</td>
+<td>Implicitly creates local partitions but less explicit.</td>
+</tr>
+<tr>
+<td>Local regression / nearest neighbors</td>
+<td>Uses local neighborhoods without learned clusters.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="4-prediction-matrix-construction">4. Prediction matrix construction<a class="headerlink" href="#4-prediction-matrix-construction" title="Permanent link">&para;</a></h2>
+<p>After the F-step, the output is a prediction matrix:</p>
+<div class="highlight"><pre><span></span><code>P ∈ R^{n_samples × n_divergences}
+</code></pre></div>
+<p>Each column is the prediction produced under one divergence-specific local modeling system.</p>
+<p>Example with three divergences:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: right;">sample</th>
+<th style="text-align: right;">euclidean prediction</th>
+<th style="text-align: right;">gkl prediction</th>
+<th style="text-align: right;">logistic prediction</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">10.2</td>
+<td style="text-align: right;">9.8</td>
+<td style="text-align: right;">10.5</td>
+</tr>
+<tr>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">4.1</td>
+<td style="text-align: right;">5.0</td>
+<td style="text-align: right;">4.8</td>
+</tr>
+<tr>
+<td style="text-align: right;">3</td>
+<td style="text-align: right;">7.7</td>
+<td style="text-align: right;">7.4</td>
+<td style="text-align: right;">7.9</td>
+</tr>
+</tbody>
+</table>
+<p>The C-step receives this matrix and learns or applies an aggregation rule.</p>
+<hr />
+<h2 id="5-c-step-combiners">5. C-step combiners<a class="headerlink" href="#5-c-step-combiners" title="Permanent link">&para;</a></h2>
+<h3 id="regression-combiners">Regression combiners<a class="headerlink" href="#regression-combiners" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Implementation</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mean</code></td>
+<td><code>MeanCombiner</code></td>
+<td>Row-wise arithmetic mean.</td>
+</tr>
+<tr>
+<td><code>weighted_mean</code></td>
+<td><code>WeightedMeanCombiner</code></td>
+<td>Linear regression over prediction columns.</td>
+</tr>
+<tr>
+<td><code>stacking_regressor</code></td>
+<td><code>StackingRegressorCombiner</code></td>
+<td>Meta-regressor over predictions.</td>
+</tr>
+<tr>
+<td><code>gradientcobra</code></td>
+<td><code>GradientCOBRACombiner</code></td>
+<td>COBRA kernel aggregation over prediction matrix.</td>
+</tr>
+<tr>
+<td><code>mixcobra</code></td>
+<td><code>MixCOBRACombiner</code></td>
+<td>Mixed input/prediction-space COBRA aggregation.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="classification-combiners">Classification combiners<a class="headerlink" href="#classification-combiners" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Identifier</th>
+<th>Implementation</th>
+<th>Method</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>majority_vote</code></td>
+<td><code>MajorityVoteCombiner</code></td>
+<td>Hard vote over predicted labels.</td>
+</tr>
+<tr>
+<td><code>stacking_classifier</code></td>
+<td><code>StackingClassifierCombiner</code></td>
+<td>Logistic-regression meta-classifier.</td>
+</tr>
+<tr>
+<td><code>combined_classifier</code></td>
+<td><code>CobraClassifierCombiner</code></td>
+<td>COBRA-based classifier aggregation.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-they-are-used">Why they are used<a class="headerlink" href="#why-they-are-used" title="Permanent link">&para;</a></h3>
+<p>The combiner acts as the final fusion layer. Simple combiners reduce variance and are easy to interpret. Learned combiners can adaptively weight the divergence views.</p>
+<h3 id="alternatives_3">Alternatives<a class="headerlink" href="#alternatives_3" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Use cross-validation to select the best single divergence.</li>
+<li>Use Bayesian model averaging.</li>
+<li>Use a neural gating network.</li>
+<li>Use calibration models for probabilistic classification.</li>
+</ul>
+<hr />
+<h2 id="6-cobra-style-ensemble-aggregation">6. COBRA-style ensemble aggregation<a class="headerlink" href="#6-cobra-style-ensemble-aggregation" title="Permanent link">&para;</a></h2>
+<h3 id="what-it-does_3">What it does<a class="headerlink" href="#what-it-does_3" title="Permanent link">&para;</a></h3>
+<p>COBRA methods operate in a <strong>prediction space</strong> formed by base estimator outputs. Samples are considered similar if base estimators produce similar predictions for them.</p>
+<p>The package implements:</p>
+<table>
+<thead>
+<tr>
+<th>Estimator</th>
+<th>Task</th>
+<th>Key idea</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GradientCOBRA</code></td>
+<td>regression</td>
+<td>Optimize one bandwidth for kernel-weighted aggregation in prediction space.</td>
+</tr>
+<tr>
+<td><code>MixCOBRARegressor</code></td>
+<td>regression</td>
+<td>Learn distance mixing between original input space and prediction space.</td>
+</tr>
+<tr>
+<td><code>CombinedClassifier</code></td>
+<td>classification</td>
+<td>Kernel-weighted voting/probability aggregation in prediction space.</td>
+</tr>
+<tr>
+<td><code>SuperLearner</code></td>
+<td>regression</td>
+<td>Cross-validated stacking with base learners and meta learners.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="why-it-is-used_3">Why it is used<a class="headerlink" href="#why-it-is-used_3" title="Permanent link">&para;</a></h3>
+<p>COBRA aggregation can be robust when individual base estimators are imperfect but their agreement patterns are informative. It uses neighborhoods in prediction space rather than only raw input space.</p>
+<h3 id="alternatives_4">Alternatives<a class="headerlink" href="#alternatives_4" title="Permanent link">&para;</a></h3>
+<table>
+<thead>
+<tr>
+<th>Alternative</th>
+<th>Difference</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bagging</td>
+<td>Averages many models trained on bootstrap samples.</td>
+</tr>
+<tr>
+<td>Boosting</td>
+<td>Sequentially corrects previous errors.</td>
+</tr>
+<tr>
+<td>Stacking</td>
+<td>Learns a meta-model over predictions.</td>
+</tr>
+<tr>
+<td>KNN regression/classification</td>
+<td>Aggregates in input space only.</td>
+</tr>
+<tr>
+<td>Random forest</td>
+<td>Tree-based implicit ensemble; less modular for arbitrary predictions.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="7-registry-based-component-resolution">7. Registry-based component resolution<a class="headerlink" href="#7-registry-based-component-resolution" title="Permanent link">&para;</a></h2>
+<h3 id="what-it-does_4">What it does<a class="headerlink" href="#what-it-does_4" title="Permanent link">&para;</a></h3>
+<p>The code uses factory registries to map strings to classes. For example:</p>
+<div class="highlight"><pre><span></span><code><span class="n">BregmanDivergenceFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;euclidean&quot;</span><span class="p">)</span>
+<span class="n">CombinerFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;weighted_mean&quot;</span><span class="p">)</span>
+<span class="n">DistanceFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="s2">&quot;cosine&quot;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="why-it-is-used_4">Why it is used<a class="headerlink" href="#why-it-is-used_4" title="Permanent link">&para;</a></h3>
+<p>This design makes the package extensible. New components can be registered without changing the central pipeline code.</p>
+<h3 id="alternatives_5">Alternatives<a class="headerlink" href="#alternatives_5" title="Permanent link">&para;</a></h3>
+<ul>
+<li>Hard-coded <code>if/elif</code> component selection.</li>
+<li>Configuration files with import paths.</li>
+<li>Python entry points for external plugins.</li>
+</ul>
+<hr />
+<h2 id="8-internal-calibration-split">8. Internal calibration split<a class="headerlink" href="#8-internal-calibration-split" title="Permanent link">&para;</a></h2>
+<p><code>KFCProcedure.fit</code> splits the input data into two halves:</p>
+<ul>
+<li><code>X_k</code>, <code>y_k</code>: used for K-step clustering and F-step local model training;</li>
+<li><code>X_l</code>, <code>y_l</code>: used for C-step combiner fitting.</li>
+</ul>
+<p>This reduces overfitting in the aggregation layer because the combiner is trained on predictions for samples not used to train the local models.</p>
+<div class="admonition warning">
+<p class="admonition-title">Current implementation detail</p>
+<p>The KFC internal split ratio is fixed at <code>test_size=0.5</code> in <code>KFCProcedure.fit</code>. There is no public <code>split_ratio</code> argument in the current wrapper, unlike the COBRA estimators.</p>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../..", "features": ["navigation.top", "navigation.instant", "navigation.tracking", "content.code.copy", "content.code.annotate", "search.highlight", "search.suggest", "toc.follow"], "search": "../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+        <script src="../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
