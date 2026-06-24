@@ -444,24 +444,6 @@ If you find `kfc-procedure` helpful, please consider citing the main methodologi
 * S. Has, A. Fischer, and M. Mougeot (2021), [KFC: A clusterwise supervised learning procedure based on the aggregation of distances](https://doi.org/10.1080/00949655.2021.1891539).
 * G. Biau, A. Fischer, B. Guedj, and J. D. Malley (2016), [COBRA: A Combined Regression Strategy](https://doi.org/10.1016/j.jmva.2015.04.007).
 
-You may also cite this software package as:
-
-```text
-Pov, O. (2026). KFCProcedure: Python package for clusterwise predictive modeling and COBRA-based ensemble aggregation (Version 0.1.1) [Computer software]. GitHub. https://github.com/Ougi3ay/kfc-procedure
-```
-
-```bibtex
-@software{kfcprocedure2026,
-  author  = {Pov, Ougi},
-  title   = {KFCProcedure: Python Package for Clusterwise Predictive Modeling and COBRA-Based Ensemble Aggregation},
-  year    = {2026},
-  version = {0.1.1},
-  url     = {https://github.com/Ougi3ay/kfc-procedure},
-  license = {MIT},
-  note    = {Python package}
-}
-```
-
 Citation metadata is also provided in `CITATION.cff`.
 
 ---
