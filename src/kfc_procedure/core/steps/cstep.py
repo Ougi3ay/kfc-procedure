@@ -156,7 +156,7 @@ class CStep(BaseEstimator):
         random_state: Optional[int] = None,
     ):
         self.combiner = combiner
-        self.combiner_params = combiner_params or {}
+        self.combiner_params = combiner_params
         self.task = task
         self.random_state = random_state
 
@@ -192,36 +192,38 @@ class CStep(BaseEstimator):
         )
 
     def _build_combiner(self):
-        """
-        Build combiner strategy from registry.
-        """
-
-        # already an instance
         if not isinstance(self.combiner, str):
             return self.combiner
 
         name = self.combiner.lower()
 
-        # check existence
         if not CombinerFactory.contains(name):
             raise ValueError(
-                f"'{name}' is not a valid combiner. "
-                f"Available: {CombinerFactory.available()}"
+                f"Unknown combiner '{name}'. "
+                f"Available combiners: {CombinerFactory.available()}"
             )
 
-        # task compatibility check
-        if not CombinerFactory.supports(name, self.task):
+        if not CombinerFactory.supports(
+            name,
+            self.task,
+        ):
             raise ValueError(
-                f"'{name}' is not valid for task='{self.task}'. "
-                f"Available: {CombinerFactory.available_by_category(self.task)}"
+                f"Combiner '{name}' does not support "
+                f"task='{self.task}'. "
+                f"Available combiners for this task: "
+                f"{CombinerFactory.available_by_category(self.task)}"
             )
-        
-        params = dict(self.combiner_params)
 
-        if "random_state" not in params:
-            params["random_state"] = self.random_state
+        params = dict(
+            self.combiner_params or {}
+        )
+
+        params.setdefault(
+            "random_state",
+            self.random_state,
+        )
 
         return CombinerFactory.create(
             name,
-            **params
+            **params,
         )

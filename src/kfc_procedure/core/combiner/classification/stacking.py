@@ -1,44 +1,78 @@
-"""
-Stacking classifier combiner.
+from __future__ import annotations
 
-This module implements a stacking-based classification combiner using
-a meta-classifier trained on base model predictions.
-"""
+from typing import Optional
 
 import numpy as np
-from sklearn.base import clone
 from sklearn.linear_model import LogisticRegression
+from sklearn.utils.validation import check_is_fitted
 
-from kfc_procedure.core.combiner.base import BaseCombiner
-from kfc_procedure.core.combiner import CombinerFactory
+from kfc_procedure.core.combiner.base import BaseCombiner, CombinerFactory
 
 
-@CombinerFactory.register("stacking_classifier", categories={"classification"})
+@CombinerFactory.register(
+    "stacking_classifier",
+    categories={"classification"},
+)
 class StackingClassifierCombiner(BaseCombiner):
     """
-    Logistic regression stacking classifier.
-
-    Learns a mapping from base predictions to final class labels.
+    Supervised stacking combiner for classification.
     """
 
-    def __init__(self, meta_model=None):
-        self.meta_model = meta_model or LogisticRegression(max_iter=1000)
-        self._is_fitted = False
+    def __init__(
+        self,
+        random_state: Optional[int] = None,
+        C: float = 1.0,
+        max_iter: int = 1000,
+    ):
+        super().__init__(
+            random_state=random_state,
+        )
 
-    def fit(self, X: np.ndarray, y: np.ndarray):
+        self.C = C
+        self.max_iter = max_iter
+
+    def fit(
+        self,
+        X: np.ndarray,
+        y: np.ndarray,
+    ):
         X = np.asarray(X)
+        y = np.asarray(y)
 
-        if X.ndim != 2:
-            raise ValueError(f"Expected 2D array, got {X.shape}")
+        self.model_ = LogisticRegression(
+            C=self.C,
+            max_iter=self.max_iter,
+            random_state=self.random_state,
+        )
 
-        self.meta_model_ = clone(self.meta_model)
-        self.meta_model_.fit(X, y)
+        self.model_.fit(X, y)
 
-        self._is_fitted = True
+        self.classes_ = self.model_.classes_
+
         return self
 
-    def combine(self, X: np.ndarray) -> np.ndarray:
-        if not self._is_fitted:
-            raise RuntimeError("StackingClassifierCombiner is not fitted.")
+    def combine(
+        self,
+        X: np.ndarray,
+    ) -> np.ndarray:
+        check_is_fitted(
+            self,
+            "model_",
+        )
 
-        return self.meta_model_.predict(np.asarray(X))
+        X = np.asarray(X)
+
+        return self.model_.predict(X)
+
+    def predict_proba(
+        self,
+        X: np.ndarray,
+    ) -> np.ndarray:
+        check_is_fitted(
+            self,
+            "model_",
+        )
+
+        X = np.asarray(X)
+
+        return self.model_.predict_proba(X)
