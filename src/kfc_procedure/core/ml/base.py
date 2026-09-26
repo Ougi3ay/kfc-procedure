@@ -16,7 +16,8 @@ from typing import Any
 import numpy as np
 from sklearn.base import BaseEstimator
 
-from kfc_procedure.core.factory import BaseFactory
+from kfc_procedure.factory.base import BaseFactory
+
 
 class BaseLocalModel(BaseEstimator, ABC):
     """

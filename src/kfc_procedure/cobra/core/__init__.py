@@ -99,8 +99,4 @@ from .losses import *
 from .optimizers import *
 from .splitters import *
 
-from .factory import BaseFactory
-
-__all__ = [
-    "BaseFactory",
-]
+__all__ = []

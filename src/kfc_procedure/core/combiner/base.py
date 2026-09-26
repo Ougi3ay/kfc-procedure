@@ -29,7 +29,8 @@ from typing import Any, Optional
 import numpy as np
 from sklearn.base import BaseEstimator
 
-from kfc_procedure.core.factory import BaseFactory
+from kfc_procedure.factory.base import BaseFactory
+
 
 class BaseCombiner(ABC, BaseEstimator):
     """
