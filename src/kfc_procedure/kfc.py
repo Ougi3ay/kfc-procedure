@@ -170,41 +170,61 @@ class KFCProcedure(BaseEstimator):
         local_model_params: Optional[Dict] = None,
         combiner_params: Optional[Dict] = None,
         task: str = "regression",
-        n_clusters=3,
-        max_iter=300,
-        tol=1e-4,
-        verbose=0,
-        random_state=None,
+        n_clusters: int = 3,
+        max_iter: int = 300,
+        tol: float = 1e-4,
+        verbose: int = 0,
+        random_state: Optional[int] = None,
     ):
-        if task not in {"regression", "classification"}:
-            raise ValueError(
-                "task must be 'regression' or 'classification'"
-            )
-
-        self.task = task
-
         self.divergences = divergences
         self.local_model = local_model
         self.combiner = combiner
-
-        self.divergences_params = divergences_params or {}
-        self.local_model_params = local_model_params or {}
-        self.combiner_params = combiner_params or {}
-
+        
+        self.divergences_params = divergences_params
+        self.local_model_params = local_model_params
+        self.combiner_params = combiner_params
+        
+        self.task = task
+        
         self.n_clusters = n_clusters
         self.max_iter = max_iter
         self.tol = tol
         self.verbose = verbose
         self.random_state = random_state
-        self.logger = Logger(verbose if isinstance(verbose, int) else int(bool(verbose)))
+
+    def _make_logger(self) -> Logger:
+        level = (
+            self.verbose
+            if isinstance(self.verbose, int)
+            else int(bool(self.verbose))
+        )
+        
+        return Logger(level)
+
+    def _validate_task(self) -> None:
+        """
+        Validate estimator task.
+        """
+        if self.task not in {
+            "regression",
+            "classification",
+        }:
+            raise ValueError(
+                "task must be "
+                "'regression' or 'classification'"
+            )
 
     def fit(self, X: np.ndarray, y: np.ndarray):
+
+        self._validate_task()
 
         X = np.asarray(X)
         y = np.asarray(y)
 
-        self.logger.info("KFC fit started")
-        self.logger.debug(f"X shape: {X.shape}, y shape: {y.shape}")
+        self.logger_ = self._make_logger()
+
+        self.logger_.info("KFC fit started")
+        self.logger_.debug(f"X shape: {X.shape}, y shape: {y.shape}")
 
         X_k, X_l, y_k, y_l = train_test_split(
             X,
@@ -214,8 +234,8 @@ class KFCProcedure(BaseEstimator):
             stratify=y if self.task == "classification" else None
         )
 
-        self.logger.info("Train/test split completed")
-        self.logger.debug(f"X_k: {X_k.shape}, X_l: {X_l.shape}")
+        self.logger_.info("Train/test split completed")
+        self.logger_.debug(f"X_k: {X_k.shape}, X_l: {X_l.shape}")
 
         self.kstep_ = KStep(
             divergences=self.divergences,
@@ -227,11 +247,11 @@ class KFCProcedure(BaseEstimator):
             random_state=self.random_state,
         )
 
-        self.logger.info("Starting K-step clustering")
+        self.logger_.info("Starting K-step clustering")
 
         self.kstep_.fit(X_k)
 
-        self.logger.debug(
+        self.logger_.debug(
             f"K-step done | divergences={len(self.divergences)} "
             f"| clusters={self.n_clusters}"
         )
@@ -249,12 +269,12 @@ class KFCProcedure(BaseEstimator):
             random_state=self.random_state
         )
 
-        self.logger.info("Starting F-step training")
-        self.logger.debug(f"Cluster keys: {list(clusters_k.keys())}")
+        self.logger_.info("Starting F-step training")
+        self.logger_.debug(f"Cluster keys: {list(clusters_k.keys())}")
         
         self.fstep_.fit(X_k, y_k, clusters_k)
 
-        self.logger.info("F-step completed")
+        self.logger_.info("F-step completed")
         # M × K prediction matrix
         P_l = self.fstep_.predict(X_l, clusters_l)
 
@@ -264,12 +284,12 @@ class KFCProcedure(BaseEstimator):
             task=self.task,
             random_state=self.random_state
         )
-        self.logger.info("Starting C-step training")
-        self.logger.debug(f"P_l shape: {P_l.shape}")
+        self.logger_.info("Starting C-step training")
+        self.logger_.debug(f"P_l shape: {P_l.shape}")
 
         self.cstep_.fit(P_l, y_l)
 
-        self.logger.info("C-step completed")
+        self.logger_.info("C-step completed")
 
         return self
 
@@ -282,19 +302,19 @@ class KFCProcedure(BaseEstimator):
 
         X = np.asarray(X)
 
-        self.logger.info("Prediction started")
+        self.logger_.info("Prediction started")
         # assign clusters
         clusters = self.kstep_.predict(X)
 
-        self.logger.debug("Cluster assignment done")
+        self.logger_.debug("Cluster assignment done")
         # M × K prediction matrix
         P = self.fstep_.predict(X, clusters)
-        self.logger.debug(f"Prediction matrix: {P.shape}")
+        self.logger_.debug(f"Prediction matrix: {P.shape}")
         
         # consensus aggregation
         out = self.cstep_.predict(P)
 
-        self.logger.info("Prediction finished")
+        self.logger_.info("Prediction finished")
         return out
 
     def predict_proba(self, X: np.ndarray) -> np.ndarray:
@@ -313,23 +333,79 @@ class KFCProcedure(BaseEstimator):
 
         clusters = self.kstep_.predict(X)
 
-        P = self.fstep_.predict_proba(X, clusters)
+        P = self.fstep_.predict(X, clusters)
 
         return self.cstep_.predict_proba(P)
 
 class KFCRegressor(KFCProcedure):
-    def __init__(self, *args, **kwargs):
+    """
+    KFC estimator specialized for regression.
+
+    Uses an explicit sklearn-compatible constructor.
+    """
+
+    def __init__(
+        self,
+        divergences,
+        local_model,
+        combiner,
+        divergences_params: Optional[Dict] = None,
+        local_model_params: Optional[Dict] = None,
+        combiner_params: Optional[Dict] = None,
+        n_clusters: int = 3,
+        max_iter: int = 300,
+        tol: float = 1e-4,
+        verbose: int = 0,
+        random_state: Optional[int] = None,
+    ):
         super().__init__(
-            *args,
+            divergences=divergences,
+            local_model=local_model,
+            combiner=combiner,
+            divergences_params=divergences_params,
+            local_model_params=local_model_params,
+            combiner_params=combiner_params,
             task="regression",
-            **kwargs
+            n_clusters=n_clusters,
+            max_iter=max_iter,
+            tol=tol,
+            verbose=verbose,
+            random_state=random_state,
         )
 
 
 class KFCClassifier(KFCProcedure):
-    def __init__(self, *args, **kwargs):
+    """
+    KFC estimator specialized for classification.
+
+    Uses an explicit sklearn-compatible constructor.
+    """
+
+    def __init__(
+        self,
+        divergences,
+        local_model,
+        combiner,
+        divergences_params: Optional[Dict] = None,
+        local_model_params: Optional[Dict] = None,
+        combiner_params: Optional[Dict] = None,
+        n_clusters: int = 3,
+        max_iter: int = 300,
+        tol: float = 1e-4,
+        verbose: int = 0,
+        random_state: Optional[int] = None,
+    ):
         super().__init__(
-            *args,
+            divergences=divergences,
+            local_model=local_model,
+            combiner=combiner,
+            divergences_params=divergences_params,
+            local_model_params=local_model_params,
+            combiner_params=combiner_params,
             task="classification",
-            **kwargs
+            n_clusters=n_clusters,
+            max_iter=max_iter,
+            tol=tol,
+            verbose=verbose,
+            random_state=random_state,
         )

@@ -74,7 +74,7 @@ from abc import ABC
 from typing import Dict, Optional, Union
 
 import numpy as np
-from sklearn.base import BaseEstimator
+from sklearn.base import BaseEstimator, clone
 from sklearn.utils.validation import check_is_fitted
 
 from kfc_procedure.core.ml.base import (
@@ -140,7 +140,7 @@ class FStep(ABC, BaseEstimator):
         random_state: Optional[int] = None,
     ):
         self.local_model = local_model
-        self.local_model_params = local_model_params or {}
+        self.local_model_params = local_model_params
         self.task = task
         self.random_state = random_state
 
@@ -200,32 +200,62 @@ class FStep(ABC, BaseEstimator):
 
 
     
-    def _resolve(self) -> BaseLocalModel:
+    def _resolve(self):
         """
-        Build model from factory or reuse instance.
+        Build a fresh local model.
+
+        String models are created through LocalModelFactory.
+
+        Estimator instances are cloned so each cluster gets
+        an independent model.
         """
 
-        if not isinstance(self.local_model, str):
-            return self.local_model
+        # ---------------------------------
+        # Existing estimator instance
+        # ---------------------------------
+
+        if not isinstance(
+            self.local_model,
+            str,
+        ):
+            return clone(
+                self.local_model
+            )
+
+        # ---------------------------------
+        # Factory model
+        # ---------------------------------
 
         name = self.local_model.lower()
 
-        if not LocalModelFactory.contains(name):
+        if not LocalModelFactory.contains(
+            name
+        ):
             raise ValueError(
                 f"Invalid local model: {name}. "
-                f"Available: {LocalModelFactory.available()}"
+                f"Available: "
+                f"{LocalModelFactory.available()}"
             )
 
-        if not LocalModelFactory.supports(name, self.task):
+        if not LocalModelFactory.supports(
+            name,
+            self.task,
+        ):
             raise ValueError(
-                f"{name} not supported for task={self.task}. "
-                f"Available: {LocalModelFactory.available_by_category(self.task)}"
+                f"{name} not supported "
+                f"for task={self.task}. "
+                f"Available: "
+                f"{LocalModelFactory.available_by_category(self.task)}"
             )
-        
-        params = dict(self.local_model_params)
-        
-        if "random_state" not in params:
-            params["random_state"] = self.random_state
+
+        params = dict(
+            self.local_model_params or {}
+        )
+
+        params.setdefault(
+            "random_state",
+            self.random_state,
+        )
 
         return LocalModelFactory.create(
             name,

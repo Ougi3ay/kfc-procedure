@@ -172,7 +172,10 @@ class KStep(ABC, BaseEstimator, ClusterMixin):
 
         for div in self.divergences:
             name = self._get_name(div)
-            params = self.divergences_params.get(name, {})
+            params = (self.divergences_params or {}).get(
+                name,
+                {},
+            )
             divergence = self._resolve(div, params)
 
             model = BregmanKMeans(
