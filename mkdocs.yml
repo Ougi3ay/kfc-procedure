@@ -1,72 +1,9 @@
-site_name: KFCProcedure
-site_description: Clusterwise predictive modeling and COBRA ensemble aggregation library
+site_name: KFC Procedure
 site_url: https://ougi3ay.github.io/kfc-procedure/
 repo_url: https://github.com/Ougi3ay/kfc-procedure
-repo_name: Ougi3ay/kfc-procedure
-edit_uri: edit/main/docs/
 
 theme:
   name: material
-  language: en
-  features:
-    - navigation.top
-    - navigation.instant
-    - navigation.tracking
-    - content.code.copy
-    - content.code.annotate
-    - search.highlight
-    - search.suggest
-    - toc.follow
-  palette:
-    - scheme: default
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/weather-night
-        name: Switch to dark mode
-    - scheme: slate
-      primary: indigo
-      accent: indigo
-      toggle:
-        icon: material/weather-sunny
-        name: Switch to light mode
-
-nav:
-  - Home: index.md
-  - User Documentation:
-      - Overview: user/overview.md
-      - Installation: user/installation.md
-      - Quick Start: user/quick-start.md
-      - Regression: user/regression.md
-      - Classification: user/classification.md
-      - COBRA Usage: user/cobra-usage.md
-      - Examples: user/examples.md
-      - FAQ: user/faq.md
-  - Technical Documentation:
-      - Overview: technical/overview.md
-      - Methods: technical/methods.md
-      - Algorithms: technical/algorithms.md
-      - Mathematics: technical/mathematics.md
-      - Architecture & Data Flow: technical/architecture-data-flow.md
-      - Project Structure: technical/project-structure.md
-      - Usage: technical/usage.md
-      - Limitations & Improvements: technical/limitations-improvements.md
-  - Developer Documentation:
-      - Overview: developer/overview.md
-      - Project Structure: developer/project-structure.md
-      - Registry & Factory Pattern: developer/registry-factory.md
-      - Extending: developer/extending.md
-      - Testing: developer/testing.md
-      - Documentation Workflow: developer/documentation-workflow.md
-      - Known Issues: developer/known-issues.md
-  - API Reference:
-      - Main API: api/main.md
-      - KFC Core Steps: api/core-steps.md
-      - Clustering: api/clustering.md
-      - Combiners: api/combiners.md
-      - Local Models: api/local-models.md
-      - COBRA: api/cobra.md
-      - Utilities: api/utilities.md
 
 plugins:
   - search
@@ -75,41 +12,3 @@ plugins:
         python:
           paths:
             - src
-          options:
-            docstring_style: numpy
-            show_source: false
-            show_signature: false
-            show_root_heading: true
-            show_symbol_type_heading: true
-            members_order: source
-            separate_signature: false
-            show_signature_annotations: false
-
-markdown_extensions:
-  - admonition
-  - attr_list
-  - md_in_html
-  - def_list
-  - footnotes
-  - tables
-  - toc:
-      permalink: true
-  - pymdownx.details
-  - pymdownx.superfences
-  - pymdownx.inlinehilite
-  - pymdownx.snippets
-  - pymdownx.tabbed:
-      alternate_style: true
-  - pymdownx.arithmatex:
-      generic: true
-  - pymdownx.superfences:
-      custom_fences:
-        - name: mermaid
-          class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
-
-extra_javascript:
-  - javascripts/mathjax.js
-  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
-extra_css:
-  - stylesheets/extra.css
