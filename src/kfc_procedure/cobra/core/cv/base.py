@@ -21,8 +21,8 @@ from collections.abc import Iterator
 
 from numpy.typing import ArrayLike
 
-from kfc_procedure.cobra.core.factory import BaseFactory
 from kfc_procedure.cobra.core.types import SplitIndices
+from kfc_procedure.factory.base import BaseFactory
 
 class BaseCrossValidator(ABC):
     """

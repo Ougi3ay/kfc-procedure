@@ -52,7 +52,9 @@ from abc import ABC, abstractmethod
 from typing import ClassVar, Dict, Type
 import numpy as np
 
-from kfc_procedure.core.factory import BaseFactory
+from kfc_procedure.factory.base import BaseFactory
+
+
 
 class BaseBregmanDivergence(ABC):
     """
