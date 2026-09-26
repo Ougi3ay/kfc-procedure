@@ -2,6 +2,7 @@
 requires = ["setuptools>=42", "wheel"]
 build-backend = "setuptools.build_meta"
 
+
 [project]
 name = "kfc-procedure"
 version = "0.1.1"
@@ -27,15 +28,18 @@ classifiers = [
   "Operating System :: OS Independent",
 ]
 
+
 [project.urls]
 Homepage = "https://github.com/Ougi3ay/kfc-procedure"
 Documentation = "https://ougi3ay.github.io/kfc-procedure/"
 Source = "https://github.com/Ougi3ay/kfc-procedure"
 Issues = "https://github.com/Ougi3ay/kfc-procedure/issues"
 
+
 # --------------------------
-# Optional dependencies (extras)
+# Optional dependencies
 # --------------------------
+
 [project.optional-dependencies]
 
 core = [
@@ -56,6 +60,7 @@ cobra = [
 
 dev = [
   "pytest",
+  "pytest-cov",
   "build",
   "twine",
   "jupyter"
@@ -68,15 +73,11 @@ docs = [
   "mkdocstrings[python]"
 ]
 
-all = [
-  "kfc-procedure[cobra]",
-  "kfc-procedure[dev]",
-  "kfc-procedure[docs]"
-]
 
 # --------------------------
-# setuptools config (src layout)
+# setuptools
 # --------------------------
+
 [tool.setuptools]
 package-dir = {"" = "src"}
 
@@ -84,11 +85,60 @@ package-dir = {"" = "src"}
 where = ["src"]
 include = ["kfc_procedure*"]
 
+
 # --------------------------
-# pytest config
+# pytest
 # --------------------------
+
 [tool.pytest.ini_options]
-testpaths = ["tests"]
-python_files = ["test_*.py"]
-python_functions = ["test_*"]
-addopts = "-vv --disable-warnings --strict-markers"
+
+testpaths = [
+  "tests"
+]
+
+pythonpath = [
+  "src"
+]
+
+python_files = [
+  "test_*.py"
+]
+
+python_functions = [
+  "test_*"
+]
+
+addopts = [
+  "-vv",
+  "-ra",
+  "--strict-markers",
+  "--strict-config",
+]
+
+markers = [
+  "unit: fast isolated unit tests",
+  "integration: end-to-end pipeline tests",
+  "sklearn: scikit-learn compatibility tests",
+]
+
+
+# --------------------------
+# coverage
+# --------------------------
+
+[tool.coverage.run]
+source = [
+  "kfc_procedure"
+]
+branch = true
+
+
+[tool.coverage.report]
+show_missing = true
+skip_covered = true
+
+exclude_lines = [
+  "pragma: no cover",
+  "raise NotImplementedError",
+  "if TYPE_CHECKING:",
+]
