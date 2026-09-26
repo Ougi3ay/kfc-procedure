@@ -78,6 +78,7 @@ This stage is the final fusion layer of the KFC pipeline.
 
 from __future__ import annotations
 
+import inspect
 from typing import Dict, Optional, Union
 import numpy as np
 
@@ -192,36 +193,23 @@ class CStep(BaseEstimator):
         )
 
     def _build_combiner(self):
-        """
-        Build combiner strategy from registry.
-        """
 
-        # already an instance
-        if not isinstance(self.combiner, str):
+        if not isinstance(
+            self.combiner,
+            str,
+        ):
             return self.combiner
 
-        name = self.combiner.lower()
+        params = dict(
+            self.combiner_params or {}
+        )
 
-        # check existence
-        if not CombinerFactory.contains(name):
-            raise ValueError(
-                f"'{name}' is not a valid combiner. "
-                f"Available: {CombinerFactory.available()}"
-            )
-
-        # task compatibility check
-        if not CombinerFactory.supports(name, self.task):
-            raise ValueError(
-                f"'{name}' is not valid for task='{self.task}'. "
-                f"Available: {CombinerFactory.available_by_category(self.task)}"
-            )
-        
-        params = dict(self.combiner_params)
-
-        if "random_state" not in params:
-            params["random_state"] = self.random_state
+        params.setdefault(
+            "random_state",
+            self.random_state,
+        )
 
         return CombinerFactory.create(
-            name,
-            **params
+            self.combiner,
+            **params,
         )

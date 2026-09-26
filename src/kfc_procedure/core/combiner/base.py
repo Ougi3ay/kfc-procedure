@@ -45,6 +45,12 @@ class BaseCombiner(ABC, BaseEstimator):
     This follows the scikit-learn estimator interface.
     """
 
+    def __init__(
+        self,
+        random_state: Optional[int] = None,
+    ):
+        self.random_state = random_state
+
     @abstractmethod
     def fit(self, X: np.ndarray, y: Optional[np.ndarray] = None):
         """
