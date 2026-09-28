@@ -1,0 +1,88 @@
+:root {
+  /* Brand */
+  --kfc-primary: #2563eb;
+  --kfc-primary-dark: #1d4ed8;
+  --kfc-accent: #38bdf8;
+
+  /* Backgrounds */
+  --kfc-bg: #ffffff;
+  --kfc-bg-soft: #f8fafc;
+  --kfc-bg-dark: #0f172a;
+  --kfc-bg-darker: #020617;
+
+  /* Text */
+  --kfc-text: #0f172a;
+  --kfc-text-muted: #64748b;
+  --kfc-text-light: #e2e8f0;
+
+  /* Borders */
+  --kfc-border: #e2e8f0;
+
+  /* Status */
+  --kfc-success: #16a34a;
+  --kfc-warning: #f59e0b;
+  --kfc-danger: #dc2626;
+}
+
+/* Header */
+.md-header {
+  background-color: var(--kfc-bg-dark);
+}
+
+/* Tabs */
+.md-tabs {
+  background-color: var(--kfc-bg-dark);
+}
+
+/* Main page */
+.md-main {
+  background-color: var(--kfc-bg);
+}
+
+/* Links */
+.md-typeset a {
+  color: var(--kfc-primary);
+}
+
+.md-typeset a:hover {
+  color: var(--kfc-primary-dark);
+}
+
+/* Code */
+.md-typeset code {
+  border-radius: 0.3rem;
+}
+
+/* Footer */
+.md-footer {
+  background-color: var(--kfc-bg-dark);
+}
+
+.md-footer-meta {
+  background-color: var(--kfc-bg-darker);
+}
+
+/* Footer navigation */
+.md-footer__link {
+  color: var(--kfc-text-light);
+}
+
+/* Borders */
+.md-typeset hr {
+  border-color: var(--kfc-border);
+}
+
+/* disable meta*/
+.md-footer-meta {
+  display: none;
+}
+
+.grid.cards.kfc-stages {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media screen and (max-width: 900px) {
+  .grid.cards.kfc-stages {
+    grid-template-columns: 1fr;
+  }
+}

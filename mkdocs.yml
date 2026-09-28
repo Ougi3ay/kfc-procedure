@@ -1,14 +1,149 @@
 site_name: KFC Procedure
-site_url: https://ougi3ay.github.io/kfc-procedure/
+site_description: Documentation for the KFC Procedure machine learning library
+site_author: KFC Procedure Contributors
+
+repo_name: Ougi3ay/kfc-procedure
 repo_url: https://github.com/Ougi3ay/kfc-procedure
 
 theme:
   name: material
+  logo: assets/logo.svg
+  favicon: assets/logo.svg
+
+  palette:
+    - scheme: default
+      primary: blue
+      accent: light blue
+
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.indexes
+    - navigation.footer
+    - content.code.copy
+    - content.code.annotate
+    - search.suggest
+    - search.highlight
+
+extra:
+  generator: false
+
+extra_css:
+  - stylesheets/extra.css
+
+extra_javascript:
+  - javascripts/mathjax.js
+  - https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js
 
 plugins:
   - search
+
   - mkdocstrings:
       handlers:
         python:
           paths:
             - src
+          options:
+            docstring_style: google
+            show_source: true
+            show_signature_annotations: true
+            show_root_heading: true
+            show_root_full_path: false
+            members_order: source
+
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - pymdownx.details
+
+  - pymdownx.arithmatex:
+      generic: true
+
+  - pymdownx.superfences:
+      custom_fences:
+          - name: mermaid
+            class: mermaid
+            format: !!python/name:pymdownx.superfences.fence_code_format
+
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+
+  - pymdownx.inlinehilite
+
+  - pymdownx.tabbed:
+      alternate_style: true
+  
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Installation: getting-started/installation.md
+    - Quick Start: getting-started/quick-start.md
+    - Core Concepts:
+        - Overview: getting-started/concepts/index.md
+        - KFC Procedure: getting-started/concepts/kfc-procedure.md
+        - CombinedClassifier: getting-started/concepts/combined-classifier.md
+        - MixCOBRA: getting-started/concepts/mixcobra.md
+        - GradientCOBRA: getting-started/concepts/gradientcobra.md
+  - User Guide:
+      - Overview: user-guide/index.md
+
+      - KFC Procedure:
+          - Fitting KFC: user-guide/kfc/fitting-kfc.md
+          - Regression: user-guide/kfc/regression.md
+          - Classification: user-guide/kfc/classification.md
+          - Configure K-Step: user-guide/kfc/configuring-k-step.md
+          - Configure F-Step: user-guide/kfc/configuring-f-step.md
+          - Configure C-Step: user-guide/kfc/configuring-c-step.md
+          - Inspect Fitted Models: user-guide/kfc/inspecting-fitted-models.md
+
+      - Clustering:
+          - Bregman Divergences: user-guide/clustering/bregman-divergences.md
+
+      - Estimators:
+          - Base Estimators: user-guide/estimators/base-estimators.md
+          - Estimator Parameters: user-guide/estimators/estimator-parameters.md
+          - Custom Estimators: user-guide/estimators/custom-estimators.md
+
+      - Consensus:
+          - Overview: user-guide/consensus/overview.md
+          - Regression Combiners: user-guide/consensus/regression-combiners.md
+          - Classification Combiners: user-guide/consensus/classification-combiners.md
+          - Stacking: user-guide/consensus/stacking.md
+          - Weighted Mean: user-guide/consensus/weighted-mean.md
+          - Majority Vote: user-guide/consensus/majority-vote.md
+
+      - COBRA Components:
+          - Prediction Space: user-guide/cobra/prediction-space.md
+          - Data Splitting: user-guide/cobra/data-splitting.md
+          - Distances: user-guide/cobra/distances.md
+          - Kernels: user-guide/cobra/kernels.md
+          - Aggregators: user-guide/cobra/aggregators.md
+          - Cross-validation: user-guide/cobra/cross-validation.md
+          - Loss Functions: user-guide/cobra/losses.md
+          - Optimization: user-guide/cobra/optimization.md
+          - Gradient Optimization: user-guide/cobra/gradient-optimization.md
+          - Normalization: user-guide/cobra/normalization.md
+
+      - Advanced:
+          - Precomputed Predictions: user-guide/advanced/precomputed-predictions.md
+          - Custom Aggregation Data: user-guide/advanced/custom-aggregation-data.md
+          - Parallel Execution: user-guide/advanced/parallel-execution.md
+          - Reproducibility: user-guide/advanced/reproducibility.md
+          - Extending KFC Procedure: user-guide/advanced/extending-kfc-procedure.md
+
+      - Troubleshooting: user-guide/troubleshooting.md
+  - API Reference:
+      - Overview: reference/index.md
+
+watch:
+  - src/kfc_procedure
