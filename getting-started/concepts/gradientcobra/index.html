@@ -1,0 +1,5257 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the KFC Procedure machine learning library">
+      
+      
+        <meta name="author" content="KFC Procedure Contributors">
+      
+      
+      
+        <link rel="prev" href="../mixcobra/">
+      
+      
+        <link rel="next" href="../../../user-guide/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>GradientCOBRA - KFC Procedure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#gradientcobra" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="KFC Procedure" class="md-header__button md-logo" aria-label="KFC Procedure" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KFC Procedure
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              GradientCOBRA
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../user-guide/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="KFC Procedure" class="md-nav__button md-logo" aria-label="KFC Procedure" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    KFC Procedure
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kfc-procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../combined-classifier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CombinedClassifier
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mixcobra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MixCOBRA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GradientCOBRA
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GradientCOBRA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-gradientcobra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why GradientCOBRA?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prediction-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction space
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationship-to-cobra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship to COBRA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mathematical-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical formulation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#one-vector-one-kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One vector, one kernel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-package-implementation-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the package implementation works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-data-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training-data split
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Training-data split">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#controlled-overlap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controlled overlap
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#base-regressors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Base regressors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-base-regressors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom base regressors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom base regressors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estimator-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estimator parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prediction-space-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction-space normalization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prediction-space normalization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-normalization-numerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom normalization numerator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distance-in-prediction-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distance in prediction space
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Distance in prediction space">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-distances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available distances
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kernel-weighting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kernel weighting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-bandwidth-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important bandwidth convention
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#weighted-mean-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weighted-mean aggregation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bandwidth-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bandwidth optimization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#k-fold-cross-validation-objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        K-fold cross-validation objective
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-search-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid-search optimization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradient-based-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient-based optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gradient-based optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-with-adam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example with Adam
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-gradients-are-obtained-in-the-current-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How gradients are obtained in the current implementation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kernel-compatibility-with-gradient-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kernel compatibility with gradient optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kernel compatibility with gradient optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#correct-gradient-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correct gradient configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correct-grid-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correct grid configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimization-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimization history
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradient-optimization-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient-optimization example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#providing-a-separate-aggregation-sample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Providing a separate aggregation sample
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-precomputed-predictions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using precomputed predictions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-inside-the-kfc-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use inside the KFC procedure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-kernels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available kernels
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-loss-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available loss functions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-fitted-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important fitted attributes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prediction-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#statistical-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Statistical interpretation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#theoretical-result-from-the-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Theoretical result from the paper
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-gradient-descent-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What gradient descent changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-search-vs-gradient-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid search vs gradient optimization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradientcobra-vs-mixcobra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GradientCOBRA vs MixCOBRA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradientcobra-vs-direct-model-averaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GradientCOBRA vs direct model averaging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#number-of-base-regressors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Number of base regressors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kernel-choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kernel choice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bandwidth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bandwidth
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspecting-a-fitted-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspecting a fitted model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parallel-base-estimator-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel base-estimator execution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paper-and-implementation-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paper and implementation terminology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mental-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mental model
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../user-guide/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    KFC Procedure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/kfc/fitting-kfc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fitting KFC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/kfc/regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/kfc/classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/kfc/configuring-k-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure K-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/kfc/configuring-f-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure F-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/kfc/configuring-c-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure C-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/kfc/inspecting-fitted-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspect Fitted Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clustering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clustering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/clustering/bregman-divergences/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bregman Divergences
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estimators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Estimators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/estimators/base-estimators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base Estimators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/estimators/estimator-parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estimator Parameters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/estimators/custom-estimators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Estimators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consensus
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Consensus
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/consensus/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/consensus/regression-combiners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regression Combiners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/consensus/classification-combiners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Classification Combiners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/consensus/stacking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stacking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/consensus/weighted-mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Weighted Mean
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/consensus/majority-vote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Majority Vote
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    COBRA Components
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    COBRA Components
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/cobra/prediction-space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prediction Space
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/cobra/data-splitting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Splitting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/cobra/distances/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distances
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/cobra/kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/cobra/aggregators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aggregators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/cobra/cross-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/cobra/losses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loss Functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/cobra/optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/cobra/gradient-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gradient Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/cobra/normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/advanced/precomputed-predictions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Precomputed Predictions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/advanced/custom-aggregation-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Aggregation Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/advanced/parallel-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parallel Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/advanced/reproducibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/advanced/extending-kfc-procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extending KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../user-guide/troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../reference/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        At a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#why-gradientcobra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why GradientCOBRA?
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prediction-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction space
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#relationship-to-cobra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Relationship to COBRA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mathematical-formulation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mathematical formulation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#one-vector-one-kernel" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        One vector, one kernel
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-the-package-implementation-works" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How the package implementation works
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#training-data-split" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Training-data split
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Training-data split">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#controlled-overlap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Controlled overlap
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#base-regressors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Base regressors
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-base-regressors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom base regressors
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Custom base regressors">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#estimator-parameters" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Estimator parameters
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prediction-space-normalization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction-space normalization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Prediction-space normalization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#custom-normalization-numerator" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom normalization numerator
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#distance-in-prediction-space" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distance in prediction space
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Distance in prediction space">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#available-distances" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available distances
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kernel-weighting" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kernel weighting
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-bandwidth-convention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important bandwidth convention
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#weighted-mean-aggregation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Weighted-mean aggregation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bandwidth-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bandwidth optimization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#k-fold-cross-validation-objective" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        K-fold cross-validation objective
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-search-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid-search optimization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradient-based-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient-based optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Gradient-based optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#example-with-adam" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Example with Adam
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#how-gradients-are-obtained-in-the-current-implementation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        How gradients are obtained in the current implementation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#kernel-compatibility-with-gradient-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kernel compatibility with gradient optimization
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Kernel compatibility with gradient optimization">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#correct-gradient-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correct gradient configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#correct-grid-configuration" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Correct grid configuration
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#optimization-history" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Optimization history
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#basic-usage" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Basic usage
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#full-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Full example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradient-optimization-example" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Gradient-optimization example
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#providing-a-separate-aggregation-sample" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Providing a separate aggregation sample
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#using-precomputed-predictions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Using precomputed predictions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#use-inside-the-kfc-procedure" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Use inside the KFC procedure
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-kernels" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available kernels
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#available-loss-functions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Available loss functions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#important-fitted-attributes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Important fitted attributes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#prediction-workflow" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Prediction workflow
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#statistical-interpretation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Statistical interpretation
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#theoretical-result-from-the-paper" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Theoretical result from the paper
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#what-gradient-descent-changes" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        What gradient descent changes
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#grid-search-vs-gradient-optimization" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Grid search vs gradient optimization
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradientcobra-vs-mixcobra" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GradientCOBRA vs MixCOBRA
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#gradientcobra-vs-direct-model-averaging" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GradientCOBRA vs direct model averaging
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#practical-considerations" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Practical considerations
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Practical considerations">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#number-of-base-regressors" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Number of base regressors
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#scaling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Scaling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kernel-choice" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Kernel choice
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bandwidth" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Bandwidth
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#inspecting-a-fitted-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Inspecting a fitted model
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#reproducibility" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Reproducibility
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#parallel-base-estimator-execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallel base-estimator execution
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#paper-and-implementation-terminology" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Paper and implementation terminology
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mental-model" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Mental model
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../installation/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Getting Started
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Core Concepts
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="gradientcobra">GradientCOBRA</h1>
+<div class="admonition abstract">
+<p class="admonition-title">GradientCOBRA: kernel aggregation in prediction space</p>
+<p><strong>GradientCOBRA</strong> is a regression aggregation method that combines several
+base regressors through a kernel defined on their <strong>prediction vectors</strong>.</p>
+<p>Instead of averaging the predictions of the base regressors directly,
+GradientCOBRA uses those predictions to define a new feature space. Training
+observations whose prediction vectors are close to the prediction vector of
+a query point receive larger weights in the final regression estimate.</p>
+<p>The method also provides a bandwidth-selection strategy based on
+cross-validation and, when a differentiable kernel is used, gradient-based
+optimization.</p>
+</div>
+<hr />
+<h2 id="at-a-glance">At a glance</h2>
+<div class="grid cards">
+<ul>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17.5 15.5c0 1.11-.89 2-2 2s-2-.89-2-2 .9-2 2-2 2 .9 2 2m-9-2c-1.1 0-2 .9-2 2s.9 2 2 2 2-.89 2-2-.89-2-2-2M23 15v3c0 .55-.45 1-1 1h-1v1c0 1.11-.89 2-2 2H5a2 2 0 0 1-2-2v-1H2c-.55 0-1-.45-1-1v-3c0-.55.45-1 1-1h1c0-3.87 3.13-7 7-7h1V5.73c-.6-.34-1-.99-1-1.73 0-1.1.9-2 2-2s2 .9 2 2c0 .74-.4 1.39-1 1.73V7h1c3.87 0 7 3.13 7 7h1c.55 0 1 .45 1 1m-2 1h-2v-2c0-2.76-2.24-5-5-5h-4c-2.76 0-5 2.24-5 5v2H3v1h2v3h14v-3h2z"/></svg></span> <strong>Base regressors</strong></p>
+<hr />
+<p>Fit several regression models on one part of the training sample.</p>
+<p><strong>Output:</strong> <span class="arithmatex">\(r_1,\ldots,r_M\)</span></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M2 3v6h2.95l2 6H6v6h6v-4.59L17.41 11H22V5h-6v4.57L10.59 15H9.06l-2-6H8V3M4 5h2v2H4m14 0h2v2h-2M8 17h2v2H8Z"/></svg></span> <strong>Prediction space</strong></p>
+<hr />
+<p>Represent each observation by the predictions of all base regressors.</p>
+<p><strong>Feature vector:</strong> <span class="arithmatex">\(r(x)\)</span></p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5v16h6v-1.5H7V18h2v-1.5H5V15h4v-1.5H7V12h2v-1.5H5V9h4V5h1.5v4H12V7h1.5v2H15V5h1.5v4H18V7h1.5v2H21V3H5a2 2 0 0 0-2 2m3 2a1 1 0 0 1-1-1 1 1 0 0 1 1-1 1 1 0 0 1 1 1 1 1 0 0 1-1 1"/></svg></span> <strong>Distance</strong></p>
+<hr />
+<p>Compare observations in prediction space.</p>
+<p><strong>Default:</strong> Euclidean distance</p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.96 11.31C10.82 8.1 11.5 6 13 6s2.18 2.1 3.04 5.31C17 14.92 18.1 19 22 19v-2c-2.2 0-3-2.46-4.03-6.2C17.08 7.46 16.15 4 13 4s-4.08 3.46-4.97 6.8C7.03 14.54 6.2 17 4 17V2H2v20h20v-2H4v-1c3.9 0 5-4.08 5.96-7.69"/></svg></span> <strong>Kernel</strong></p>
+<hr />
+<p>Convert prediction-space distance into similarity weights.</p>
+<p><strong>Default:</strong> RBF / radial kernel</p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 13c-1.86 0-3.41 1.28-3.86 3H2v2h2.14c.45 1.72 2 3 3.86 3s3.41-1.28 3.86-3H22v-2H11.86c-.45-1.72-2-3-3.86-3m0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2M19.86 6c-.45-1.72-2-3-3.86-3s-3.41 1.28-3.86 3H2v2h10.14c.45 1.72 2 3 3.86 3s3.41-1.28 3.86-3H22V6zM16 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2"/></svg></span> <strong>Bandwidth optimization</strong></p>
+<hr />
+<p>Tune one kernel parameter using cross-validation.</p>
+<p><strong>Methods:</strong> grid search or gradient-based optimization</p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 6H8.83l6 6-6 6H18v2H6v-2l6-6-6-6V4h12z"/></svg></span> <strong>Aggregation</strong></p>
+<hr />
+<p>Compute a weighted average of the observed target values.</p>
+<p><strong>Output:</strong> final prediction</p>
+</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Core idea</p>
+<p><strong>Use the base models to build a prediction space, find observations that
+behave similarly in that space, and average their targets with kernel
+weights.</strong></p>
+</div>
+<hr />
+<h2 id="why-gradientcobra">Why GradientCOBRA?</h2>
+<p>When several regression estimators are available, a common approach is to:</p>
+<ul>
+<li>choose one model,</li>
+<li>average their predictions,</li>
+<li>or learn a linear combination.</li>
+</ul>
+<p>GradientCOBRA follows a different idea.</p>
+<p>Suppose a query observation <span class="arithmatex">\(x\)</span> is passed through several regressors. The
+resulting predictions form a vector</p>
+<div class="arithmatex">\[
+r(x)
+=
+\left(
+r_1(x),
+r_2(x),
+\ldots,
+r_M(x)
+\right).
+\]</div>
+<p>This vector describes how the collection of regressors sees <span class="arithmatex">\(x\)</span>.</p>
+<p>If another observation <span class="arithmatex">\(X_i\)</span> has a similar prediction vector,</p>
+<div class="arithmatex">\[
+r(X_i) \approx r(x),
+\]</div>
+<p>then the two observations are considered close in <strong>prediction space</strong>.</p>
+<p>GradientCOBRA uses this prediction-space neighborhood to determine which
+observed targets <span class="arithmatex">\(Y_i\)</span> should contribute most strongly to the prediction for
+<span class="arithmatex">\(x\)</span>.</p>
+<hr />
+<h2 id="prediction-space">Prediction space</h2>
+<p>Assume that <span class="arithmatex">\(M\)</span> regression estimators are available:</p>
+<div class="arithmatex">\[
+r_1,r_2,\ldots,r_M.
+\]</div>
+<p>For an observation <span class="arithmatex">\(x\)</span>, GradientCOBRA defines</p>
+<div class="arithmatex">\[
+r(x)
+=
+\left(
+r_1(x),
+r_2(x),
+\ldots,
+r_M(x)
+\right).
+\]</div>
+<p>For example:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>Linear regression       -&gt; 14.2
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>Ridge                    -&gt; 14.8
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>Lasso                    -&gt; 13.9
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>Random forest            -&gt; 16.1
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>SVR                      -&gt; 15.4
+</span></code></pre></div>
+<p>then</p>
+<div class="arithmatex">\[
+r(x)
+=
+(14.2,14.8,13.9,16.1,15.4).
+\]</div>
+<p>This vector becomes the representation used by the aggregation method.</p>
+<p>The original input <span class="arithmatex">\(x\)</span> is therefore not compared directly with another
+observation during the aggregation stage. Instead, GradientCOBRA compares</p>
+<div class="arithmatex">\[
+r(x)
+\quad\text{with}\quad
+r(X_i).
+\]</div>
+<hr />
+<h2 id="relationship-to-cobra">Relationship to COBRA</h2>
+<p>Classical COBRA uses a hard notion of consensus.</p>
+<p>A training observation contributes when the predictions of the base regressors
+are sufficiently close to the predictions of the query point.</p>
+<p>For example, the classical rule can use</p>
+<div class="arithmatex">\[
+|r_m(X_i)-r_m(x)|&lt;h
+\]</div>
+<p>for all base regressors <span class="arithmatex">\(m\)</span>.</p>
+<p>GradientCOBRA replaces this hard selection rule by a smooth kernel weighting
+scheme.</p>
+<p>Instead of assigning a training observation only</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>0 -&gt; excluded
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>1 -&gt; included
+</span></code></pre></div>
+<p>the method assigns a continuous similarity weight.</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>very similar prediction vector   -&gt; large weight
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>moderately similar               -&gt; medium weight
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>very different                   -&gt; small weight
+</span></code></pre></div>
+<p>This makes the consensus mechanism smoother and allows a broader class of
+kernel functions.</p>
+<hr />
+<h2 id="mathematical-formulation">Mathematical formulation</h2>
+<p>Let the aggregation sample contain</p>
+<div class="arithmatex">\[
+D_\ell
+=
+\left\{
+\left(X_i^{(\ell)},Y_i^{(\ell)}\right)
+\right\}_{i=1}^{\ell}.
+\]</div>
+<p>Let</p>
+<div class="arithmatex">\[
+r_k(x)
+=
+\left(
+r_{k,1}(x),
+\ldots,
+r_{k,M}(x)
+\right)
+\]</div>
+<p>be the vector of predictions produced by the <span class="arithmatex">\(M\)</span> base regressors.</p>
+<p>The paper defines the combined estimator as</p>
+<div class="arithmatex">\[
+g_n(r_k(x))
+=
+\sum_{i=1}^{\ell}
+W_{n,i}(x)Y_i^{(\ell)},
+\]</div>
+<p>with kernel weights</p>
+<div class="arithmatex">\[
+W_{n,i}(x)
+=
+\frac{
+K_h
+\left(
+r_k(X_i^{(\ell)})-r_k(x)
+\right)
+}{
+\sum_{j=1}^{\ell}
+K_h
+\left(
+r_k(X_j^{(\ell)})-r_k(x)
+\right)
+}.
+\]</div>
+<p>The prediction is therefore a kernel-weighted average of the observed targets.</p>
+<p>The important point is that the kernel acts on the <strong>whole prediction vector</strong>
+rather than independently on each individual estimator output.</p>
+<hr />
+<h2 id="one-vector-one-kernel">One vector, one kernel</h2>
+<p>GradientCOBRA treats</p>
+<div class="arithmatex">\[
+r(x)\in\mathbb{R}^{M}
+\]</div>
+<p>as a single <span class="arithmatex">\(M\)</span>-dimensional feature vector.</p>
+<p>The kernel is applied to a distance between complete prediction vectors:</p>
+<div class="arithmatex">\[
+d\left(r(X_i),r(x)\right).
+\]</div>
+<p>This is different from applying one univariate kernel separately to every
+component and summing the results.</p>
+<p>Conceptually:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>r1(x) ─┐
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>r2(x) ─┤
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>r3(x) ─┼──► prediction vector r(x)
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a> ...   │
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>rM(x) ─┘
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6" href="#__codelineno-3-6"></a>          │
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7" href="#__codelineno-3-7"></a>          ▼
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8" href="#__codelineno-3-8"></a>distance to r(Xi)
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9" href="#__codelineno-3-9"></a>          │
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10" href="#__codelineno-3-10"></a>          ▼
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11" href="#__codelineno-3-11"></a>       kernel
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12" href="#__codelineno-3-12"></a>          │
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13" href="#__codelineno-3-13"></a>          ▼
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14" href="#__codelineno-3-14"></a>        weight
+</span></code></pre></div>
+<hr />
+<h2 id="how-the-package-implementation-works">How the package implementation works</h2>
+<p>The current <code>kfc-procedure</code> implementation exposes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra</span><span class="w"> </span><span class="kn">import</span> <span class="n">GradientCOBRA</span>
+</span></code></pre></div>
+<p>Its training pipeline is:</p>
+<pre class="mermaid"><code>flowchart LR
+    D["Training data"] --&gt; S["Split"]
+    S --&gt; DK["Dₖ"]
+    S --&gt; DL["Dₗ"]
+
+    DK --&gt; E["Fit base regressors"]
+    E --&gt; P["Predict Dₗ"]
+
+    P --&gt; N["Normalize prediction space"]
+    N --&gt; DM["Pairwise distance matrix"]
+
+    DL --&gt; CV["K-fold CV"]
+    DM --&gt; CV
+
+    CV --&gt; O["Optimize bandwidth"]
+    O --&gt; B["Selected bandwidth"]
+
+    B --&gt; K["Kernel weights"]
+    K --&gt; A["Weighted mean"]</code></pre>
+<p>The main stages are:</p>
+<ol>
+<li>split the training sample;</li>
+<li>fit base regressors;</li>
+<li>create prediction-space features;</li>
+<li>normalize those predictions;</li>
+<li>compute pairwise distances;</li>
+<li>tune one bandwidth parameter;</li>
+<li>transform distances with a kernel;</li>
+<li>aggregate targets with a weighted mean.</li>
+</ol>
+<hr />
+<h2 id="training-data-split">Training-data split</h2>
+<p>By default, calling</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></code></pre></div>
+<p>uses</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">split_ratio</span><span class="o">=</span><span class="mf">0.5</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="n">overlap</span><span class="o">=</span><span class="mf">0.0</span>
+</span></code></pre></div>
+<p>and creates two subsets:</p>
+<div class="arithmatex">\[
+D_k
+\quad\text{and}\quad
+D_\ell.
+\]</div>
+<div class="grid cards">
+<ul>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 3 1 9l4 2.18v6L12 21l7-3.82v-6l2-1.09V17h2V9zm6.82 6L12 12.72 5.18 9 12 5.28zM17 16l-5 2.72L7 16v-3.73L12 15l5-2.73z"/></svg></span> <strong><span class="arithmatex">\(D_k\)</span></strong></p>
+<hr />
+<p>Used to fit the base regressors.</p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 14c-3.36 0-4.46 1.35-4.82 2.24C9.25 16.7 10 17.76 10 19a3 3 0 0 1-3 3 3 3 0 0 1-3-3c0-1.31.83-2.42 2-2.83V7.83A2.99 2.99 0 0 1 4 5a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.31-.83 2.42-2 2.83v5.29c.88-.65 2.16-1.12 4-1.12 2.67 0 3.56-1.34 3.85-2.23A3.01 3.01 0 0 1 14 7a3 3 0 0 1 3-3 3 3 0 0 1 3 3c0 1.34-.88 2.5-2.09 2.86C17.65 11.29 16.68 14 13 14m-6 4a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1M7 4a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1m10 2a1 1 0 0 0-1 1 1 1 0 0 0 1 1 1 1 0 0 0 1-1 1 1 0 0 0-1-1"/></svg></span> <strong><span class="arithmatex">\(D_\ell\)</span></strong></p>
+<hr />
+<p>Used to construct the prediction-space aggregation rule and optimize the
+bandwidth.</p>
+</li>
+</ul>
+</div>
+<p>The paper also separates the construction of the base estimators from the
+aggregation data. A common theoretical split is approximately half-and-half.</p>
+<h3 id="controlled-overlap">Controlled overlap</h3>
+<p>The package additionally supports overlap between the two subsets:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">split_ratio</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">overlap</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The implementation requires</p>
+<div class="arithmatex">\[
+0
+\leq
+\text{overlap}
+&lt;
+\text{split_ratio}
+&lt;
+1.
+\]</div>
+<p>For the usual independent-style split, keep</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">overlap</span><span class="o">=</span><span class="mf">0.0</span>
+</span></code></pre></div>
+<hr />
+<h2 id="base-regressors">Base regressors</h2>
+<p>If <code>estimators=None</code>, the current implementation uses:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>linear_regression
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>ridge_cv
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>lasso_cv
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a>k_neighbors_regressor
+</span><span id="__span-9-5"><a id="__codelineno-9-5" name="__codelineno-9-5" href="#__codelineno-9-5"></a>random_forest_regressor
+</span><span id="__span-9-6"><a id="__codelineno-9-6" name="__codelineno-9-6" href="#__codelineno-9-6"></a>svr
+</span></code></pre></div>
+<p>Each estimator is fitted using <span class="arithmatex">\(D_k\)</span>.</p>
+<p>The fitted estimators are stored in:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">model</span><span class="o">.</span><span class="n">estimators_</span>
+</span></code></pre></div>
+<p>For every observation in <span class="arithmatex">\(D_\ell\)</span>, the model then evaluates all base
+regressors and stacks their predictions.</p>
+<p>If there are <span class="arithmatex">\(M\)</span> regressors and <span class="arithmatex">\(\ell\)</span> aggregation observations, the
+prediction matrix has shape</p>
+<div class="arithmatex">\[
+\ell \times M.
+\]</div>
+<hr />
+<h2 id="custom-base-regressors">Custom base regressors</h2>
+<p>You can select the base estimators explicitly.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra</span><span class="w"> </span><span class="kn">import</span> <span class="n">GradientCOBRA</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">estimators</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>        <span class="s2">"linear_regression"</span><span class="p">,</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>        <span class="s2">"ridge_cv"</span><span class="p">,</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>        <span class="s2">"random_forest_regressor"</span><span class="p">,</span>
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>        <span class="s2">"svr"</span><span class="p">,</span>
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>    <span class="p">],</span>
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-11-11"><a id="__codelineno-11-11" name="__codelineno-11-11" href="#__codelineno-11-11"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="estimator-parameters">Estimator parameters</h3>
+<p>Use <code>estimators_params</code> to configure registered estimators.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>    <span class="n">estimators</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>        <span class="s2">"k_neighbors_regressor"</span><span class="p">,</span>
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>        <span class="s2">"random_forest_regressor"</span><span class="p">,</span>
+</span><span id="__span-12-5"><a id="__codelineno-12-5" name="__codelineno-12-5" href="#__codelineno-12-5"></a>        <span class="s2">"svr"</span><span class="p">,</span>
+</span><span id="__span-12-6"><a id="__codelineno-12-6" name="__codelineno-12-6" href="#__codelineno-12-6"></a>    <span class="p">],</span>
+</span><span id="__span-12-7"><a id="__codelineno-12-7" name="__codelineno-12-7" href="#__codelineno-12-7"></a>    <span class="n">estimators_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-12-8"><a id="__codelineno-12-8" name="__codelineno-12-8" href="#__codelineno-12-8"></a>        <span class="s2">"k_neighbors_regressor"</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-12-9"><a id="__codelineno-12-9" name="__codelineno-12-9" href="#__codelineno-12-9"></a>            <span class="s2">"n_neighbors"</span><span class="p">:</span> <span class="mi">7</span><span class="p">,</span>
+</span><span id="__span-12-10"><a id="__codelineno-12-10" name="__codelineno-12-10" href="#__codelineno-12-10"></a>        <span class="p">},</span>
+</span><span id="__span-12-11"><a id="__codelineno-12-11" name="__codelineno-12-11" href="#__codelineno-12-11"></a>        <span class="s2">"random_forest_regressor"</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-12-12"><a id="__codelineno-12-12" name="__codelineno-12-12" href="#__codelineno-12-12"></a>            <span class="s2">"n_estimators"</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+</span><span id="__span-12-13"><a id="__codelineno-12-13" name="__codelineno-12-13" href="#__codelineno-12-13"></a>            <span class="s2">"random_state"</span><span class="p">:</span> <span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-12-14"><a id="__codelineno-12-14" name="__codelineno-12-14" href="#__codelineno-12-14"></a>        <span class="p">},</span>
+</span><span id="__span-12-15"><a id="__codelineno-12-15" name="__codelineno-12-15" href="#__codelineno-12-15"></a>        <span class="s2">"svr"</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-12-16"><a id="__codelineno-12-16" name="__codelineno-12-16" href="#__codelineno-12-16"></a>            <span class="s2">"C"</span><span class="p">:</span> <span class="mf">10.0</span><span class="p">,</span>
+</span><span id="__span-12-17"><a id="__codelineno-12-17" name="__codelineno-12-17" href="#__codelineno-12-17"></a>        <span class="p">},</span>
+</span><span id="__span-12-18"><a id="__codelineno-12-18" name="__codelineno-12-18" href="#__codelineno-12-18"></a>    <span class="p">},</span>
+</span><span id="__span-12-19"><a id="__codelineno-12-19" name="__codelineno-12-19" href="#__codelineno-12-19"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-12-20"><a id="__codelineno-12-20" name="__codelineno-12-20" href="#__codelineno-12-20"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="prediction-space-normalization">Prediction-space normalization</h2>
+<p>Before distances are computed, the implementation rescales the prediction
+matrix.</p>
+<p>If <span class="arithmatex">\(M\)</span> is the number of base regressors, the normalization constant is</p>
+<div class="arithmatex">\[
+c
+=
+\frac{s}
+{
+M\max_i |Y_i|+\varepsilon
+},
+\]</div>
+<p>where the default numerator is</p>
+<div class="arithmatex">\[
+s=30.
+\]</div>
+<p>The prediction matrix is then transformed as</p>
+<div class="arithmatex">\[
+R_\ell^{\text{norm}}
+=
+cR_\ell.
+\]</div>
+<p>The fitted constant is available as</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">model</span><span class="o">.</span><span class="n">normalize_constant_</span>
+</span></code></pre></div>
+<h3 id="custom-normalization-numerator">Custom normalization numerator</h3>
+<p>You may provide:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">norm_constant</span><span class="o">=...</span>
+</span></code></pre></div>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>    <span class="n">norm_constant</span><span class="o">=</span><span class="mf">20.0</span><span class="p">,</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition note">
+<p class="admonition-title">Meaning of <code>norm_constant</code></p>
+<p>In the current source code, the supplied value replaces the default
+numerator <code>30.0</code>; it is still divided by the maximum absolute target value
+and by the number of prediction features.</p>
+</div>
+<hr />
+<h2 id="distance-in-prediction-space">Distance in prediction space</h2>
+<p>The default distance is</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">distance</span><span class="o">=</span><span class="s2">"euclidean"</span>
+</span></code></pre></div>
+<p>so the aggregation distance between two observations is</p>
+<div class="arithmatex">\[
+d_{ij}
+=
+\left\|
+r(X_i)^{\text{norm}}
+-
+r(X_j)^{\text{norm}}
+\right\|_2.
+\]</div>
+<p>The full pairwise matrix is stored as</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">model</span><span class="o">.</span><span class="n">distance_matrix_</span>
+</span></code></pre></div>
+<h3 id="available-distances">Available distances</h3>
+<p>The package currently registers:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Aliases</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>euclidean</code></td>
+<td><code>l2</code></td>
+<td>Euclidean distance</td>
+</tr>
+<tr>
+<td><code>manhattan</code></td>
+<td><code>l1</code></td>
+<td>Manhattan distance</td>
+</tr>
+<tr>
+<td><code>minkowski</code></td>
+<td><code>lp</code></td>
+<td>General Minkowski distance</td>
+</tr>
+<tr>
+<td><code>cosine</code></td>
+<td>—</td>
+<td>Cosine distance</td>
+</tr>
+<tr>
+<td><code>hamming</code></td>
+<td>—</td>
+<td>Coordinate disagreement</td>
+</tr>
+</tbody>
+</table>
+<p>For continuous regression predictions, Euclidean distance is the default.</p>
+<hr />
+<h2 id="kernel-weighting">Kernel weighting</h2>
+<p>The default kernel is</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">kernel</span><span class="o">=</span><span class="s2">"rbf"</span>
+</span></code></pre></div>
+<p>with aliases</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>radial
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>gaussian
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>rbf
+</span></code></pre></div>
+<p>The current radial kernel computes</p>
+<div class="arithmatex">\[
+K(D)=\exp(-D).
+\]</div>
+<p>Before the kernel is evaluated, the one-parameter adapter scales the distance:</p>
+<div class="arithmatex">\[
+D'
+=
+bD,
+\]</div>
+<p>where <span class="arithmatex">\(b\)</span> is the parameter called <code>bandwidth</code> in the implementation.</p>
+<p>Therefore, the default effective kernel is</p>
+<div class="arithmatex">\[
+K_b(D)
+=
+\exp(-bD).
+\]</div>
+<p>For query <span class="arithmatex">\(x\)</span> and aggregation observation <span class="arithmatex">\(X_i\)</span>,</p>
+<div class="arithmatex">\[
+w_i(x)
+=
+\exp
+\left(
+-b\,
+d\left(
+r(x)^{\text{norm}},
+r(X_i)^{\text{norm}}
+\right)
+\right).
+\]</div>
+<hr />
+<h2 id="important-bandwidth-convention">Important bandwidth convention</h2>
+<p>The paper commonly writes a kernel in the form</p>
+<div class="arithmatex">\[
+K_h(z)=K(z/h).
+\]</div>
+<p>The current package instead scales the distance as</p>
+<div class="arithmatex">\[
+D' = bD
+\]</div>
+<p>before evaluating the kernel.</p>
+<p>With the default RBF kernel,</p>
+<div class="arithmatex">\[
+K_b(D)=e^{-bD}.
+\]</div>
+<p>These conventions move in opposite directions:</p>
+<div class="grid cards">
+<ul>
+<li>
+<p><strong>Paper-style <span class="arithmatex">\(h\)</span></strong></p>
+<hr />
+<p>Larger <span class="arithmatex">\(h\)</span> generally creates a <strong>wider</strong> neighborhood because the
+argument <span class="arithmatex">\(z/h\)</span> becomes smaller.</p>
+</li>
+<li>
+<p><strong>Package <code>bandwidth</code> <span class="arithmatex">\(b\)</span></strong></p>
+<hr />
+<p>Larger <span class="arithmatex">\(b\)</span> creates a <strong>narrower</strong> neighborhood for the default radial
+kernel because <span class="arithmatex">\(e^{-bD}\)</span> decays faster.</p>
+</li>
+</ul>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Do not compare the numerical values directly</p>
+<p>The <code>bandwidth_</code> stored by the current Python implementation should not be
+interpreted numerically as the same <span class="arithmatex">\(h\)</span> used in the paper's
+<span class="arithmatex">\(K(z/h)\)</span> notation.</p>
+</div>
+<hr />
+<h2 id="weighted-mean-aggregation">Weighted-mean aggregation</h2>
+<p>The default aggregator is</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">aggregator</span><span class="o">=</span><span class="s2">"weighted_mean"</span>
+</span></code></pre></div>
+<p>and produces</p>
+<div class="arithmatex">\[
+\hat y(x)
+=
+\frac{
+\sum_{i=1}^{\ell}
+w_i(x)Y_i
+}{
+\sum_{i=1}^{\ell}
+w_i(x)
+}.
+\]</div>
+<p>This is the regression consensus step.</p>
+<p>If the weights are effectively unusable for a query, the prediction path uses
+the global mean of the aggregation targets as a fallback:</p>
+<div class="arithmatex">\[
+\bar Y_\ell
+=
+\frac{1}{\ell}
+\sum_{i=1}^{\ell}Y_i.
+\]</div>
+<p>The fitted fallback value is stored as</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">model</span><span class="o">.</span><span class="n">global_mean_</span>
+</span></code></pre></div>
+<hr />
+<h2 id="bandwidth-optimization">Bandwidth optimization</h2>
+<p>The bandwidth controls the neighborhood size in prediction space.</p>
+<p>The implementation selects it by minimizing cross-validation error on
+<span class="arithmatex">\(D_\ell\)</span>.</p>
+<p>The default settings are:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">loss</span><span class="o">=</span><span class="s2">"mse"</span>
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a><span class="n">optimizer</span><span class="o">=</span><span class="s2">"grid"</span>
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a><span class="n">opt_method</span><span class="o">=</span><span class="s2">"grid"</span>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a><span class="n">n_cv</span><span class="o">=</span><span class="mi">5</span>
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a><span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span>
+</span></code></pre></div>
+<p>If <code>bandwidth_list</code> is not provided, the candidate values are</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.001</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">max_iter</span><span class="p">)</span>
+</span></code></pre></div>
+<p>so the default grid contains 300 candidates.</p>
+<hr />
+<h2 id="k-fold-cross-validation-objective">K-fold cross-validation objective</h2>
+<p>For every candidate bandwidth <span class="arithmatex">\(b\)</span>, the implementation:</p>
+<ol>
+<li>transforms the stored prediction-space distance matrix;</li>
+<li>computes the kernel similarity matrix;</li>
+<li>separates validation rows and training columns for each fold;</li>
+<li>predicts validation targets by weighted aggregation;</li>
+<li>computes the selected loss;</li>
+<li>returns the average loss across folds.</li>
+</ol>
+<p>Conceptually,</p>
+<div class="arithmatex">\[
+\phi_\kappa(b)
+=
+\frac{1}{\kappa}
+\sum_{p=1}^{\kappa}
+L_p(b).
+\]</div>
+<p>For the default MSE loss,</p>
+<div class="arithmatex">\[
+L_p(b)
+=
+\frac{1}{|F_p|}
+\sum_{j\in F_p}
+\left(
+\hat y_{-p,b}(X_j)-Y_j
+\right)^2.
+\]</div>
+<p>The selected parameter satisfies</p>
+<div class="arithmatex">\[
+b^\star
+=
+\operatorname*{arg\,min}_{b}
+\phi_\kappa(b).
+\]</div>
+<p>After fitting:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">model</span><span class="o">.</span><span class="n">bandwidth_</span>
+</span></code></pre></div>
+<p>contains the selected value.</p>
+<hr />
+<h2 id="grid-search-optimization">Grid-search optimization</h2>
+<p>Grid search is the current default.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>    <span class="n">opt_method</span><span class="o">=</span><span class="s2">"grid"</span><span class="p">,</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a>    <span class="n">optimizer</span><span class="o">=</span><span class="s2">"grid"</span><span class="p">,</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>    <span class="n">bandwidth_list</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a>        <span class="mf">0.01</span><span class="p">,</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>        <span class="mf">0.05</span><span class="p">,</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a>        <span class="mf">0.1</span><span class="p">,</span>
+</span><span id="__span-25-8"><a id="__codelineno-25-8" name="__codelineno-25-8" href="#__codelineno-25-8"></a>        <span class="mf">0.5</span><span class="p">,</span>
+</span><span id="__span-25-9"><a id="__codelineno-25-9" name="__codelineno-25-9" href="#__codelineno-25-9"></a>        <span class="mf">1.0</span><span class="p">,</span>
+</span><span id="__span-25-10"><a id="__codelineno-25-10" name="__codelineno-25-10" href="#__codelineno-25-10"></a>        <span class="mf">2.0</span><span class="p">,</span>
+</span><span id="__span-25-11"><a id="__codelineno-25-11" name="__codelineno-25-11" href="#__codelineno-25-11"></a>        <span class="mf">5.0</span><span class="p">,</span>
+</span><span id="__span-25-12"><a id="__codelineno-25-12" name="__codelineno-25-12" href="#__codelineno-25-12"></a>    <span class="p">],</span>
+</span><span id="__span-25-13"><a id="__codelineno-25-13" name="__codelineno-25-13" href="#__codelineno-25-13"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-25-14"><a id="__codelineno-25-14" name="__codelineno-25-14" href="#__codelineno-25-14"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The optimizer evaluates every candidate and selects the one with the lowest
+cross-validation loss.</p>
+<p>A denser grid can be supplied with NumPy:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>    <span class="n">bandwidth_list</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mi">100</span><span class="p">),</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>    <span class="n">n_cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-26-7"><a id="__codelineno-26-7" name="__codelineno-26-7" href="#__codelineno-26-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="gradient-based-optimization">Gradient-based optimization</h2>
+<p>A central contribution of the GradientCOBRA paper is replacing exhaustive
+bandwidth search with gradient-based bandwidth optimization when the kernel is
+smooth enough.</p>
+<p>The package supports the same general idea.</p>
+<p>Set</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="n">opt_method</span><span class="o">=</span><span class="s2">"grad"</span>
+</span></code></pre></div>
+<p>and choose a gradient optimizer.</p>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>    <span class="n">kernel</span><span class="o">=</span><span class="s2">"rbf"</span><span class="p">,</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>    <span class="n">opt_method</span><span class="o">=</span><span class="s2">"grad"</span><span class="p">,</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>    <span class="n">optimizer</span><span class="o">=</span><span class="s2">"gd"</span><span class="p">,</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span>
+</span><span id="__span-28-6"><a id="__codelineno-28-6" name="__codelineno-28-6" href="#__codelineno-28-6"></a>    <span class="n">max_iter</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span>
+</span><span id="__span-28-7"><a id="__codelineno-28-7" name="__codelineno-28-7" href="#__codelineno-28-7"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-28-8"><a id="__codelineno-28-8" name="__codelineno-28-8" href="#__codelineno-28-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Other registered gradient optimizers include:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>gd
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>momentum
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>adam
+</span></code></pre></div>
+<h3 id="example-with-adam">Example with Adam</h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>    <span class="n">kernel</span><span class="o">=</span><span class="s2">"rbf"</span><span class="p">,</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>    <span class="n">opt_method</span><span class="o">=</span><span class="s2">"grad"</span><span class="p">,</span>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>    <span class="n">optimizer</span><span class="o">=</span><span class="s2">"adam"</span><span class="p">,</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>    <span class="n">max_iter</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span>
+</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="how-gradients-are-obtained-in-the-current-implementation">How gradients are obtained in the current implementation</h2>
+<p>The paper derives the derivative of the cross-validation objective with
+respect to the bandwidth for suitable differentiable kernels.</p>
+<p>The package's optimization framework is more general.</p>
+<p>Its gradient optimizers can estimate the derivative numerically using finite
+differences. The default gradient approximation is central difference.</p>
+<p>Conceptually,</p>
+<div class="arithmatex">\[
+\phi'(b)
+\approx
+\frac{
+\phi(b+\varepsilon)-\phi(b-\varepsilon)
+}{
+2\varepsilon
+}.
+\]</div>
+<p>This lets the same optimizer framework work with any sufficiently smooth
+objective without requiring a hard-coded analytical derivative for every
+kernel.</p>
+<div class="admonition note">
+<p class="admonition-title">Paper vs implementation</p>
+<p>The paper explicitly derives bandwidth derivatives for suitable kernels.</p>
+<p>The current package passes the cross-validation objective to a reusable
+gradient-optimizer framework, which by default approximates the gradient
+numerically.</p>
+</div>
+<hr />
+<h2 id="kernel-compatibility-with-gradient-optimization">Kernel compatibility with gradient optimization</h2>
+<p>Not every kernel is differentiable.</p>
+<p>The source implementation checks</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="n">kernel_</span><span class="o">.</span><span class="n">requires_grad</span>
+</span></code></pre></div>
+<p>before using <code>opt_method="grad"</code>.</p>
+<p>If the selected kernel does not support gradient optimization, the method
+falls back internally to grid mode.</p>
+<p>However, the selected <code>optimizer</code> must still belong to the optimizer category
+required by the final method.</p>
+<h3 id="correct-gradient-configuration">Correct gradient configuration</h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>    <span class="n">kernel</span><span class="o">=</span><span class="s2">"rbf"</span><span class="p">,</span>
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a>    <span class="n">opt_method</span><span class="o">=</span><span class="s2">"grad"</span><span class="p">,</span>
+</span><span id="__span-32-4"><a id="__codelineno-32-4" name="__codelineno-32-4" href="#__codelineno-32-4"></a>    <span class="n">optimizer</span><span class="o">=</span><span class="s2">"adam"</span><span class="p">,</span>
+</span><span id="__span-32-5"><a id="__codelineno-32-5" name="__codelineno-32-5" href="#__codelineno-32-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<h3 id="correct-grid-configuration">Correct grid configuration</h3>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>    <span class="n">kernel</span><span class="o">=</span><span class="s2">"epanechnikov"</span><span class="p">,</span>
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>    <span class="n">opt_method</span><span class="o">=</span><span class="s2">"grid"</span><span class="p">,</span>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>    <span class="n">optimizer</span><span class="o">=</span><span class="s2">"grid"</span><span class="p">,</span>
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<div class="admonition warning">
+<p class="admonition-title">Do not combine <code>opt_method='grad'</code> with <code>optimizer='grid'</code></p>
+<p>The constructor defaults to</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="n">optimizer</span><span class="o">=</span><span class="s2">"grid"</span>
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a><span class="n">opt_method</span><span class="o">=</span><span class="s2">"grid"</span>
+</span></code></pre></div>
+<p>If you explicitly change only</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="n">opt_method</span><span class="o">=</span><span class="s2">"grad"</span>
+</span></code></pre></div>
+<p>while leaving <code>optimizer="grid"</code>, the implementation raises a
+<code>ValueError</code>, because the grid optimizer is not registered as a gradient
+optimizer.</p>
+</div>
+<hr />
+<h2 id="optimization-history">Optimization history</h2>
+<p>After fitting, GradientCOBRA stores optimization metadata in</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="n">model</span><span class="o">.</span><span class="n">optimization_outputs_</span>
+</span></code></pre></div>
+<p>The dictionary contains:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>method
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>optimizer
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>bandwidth
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>score
+</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>history
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>evaluations
+</span></code></pre></div>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">bandwidth_</span><span class="p">)</span>
+</span><span id="__span-38-4"><a id="__codelineno-38-4" name="__codelineno-38-4" href="#__codelineno-38-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">optimization_outputs_</span><span class="p">[</span><span class="s2">"score"</span><span class="p">])</span>
+</span><span id="__span-38-5"><a id="__codelineno-38-5" name="__codelineno-38-5" href="#__codelineno-38-5"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">optimization_outputs_</span><span class="p">[</span><span class="s2">"evaluations"</span><span class="p">])</span>
+</span><span id="__span-38-6"><a id="__codelineno-38-6" name="__codelineno-38-6" href="#__codelineno-38-6"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">optimization_outputs_</span><span class="p">[</span><span class="s2">"history"</span><span class="p">])</span>
+</span></code></pre></div>
+<p>The history is converted to a pandas <code>DataFrame</code>, which makes it convenient to
+inspect the optimization path.</p>
+<hr />
+<h2 id="basic-usage">Basic usage</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra</span><span class="w"> </span><span class="kn">import</span> <span class="n">GradientCOBRA</span>
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="p">)</span>
+</span><span id="__span-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a>
+</span><span id="__span-39-7"><a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</span><span id="__span-39-8"><a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a>
+</span><span id="__span-39-9"><a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</span></code></pre></div>
+<p>The default workflow is approximately:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>training data
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>     │
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>     ▼
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>50 / 50 split
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a>     │
+</span><span id="__span-40-6"><a id="__codelineno-40-6" name="__codelineno-40-6" href="#__codelineno-40-6"></a>     ├──► fit base regressors
+</span><span id="__span-40-7"><a id="__codelineno-40-7" name="__codelineno-40-7" href="#__codelineno-40-7"></a>     │
+</span><span id="__span-40-8"><a id="__codelineno-40-8" name="__codelineno-40-8" href="#__codelineno-40-8"></a>     └──► aggregation observations
+</span><span id="__span-40-9"><a id="__codelineno-40-9" name="__codelineno-40-9" href="#__codelineno-40-9"></a>               │
+</span><span id="__span-40-10"><a id="__codelineno-40-10" name="__codelineno-40-10" href="#__codelineno-40-10"></a>base regressors│
+</span><span id="__span-40-11"><a id="__codelineno-40-11" name="__codelineno-40-11" href="#__codelineno-40-11"></a>     │         │
+</span><span id="__span-40-12"><a id="__codelineno-40-12" name="__codelineno-40-12" href="#__codelineno-40-12"></a>     └────► prediction vectors
+</span><span id="__span-40-13"><a id="__codelineno-40-13" name="__codelineno-40-13" href="#__codelineno-40-13"></a>               │
+</span><span id="__span-40-14"><a id="__codelineno-40-14" name="__codelineno-40-14" href="#__codelineno-40-14"></a>               ▼
+</span><span id="__span-40-15"><a id="__codelineno-40-15" name="__codelineno-40-15" href="#__codelineno-40-15"></a>           normalize
+</span><span id="__span-40-16"><a id="__codelineno-40-16" name="__codelineno-40-16" href="#__codelineno-40-16"></a>               │
+</span><span id="__span-40-17"><a id="__codelineno-40-17" name="__codelineno-40-17" href="#__codelineno-40-17"></a>               ▼
+</span><span id="__span-40-18"><a id="__codelineno-40-18" name="__codelineno-40-18" href="#__codelineno-40-18"></a>       Euclidean distance
+</span><span id="__span-40-19"><a id="__codelineno-40-19" name="__codelineno-40-19" href="#__codelineno-40-19"></a>               │
+</span><span id="__span-40-20"><a id="__codelineno-40-20" name="__codelineno-40-20" href="#__codelineno-40-20"></a>               ▼
+</span><span id="__span-40-21"><a id="__codelineno-40-21" name="__codelineno-40-21" href="#__codelineno-40-21"></a>       tune one bandwidth
+</span><span id="__span-40-22"><a id="__codelineno-40-22" name="__codelineno-40-22" href="#__codelineno-40-22"></a>               │
+</span><span id="__span-40-23"><a id="__codelineno-40-23" name="__codelineno-40-23" href="#__codelineno-40-23"></a>               ▼
+</span><span id="__span-40-24"><a id="__codelineno-40-24" name="__codelineno-40-24" href="#__codelineno-40-24"></a>          RBF kernel
+</span><span id="__span-40-25"><a id="__codelineno-40-25" name="__codelineno-40-25" href="#__codelineno-40-25"></a>               │
+</span><span id="__span-40-26"><a id="__codelineno-40-26" name="__codelineno-40-26" href="#__codelineno-40-26"></a>               ▼
+</span><span id="__span-40-27"><a id="__codelineno-40-27" name="__codelineno-40-27" href="#__codelineno-40-27"></a>         weighted mean
+</span></code></pre></div>
+<hr />
+<h2 id="full-example">Full example</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.datasets</span><span class="w"> </span><span class="kn">import</span> <span class="n">make_regression</span>
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">mean_squared_error</span>
+</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+</span><span id="__span-41-6"><a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>
+</span><span id="__span-41-7"><a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra</span><span class="w"> </span><span class="kn">import</span> <span class="n">GradientCOBRA</span>
+</span><span id="__span-41-8"><a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>
+</span><span id="__span-41-9"><a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a>
+</span><span id="__span-41-10"><a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a><span class="n">X</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">make_regression</span><span class="p">(</span>
+</span><span id="__span-41-11"><a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a>    <span class="n">n_samples</span><span class="o">=</span><span class="mi">1000</span><span class="p">,</span>
+</span><span id="__span-41-12"><a id="__codelineno-41-12" name="__codelineno-41-12" href="#__codelineno-41-12"></a>    <span class="n">n_features</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span>
+</span><span id="__span-41-13"><a id="__codelineno-41-13" name="__codelineno-41-13" href="#__codelineno-41-13"></a>    <span class="n">noise</span><span class="o">=</span><span class="mf">15.0</span><span class="p">,</span>
+</span><span id="__span-41-14"><a id="__codelineno-41-14" name="__codelineno-41-14" href="#__codelineno-41-14"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-41-15"><a id="__codelineno-41-15" name="__codelineno-41-15" href="#__codelineno-41-15"></a><span class="p">)</span>
+</span><span id="__span-41-16"><a id="__codelineno-41-16" name="__codelineno-41-16" href="#__codelineno-41-16"></a>
+</span><span id="__span-41-17"><a id="__codelineno-41-17" name="__codelineno-41-17" href="#__codelineno-41-17"></a><span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+</span><span id="__span-41-18"><a id="__codelineno-41-18" name="__codelineno-41-18" href="#__codelineno-41-18"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-41-19"><a id="__codelineno-41-19" name="__codelineno-41-19" href="#__codelineno-41-19"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-41-20"><a id="__codelineno-41-20" name="__codelineno-41-20" href="#__codelineno-41-20"></a>    <span class="n">test_size</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span>
+</span><span id="__span-41-21"><a id="__codelineno-41-21" name="__codelineno-41-21" href="#__codelineno-41-21"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-41-22"><a id="__codelineno-41-22" name="__codelineno-41-22" href="#__codelineno-41-22"></a><span class="p">)</span>
+</span><span id="__span-41-23"><a id="__codelineno-41-23" name="__codelineno-41-23" href="#__codelineno-41-23"></a>
+</span><span id="__span-41-24"><a id="__codelineno-41-24" name="__codelineno-41-24" href="#__codelineno-41-24"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-41-25"><a id="__codelineno-41-25" name="__codelineno-41-25" href="#__codelineno-41-25"></a>    <span class="n">estimators</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-41-26"><a id="__codelineno-41-26" name="__codelineno-41-26" href="#__codelineno-41-26"></a>        <span class="s2">"linear_regression"</span><span class="p">,</span>
+</span><span id="__span-41-27"><a id="__codelineno-41-27" name="__codelineno-41-27" href="#__codelineno-41-27"></a>        <span class="s2">"ridge_cv"</span><span class="p">,</span>
+</span><span id="__span-41-28"><a id="__codelineno-41-28" name="__codelineno-41-28" href="#__codelineno-41-28"></a>        <span class="s2">"lasso_cv"</span><span class="p">,</span>
+</span><span id="__span-41-29"><a id="__codelineno-41-29" name="__codelineno-41-29" href="#__codelineno-41-29"></a>        <span class="s2">"k_neighbors_regressor"</span><span class="p">,</span>
+</span><span id="__span-41-30"><a id="__codelineno-41-30" name="__codelineno-41-30" href="#__codelineno-41-30"></a>        <span class="s2">"random_forest_regressor"</span><span class="p">,</span>
+</span><span id="__span-41-31"><a id="__codelineno-41-31" name="__codelineno-41-31" href="#__codelineno-41-31"></a>        <span class="s2">"svr"</span><span class="p">,</span>
+</span><span id="__span-41-32"><a id="__codelineno-41-32" name="__codelineno-41-32" href="#__codelineno-41-32"></a>    <span class="p">],</span>
+</span><span id="__span-41-33"><a id="__codelineno-41-33" name="__codelineno-41-33" href="#__codelineno-41-33"></a>    <span class="n">distance</span><span class="o">=</span><span class="s2">"euclidean"</span><span class="p">,</span>
+</span><span id="__span-41-34"><a id="__codelineno-41-34" name="__codelineno-41-34" href="#__codelineno-41-34"></a>    <span class="n">kernel</span><span class="o">=</span><span class="s2">"rbf"</span><span class="p">,</span>
+</span><span id="__span-41-35"><a id="__codelineno-41-35" name="__codelineno-41-35" href="#__codelineno-41-35"></a>    <span class="n">aggregator</span><span class="o">=</span><span class="s2">"weighted_mean"</span><span class="p">,</span>
+</span><span id="__span-41-36"><a id="__codelineno-41-36" name="__codelineno-41-36" href="#__codelineno-41-36"></a>    <span class="n">loss</span><span class="o">=</span><span class="s2">"mse"</span><span class="p">,</span>
+</span><span id="__span-41-37"><a id="__codelineno-41-37" name="__codelineno-41-37" href="#__codelineno-41-37"></a>    <span class="n">bandwidth_list</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.01</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="mi">80</span><span class="p">),</span>
+</span><span id="__span-41-38"><a id="__codelineno-41-38" name="__codelineno-41-38" href="#__codelineno-41-38"></a>    <span class="n">n_cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+</span><span id="__span-41-39"><a id="__codelineno-41-39" name="__codelineno-41-39" href="#__codelineno-41-39"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-41-40"><a id="__codelineno-41-40" name="__codelineno-41-40" href="#__codelineno-41-40"></a><span class="p">)</span>
+</span><span id="__span-41-41"><a id="__codelineno-41-41" name="__codelineno-41-41" href="#__codelineno-41-41"></a>
+</span><span id="__span-41-42"><a id="__codelineno-41-42" name="__codelineno-41-42" href="#__codelineno-41-42"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</span><span id="__span-41-43"><a id="__codelineno-41-43" name="__codelineno-41-43" href="#__codelineno-41-43"></a>
+</span><span id="__span-41-44"><a id="__codelineno-41-44" name="__codelineno-41-44" href="#__codelineno-41-44"></a><span class="n">prediction</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</span><span id="__span-41-45"><a id="__codelineno-41-45" name="__codelineno-41-45" href="#__codelineno-41-45"></a>
+</span><span id="__span-41-46"><a id="__codelineno-41-46" name="__codelineno-41-46" href="#__codelineno-41-46"></a><span class="n">rmse</span> <span class="o">=</span> <span class="n">mean_squared_error</span><span class="p">(</span>
+</span><span id="__span-41-47"><a id="__codelineno-41-47" name="__codelineno-41-47" href="#__codelineno-41-47"></a>    <span class="n">y_test</span><span class="p">,</span>
+</span><span id="__span-41-48"><a id="__codelineno-41-48" name="__codelineno-41-48" href="#__codelineno-41-48"></a>    <span class="n">prediction</span><span class="p">,</span>
+</span><span id="__span-41-49"><a id="__codelineno-41-49" name="__codelineno-41-49" href="#__codelineno-41-49"></a><span class="p">)</span> <span class="o">**</span> <span class="mf">0.5</span>
+</span><span id="__span-41-50"><a id="__codelineno-41-50" name="__codelineno-41-50" href="#__codelineno-41-50"></a>
+</span><span id="__span-41-51"><a id="__codelineno-41-51" name="__codelineno-41-51" href="#__codelineno-41-51"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Bandwidth:"</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">bandwidth_</span><span class="p">)</span>
+</span><span id="__span-41-52"><a id="__codelineno-41-52" name="__codelineno-41-52" href="#__codelineno-41-52"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"RMSE:"</span><span class="p">,</span> <span class="n">rmse</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="gradient-optimization-example">Gradient-optimization example</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra</span><span class="w"> </span><span class="kn">import</span> <span class="n">GradientCOBRA</span>
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>    <span class="n">estimators</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-42-5"><a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a>        <span class="s2">"ridge_cv"</span><span class="p">,</span>
+</span><span id="__span-42-6"><a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>        <span class="s2">"lasso_cv"</span><span class="p">,</span>
+</span><span id="__span-42-7"><a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>        <span class="s2">"random_forest_regressor"</span><span class="p">,</span>
+</span><span id="__span-42-8"><a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a>        <span class="s2">"svr"</span><span class="p">,</span>
+</span><span id="__span-42-9"><a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>    <span class="p">],</span>
+</span><span id="__span-42-10"><a id="__codelineno-42-10" name="__codelineno-42-10" href="#__codelineno-42-10"></a>    <span class="n">kernel</span><span class="o">=</span><span class="s2">"rbf"</span><span class="p">,</span>
+</span><span id="__span-42-11"><a id="__codelineno-42-11" name="__codelineno-42-11" href="#__codelineno-42-11"></a>    <span class="n">opt_method</span><span class="o">=</span><span class="s2">"grad"</span><span class="p">,</span>
+</span><span id="__span-42-12"><a id="__codelineno-42-12" name="__codelineno-42-12" href="#__codelineno-42-12"></a>    <span class="n">optimizer</span><span class="o">=</span><span class="s2">"adam"</span><span class="p">,</span>
+</span><span id="__span-42-13"><a id="__codelineno-42-13" name="__codelineno-42-13" href="#__codelineno-42-13"></a>    <span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.05</span><span class="p">,</span>
+</span><span id="__span-42-14"><a id="__codelineno-42-14" name="__codelineno-42-14" href="#__codelineno-42-14"></a>    <span class="n">max_iter</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+</span><span id="__span-42-15"><a id="__codelineno-42-15" name="__codelineno-42-15" href="#__codelineno-42-15"></a>    <span class="n">n_cv</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+</span><span id="__span-42-16"><a id="__codelineno-42-16" name="__codelineno-42-16" href="#__codelineno-42-16"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-42-17"><a id="__codelineno-42-17" name="__codelineno-42-17" href="#__codelineno-42-17"></a><span class="p">)</span>
+</span><span id="__span-42-18"><a id="__codelineno-42-18" name="__codelineno-42-18" href="#__codelineno-42-18"></a>
+</span><span id="__span-42-19"><a id="__codelineno-42-19" name="__codelineno-42-19" href="#__codelineno-42-19"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</span><span id="__span-42-20"><a id="__codelineno-42-20" name="__codelineno-42-20" href="#__codelineno-42-20"></a>
+</span><span id="__span-42-21"><a id="__codelineno-42-21" name="__codelineno-42-21" href="#__codelineno-42-21"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">bandwidth_</span><span class="p">)</span>
+</span><span id="__span-42-22"><a id="__codelineno-42-22" name="__codelineno-42-22" href="#__codelineno-42-22"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">optimization_outputs_</span><span class="p">[</span><span class="s2">"score"</span><span class="p">])</span>
+</span><span id="__span-42-23"><a id="__codelineno-42-23" name="__codelineno-42-23" href="#__codelineno-42-23"></a>
+</span><span id="__span-42-24"><a id="__codelineno-42-24" name="__codelineno-42-24" href="#__codelineno-42-24"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="providing-a-separate-aggregation-sample">Providing a separate aggregation sample</h2>
+<p>You can provide <span class="arithmatex">\(D_k\)</span> and <span class="arithmatex">\(D_\ell\)</span> explicitly instead of using the internal
+split.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>    <span class="n">X_k</span><span class="p">,</span>
+</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>    <span class="n">y_k</span><span class="p">,</span>
+</span><span id="__span-43-4"><a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>    <span class="n">X_l</span><span class="o">=</span><span class="n">X_l</span><span class="p">,</span>
+</span><span id="__span-43-5"><a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>    <span class="n">y_l</span><span class="o">=</span><span class="n">y_l</span><span class="p">,</span>
+</span><span id="__span-43-6"><a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>In this configuration:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>X_k, y_k  -&gt; fit the base regressors
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>X_l, y_l  -&gt; construct prediction space and tune aggregation
+</span></code></pre></div>
+<p>This can be useful when the data split has already been prepared elsewhere.</p>
+<hr />
+<h2 id="using-precomputed-predictions">Using precomputed predictions</h2>
+<p>GradientCOBRA also supports</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>during <code>fit</code>.</p>
+<p>In this mode, the supplied feature matrix is interpreted directly as the
+prediction space.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="p">)</span>
+</span><span id="__span-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>
+</span><span id="__span-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-46-6"><a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a>    <span class="n">prediction_matrix</span><span class="p">,</span>
+</span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-46-8"><a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a>    <span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-46-9"><a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>For example:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a>              regressor 1   regressor 2   regressor 3
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>sample 1          12.4          11.8          12.1
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>sample 2          18.2          17.9          19.0
+</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a>sample 3           7.4           8.0           7.7
+</span></code></pre></div>
+<p>is already a valid prediction-space matrix.</p>
+<p>During prediction, the new matrix must use the same columns and the same
+ordering.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="n">pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+</span><span id="__span-48-2"><a id="__codelineno-48-2" name="__codelineno-48-2" href="#__codelineno-48-2"></a>    <span class="n">new_prediction_matrix</span><span class="p">,</span>
+</span><span id="__span-48-3"><a id="__codelineno-48-3" name="__codelineno-48-3" href="#__codelineno-48-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This mode is especially useful when GradientCOBRA is used as an aggregation
+component inside another pipeline.</p>
+<hr />
+<h2 id="use-inside-the-kfc-procedure">Use inside the KFC procedure</h2>
+<p>The package registers a regression combiner under</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a>gradientcobra
+</span></code></pre></div>
+<p>through <code>GradientCOBRACombiner</code>.</p>
+<p>The combiner receives candidate-model predictions directly and fits
+GradientCOBRA with</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>Conceptually, inside KFC:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a>K-Step
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>   │
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a>   ▼
+</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a>F-Step
+</span><span id="__span-51-5"><a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a>   │
+</span><span id="__span-51-6"><a id="__codelineno-51-6" name="__codelineno-51-6" href="#__codelineno-51-6"></a>   ▼
+</span><span id="__span-51-7"><a id="__codelineno-51-7" name="__codelineno-51-7" href="#__codelineno-51-7"></a>candidate predictions
+</span><span id="__span-51-8"><a id="__codelineno-51-8" name="__codelineno-51-8" href="#__codelineno-51-8"></a>   │
+</span><span id="__span-51-9"><a id="__codelineno-51-9" name="__codelineno-51-9" href="#__codelineno-51-9"></a>   ▼
+</span><span id="__span-51-10"><a id="__codelineno-51-10" name="__codelineno-51-10" href="#__codelineno-51-10"></a>GradientCOBRA
+</span><span id="__span-51-11"><a id="__codelineno-51-11" name="__codelineno-51-11" href="#__codelineno-51-11"></a>   │
+</span><span id="__span-51-12"><a id="__codelineno-51-12" name="__codelineno-51-12" href="#__codelineno-51-12"></a>   ▼
+</span><span id="__span-51-13"><a id="__codelineno-51-13" name="__codelineno-51-13" href="#__codelineno-51-13"></a>final regression prediction
+</span></code></pre></div>
+<p>This matches the role of consensual aggregation in the final <strong>C-Step</strong> of the
+KFC procedure.</p>
+<div class="admonition info">
+<p class="admonition-title">Info</p>
+<p>When GradientCOBRA is used this way, the local KFC models have already
+produced the prediction features, so GradientCOBRA does not need to train
+its own default base regressors.</p>
+</div>
+<hr />
+<h2 id="available-kernels">Available kernels</h2>
+<p>The package contains several kernel implementations, including:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>rbf
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>gaussian
+</span><span id="__span-52-3"><a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a>radial
+</span><span id="__span-52-4"><a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a>cobra
+</span><span id="__span-52-5"><a id="__codelineno-52-5" name="__codelineno-52-5" href="#__codelineno-52-5"></a>naive
+</span><span id="__span-52-6"><a id="__codelineno-52-6" name="__codelineno-52-6" href="#__codelineno-52-6"></a>epanechnikov
+</span><span id="__span-52-7"><a id="__codelineno-52-7" name="__codelineno-52-7" href="#__codelineno-52-7"></a>triangular
+</span><span id="__span-52-8"><a id="__codelineno-52-8" name="__codelineno-52-8" href="#__codelineno-52-8"></a>biweight
+</span><span id="__span-52-9"><a id="__codelineno-52-9" name="__codelineno-52-9" href="#__codelineno-52-9"></a>triweight
+</span><span id="__span-52-10"><a id="__codelineno-52-10" name="__codelineno-52-10" href="#__codelineno-52-10"></a>cauchy
+</span><span id="__span-52-11"><a id="__codelineno-52-11" name="__codelineno-52-11" href="#__codelineno-52-11"></a>exponential
+</span><span id="__span-52-12"><a id="__codelineno-52-12" name="__codelineno-52-12" href="#__codelineno-52-12"></a>reverse_cosh
+</span></code></pre></div>
+<p>Different kernels define different relationships between distance and
+similarity.</p>
+<p>For example, the default radial kernel uses smooth exponential decay:</p>
+<div class="arithmatex">\[
+K(D)=e^{-D}.
+\]</div>
+<p>Compact-support kernels can instead assign exactly zero weight beyond a
+specified region.</p>
+<hr />
+<h2 id="available-loss-functions">Available loss functions</h2>
+<p>The optimization objective is configurable.</p>
+<p>Registered losses include:</p>
+<table>
+<thead>
+<tr>
+<th>Name</th>
+<th>Aliases</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mse</code></td>
+<td><code>l2</code>, <code>squared_error</code></td>
+</tr>
+<tr>
+<td><code>mae</code></td>
+<td><code>l1</code></td>
+</tr>
+<tr>
+<td><code>huber</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>quantile</code></td>
+<td>—</td>
+</tr>
+<tr>
+<td><code>log_loss</code></td>
+<td><code>cross_entropy</code></td>
+</tr>
+<tr>
+<td><code>hinge</code></td>
+<td>—</td>
+</tr>
+</tbody>
+</table>
+<p>For regression, the default is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="n">loss</span><span class="o">=</span><span class="s2">"mse"</span>
+</span></code></pre></div>
+<p>which matches the quadratic-error optimization described in the paper.</p>
+<hr />
+<h2 id="important-fitted-attributes">Important fitted attributes</h2>
+<p>After <code>fit()</code>, useful attributes include:</p>
+<table>
+<thead>
+<tr>
+<th>Attribute</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>X_k_</code>, <code>y_k_</code></td>
+<td>base-estimator training subset</td>
+</tr>
+<tr>
+<td><code>X_l_</code>, <code>y_l_</code></td>
+<td>aggregation subset</td>
+</tr>
+<tr>
+<td><code>estimators_</code></td>
+<td>fitted base regressors when <code>as_predictions=False</code></td>
+</tr>
+<tr>
+<td><code>as_predictions_</code></td>
+<td>whether the supplied input was already prediction space</td>
+</tr>
+<tr>
+<td><code>global_mean_</code></td>
+<td>fallback mean target</td>
+</tr>
+<tr>
+<td><code>normalize_constant_</code></td>
+<td>prediction scaling constant</td>
+</tr>
+<tr>
+<td><code>Y_l_norm_</code></td>
+<td>normalized aggregation prediction matrix</td>
+</tr>
+<tr>
+<td><code>distance_matrix_</code></td>
+<td>pairwise prediction-space distances</td>
+</tr>
+<tr>
+<td><code>cv_folds_</code></td>
+<td>cross-validation folds</td>
+</tr>
+<tr>
+<td><code>bandwidth_</code></td>
+<td>selected kernel scaling parameter</td>
+</tr>
+<tr>
+<td><code>optimization_outputs_</code></td>
+<td>optimization metadata and history</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="prediction-workflow">Prediction workflow</h2>
+<p>For a new observation <span class="arithmatex">\(x\)</span>:</p>
+<pre class="mermaid"><code>flowchart LR
+    X["New observation x"]
+    E["Base regressors"]
+    R["Prediction vector r(x)"]
+    N["Normalize"]
+    D["Distance to r(Xᵢ)"]
+    B["Scale by bandwidth"]
+    K["Kernel weights"]
+    A["Weighted mean of Yᵢ"]
+    Y["ŷ(x)"]
+
+    X --&gt; E --&gt; R --&gt; N --&gt; D --&gt; B --&gt; K --&gt; A --&gt; Y</code></pre>
+<p>Mathematically, the current default implementation follows</p>
+<div class="arithmatex">\[
+x
+\longrightarrow
+r(x)
+\longrightarrow
+cr(x)
+\longrightarrow
+d\left(cr(x),cr(X_i)\right)
+\longrightarrow
+b\,d_i
+\longrightarrow
+e^{-bd_i}
+\longrightarrow
+\widehat y(x).
+\]</div>
+<hr />
+<h2 id="statistical-interpretation">Statistical interpretation</h2>
+<p>GradientCOBRA can be viewed as a nonparametric regression procedure in the
+space generated by the base models.</p>
+<p>The base regressors transform</p>
+<div class="arithmatex">\[
+x\in\mathbb{R}^{d}
+\]</div>
+<p>into</p>
+<div class="arithmatex">\[
+r(x)\in\mathbb{R}^{M}.
+\]</div>
+<p>Then the aggregation method performs kernel-style regression in that
+<span class="arithmatex">\(M\)</span>-dimensional prediction space.</p>
+<p>This is useful because each base regressor may capture a different aspect of
+the relationship between <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span>. Their joint prediction vector can
+therefore provide a rich representation even when no single model is
+sufficient.</p>
+<hr />
+<h2 id="theoretical-result-from-the-paper">Theoretical result from the paper</h2>
+<p>The paper studies the regression risk</p>
+<div class="arithmatex">\[
+\mathbb{E}
+\left[
+|g_n(r_k(X))-g^\star(X)|^2
+\right].
+\]</div>
+<p>It shows that, under its stated assumptions, the kernel-based aggregation
+inherits the performance of consistent base estimators.</p>
+<p>A key risk bound has the form</p>
+<div class="arithmatex">\[
+\mathbb{E}
+\left[
+|g_n(r_k(X))-g^\star(X)|^2
+\right]
+\leq
+\min_{1\leq m\leq M}
+\mathbb{E}
+\left[
+|r_{k,m}(X)-g^\star(X)|^2
+\right]
++
+C\ell^{-2/(M+2)}.
+\]</div>
+<p>This expresses an important property of consensual aggregation: asymptotically,
+the combined method can track the performance of the strongest estimator in
+the candidate collection, up to a term that decreases with the aggregation
+sample size under the assumptions of the theorem.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This statement summarizes the theoretical result proved in the paper.
+It should not be interpreted as a finite-sample guarantee for every
+dataset or every package configuration.</p>
+</div>
+<hr />
+<h2 id="what-gradient-descent-changes">What gradient descent changes</h2>
+<p>The statistical estimator and the bandwidth optimizer are two separate ideas.</p>
+<p>The estimator itself is</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>prediction vectors
+</span><span id="__span-54-2"><a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>      ↓
+</span><span id="__span-54-3"><a id="__codelineno-54-3" name="__codelineno-54-3" href="#__codelineno-54-3"></a>distance
+</span><span id="__span-54-4"><a id="__codelineno-54-4" name="__codelineno-54-4" href="#__codelineno-54-4"></a>      ↓
+</span><span id="__span-54-5"><a id="__codelineno-54-5" name="__codelineno-54-5" href="#__codelineno-54-5"></a>kernel weights
+</span><span id="__span-54-6"><a id="__codelineno-54-6" name="__codelineno-54-6" href="#__codelineno-54-6"></a>      ↓
+</span><span id="__span-54-7"><a id="__codelineno-54-7" name="__codelineno-54-7" href="#__codelineno-54-7"></a>weighted target average
+</span></code></pre></div>
+<p>Gradient descent changes only the way the bandwidth is selected.</p>
+<p>Instead of evaluating a long list of possible bandwidths,</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>h1, h2, h3, ..., hN
+</span></code></pre></div>
+<p>the optimizer follows the slope of the cross-validation objective toward a
+lower-loss value.</p>
+<p>The paper motivates this using cross-validation error curves that are often
+approximately convex-like in the bandwidth.</p>
+<hr />
+<h2 id="grid-search-vs-gradient-optimization">Grid search vs gradient optimization</h2>
+<table>
+<thead>
+<tr>
+<th>Property</th>
+<th>Grid search</th>
+<th>Gradient-based</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Candidate values</td>
+<td>Explicit finite grid</td>
+<td>Iterative updates</td>
+</tr>
+<tr>
+<td>Derivative needed</td>
+<td>No</td>
+<td>Yes or numerical approximation</td>
+</tr>
+<tr>
+<td>Works with non-smooth kernels</td>
+<td>Generally yes</td>
+<td>Not always</td>
+</tr>
+<tr>
+<td>Default in package</td>
+<td>Yes</td>
+<td>No</td>
+</tr>
+<tr>
+<td>Package optimizers</td>
+<td><code>grid</code></td>
+<td><code>gd</code>, <code>momentum</code>, <code>adam</code></td>
+</tr>
+<tr>
+<td>Search resolution</td>
+<td>Limited by grid</td>
+<td>Continuous parameter updates</td>
+</tr>
+</tbody>
+</table>
+<p>Grid search is simple and robust.</p>
+<p>Gradient optimization can avoid evaluating a large dense grid when the kernel
+and objective are sufficiently smooth.</p>
+<hr />
+<h2 id="gradientcobra-vs-mixcobra">GradientCOBRA vs MixCOBRA</h2>
+<p>The two estimators use different spaces.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th style="text-align: center;">Input-space distance</th>
+<th style="text-align: center;">Prediction-space distance</th>
+<th>Tuned parameters</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GradientCOBRA</td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;">✓</td>
+<td>one bandwidth</td>
+</tr>
+<tr>
+<td>MixCOBRA</td>
+<td style="text-align: center;">✓</td>
+<td style="text-align: center;">✓</td>
+<td>input/prediction trade-off</td>
+</tr>
+</tbody>
+</table>
+<p>GradientCOBRA asks:</p>
+<blockquote>
+<p>Which observations receive predictions similar to this query from the
+collection of regressors?</p>
+</blockquote>
+<p>MixCOBRA additionally asks:</p>
+<blockquote>
+<p>Are those observations also close in the original feature space?</p>
+</blockquote>
+<p>Use this distinction when choosing which conceptual page to read next.</p>
+<hr />
+<h2 id="gradientcobra-vs-direct-model-averaging">GradientCOBRA vs direct model averaging</h2>
+<p>Direct model averaging might compute</p>
+<div class="arithmatex">\[
+\hat y(x)
+=
+\frac{1}{M}
+\sum_{m=1}^{M}
+r_m(x).
+\]</div>
+<p>GradientCOBRA does something fundamentally different.</p>
+<p>The base-model predictions are used as <strong>coordinates</strong>, not as the quantities
+that are directly averaged.</p>
+<p>The method first finds relevant training observations in prediction space, and
+then averages their observed target values:</p>
+<div class="arithmatex">\[
+\hat y(x)
+=
+\sum_i W_i(x)Y_i.
+\]</div>
+<p>So:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a>Direct averaging
+</span><span id="__span-56-2"><a id="__codelineno-56-2" name="__codelineno-56-2" href="#__codelineno-56-2"></a>base predictions -&gt; average -&gt; prediction
+</span></code></pre></div>
+<p>while:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>GradientCOBRA
+</span><span id="__span-57-2"><a id="__codelineno-57-2" name="__codelineno-57-2" href="#__codelineno-57-2"></a>base predictions
+</span><span id="__span-57-3"><a id="__codelineno-57-3" name="__codelineno-57-3" href="#__codelineno-57-3"></a>      ↓
+</span><span id="__span-57-4"><a id="__codelineno-57-4" name="__codelineno-57-4" href="#__codelineno-57-4"></a>prediction-space neighborhood
+</span><span id="__span-57-5"><a id="__codelineno-57-5" name="__codelineno-57-5" href="#__codelineno-57-5"></a>      ↓
+</span><span id="__span-57-6"><a id="__codelineno-57-6" name="__codelineno-57-6" href="#__codelineno-57-6"></a>training targets
+</span><span id="__span-57-7"><a id="__codelineno-57-7" name="__codelineno-57-7" href="#__codelineno-57-7"></a>      ↓
+</span><span id="__span-57-8"><a id="__codelineno-57-8" name="__codelineno-57-8" href="#__codelineno-57-8"></a>weighted average
+</span><span id="__span-57-9"><a id="__codelineno-57-9" name="__codelineno-57-9" href="#__codelineno-57-9"></a>      ↓
+</span><span id="__span-57-10"><a id="__codelineno-57-10" name="__codelineno-57-10" href="#__codelineno-57-10"></a>prediction
+</span></code></pre></div>
+<hr />
+<h2 id="practical-considerations">Practical considerations</h2>
+<h3 id="number-of-base-regressors">Number of base regressors</h3>
+<p>If too few estimators are used, prediction space may not capture enough
+structure.</p>
+<p>If many weak or redundant estimators are used, the prediction-space dimension
+<span class="arithmatex">\(M\)</span> grows and neighborhood estimation can become harder.</p>
+<p>The paper's convergence-rate term explicitly depends on <span class="arithmatex">\(M\)</span>, which reflects
+this dimensional effect.</p>
+<h3 id="scaling">Scaling</h3>
+<p>Prediction outputs from heterogeneous regressors may differ in magnitude.
+The package rescales prediction space before computing distances.</p>
+<h3 id="kernel-choice">Kernel choice</h3>
+<p>Smooth kernels are natural when gradient optimization is desired.</p>
+<p>Compact-support kernels can create sparse neighborhoods but may not support
+the same gradient behavior.</p>
+<h3 id="bandwidth">Bandwidth</h3>
+<p>The bandwidth determines how local the final aggregation is.</p>
+<p>With the package's default radial kernel:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>small package bandwidth -&gt; slower decay -&gt; broader neighborhood
+</span><span id="__span-58-2"><a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>large package bandwidth -&gt; faster decay -&gt; narrower neighborhood
+</span></code></pre></div>
+<hr />
+<h2 id="inspecting-a-fitted-model">Inspecting a fitted model</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+</span><span id="__span-59-2"><a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a>
+</span><span id="__span-59-3"><a id="__codelineno-59-3" name="__codelineno-59-3" href="#__codelineno-59-3"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Bandwidth"</span><span class="p">)</span>
+</span><span id="__span-59-4"><a id="__codelineno-59-4" name="__codelineno-59-4" href="#__codelineno-59-4"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">bandwidth_</span><span class="p">)</span>
+</span><span id="__span-59-5"><a id="__codelineno-59-5" name="__codelineno-59-5" href="#__codelineno-59-5"></a>
+</span><span id="__span-59-6"><a id="__codelineno-59-6" name="__codelineno-59-6" href="#__codelineno-59-6"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Normalization"</span><span class="p">)</span>
+</span><span id="__span-59-7"><a id="__codelineno-59-7" name="__codelineno-59-7" href="#__codelineno-59-7"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">normalize_constant_</span><span class="p">)</span>
+</span><span id="__span-59-8"><a id="__codelineno-59-8" name="__codelineno-59-8" href="#__codelineno-59-8"></a>
+</span><span id="__span-59-9"><a id="__codelineno-59-9" name="__codelineno-59-9" href="#__codelineno-59-9"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Optimization"</span><span class="p">)</span>
+</span><span id="__span-59-10"><a id="__codelineno-59-10" name="__codelineno-59-10" href="#__codelineno-59-10"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">optimization_outputs_</span><span class="p">)</span>
+</span><span id="__span-59-11"><a id="__codelineno-59-11" name="__codelineno-59-11" href="#__codelineno-59-11"></a>
+</span><span id="__span-59-12"><a id="__codelineno-59-12" name="__codelineno-59-12" href="#__codelineno-59-12"></a><span class="nb">print</span><span class="p">(</span><span class="s2">"Prediction-space distance matrix"</span><span class="p">)</span>
+</span><span id="__span-59-13"><a id="__codelineno-59-13" name="__codelineno-59-13" href="#__codelineno-59-13"></a><span class="nb">print</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">distance_matrix_</span><span class="p">)</span>
+</span></code></pre></div>
+<p>For a concise look at the optimization path:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a><span class="n">history</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">optimization_outputs_</span><span class="p">[</span><span class="s2">"history"</span><span class="p">]</span>
+</span><span id="__span-60-2"><a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>
+</span><span id="__span-60-3"><a id="__codelineno-60-3" name="__codelineno-60-3" href="#__codelineno-60-3"></a><span class="nb">print</span><span class="p">(</span><span class="n">history</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+</span></code></pre></div>
+<hr />
+<h2 id="reproducibility">Reproducibility</h2>
+<p>Use <code>random_state</code> to make the internal split and K-fold configuration
+reproducible:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-61-2"><a id="__codelineno-61-2" name="__codelineno-61-2" href="#__codelineno-61-2"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-61-3"><a id="__codelineno-61-3" name="__codelineno-61-3" href="#__codelineno-61-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>You can also control base-estimator randomness through <code>estimators_params</code>.</p>
+<hr />
+<h2 id="parallel-base-estimator-execution">Parallel base-estimator execution</h2>
+<p>The constructor exposes</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+</span></code></pre></div>
+<p>by default.</p>
+<p>The helper functions used to fit and evaluate the base estimators can use this
+value for parallel execution.</p>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-63-2"><a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+</span><span id="__span-63-3"><a id="__codelineno-63-3" name="__codelineno-63-3" href="#__codelineno-63-3"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-63-4"><a id="__codelineno-63-4" name="__codelineno-63-4" href="#__codelineno-63-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This setting concerns the base-estimator stage; it does not mean that every
+bandwidth evaluation is automatically parallelized.</p>
+<hr />
+<h2 id="paper-and-implementation-terminology">Paper and implementation terminology</h2>
+<p>The following mapping is useful when reading both the paper and the source
+code.</p>
+<table>
+<thead>
+<tr>
+<th>Paper concept</th>
+<th>Package representation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base estimators <span class="arithmatex">\(r_{k,1},\ldots,r_{k,M}\)</span></td>
+<td><code>estimators_</code></td>
+</tr>
+<tr>
+<td>prediction vector <span class="arithmatex">\(r_k(x)\)</span></td>
+<td>output of <code>_load_predictions()</code></td>
+</tr>
+<tr>
+<td>aggregation sample <span class="arithmatex">\(D_\ell\)</span></td>
+<td><code>X_l_</code>, <code>y_l_</code></td>
+</tr>
+<tr>
+<td>prediction-space distances</td>
+<td><code>distance_matrix_</code></td>
+</tr>
+<tr>
+<td>kernel <span class="arithmatex">\(K_h\)</span></td>
+<td><code>kernel_</code> + <code>adapter_</code></td>
+</tr>
+<tr>
+<td>bandwidth</td>
+<td><code>bandwidth_</code></td>
+</tr>
+<tr>
+<td>weighted regression estimate</td>
+<td><code>weighted_mean</code> aggregator</td>
+</tr>
+<tr>
+<td>CV objective <span class="arithmatex">\(\phi_\kappa\)</span></td>
+<td><code>kappa_cross_validation_error()</code></td>
+</tr>
+<tr>
+<td>bandwidth optimization</td>
+<td><code>_optimize_hyperparameters()</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="mental-model">Mental model</h2>
+<div class="admonition quote">
+<p><strong>GradientCOBRA turns the predictions of several regressors into a new
+feature space and performs kernel-weighted regression in that space.</strong></p>
+</div>
+<div class="arithmatex">\[
+\boxed{
+\text{Base regressors}
+\rightarrow
+\text{prediction space}
+\rightarrow
+\text{distance}
+\rightarrow
+\text{optimized kernel}
+\rightarrow
+\text{weighted target average}
+}
+\]</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../mixcobra/" class="md-footer__link md-footer__link--prev" aria-label="Previous: MixCOBRA">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                MixCOBRA
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../../../user-guide/" class="md-footer__link md-footer__link--next" aria-label="Next: Overview">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Overview
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.path", "navigation.top", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

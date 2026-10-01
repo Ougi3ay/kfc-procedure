@@ -1,0 +1,3917 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the KFC Procedure machine learning library">
+      
+      
+        <meta name="author" content="KFC Procedure Contributors">
+      
+      
+      
+        <link rel="prev" href="../data-splitting/">
+      
+      
+        <link rel="next" href="../kernels/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Distances - KFC Procedure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#distances" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="KFC Procedure" class="md-header__button md-logo" aria-label="KFC Procedure" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KFC Procedure
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Distances
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../getting-started/installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="KFC Procedure" class="md-nav__button md-logo" aria-label="KFC Procedure" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    KFC Procedure
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../getting-started/concepts/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/kfc-procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/combined-classifier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CombinedClassifier
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/mixcobra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MixCOBRA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/gradientcobra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GradientCOBRA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    KFC Procedure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/fitting-kfc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fitting KFC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-k-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure K-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-f-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure F-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-c-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure C-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/inspecting-fitted-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspect Fitted Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clustering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clustering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clustering/bregman-divergences/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bregman Divergences
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estimators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Estimators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/base-estimators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base Estimators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/estimator-parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estimator Parameters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/custom-estimators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Estimators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consensus
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Consensus
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/regression-combiners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regression Combiners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/classification-combiners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Classification Combiners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/stacking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stacking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/weighted-mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Weighted Mean
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/majority-vote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Majority Vote
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    COBRA Components
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    COBRA Components
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prediction-space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prediction Space
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-splitting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Splitting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distances
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distances
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#distance-in-the-cobra-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distance in the COBRA pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aggregators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aggregators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cross-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../losses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loss Functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gradient-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gradient Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/precomputed-predictions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Precomputed Predictions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/custom-aggregation-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Aggregation Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/parallel-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parallel Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/reproducibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/extending-kfc-procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extending KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../reference/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#distance-in-the-cobra-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Distance in the COBRA pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../prediction-space/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    COBRA Components
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="distances">Distances</h1>
+<p>Distance functions are a core part of the COBRA components in
+<code>kfc_procedure</code>.</p>
+<p>They define how two observations are compared once those observations have
+been represented in the relevant COBRA space.</p>
+<p>The current source provides five built-in distance implementations:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>euclidean
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>manhattan
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>minkowski
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>cosine
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>hamming
+</span></code></pre></div>
+<p>The implementation lives under:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kfc_procedure/cobra/core/distances/
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>├── base.py
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├── euclidean.py
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>├── manhattan.py
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>├── minkowski.py
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>├── cosine.py
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>└── hamming.py
+</span></code></pre></div>
+<p>These distances are used by:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>GradientCOBRA
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a>MixCOBRARegressor
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a>CombinedClassifier
+</span></code></pre></div>
+<p>through the shared:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">DistanceFactory</span>
+</span></code></pre></div>
+<hr />
+<h2 id="distance-in-the-cobra-pipeline">Distance in the COBRA pipeline</h2>
+<p>The general flow is:</p>
+<pre class="mermaid"><code>flowchart LR
+    P["Prediction/input representation"]
+    D["Pairwise distance matrix"]
+    A["Kernel adapter"]
+    K["Kernel weights"]
+    G["Aggregator"]
+    Y["Final prediction"]
+
+    P --&gt; D --&gt; A --&gt; K --&gt; G --&gt; Y</code></pre>
+<p>The distance step converts two matrices:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">x</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="n">y</span>
+</span></code></pre></div>
+<p>into a pairwise matrix:</p>
+<div class="arithmatex">\[
+D
+\in
+\mathbb{R}^{n_x\times n_y}.
+\]</div>
+<p>Each entry is:</p>
+<div class="arithmatex">\[
+D_{ij}
+=
+d(x_i,y_j).
+\]</div>
+<hr />
+<h1 id="built-in-distances">Built-in distances</h1>
+<table>
+<thead>
+<tr>
+<th>Registry name</th>
+<th>Alias</th>
+<th>Class</th>
+<th>Main idea</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>euclidean</code></td>
+<td><code>l2</code></td>
+<td><code>EuclideanDistance</code></td>
+<td>L2 distance</td>
+</tr>
+<tr>
+<td><code>manhattan</code></td>
+<td><code>l1</code></td>
+<td><code>ManhattanDistance</code></td>
+<td>L1 distance</td>
+</tr>
+<tr>
+<td><code>minkowski</code></td>
+<td><code>lp</code></td>
+<td><code>MinkowskiDistance</code></td>
+<td>generalized Lp distance</td>
+</tr>
+<tr>
+<td><code>cosine</code></td>
+<td>—</td>
+<td><code>CosineDistance</code></td>
+<td>angular dissimilarity</td>
+</tr>
+<tr>
+<td><code>hamming</code></td>
+<td>—</td>
+<td><code>HammingDistance</code></td>
+<td>fraction of mismatched coordinates</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="the-distance-interface">The distance interface</h1>
+<p>Every distance implementation inherits:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">BaseDistance</span>
+</span></code></pre></div>
+<p>The abstract interface is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseDistance</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a>
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a>        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6" href="#__codelineno-6-6"></a>    <span class="p">):</span>
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7" href="#__codelineno-6-7"></a>        <span class="o">...</span>
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8" href="#__codelineno-6-8"></a>
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9" href="#__codelineno-6-9"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">set_params</span><span class="p">(</span>
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10" href="#__codelineno-6-10"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11" href="#__codelineno-6-11"></a>        <span class="o">**</span><span class="n">params</span><span class="p">,</span>
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12" href="#__codelineno-6-12"></a>    <span class="p">):</span>
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13" href="#__codelineno-6-13"></a>        <span class="o">...</span>
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14" href="#__codelineno-6-14"></a>
+</span><span id="__span-6-15"><a id="__codelineno-6-15" name="__codelineno-6-15" href="#__codelineno-6-15"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">get_params</span><span class="p">(</span>
+</span><span id="__span-6-16"><a id="__codelineno-6-16" name="__codelineno-6-16" href="#__codelineno-6-16"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-6-17"><a id="__codelineno-6-17" name="__codelineno-6-17" href="#__codelineno-6-17"></a>        <span class="n">deep</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-6-18"><a id="__codelineno-6-18" name="__codelineno-6-18" href="#__codelineno-6-18"></a>    <span class="p">):</span>
+</span><span id="__span-6-19"><a id="__codelineno-6-19" name="__codelineno-6-19" href="#__codelineno-6-19"></a>        <span class="o">...</span>
+</span><span id="__span-6-20"><a id="__codelineno-6-20" name="__codelineno-6-20" href="#__codelineno-6-20"></a>
+</span><span id="__span-6-21"><a id="__codelineno-6-21" name="__codelineno-6-21" href="#__codelineno-6-21"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-6-22"><a id="__codelineno-6-22" name="__codelineno-6-22" href="#__codelineno-6-22"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span>
+</span><span id="__span-6-23"><a id="__codelineno-6-23" name="__codelineno-6-23" href="#__codelineno-6-23"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-6-24"><a id="__codelineno-6-24" name="__codelineno-6-24" href="#__codelineno-6-24"></a>        <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-6-25"><a id="__codelineno-6-25" name="__codelineno-6-25" href="#__codelineno-6-25"></a>        <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-6-26"><a id="__codelineno-6-26" name="__codelineno-6-26" href="#__codelineno-6-26"></a>    <span class="p">):</span>
+</span><span id="__span-6-27"><a id="__codelineno-6-27" name="__codelineno-6-27" href="#__codelineno-6-27"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<p>The only required computational method is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">matrix</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="expected-matrix-shapes">Expected matrix shapes</h2>
+<p>If:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">x</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="n">n_x</span><span class="p">,</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">n_features</span><span class="p">,</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">y</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">n_y</span><span class="p">,</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">n_features</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a><span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</span></code></pre></div>
+<p>is expected to be:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>(n_x, n_y)
+</span></code></pre></div>
+<hr />
+<h1 id="basedistance-parameters"><code>BaseDistance</code> parameters</h1>
+<p>The base constructor stores every keyword argument in:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">params</span>
+</span></code></pre></div>
+<p>and also creates same-named attributes.</p>
+<p>Conceptually:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">distance</span> <span class="o">=</span> <span class="n">SomeDistance</span><span class="p">(</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">alpha</span><span class="o">=</span><span class="mf">2.0</span><span class="p">,</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>results in:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">distance</span><span class="o">.</span><span class="n">params</span> <span class="o">==</span> <span class="p">{</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>    <span class="s2">"alpha"</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="n">distance</span><span class="o">.</span><span class="n">alpha</span> <span class="o">==</span> <span class="mf">2.0</span>
+</span></code></pre></div>
+<hr />
+<h2 id="get_params"><code>get_params()</code></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">distance</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
+</span></code></pre></div>
+<p>returns a copy of:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">params</span>
+</span></code></pre></div>
+<p>The signature includes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">deep</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>for scikit-learn-style compatibility, but the current implementation does not
+use <code>deep</code>.</p>
+<hr />
+<h2 id="set_params"><code>set_params()</code></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">distance</span><span class="o">.</span><span class="n">set_params</span><span class="p">(</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>    <span class="n">alpha</span><span class="o">=</span><span class="mf">3.0</span><span class="p">,</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>updates both:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="n">distance</span><span class="o">.</span><span class="n">alpha</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">distance</span><span class="o">.</span><span class="n">params</span><span class="p">[</span><span class="s2">"alpha"</span><span class="p">]</span>
+</span></code></pre></div>
+<p>and returns:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="bp">self</span>
+</span></code></pre></div>
+<p>for chaining.</p>
+<hr />
+<h1 id="distancefactory"><code>DistanceFactory</code></h1>
+<p>Distances are registered with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">DistanceFactory</span>
+</span></code></pre></div>
+<p>which subclasses the package's:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">BaseFactory</span>
+</span></code></pre></div>
+<p>You can create a distance by name:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.distances</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a>    <span class="n">DistanceFactory</span><span class="p">,</span>
+</span><span id="__span-25-3"><a id="__codelineno-25-3" name="__codelineno-25-3" href="#__codelineno-25-3"></a><span class="p">)</span>
+</span><span id="__span-25-4"><a id="__codelineno-25-4" name="__codelineno-25-4" href="#__codelineno-25-4"></a>
+</span><span id="__span-25-5"><a id="__codelineno-25-5" name="__codelineno-25-5" href="#__codelineno-25-5"></a><span class="n">distance</span> <span class="o">=</span> <span class="n">DistanceFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-25-6"><a id="__codelineno-25-6" name="__codelineno-25-6" href="#__codelineno-25-6"></a>    <span class="s2">"euclidean"</span>
+</span><span id="__span-25-7"><a id="__codelineno-25-7" name="__codelineno-25-7" href="#__codelineno-25-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="aliases">Aliases</h2>
+<p>The current registrations are:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="nd">@DistanceFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>    <span class="s2">"euclidean"</span><span class="p">,</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>    <span class="s2">"l2"</span><span class="p">,</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="nd">@DistanceFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>    <span class="s2">"manhattan"</span><span class="p">,</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>    <span class="s2">"l1"</span><span class="p">,</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="nd">@DistanceFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>    <span class="s2">"minkowski"</span><span class="p">,</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>    <span class="s2">"lp"</span><span class="p">,</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>while:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a>cosine
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>hamming
+</span></code></pre></div>
+<p>have one registered name each.</p>
+<hr />
+<h2 id="registry-normalization">Registry normalization</h2>
+<p>Because <code>DistanceFactory</code> inherits <code>BaseFactory</code>, registry names are:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>stripped
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>lowercased
+</span></code></pre></div>
+<p>before lookup.</p>
+<p>So:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="n">DistanceFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>    <span class="s2">"EUCLIDEAN"</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>resolves the same normalized key as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>euclidean
+</span></code></pre></div>
+<hr />
+<h1 id="euclidean-distance">Euclidean distance</h1>
+<p>The implementation class is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="n">EuclideanDistance</span>
+</span></code></pre></div>
+<p>registered as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>euclidean
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>l2
+</span></code></pre></div>
+<p>The source defines:</p>
+<div class="arithmatex">\[
+d(x,y)
+=
+\sqrt{
+\|x-y\|_2^2
+}.
+\]</div>
+<p>Equivalent form:</p>
+<div class="arithmatex">\[
+d(x,y)
+=
+\sqrt{
+\sum_k
+(x_k-y_k)^2
+}.
+\]</div>
+<hr />
+<h2 id="implementation">Implementation</h2>
+<p>The source uses the identity:</p>
+<div class="arithmatex">\[
+\|x-y\|^2
+=
+\|x\|^2
++
+\|y\|^2
+-
+2x^\top y.
+\]</div>
+<p>The code is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="n">x2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>    <span class="n">x</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a>    <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-35-5"><a id="__codelineno-35-5" name="__codelineno-35-5" href="#__codelineno-35-5"></a><span class="p">)</span>
+</span><span id="__span-35-6"><a id="__codelineno-35-6" name="__codelineno-35-6" href="#__codelineno-35-6"></a>
+</span><span id="__span-35-7"><a id="__codelineno-35-7" name="__codelineno-35-7" href="#__codelineno-35-7"></a><span class="n">y2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+</span><span id="__span-35-8"><a id="__codelineno-35-8" name="__codelineno-35-8" href="#__codelineno-35-8"></a>    <span class="n">y</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-35-9"><a id="__codelineno-35-9" name="__codelineno-35-9" href="#__codelineno-35-9"></a>    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-35-10"><a id="__codelineno-35-10" name="__codelineno-35-10" href="#__codelineno-35-10"></a>    <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-35-11"><a id="__codelineno-35-11" name="__codelineno-35-11" href="#__codelineno-35-11"></a><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</span><span id="__span-35-12"><a id="__codelineno-35-12" name="__codelineno-35-12" href="#__codelineno-35-12"></a>
+</span><span id="__span-35-13"><a id="__codelineno-35-13" name="__codelineno-35-13" href="#__codelineno-35-13"></a><span class="n">xy</span> <span class="o">=</span> <span class="n">x</span> <span class="o">@</span> <span class="n">y</span><span class="o">.</span><span class="n">T</span>
+</span><span id="__span-35-14"><a id="__codelineno-35-14" name="__codelineno-35-14" href="#__codelineno-35-14"></a>
+</span><span id="__span-35-15"><a id="__codelineno-35-15" name="__codelineno-35-15" href="#__codelineno-35-15"></a><span class="n">dist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+</span><span id="__span-35-16"><a id="__codelineno-35-16" name="__codelineno-35-16" href="#__codelineno-35-16"></a>    <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span>
+</span><span id="__span-35-17"><a id="__codelineno-35-17" name="__codelineno-35-17" href="#__codelineno-35-17"></a>        <span class="n">x2</span> <span class="o">+</span> <span class="n">y2</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">xy</span><span class="p">,</span>
+</span><span id="__span-35-18"><a id="__codelineno-35-18" name="__codelineno-35-18" href="#__codelineno-35-18"></a>        <span class="mf">0.0</span><span class="p">,</span>
+</span><span id="__span-35-19"><a id="__codelineno-35-19" name="__codelineno-35-19" href="#__codelineno-35-19"></a>    <span class="p">)</span>
+</span><span id="__span-35-20"><a id="__codelineno-35-20" name="__codelineno-35-20" href="#__codelineno-35-20"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="numerical-clipping">Numerical clipping</h2>
+<p>Before the square root, the source applies:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>    <span class="o">...</span><span class="p">,</span>
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>    <span class="mf">0.0</span><span class="p">,</span>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This prevents tiny floating-point errors from producing negative squared
+distances.</p>
+<hr />
+<h2 id="example">Example</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.distances</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>    <span class="n">EuclideanDistance</span><span class="p">,</span>
+</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a><span class="p">)</span>
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>
+</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a>    <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+</span><span id="__span-37-10"><a id="__codelineno-37-10" name="__codelineno-37-10" href="#__codelineno-37-10"></a><span class="p">])</span>
+</span><span id="__span-37-11"><a id="__codelineno-37-11" name="__codelineno-37-11" href="#__codelineno-37-11"></a>
+</span><span id="__span-37-12"><a id="__codelineno-37-12" name="__codelineno-37-12" href="#__codelineno-37-12"></a><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-37-13"><a id="__codelineno-37-13" name="__codelineno-37-13" href="#__codelineno-37-13"></a>    <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+</span><span id="__span-37-14"><a id="__codelineno-37-14" name="__codelineno-37-14" href="#__codelineno-37-14"></a><span class="p">])</span>
+</span><span id="__span-37-15"><a id="__codelineno-37-15" name="__codelineno-37-15" href="#__codelineno-37-15"></a>
+</span><span id="__span-37-16"><a id="__codelineno-37-16" name="__codelineno-37-16" href="#__codelineno-37-16"></a><span class="n">distance</span> <span class="o">=</span> <span class="n">EuclideanDistance</span><span class="p">()</span>
+</span><span id="__span-37-17"><a id="__codelineno-37-17" name="__codelineno-37-17" href="#__codelineno-37-17"></a>
+</span><span id="__span-37-18"><a id="__codelineno-37-18" name="__codelineno-37-18" href="#__codelineno-37-18"></a><span class="n">D</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-37-19"><a id="__codelineno-37-19" name="__codelineno-37-19" href="#__codelineno-37-19"></a>    <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-37-20"><a id="__codelineno-37-20" name="__codelineno-37-20" href="#__codelineno-37-20"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-37-21"><a id="__codelineno-37-21" name="__codelineno-37-21" href="#__codelineno-37-21"></a><span class="p">)</span>
+</span><span id="__span-37-22"><a id="__codelineno-37-22" name="__codelineno-37-22" href="#__codelineno-37-22"></a>
+</span><span id="__span-37-23"><a id="__codelineno-37-23" name="__codelineno-37-23" href="#__codelineno-37-23"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-37-24"><a id="__codelineno-37-24" name="__codelineno-37-24" href="#__codelineno-37-24"></a>    <span class="n">D</span>
+</span><span id="__span-37-25"><a id="__codelineno-37-25" name="__codelineno-37-25" href="#__codelineno-37-25"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The result has shape:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>(2, 1)
+</span></code></pre></div>
+<hr />
+<h1 id="manhattan-distance">Manhattan distance</h1>
+<p>The implementation class is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="n">ManhattanDistance</span>
+</span></code></pre></div>
+<p>registered as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>manhattan
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>l1
+</span></code></pre></div>
+<p>The source defines:</p>
+<div class="arithmatex">\[
+d(x,y)
+=
+\sum_k
+|x_k-y_k|.
+\]</div>
+<hr />
+<h2 id="implementation-backend">Implementation backend</h2>
+<p>The current source delegates to:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a><span class="n">scipy</span><span class="o">.</span><span class="n">spatial</span><span class="o">.</span><span class="n">distance_matrix</span>
+</span></code></pre></div>
+<p>with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="n">p</span><span class="o">=</span><span class="mi">1</span>
+</span></code></pre></div>
+<p>The implementation is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="k">return</span> <span class="n">distance_matrix</span><span class="p">(</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>    <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-43-4"><a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a>    <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-43-5"><a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="example_1">Example</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.distances</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>    <span class="n">ManhattanDistance</span><span class="p">,</span>
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="p">)</span>
+</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>
+</span><span id="__span-44-5"><a id="__codelineno-44-5" name="__codelineno-44-5" href="#__codelineno-44-5"></a><span class="n">distance</span> <span class="o">=</span> <span class="n">ManhattanDistance</span><span class="p">()</span>
+</span><span id="__span-44-6"><a id="__codelineno-44-6" name="__codelineno-44-6" href="#__codelineno-44-6"></a>
+</span><span id="__span-44-7"><a id="__codelineno-44-7" name="__codelineno-44-7" href="#__codelineno-44-7"></a><span class="n">D</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-44-8"><a id="__codelineno-44-8" name="__codelineno-44-8" href="#__codelineno-44-8"></a>    <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-44-9"><a id="__codelineno-44-9" name="__codelineno-44-9" href="#__codelineno-44-9"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-44-10"><a id="__codelineno-44-10" name="__codelineno-44-10" href="#__codelineno-44-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="minkowski-distance">Minkowski distance</h1>
+<p>The implementation class is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="n">MinkowskiDistance</span>
+</span></code></pre></div>
+<p>registered as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>minkowski
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>lp
+</span></code></pre></div>
+<p>It generalizes L1 and L2 distances:</p>
+<div class="arithmatex">\[
+d_p(x,y)
+=
+\left(
+\sum_k
+|x_k-y_k|^p
+\right)^{1/p}.
+\]</div>
+<hr />
+<h2 id="constructor">Constructor</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="n">MinkowskiDistance</span><span class="p">(</span>
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>    <span class="n">p</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a>    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The default is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a>p = 3
+</span></code></pre></div>
+<p>This is a source-specific default.</p>
+<hr />
+<h2 id="special-cases">Special cases</h2>
+<p>The source documentation identifies:</p>
+<div class="arithmatex">\[
+p=1
+\]</div>
+<p>as Manhattan distance and:</p>
+<div class="arithmatex">\[
+p=2
+\]</div>
+<p>as Euclidean distance.</p>
+<hr />
+<h2 id="implementation_1">Implementation</h2>
+<p>The current implementation constructs pairwise coordinate differences through
+broadcasting:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="n">x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a><span class="o">-</span>
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="n">y</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+</span></code></pre></div>
+<p>then computes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>    <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="o">...</span><span class="p">)</span> <span class="o">**</span> <span class="n">p</span><span class="p">,</span>
+</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>    <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a><span class="p">)</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="n">p</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="example_2">Example</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.distances</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>    <span class="n">MinkowskiDistance</span><span class="p">,</span>
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a><span class="p">)</span>
+</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a>
+</span><span id="__span-51-5"><a id="__codelineno-51-5" name="__codelineno-51-5" href="#__codelineno-51-5"></a><span class="n">distance</span> <span class="o">=</span> <span class="n">MinkowskiDistance</span><span class="p">(</span>
+</span><span id="__span-51-6"><a id="__codelineno-51-6" name="__codelineno-51-6" href="#__codelineno-51-6"></a>    <span class="n">p</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+</span><span id="__span-51-7"><a id="__codelineno-51-7" name="__codelineno-51-7" href="#__codelineno-51-7"></a><span class="p">)</span>
+</span><span id="__span-51-8"><a id="__codelineno-51-8" name="__codelineno-51-8" href="#__codelineno-51-8"></a>
+</span><span id="__span-51-9"><a id="__codelineno-51-9" name="__codelineno-51-9" href="#__codelineno-51-9"></a><span class="n">D</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-51-10"><a id="__codelineno-51-10" name="__codelineno-51-10" href="#__codelineno-51-10"></a>    <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-51-11"><a id="__codelineno-51-11" name="__codelineno-51-11" href="#__codelineno-51-11"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-51-12"><a id="__codelineno-51-12" name="__codelineno-51-12" href="#__codelineno-51-12"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="distance_params"><code>distance_params</code></h2>
+<p>Because <code>MinkowskiDistance</code> exposes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="n">p</span>
+</span></code></pre></div>
+<p>through its constructor, COBRA estimators can configure it using:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="n">distance_params</span>
+</span></code></pre></div>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-54-2"><a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>    <span class="n">distance</span><span class="o">=</span><span class="s2">"minkowski"</span><span class="p">,</span>
+</span><span id="__span-54-3"><a id="__codelineno-54-3" name="__codelineno-54-3" href="#__codelineno-54-3"></a>    <span class="n">distance_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-54-4"><a id="__codelineno-54-4" name="__codelineno-54-4" href="#__codelineno-54-4"></a>        <span class="s2">"p"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+</span><span id="__span-54-5"><a id="__codelineno-54-5" name="__codelineno-54-5" href="#__codelineno-54-5"></a>    <span class="p">},</span>
+</span><span id="__span-54-6"><a id="__codelineno-54-6" name="__codelineno-54-6" href="#__codelineno-54-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The source passes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a><span class="o">**</span><span class="n">distance_params</span>
+</span></code></pre></div>
+<p>directly into:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="n">DistanceFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="cosine-distance">Cosine distance</h1>
+<p>The implementation class is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a><span class="n">CosineDistance</span>
+</span></code></pre></div>
+<p>registered as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>cosine
+</span></code></pre></div>
+<p>The source defines cosine similarity as:</p>
+<div class="arithmatex">\[
+s(x,y)
+=
+\frac{
+x^\top y
+}{
+\|x\|
+\|y\|
+}
+\]</div>
+<p>and cosine distance as:</p>
+<div class="arithmatex">\[
+d(x,y)
+=
+1-s(x,y).
+\]</div>
+<hr />
+<h2 id="implementation_2">Implementation</h2>
+<p>The code computes row norms:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="n">x_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+</span><span id="__span-59-2"><a id="__codelineno-59-2" name="__codelineno-59-2" href="#__codelineno-59-2"></a>    <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-59-3"><a id="__codelineno-59-3" name="__codelineno-59-3" href="#__codelineno-59-3"></a>    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-59-4"><a id="__codelineno-59-4" name="__codelineno-59-4" href="#__codelineno-59-4"></a>    <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-59-5"><a id="__codelineno-59-5" name="__codelineno-59-5" href="#__codelineno-59-5"></a><span class="p">)</span>
+</span><span id="__span-59-6"><a id="__codelineno-59-6" name="__codelineno-59-6" href="#__codelineno-59-6"></a>
+</span><span id="__span-59-7"><a id="__codelineno-59-7" name="__codelineno-59-7" href="#__codelineno-59-7"></a><span class="n">y_norm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span>
+</span><span id="__span-59-8"><a id="__codelineno-59-8" name="__codelineno-59-8" href="#__codelineno-59-8"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-59-9"><a id="__codelineno-59-9" name="__codelineno-59-9" href="#__codelineno-59-9"></a>    <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-59-10"><a id="__codelineno-59-10" name="__codelineno-59-10" href="#__codelineno-59-10"></a>    <span class="n">keepdims</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-59-11"><a id="__codelineno-59-11" name="__codelineno-59-11" href="#__codelineno-59-11"></a><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+</span></code></pre></div>
+<p>then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a><span class="n">sim</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-60-2"><a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>    <span class="n">x</span> <span class="o">@</span> <span class="n">y</span><span class="o">.</span><span class="n">T</span>
+</span><span id="__span-60-3"><a id="__codelineno-60-3" name="__codelineno-60-3" href="#__codelineno-60-3"></a><span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+</span><span id="__span-60-4"><a id="__codelineno-60-4" name="__codelineno-60-4" href="#__codelineno-60-4"></a>    <span class="n">x_norm</span> <span class="o">*</span> <span class="n">y_norm</span>
+</span><span id="__span-60-5"><a id="__codelineno-60-5" name="__codelineno-60-5" href="#__codelineno-60-5"></a>    <span class="o">+</span> <span class="mf">1e-12</span>
+</span><span id="__span-60-6"><a id="__codelineno-60-6" name="__codelineno-60-6" href="#__codelineno-60-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and returns:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="mf">1.0</span> <span class="o">-</span> <span class="n">sim</span>
+</span></code></pre></div>
+<hr />
+<h2 id="zero-vector-protection">Zero-vector protection</h2>
+<p>The denominator contains:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="mf">1e-12</span>
+</span></code></pre></div>
+<p>to avoid division by zero.</p>
+<p>This means the implementation does not raise simply because one of the vectors
+has norm zero.</p>
+<hr />
+<h2 id="range-noted-by-the-source">Range noted by the source</h2>
+<p>The module notes that cosine distance is theoretically in:</p>
+<div class="arithmatex">\[
+[0,2].
+\]</div>
+<p>It also notes that values are typically in:</p>
+<div class="arithmatex">\[
+[0,1]
+\]</div>
+<p>for non-negative data.</p>
+<hr />
+<h2 id="example_3">Example</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.distances</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-63-2"><a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a>    <span class="n">CosineDistance</span><span class="p">,</span>
+</span><span id="__span-63-3"><a id="__codelineno-63-3" name="__codelineno-63-3" href="#__codelineno-63-3"></a><span class="p">)</span>
+</span><span id="__span-63-4"><a id="__codelineno-63-4" name="__codelineno-63-4" href="#__codelineno-63-4"></a>
+</span><span id="__span-63-5"><a id="__codelineno-63-5" name="__codelineno-63-5" href="#__codelineno-63-5"></a><span class="n">distance</span> <span class="o">=</span> <span class="n">CosineDistance</span><span class="p">()</span>
+</span><span id="__span-63-6"><a id="__codelineno-63-6" name="__codelineno-63-6" href="#__codelineno-63-6"></a>
+</span><span id="__span-63-7"><a id="__codelineno-63-7" name="__codelineno-63-7" href="#__codelineno-63-7"></a><span class="n">D</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-63-8"><a id="__codelineno-63-8" name="__codelineno-63-8" href="#__codelineno-63-8"></a>    <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-63-9"><a id="__codelineno-63-9" name="__codelineno-63-9" href="#__codelineno-63-9"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-63-10"><a id="__codelineno-63-10" name="__codelineno-63-10" href="#__codelineno-63-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="hamming-distance">Hamming distance</h1>
+<p>The implementation class is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a><span class="n">HammingDistance</span>
+</span></code></pre></div>
+<p>registered as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a>hamming
+</span></code></pre></div>
+<p>The source defines normalized Hamming distance as:</p>
+<div class="arithmatex">\[
+d(x,y)
+=
+\frac{1}{d}
+\sum_{k=1}^{d}
+\mathbf{1}
+[x_k\neq y_k].
+\]</div>
+<p>So the output measures the fraction of coordinates that differ.</p>
+<hr />
+<h2 id="output-range">Output range</h2>
+<p>Because the distance is normalized by the number of features:</p>
+<div class="arithmatex">\[
+0
+\leq
+d(x,y)
+\leq
+1.
+\]</div>
+<hr />
+<h2 id="intended-data-type">Intended data type</h2>
+<p>The source explicitly describes Hamming distance as intended for:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-66-1"><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a>discrete
+</span><span id="__span-66-2"><a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a>binary
+</span><span id="__span-66-3"><a id="__codelineno-66-3" name="__codelineno-66-3" href="#__codelineno-66-3"></a>categorical
+</span><span id="__span-66-4"><a id="__codelineno-66-4" name="__codelineno-66-4" href="#__codelineno-66-4"></a>symbolic
+</span></code></pre></div>
+<p>representations.</p>
+<p>It also states that continuous features should be discretized before use.</p>
+<hr />
+<h1 id="numba-implementation">Numba implementation</h1>
+<p>The primary Hamming path uses:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-67-1"><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a><span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span>
+</span><span id="__span-67-2"><a id="__codelineno-67-2" name="__codelineno-67-2" href="#__codelineno-67-2"></a>    <span class="n">nopython</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-67-3"><a id="__codelineno-67-3" name="__codelineno-67-3" href="#__codelineno-67-3"></a>    <span class="n">parallel</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-67-4"><a id="__codelineno-67-4" name="__codelineno-67-4" href="#__codelineno-67-4"></a>    <span class="n">fastmath</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-67-5"><a id="__codelineno-67-5" name="__codelineno-67-5" href="#__codelineno-67-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>for:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-68-1"><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a><span class="n">hamming_matrix_numba</span><span class="p">()</span>
+</span></code></pre></div>
+<p>The function loops over all sample pairs and all feature coordinates.</p>
+<p>For every pair:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-69-1"><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a><span class="k">if</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">k</span><span class="p">]</span> <span class="o">!=</span> <span class="n">y</span><span class="p">[</span><span class="n">j</span><span class="p">,</span> <span class="n">k</span><span class="p">]:</span>
+</span><span id="__span-69-2"><a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a>    <span class="n">diff_count</span> <span class="o">+=</span> <span class="mf">1.0</span>
+</span></code></pre></div>
+<p>then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-70-1"><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a><span class="n">distances</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-70-2"><a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>    <span class="n">diff_count</span>
+</span><span id="__span-70-3"><a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a>    <span class="o">/</span> <span class="n">n_features</span>
+</span><span id="__span-70-4"><a id="__codelineno-70-4" name="__codelineno-70-4" href="#__codelineno-70-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="numpy-fallback">NumPy fallback</h2>
+<p>The public <code>matrix()</code> method wraps the Numba path in:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a><span class="k">try</span><span class="p">:</span>
+</span><span id="__span-71-2"><a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a>    <span class="o">...</span>
+</span><span id="__span-71-3"><a id="__codelineno-71-3" name="__codelineno-71-3" href="#__codelineno-71-3"></a><span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+</span><span id="__span-71-4"><a id="__codelineno-71-4" name="__codelineno-71-4" href="#__codelineno-71-4"></a>    <span class="o">...</span>
+</span></code></pre></div>
+<p>If the Numba path fails, it uses:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-72-2"><a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a>    <span class="n">x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+</span><span id="__span-72-3"><a id="__codelineno-72-3" name="__codelineno-72-3" href="#__codelineno-72-3"></a>    <span class="o">!=</span>
+</span><span id="__span-72-4"><a id="__codelineno-72-4" name="__codelineno-72-4" href="#__codelineno-72-4"></a>    <span class="n">y</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:],</span>
+</span><span id="__span-72-5"><a id="__codelineno-72-5" name="__codelineno-72-5" href="#__codelineno-72-5"></a>    <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-72-6"><a id="__codelineno-72-6" name="__codelineno-72-6" href="#__codelineno-72-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This produces the same normalized mismatch fraction.</p>
+<hr />
+<h1 id="hamming-and-combinedclassifier">Hamming and CombinedClassifier</h1>
+<p>The default distance for:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a><span class="n">CombinedClassifier</span>
+</span></code></pre></div>
+<p>is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>hamming
+</span></code></pre></div>
+<p>This aligns with the current prediction-space representation used by
+<code>CombinedClassifier</code>, which consists of hard class predictions such as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>[0, 1, 1, 0]
+</span></code></pre></div>
+<p>For two prediction vectors:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a>[0, 1, 1, 0]
+</span><span id="__span-76-2"><a id="__codelineno-76-2" name="__codelineno-76-2" href="#__codelineno-76-2"></a>[0, 0, 1, 0]
+</span></code></pre></div>
+<p>one of four coordinates differs, so:</p>
+<div class="arithmatex">\[
+d_{\text{Hamming}}
+=
+\frac14.
+\]</div>
+<hr />
+<h1 id="distance-defaults-by-estimator">Distance defaults by estimator</h1>
+<p>The current source defaults are:</p>
+<table>
+<thead>
+<tr>
+<th>Estimator</th>
+<th>Default distance</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GradientCOBRA</code></td>
+<td><code>euclidean</code></td>
+</tr>
+<tr>
+<td><code>MixCOBRARegressor</code></td>
+<td><code>euclidean</code></td>
+</tr>
+<tr>
+<td><code>CombinedClassifier</code></td>
+<td><code>hamming</code></td>
+</tr>
+</tbody>
+</table>
+<p>These defaults reflect the representations used by the corresponding
+estimators.</p>
+<hr />
+<h1 id="distance-configuration">Distance configuration</h1>
+<p>Each high-level COBRA estimator accepts:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="n">distance</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a><span class="n">distance_params</span>
+</span></code></pre></div>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-79-2"><a id="__codelineno-79-2" name="__codelineno-79-2" href="#__codelineno-79-2"></a>    <span class="n">distance</span><span class="o">=</span><span class="s2">"cosine"</span><span class="p">,</span>
+</span><span id="__span-79-3"><a id="__codelineno-79-3" name="__codelineno-79-3" href="#__codelineno-79-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>or:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-80-2"><a id="__codelineno-80-2" name="__codelineno-80-2" href="#__codelineno-80-2"></a>    <span class="n">distance</span><span class="o">=</span><span class="s2">"minkowski"</span><span class="p">,</span>
+</span><span id="__span-80-3"><a id="__codelineno-80-3" name="__codelineno-80-3" href="#__codelineno-80-3"></a>    <span class="n">distance_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-80-4"><a id="__codelineno-80-4" name="__codelineno-80-4" href="#__codelineno-80-4"></a>        <span class="s2">"p"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+</span><span id="__span-80-5"><a id="__codelineno-80-5" name="__codelineno-80-5" href="#__codelineno-80-5"></a>    <span class="p">},</span>
+</span><span id="__span-80-6"><a id="__codelineno-80-6" name="__codelineno-80-6" href="#__codelineno-80-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="how-distance-objects-are-resolved">How distance objects are resolved</h1>
+<p>The shared resolver contains:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a><span class="k">return</span> <span class="n">DistanceFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-81-2"><a id="__codelineno-81-2" name="__codelineno-81-2" href="#__codelineno-81-2"></a>    <span class="n">distance</span><span class="p">,</span>
+</span><span id="__span-81-3"><a id="__codelineno-81-3" name="__codelineno-81-3" href="#__codelineno-81-3"></a>    <span class="o">**</span><span class="p">(</span>
+</span><span id="__span-81-4"><a id="__codelineno-81-4" name="__codelineno-81-4" href="#__codelineno-81-4"></a>        <span class="n">distance_params</span>
+</span><span id="__span-81-5"><a id="__codelineno-81-5" name="__codelineno-81-5" href="#__codelineno-81-5"></a>        <span class="ow">or</span> <span class="p">{}</span>
+</span><span id="__span-81-6"><a id="__codelineno-81-6" name="__codelineno-81-6" href="#__codelineno-81-6"></a>    <span class="p">),</span>
+</span><span id="__span-81-7"><a id="__codelineno-81-7" name="__codelineno-81-7" href="#__codelineno-81-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The high-level estimators use equivalent factory construction.</p>
+<p>Therefore:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-82-1"><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>distance
+</span></code></pre></div>
+<p>selects the registered implementation and:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-83-1"><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a>distance_params
+</span></code></pre></div>
+<p>are forwarded to its constructor.</p>
+<hr />
+<h1 id="inspect-the-fitted-distance-object">Inspect the fitted distance object</h1>
+<p>After fitting a COBRA estimator:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-84-2"><a id="__codelineno-84-2" name="__codelineno-84-2" href="#__codelineno-84-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">distance_</span>
+</span><span id="__span-84-3"><a id="__codelineno-84-3" name="__codelineno-84-3" href="#__codelineno-84-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>To inspect parameters:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-85-2"><a id="__codelineno-85-2" name="__codelineno-85-2" href="#__codelineno-85-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
+</span><span id="__span-85-3"><a id="__codelineno-85-3" name="__codelineno-85-3" href="#__codelineno-85-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>For Minkowski:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-86-1"><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-86-2"><a id="__codelineno-86-2" name="__codelineno-86-2" href="#__codelineno-86-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">p</span>
+</span><span id="__span-86-3"><a id="__codelineno-86-3" name="__codelineno-86-3" href="#__codelineno-86-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="prediction-space-distance">Prediction-space distance</h1>
+<p>For GradientCOBRA, the distance is computed on normalized prediction vectors.</p>
+<p>During fitting:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-87-1"><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-87-2"><a id="__codelineno-87-2" name="__codelineno-87-2" href="#__codelineno-87-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span><span class="p">,</span>
+</span><span id="__span-87-3"><a id="__codelineno-87-3" name="__codelineno-87-3" href="#__codelineno-87-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span><span class="p">,</span>
+</span><span id="__span-87-4"><a id="__codelineno-87-4" name="__codelineno-87-4" href="#__codelineno-87-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>At prediction time:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-88-1"><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a><span class="n">distance_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-88-2"><a id="__codelineno-88-2" name="__codelineno-88-2" href="#__codelineno-88-2"></a>    <span class="n">Y_norm</span><span class="p">,</span>
+</span><span id="__span-88-3"><a id="__codelineno-88-3" name="__codelineno-88-3" href="#__codelineno-88-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span><span class="p">,</span>
+</span><span id="__span-88-4"><a id="__codelineno-88-4" name="__codelineno-88-4" href="#__codelineno-88-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>So the distance object itself is independent of COBRA's normalization step.</p>
+<p>It receives whatever representation the estimator passes into it.</p>
+<hr />
+<h1 id="combinedclassifier-distance">CombinedClassifier distance</h1>
+<p>CombinedClassifier stores its calibration prediction representation as:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-89-1"><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a><span class="n">pred_l_</span>
+</span></code></pre></div>
+<p>and computes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-90-1"><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-90-2"><a id="__codelineno-90-2" name="__codelineno-90-2" href="#__codelineno-90-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">pred_l_</span><span class="p">,</span>
+</span><span id="__span-90-3"><a id="__codelineno-90-3" name="__codelineno-90-3" href="#__codelineno-90-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">pred_l_</span><span class="p">,</span>
+</span><span id="__span-90-4"><a id="__codelineno-90-4" name="__codelineno-90-4" href="#__codelineno-90-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>New prediction patterns are compared with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-91-1"><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-91-2"><a id="__codelineno-91-2" name="__codelineno-91-2" href="#__codelineno-91-2"></a>    <span class="n">preds_space</span><span class="p">,</span>
+</span><span id="__span-91-3"><a id="__codelineno-91-3" name="__codelineno-91-3" href="#__codelineno-91-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">pred_l_</span><span class="p">,</span>
+</span><span id="__span-91-4"><a id="__codelineno-91-4" name="__codelineno-91-4" href="#__codelineno-91-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>No separate prediction normalization is applied by the current
+CombinedClassifier before this distance calculation.</p>
+<hr />
+<h1 id="mixcobra-distances">MixCOBRA distances</h1>
+<p>MixCOBRA can maintain two separate distance matrices.</p>
+<p>In two-parameter mode:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-92-1"><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix_x_</span>
+</span></code></pre></div>
+<p>is computed on:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-93-1"><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a><span class="n">X_l_norm_</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-94-1"><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix_y_</span>
+</span></code></pre></div>
+<p>is computed on:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-95-1"><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a><span class="n">Y_l_norm_</span>
+</span></code></pre></div>
+<p>The same configured distance implementation is used for both spaces.</p>
+<hr />
+<h2 id="two-space-combination">Two-space combination</h2>
+<p>The distance matrices are later combined by the two-parameter adapter as:</p>
+<div class="arithmatex">\[
+D_{\text{mix}}
+=
+\alpha D_X
++
+\beta D_Y.
+\]</div>
+<p>The distance class itself does not know about:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-96-1"><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a>alpha
+</span><span id="__span-96-2"><a id="__codelineno-96-2" name="__codelineno-96-2" href="#__codelineno-96-2"></a>beta
+</span></code></pre></div>
+<p>Those parameters belong to the adapter layer.</p>
+<hr />
+<h1 id="one-parameter-mixcobra">One-parameter MixCOBRA</h1>
+<p>With:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-97-1"><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a><span class="n">one_parameter</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>the source first concatenates:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-98-1"><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a><span class="n">X_l_norm_</span>
+</span><span id="__span-98-2"><a id="__codelineno-98-2" name="__codelineno-98-2" href="#__codelineno-98-2"></a><span class="n">Y_l_norm_</span>
+</span></code></pre></div>
+<p>into:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-99-1"><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a><span class="n">mix_features_</span>
+</span></code></pre></div>
+<p>Then the configured distance is computed once on the combined representation.</p>
+<p>So:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-100-1"><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a>distance
+</span></code></pre></div>
+<p>still controls geometry, while the one-parameter adapter later scales the
+result.</p>
+<hr />
+<h1 id="distance-vs-kernel">Distance vs kernel</h1>
+<p>Distance and kernel are separate concepts.</p>
+<p>The distance computes:</p>
+<div class="arithmatex">\[
+D
+=
+d(x,y).
+\]</div>
+<p>The adapter may rescale it, for example:</p>
+<div class="arithmatex">\[
+D'
+=
+hD.
+\]</div>
+<p>Then the kernel turns that value into a similarity weight:</p>
+<div class="arithmatex">\[
+K(D').
+\]</div>
+<p>So choosing:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-101-1"><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a><span class="n">distance</span><span class="o">=</span><span class="s2">"euclidean"</span>
+</span></code></pre></div>
+<p>does not by itself define the final aggregation weight.</p>
+<hr />
+<h1 id="example-with-rbf-kernel">Example with RBF kernel</h1>
+<p>Suppose Euclidean distance produces:</p>
+<div class="arithmatex">\[
+D=2.
+\]</div>
+<p>If the adapter applies:</p>
+<div class="arithmatex">\[
+h=0.5,
+\]</div>
+<p>then:</p>
+<div class="arithmatex">\[
+D'=1.
+\]</div>
+<p>The RBF kernel then receives:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-102-1"><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a>1
+</span></code></pre></div>
+<p>rather than the original:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-103-1"><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a>2.
+</span></code></pre></div>
+<p>This separation is why distance configuration and bandwidth optimization are
+handled independently in the source.</p>
+<hr />
+<h1 id="euclidean-vs-minkowski-p2">Euclidean vs Minkowski <code>p=2</code></h1>
+<p>The source provides both:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-104-1"><a id="__codelineno-104-1" name="__codelineno-104-1" href="#__codelineno-104-1"></a>euclidean
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-105-1"><a id="__codelineno-105-1" name="__codelineno-105-1" href="#__codelineno-105-1"></a>minkowski with p=2
+</span></code></pre></div>
+<p>These represent the same L2 distance mathematically.</p>
+<p>However, the implementation paths differ.</p>
+<p><code>EuclideanDistance</code> uses the dot-product identity:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-106-1"><a id="__codelineno-106-1" name="__codelineno-106-1" href="#__codelineno-106-1"></a>||x||² + ||y||² - 2&lt;x,y&gt;
+</span></code></pre></div>
+<p>while <code>MinkowskiDistance</code> uses explicit pairwise broadcasting.</p>
+<p>Therefore they are not implemented identically even when:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-107-1"><a id="__codelineno-107-1" name="__codelineno-107-1" href="#__codelineno-107-1"></a><span class="n">p</span><span class="o">=</span><span class="mi">2</span>
+</span></code></pre></div>
+<hr />
+<h1 id="manhattan-vs-minkowski-p1">Manhattan vs Minkowski <code>p=1</code></h1>
+<p>Similarly:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-108-1"><a id="__codelineno-108-1" name="__codelineno-108-1" href="#__codelineno-108-1"></a>manhattan
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-109-1"><a id="__codelineno-109-1" name="__codelineno-109-1" href="#__codelineno-109-1"></a>minkowski with p=1
+</span></code></pre></div>
+<p>represent the same L1 formula mathematically.</p>
+<p>But:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-110-1"><a id="__codelineno-110-1" name="__codelineno-110-1" href="#__codelineno-110-1"></a>ManhattanDistance
+</span></code></pre></div>
+<p>delegates to SciPy's:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-111-1"><a id="__codelineno-111-1" name="__codelineno-111-1" href="#__codelineno-111-1"></a><span class="n">distance_matrix</span><span class="p">(</span><span class="o">...</span><span class="p">,</span> <span class="n">p</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></code></pre></div>
+<p>while:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-112-1"><a id="__codelineno-112-1" name="__codelineno-112-1" href="#__codelineno-112-1"></a>MinkowskiDistance
+</span></code></pre></div>
+<p>uses NumPy broadcasting.</p>
+<hr />
+<h1 id="memory-behavior">Memory behavior</h1>
+<p>The implementations differ in how they form pairwise distances.</p>
+<p><code>EuclideanDistance</code> avoids a full:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-113-1"><a id="__codelineno-113-1" name="__codelineno-113-1" href="#__codelineno-113-1"></a>(n_x, n_y, n_features)
+</span></code></pre></div>
+<p>difference tensor.</p>
+<p><code>ManhattanDistance</code> delegates to SciPy.</p>
+<p><code>MinkowskiDistance</code> explicitly creates the broadcasted expression:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-114-1"><a id="__codelineno-114-1" name="__codelineno-114-1" href="#__codelineno-114-1"></a><span class="n">x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+</span><span id="__span-114-2"><a id="__codelineno-114-2" name="__codelineno-114-2" href="#__codelineno-114-2"></a><span class="o">-</span>
+</span><span id="__span-114-3"><a id="__codelineno-114-3" name="__codelineno-114-3" href="#__codelineno-114-3"></a><span class="n">y</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+</span></code></pre></div>
+<p>which conceptually has three dimensions.</p>
+<p><code>HammingDistance</code> uses a Numba loop first, avoiding the broadcasted tensor in
+its primary path, with a broadcasted NumPy fallback.</p>
+<p>The source does not contain an automatic memory-based distance selector.</p>
+<hr />
+<h1 id="shape-compatibility">Shape compatibility</h1>
+<p>The current distance implementations assume compatible feature dimensions.</p>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-115-1"><a id="__codelineno-115-1" name="__codelineno-115-1" href="#__codelineno-115-1"></a><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-116-1"><a id="__codelineno-116-1" name="__codelineno-116-1" href="#__codelineno-116-1"></a><span class="n">y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span></code></pre></div>
+<p>must represent the same coordinate dimension.</p>
+<p>The classes do not define a common explicit manual check for mismatched
+feature counts.</p>
+<p>Incompatible shapes therefore fail through the underlying NumPy/SciPy
+operations.</p>
+<hr />
+<h1 id="input-validation-scope">Input validation scope</h1>
+<p>The built-in distance classes mainly perform:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-117-1"><a id="__codelineno-117-1" name="__codelineno-117-1" href="#__codelineno-117-1"></a><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></code></pre></div>
+<p>before calculation.</p>
+<p>They do not define a shared validation layer for:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-118-1"><a id="__codelineno-118-1" name="__codelineno-118-1" href="#__codelineno-118-1"></a>NaN
+</span><span id="__span-118-2"><a id="__codelineno-118-2" name="__codelineno-118-2" href="#__codelineno-118-2"></a>infinity
+</span><span id="__span-118-3"><a id="__codelineno-118-3" name="__codelineno-118-3" href="#__codelineno-118-3"></a>empty arrays
+</span><span id="__span-118-4"><a id="__codelineno-118-4" name="__codelineno-118-4" href="#__codelineno-118-4"></a>dtype compatibility
+</span><span id="__span-118-5"><a id="__codelineno-118-5" name="__codelineno-118-5" href="#__codelineno-118-5"></a>feature-count agreement
+</span></code></pre></div>
+<p>Those conditions are therefore handled implicitly by the mathematical
+operations or by later stages.</p>
+<hr />
+<h1 id="custom-distance">Custom distance</h1>
+<p>A custom metric can subclass:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-119-1"><a id="__codelineno-119-1" name="__codelineno-119-1" href="#__codelineno-119-1"></a><span class="n">BaseDistance</span>
+</span></code></pre></div>
+<p>and implement:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-120-1"><a id="__codelineno-120-1" name="__codelineno-120-1" href="#__codelineno-120-1"></a><span class="n">matrix</span><span class="p">()</span>
+</span></code></pre></div>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-121-1"><a id="__codelineno-121-1" name="__codelineno-121-1" href="#__codelineno-121-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-121-2"><a id="__codelineno-121-2" name="__codelineno-121-2" href="#__codelineno-121-2"></a>
+</span><span id="__span-121-3"><a id="__codelineno-121-3" name="__codelineno-121-3" href="#__codelineno-121-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.distances</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-121-4"><a id="__codelineno-121-4" name="__codelineno-121-4" href="#__codelineno-121-4"></a>    <span class="n">BaseDistance</span><span class="p">,</span>
+</span><span id="__span-121-5"><a id="__codelineno-121-5" name="__codelineno-121-5" href="#__codelineno-121-5"></a>    <span class="n">DistanceFactory</span><span class="p">,</span>
+</span><span id="__span-121-6"><a id="__codelineno-121-6" name="__codelineno-121-6" href="#__codelineno-121-6"></a><span class="p">)</span>
+</span><span id="__span-121-7"><a id="__codelineno-121-7" name="__codelineno-121-7" href="#__codelineno-121-7"></a>
+</span><span id="__span-121-8"><a id="__codelineno-121-8" name="__codelineno-121-8" href="#__codelineno-121-8"></a>
+</span><span id="__span-121-9"><a id="__codelineno-121-9" name="__codelineno-121-9" href="#__codelineno-121-9"></a><span class="nd">@DistanceFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+</span><span id="__span-121-10"><a id="__codelineno-121-10" name="__codelineno-121-10" href="#__codelineno-121-10"></a>    <span class="s2">"squared_l2"</span>
+</span><span id="__span-121-11"><a id="__codelineno-121-11" name="__codelineno-121-11" href="#__codelineno-121-11"></a><span class="p">)</span>
+</span><span id="__span-121-12"><a id="__codelineno-121-12" name="__codelineno-121-12" href="#__codelineno-121-12"></a><span class="k">class</span><span class="w"> </span><span class="nc">SquaredL2Distance</span><span class="p">(</span>
+</span><span id="__span-121-13"><a id="__codelineno-121-13" name="__codelineno-121-13" href="#__codelineno-121-13"></a>    <span class="n">BaseDistance</span>
+</span><span id="__span-121-14"><a id="__codelineno-121-14" name="__codelineno-121-14" href="#__codelineno-121-14"></a><span class="p">):</span>
+</span><span id="__span-121-15"><a id="__codelineno-121-15" name="__codelineno-121-15" href="#__codelineno-121-15"></a>
+</span><span id="__span-121-16"><a id="__codelineno-121-16" name="__codelineno-121-16" href="#__codelineno-121-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span>
+</span><span id="__span-121-17"><a id="__codelineno-121-17" name="__codelineno-121-17" href="#__codelineno-121-17"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-121-18"><a id="__codelineno-121-18" name="__codelineno-121-18" href="#__codelineno-121-18"></a>        <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-121-19"><a id="__codelineno-121-19" name="__codelineno-121-19" href="#__codelineno-121-19"></a>        <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-121-20"><a id="__codelineno-121-20" name="__codelineno-121-20" href="#__codelineno-121-20"></a>    <span class="p">):</span>
+</span><span id="__span-121-21"><a id="__codelineno-121-21" name="__codelineno-121-21" href="#__codelineno-121-21"></a>        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span id="__span-121-22"><a id="__codelineno-121-22" name="__codelineno-121-22" href="#__codelineno-121-22"></a>        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span><span id="__span-121-23"><a id="__codelineno-121-23" name="__codelineno-121-23" href="#__codelineno-121-23"></a>
+</span><span id="__span-121-24"><a id="__codelineno-121-24" name="__codelineno-121-24" href="#__codelineno-121-24"></a>        <span class="n">diff</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-121-25"><a id="__codelineno-121-25" name="__codelineno-121-25" href="#__codelineno-121-25"></a>            <span class="n">x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+</span><span id="__span-121-26"><a id="__codelineno-121-26" name="__codelineno-121-26" href="#__codelineno-121-26"></a>            <span class="o">-</span>
+</span><span id="__span-121-27"><a id="__codelineno-121-27" name="__codelineno-121-27" href="#__codelineno-121-27"></a>            <span class="n">y</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+</span><span id="__span-121-28"><a id="__codelineno-121-28" name="__codelineno-121-28" href="#__codelineno-121-28"></a>        <span class="p">)</span>
+</span><span id="__span-121-29"><a id="__codelineno-121-29" name="__codelineno-121-29" href="#__codelineno-121-29"></a>
+</span><span id="__span-121-30"><a id="__codelineno-121-30" name="__codelineno-121-30" href="#__codelineno-121-30"></a>        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+</span><span id="__span-121-31"><a id="__codelineno-121-31" name="__codelineno-121-31" href="#__codelineno-121-31"></a>            <span class="n">diff</span> <span class="o">**</span> <span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-121-32"><a id="__codelineno-121-32" name="__codelineno-121-32" href="#__codelineno-121-32"></a>            <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-121-33"><a id="__codelineno-121-33" name="__codelineno-121-33" href="#__codelineno-121-33"></a>        <span class="p">)</span>
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-122-1"><a id="__codelineno-122-1" name="__codelineno-122-1" href="#__codelineno-122-1"></a><span class="n">distance</span> <span class="o">=</span> <span class="n">DistanceFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-122-2"><a id="__codelineno-122-2" name="__codelineno-122-2" href="#__codelineno-122-2"></a>    <span class="s2">"squared_l2"</span>
+</span><span id="__span-122-3"><a id="__codelineno-122-3" name="__codelineno-122-3" href="#__codelineno-122-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>can resolve it.</p>
+<hr />
+<h1 id="custom-distance-with-parameters">Custom distance with parameters</h1>
+<p>Because <code>BaseDistance</code> already supports arbitrary keyword parameters, a custom
+distance can expose them through the constructor.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-123-1"><a id="__codelineno-123-1" name="__codelineno-123-1" href="#__codelineno-123-1"></a><span class="nd">@DistanceFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+</span><span id="__span-123-2"><a id="__codelineno-123-2" name="__codelineno-123-2" href="#__codelineno-123-2"></a>    <span class="s2">"scaled_l1"</span>
+</span><span id="__span-123-3"><a id="__codelineno-123-3" name="__codelineno-123-3" href="#__codelineno-123-3"></a><span class="p">)</span>
+</span><span id="__span-123-4"><a id="__codelineno-123-4" name="__codelineno-123-4" href="#__codelineno-123-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">ScaledL1Distance</span><span class="p">(</span>
+</span><span id="__span-123-5"><a id="__codelineno-123-5" name="__codelineno-123-5" href="#__codelineno-123-5"></a>    <span class="n">BaseDistance</span>
+</span><span id="__span-123-6"><a id="__codelineno-123-6" name="__codelineno-123-6" href="#__codelineno-123-6"></a><span class="p">):</span>
+</span><span id="__span-123-7"><a id="__codelineno-123-7" name="__codelineno-123-7" href="#__codelineno-123-7"></a>
+</span><span id="__span-123-8"><a id="__codelineno-123-8" name="__codelineno-123-8" href="#__codelineno-123-8"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="__span-123-9"><a id="__codelineno-123-9" name="__codelineno-123-9" href="#__codelineno-123-9"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-123-10"><a id="__codelineno-123-10" name="__codelineno-123-10" href="#__codelineno-123-10"></a>        <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+</span><span id="__span-123-11"><a id="__codelineno-123-11" name="__codelineno-123-11" href="#__codelineno-123-11"></a>    <span class="p">):</span>
+</span><span id="__span-123-12"><a id="__codelineno-123-12" name="__codelineno-123-12" href="#__codelineno-123-12"></a>        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="__span-123-13"><a id="__codelineno-123-13" name="__codelineno-123-13" href="#__codelineno-123-13"></a>            <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+</span><span id="__span-123-14"><a id="__codelineno-123-14" name="__codelineno-123-14" href="#__codelineno-123-14"></a>        <span class="p">)</span>
+</span><span id="__span-123-15"><a id="__codelineno-123-15" name="__codelineno-123-15" href="#__codelineno-123-15"></a>
+</span><span id="__span-123-16"><a id="__codelineno-123-16" name="__codelineno-123-16" href="#__codelineno-123-16"></a>    <span class="k">def</span><span class="w"> </span><span class="nf">matrix</span><span class="p">(</span>
+</span><span id="__span-123-17"><a id="__codelineno-123-17" name="__codelineno-123-17" href="#__codelineno-123-17"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-123-18"><a id="__codelineno-123-18" name="__codelineno-123-18" href="#__codelineno-123-18"></a>        <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-123-19"><a id="__codelineno-123-19" name="__codelineno-123-19" href="#__codelineno-123-19"></a>        <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-123-20"><a id="__codelineno-123-20" name="__codelineno-123-20" href="#__codelineno-123-20"></a>    <span class="p">):</span>
+</span><span id="__span-123-21"><a id="__codelineno-123-21" name="__codelineno-123-21" href="#__codelineno-123-21"></a>        <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+</span><span id="__span-123-22"><a id="__codelineno-123-22" name="__codelineno-123-22" href="#__codelineno-123-22"></a>        <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span><span id="__span-123-23"><a id="__codelineno-123-23" name="__codelineno-123-23" href="#__codelineno-123-23"></a>
+</span><span id="__span-123-24"><a id="__codelineno-123-24" name="__codelineno-123-24" href="#__codelineno-123-24"></a>        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span>
+</span><span id="__span-123-25"><a id="__codelineno-123-25" name="__codelineno-123-25" href="#__codelineno-123-25"></a>            <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
+</span><span id="__span-123-26"><a id="__codelineno-123-26" name="__codelineno-123-26" href="#__codelineno-123-26"></a>                <span class="n">x</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+</span><span id="__span-123-27"><a id="__codelineno-123-27" name="__codelineno-123-27" href="#__codelineno-123-27"></a>                <span class="o">-</span>
+</span><span id="__span-123-28"><a id="__codelineno-123-28" name="__codelineno-123-28" href="#__codelineno-123-28"></a>                <span class="n">y</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:]</span>
+</span><span id="__span-123-29"><a id="__codelineno-123-29" name="__codelineno-123-29" href="#__codelineno-123-29"></a>            <span class="p">),</span>
+</span><span id="__span-123-30"><a id="__codelineno-123-30" name="__codelineno-123-30" href="#__codelineno-123-30"></a>            <span class="n">axis</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-123-31"><a id="__codelineno-123-31" name="__codelineno-123-31" href="#__codelineno-123-31"></a>        <span class="p">)</span>
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-124-1"><a id="__codelineno-124-1" name="__codelineno-124-1" href="#__codelineno-124-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-124-2"><a id="__codelineno-124-2" name="__codelineno-124-2" href="#__codelineno-124-2"></a>    <span class="n">distance</span><span class="o">=</span><span class="s2">"scaled_l1"</span><span class="p">,</span>
+</span><span id="__span-124-3"><a id="__codelineno-124-3" name="__codelineno-124-3" href="#__codelineno-124-3"></a>    <span class="n">distance_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-124-4"><a id="__codelineno-124-4" name="__codelineno-124-4" href="#__codelineno-124-4"></a>        <span class="s2">"scale"</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>
+</span><span id="__span-124-5"><a id="__codelineno-124-5" name="__codelineno-124-5" href="#__codelineno-124-5"></a>    <span class="p">},</span>
+</span><span id="__span-124-6"><a id="__codelineno-124-6" name="__codelineno-124-6" href="#__codelineno-124-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>works through the normal factory path.</p>
+<hr />
+<h1 id="registering-aliases">Registering aliases</h1>
+<p>The factory supports multiple names:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-125-1"><a id="__codelineno-125-1" name="__codelineno-125-1" href="#__codelineno-125-1"></a><span class="nd">@DistanceFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+</span><span id="__span-125-2"><a id="__codelineno-125-2" name="__codelineno-125-2" href="#__codelineno-125-2"></a>    <span class="s2">"scaled_l1"</span><span class="p">,</span>
+</span><span id="__span-125-3"><a id="__codelineno-125-3" name="__codelineno-125-3" href="#__codelineno-125-3"></a>    <span class="s2">"my_l1"</span><span class="p">,</span>
+</span><span id="__span-125-4"><a id="__codelineno-125-4" name="__codelineno-125-4" href="#__codelineno-125-4"></a><span class="p">)</span>
+</span><span id="__span-125-5"><a id="__codelineno-125-5" name="__codelineno-125-5" href="#__codelineno-125-5"></a><span class="k">class</span><span class="w"> </span><span class="nc">ScaledL1Distance</span><span class="p">(</span>
+</span><span id="__span-125-6"><a id="__codelineno-125-6" name="__codelineno-125-6" href="#__codelineno-125-6"></a>    <span class="n">BaseDistance</span>
+</span><span id="__span-125-7"><a id="__codelineno-125-7" name="__codelineno-125-7" href="#__codelineno-125-7"></a><span class="p">):</span>
+</span><span id="__span-125-8"><a id="__codelineno-125-8" name="__codelineno-125-8" href="#__codelineno-125-8"></a>    <span class="o">...</span>
+</span></code></pre></div>
+<p>Both names resolve to the same class.</p>
+<hr />
+<h1 id="duplicate-registration">Duplicate registration</h1>
+<p>Because <code>DistanceFactory</code> inherits <code>BaseFactory</code>, duplicate normalized names are
+rejected.</p>
+<p>For example, registering both:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-126-1"><a id="__codelineno-126-1" name="__codelineno-126-1" href="#__codelineno-126-1"></a>MyMetric
+</span><span id="__span-126-2"><a id="__codelineno-126-2" name="__codelineno-126-2" href="#__codelineno-126-2"></a>mymetric
+</span></code></pre></div>
+<p>in the same call is considered a duplicate after normalization.</p>
+<p>Existing registry conflicts raise:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-127-1"><a id="__codelineno-127-1" name="__codelineno-127-1" href="#__codelineno-127-1"></a><span class="ne">KeyError</span>
+</span></code></pre></div>
+<hr />
+<h1 id="inspect-available-distances">Inspect available distances</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-128-1"><a id="__codelineno-128-1" name="__codelineno-128-1" href="#__codelineno-128-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.distances</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-128-2"><a id="__codelineno-128-2" name="__codelineno-128-2" href="#__codelineno-128-2"></a>    <span class="n">DistanceFactory</span><span class="p">,</span>
+</span><span id="__span-128-3"><a id="__codelineno-128-3" name="__codelineno-128-3" href="#__codelineno-128-3"></a><span class="p">)</span>
+</span><span id="__span-128-4"><a id="__codelineno-128-4" name="__codelineno-128-4" href="#__codelineno-128-4"></a>
+</span><span id="__span-128-5"><a id="__codelineno-128-5" name="__codelineno-128-5" href="#__codelineno-128-5"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-128-6"><a id="__codelineno-128-6" name="__codelineno-128-6" href="#__codelineno-128-6"></a>    <span class="n">DistanceFactory</span><span class="o">.</span><span class="n">available</span><span class="p">()</span>
+</span><span id="__span-128-7"><a id="__codelineno-128-7" name="__codelineno-128-7" href="#__codelineno-128-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The current built-ins include aliases, so the list should include names such
+as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-129-1"><a id="__codelineno-129-1" name="__codelineno-129-1" href="#__codelineno-129-1"></a>cosine
+</span><span id="__span-129-2"><a id="__codelineno-129-2" name="__codelineno-129-2" href="#__codelineno-129-2"></a>euclidean
+</span><span id="__span-129-3"><a id="__codelineno-129-3" name="__codelineno-129-3" href="#__codelineno-129-3"></a>hamming
+</span><span id="__span-129-4"><a id="__codelineno-129-4" name="__codelineno-129-4" href="#__codelineno-129-4"></a>l1
+</span><span id="__span-129-5"><a id="__codelineno-129-5" name="__codelineno-129-5" href="#__codelineno-129-5"></a>l2
+</span><span id="__span-129-6"><a id="__codelineno-129-6" name="__codelineno-129-6" href="#__codelineno-129-6"></a>lp
+</span><span id="__span-129-7"><a id="__codelineno-129-7" name="__codelineno-129-7" href="#__codelineno-129-7"></a>manhattan
+</span><span id="__span-129-8"><a id="__codelineno-129-8" name="__codelineno-129-8" href="#__codelineno-129-8"></a>minkowski
+</span></code></pre></div>
+<p>subject to normal module loading.</p>
+<hr />
+<h1 id="inspect-one-registration">Inspect one registration</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-130-1"><a id="__codelineno-130-1" name="__codelineno-130-1" href="#__codelineno-130-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-130-2"><a id="__codelineno-130-2" name="__codelineno-130-2" href="#__codelineno-130-2"></a>    <span class="n">DistanceFactory</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+</span><span id="__span-130-3"><a id="__codelineno-130-3" name="__codelineno-130-3" href="#__codelineno-130-3"></a>        <span class="s2">"euclidean"</span>
+</span><span id="__span-130-4"><a id="__codelineno-130-4" name="__codelineno-130-4" href="#__codelineno-130-4"></a>    <span class="p">)</span>
+</span><span id="__span-130-5"><a id="__codelineno-130-5" name="__codelineno-130-5" href="#__codelineno-130-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This uses the common factory metadata interface inherited from <code>BaseFactory</code>.</p>
+<hr />
+<h1 id="direct-comparison-example">Direct comparison example</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-131-1"><a id="__codelineno-131-1" name="__codelineno-131-1" href="#__codelineno-131-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-131-2"><a id="__codelineno-131-2" name="__codelineno-131-2" href="#__codelineno-131-2"></a>
+</span><span id="__span-131-3"><a id="__codelineno-131-3" name="__codelineno-131-3" href="#__codelineno-131-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.distances</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-131-4"><a id="__codelineno-131-4" name="__codelineno-131-4" href="#__codelineno-131-4"></a>    <span class="n">DistanceFactory</span><span class="p">,</span>
+</span><span id="__span-131-5"><a id="__codelineno-131-5" name="__codelineno-131-5" href="#__codelineno-131-5"></a><span class="p">)</span>
+</span><span id="__span-131-6"><a id="__codelineno-131-6" name="__codelineno-131-6" href="#__codelineno-131-6"></a>
+</span><span id="__span-131-7"><a id="__codelineno-131-7" name="__codelineno-131-7" href="#__codelineno-131-7"></a><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-131-8"><a id="__codelineno-131-8" name="__codelineno-131-8" href="#__codelineno-131-8"></a>    <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">],</span>
+</span><span id="__span-131-9"><a id="__codelineno-131-9" name="__codelineno-131-9" href="#__codelineno-131-9"></a>    <span class="p">[</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+</span><span id="__span-131-10"><a id="__codelineno-131-10" name="__codelineno-131-10" href="#__codelineno-131-10"></a><span class="p">])</span>
+</span><span id="__span-131-11"><a id="__codelineno-131-11" name="__codelineno-131-11" href="#__codelineno-131-11"></a>
+</span><span id="__span-131-12"><a id="__codelineno-131-12" name="__codelineno-131-12" href="#__codelineno-131-12"></a><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-131-13"><a id="__codelineno-131-13" name="__codelineno-131-13" href="#__codelineno-131-13"></a>    <span class="p">[</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span>
+</span><span id="__span-131-14"><a id="__codelineno-131-14" name="__codelineno-131-14" href="#__codelineno-131-14"></a><span class="p">])</span>
+</span><span id="__span-131-15"><a id="__codelineno-131-15" name="__codelineno-131-15" href="#__codelineno-131-15"></a>
+</span><span id="__span-131-16"><a id="__codelineno-131-16" name="__codelineno-131-16" href="#__codelineno-131-16"></a><span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span>
+</span><span id="__span-131-17"><a id="__codelineno-131-17" name="__codelineno-131-17" href="#__codelineno-131-17"></a>    <span class="s2">"euclidean"</span><span class="p">,</span>
+</span><span id="__span-131-18"><a id="__codelineno-131-18" name="__codelineno-131-18" href="#__codelineno-131-18"></a>    <span class="s2">"manhattan"</span><span class="p">,</span>
+</span><span id="__span-131-19"><a id="__codelineno-131-19" name="__codelineno-131-19" href="#__codelineno-131-19"></a>    <span class="s2">"minkowski"</span><span class="p">,</span>
+</span><span id="__span-131-20"><a id="__codelineno-131-20" name="__codelineno-131-20" href="#__codelineno-131-20"></a>    <span class="s2">"cosine"</span><span class="p">,</span>
+</span><span id="__span-131-21"><a id="__codelineno-131-21" name="__codelineno-131-21" href="#__codelineno-131-21"></a><span class="p">]:</span>
+</span><span id="__span-131-22"><a id="__codelineno-131-22" name="__codelineno-131-22" href="#__codelineno-131-22"></a>    <span class="n">distance</span> <span class="o">=</span> <span class="n">DistanceFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-131-23"><a id="__codelineno-131-23" name="__codelineno-131-23" href="#__codelineno-131-23"></a>        <span class="n">name</span>
+</span><span id="__span-131-24"><a id="__codelineno-131-24" name="__codelineno-131-24" href="#__codelineno-131-24"></a>    <span class="p">)</span>
+</span><span id="__span-131-25"><a id="__codelineno-131-25" name="__codelineno-131-25" href="#__codelineno-131-25"></a>
+</span><span id="__span-131-26"><a id="__codelineno-131-26" name="__codelineno-131-26" href="#__codelineno-131-26"></a>    <span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-131-27"><a id="__codelineno-131-27" name="__codelineno-131-27" href="#__codelineno-131-27"></a>        <span class="n">name</span><span class="p">,</span>
+</span><span id="__span-131-28"><a id="__codelineno-131-28" name="__codelineno-131-28" href="#__codelineno-131-28"></a>        <span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-131-29"><a id="__codelineno-131-29" name="__codelineno-131-29" href="#__codelineno-131-29"></a>            <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-131-30"><a id="__codelineno-131-30" name="__codelineno-131-30" href="#__codelineno-131-30"></a>            <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-131-31"><a id="__codelineno-131-31" name="__codelineno-131-31" href="#__codelineno-131-31"></a>        <span class="p">),</span>
+</span><span id="__span-131-32"><a id="__codelineno-131-32" name="__codelineno-131-32" href="#__codelineno-131-32"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>This compares the source implementations on the same coordinate
+representation.</p>
+<hr />
+<h1 id="hamming-example">Hamming example</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-132-1"><a id="__codelineno-132-1" name="__codelineno-132-1" href="#__codelineno-132-1"></a><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-132-2"><a id="__codelineno-132-2" name="__codelineno-132-2" href="#__codelineno-132-2"></a>    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span><span id="__span-132-3"><a id="__codelineno-132-3" name="__codelineno-132-3" href="#__codelineno-132-3"></a>    <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span><span id="__span-132-4"><a id="__codelineno-132-4" name="__codelineno-132-4" href="#__codelineno-132-4"></a><span class="p">])</span>
+</span><span id="__span-132-5"><a id="__codelineno-132-5" name="__codelineno-132-5" href="#__codelineno-132-5"></a>
+</span><span id="__span-132-6"><a id="__codelineno-132-6" name="__codelineno-132-6" href="#__codelineno-132-6"></a><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-132-7"><a id="__codelineno-132-7" name="__codelineno-132-7" href="#__codelineno-132-7"></a>    <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>
+</span><span id="__span-132-8"><a id="__codelineno-132-8" name="__codelineno-132-8" href="#__codelineno-132-8"></a><span class="p">])</span>
+</span><span id="__span-132-9"><a id="__codelineno-132-9" name="__codelineno-132-9" href="#__codelineno-132-9"></a>
+</span><span id="__span-132-10"><a id="__codelineno-132-10" name="__codelineno-132-10" href="#__codelineno-132-10"></a><span class="n">distance</span> <span class="o">=</span> <span class="n">DistanceFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-132-11"><a id="__codelineno-132-11" name="__codelineno-132-11" href="#__codelineno-132-11"></a>    <span class="s2">"hamming"</span>
+</span><span id="__span-132-12"><a id="__codelineno-132-12" name="__codelineno-132-12" href="#__codelineno-132-12"></a><span class="p">)</span>
+</span><span id="__span-132-13"><a id="__codelineno-132-13" name="__codelineno-132-13" href="#__codelineno-132-13"></a>
+</span><span id="__span-132-14"><a id="__codelineno-132-14" name="__codelineno-132-14" href="#__codelineno-132-14"></a><span class="n">D</span> <span class="o">=</span> <span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-132-15"><a id="__codelineno-132-15" name="__codelineno-132-15" href="#__codelineno-132-15"></a>    <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-132-16"><a id="__codelineno-132-16" name="__codelineno-132-16" href="#__codelineno-132-16"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-132-17"><a id="__codelineno-132-17" name="__codelineno-132-17" href="#__codelineno-132-17"></a><span class="p">)</span>
+</span><span id="__span-132-18"><a id="__codelineno-132-18" name="__codelineno-132-18" href="#__codelineno-132-18"></a>
+</span><span id="__span-132-19"><a id="__codelineno-132-19" name="__codelineno-132-19" href="#__codelineno-132-19"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-132-20"><a id="__codelineno-132-20" name="__codelineno-132-20" href="#__codelineno-132-20"></a>    <span class="n">D</span>
+</span><span id="__span-132-21"><a id="__codelineno-132-21" name="__codelineno-132-21" href="#__codelineno-132-21"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>For the first row, one of four coordinates differs:</p>
+<div class="arithmatex">\[
+d=\frac14.
+\]</div>
+<hr />
+<h1 id="choosing-a-distance">Choosing a distance</h1>
+<p>The source exposes different geometries rather than enforcing one globally.</p>
+<p>A source-aligned summary is:</p>
+<div class="grid cards">
+<ul>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m1.39 18.36 1.77-1.76L4.58 18l1.06-1.05-1.42-1.41 1.42-1.42 2.47 2.48 1.06-1.06-2.47-2.48 1.41-1.41 1.42 1.41L10.59 12l-1.42-1.41 1.42-1.42 2.47 2.48 1.06-1.06-2.47-2.48 1.41-1.41 1.41 1.41 1.07-1.06-1.42-1.41 1.42-1.42L18 6.7l1.07-1.06-2.47-2.48 1.76-1.77 4.25 4.25L5.64 22.61z"/></svg></span> <strong>Euclidean</strong></p>
+<hr />
+<p>Standard L2 geometry.</p>
+<p>Registry:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-133-1"><a id="__codelineno-133-1" name="__codelineno-133-1" href="#__codelineno-133-1"></a>euclidean
+</span><span id="__span-133-2"><a id="__codelineno-133-2" name="__codelineno-133-2" href="#__codelineno-133-2"></a>l2
+</span></code></pre></div>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m12 2 4 4h-3v7.85l6.53 3.76L21 15.03l1.5 5.47-5.5 1.46 1.53-2.61L12 15.58l-6.53 3.77L7 21.96 1.5 20.5 3 15.03l1.47 2.58L11 13.85V6H8z"/></svg></span> <strong>Manhattan</strong></p>
+<hr />
+<p>Coordinate-wise absolute differences.</p>
+<p>Registry:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-134-1"><a id="__codelineno-134-1" name="__codelineno-134-1" href="#__codelineno-134-1"></a>manhattan
+</span><span id="__span-134-2"><a id="__codelineno-134-2" name="__codelineno-134-2" href="#__codelineno-134-2"></a>l1
+</span></code></pre></div>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 13c-1.86 0-3.41 1.28-3.86 3H2v2h2.14c.45 1.72 2 3 3.86 3s3.41-1.28 3.86-3H22v-2H11.86c-.45-1.72-2-3-3.86-3m0 6c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2M19.86 6c-.45-1.72-2-3-3.86-3s-3.41 1.28-3.86 3H2v2h10.14c.45 1.72 2 3 3.86 3s3.41-1.28 3.86-3H22V6zM16 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2"/></svg></span> <strong>Minkowski</strong></p>
+<hr />
+<p>Generalized Lp distance with configurable:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-135-1"><a id="__codelineno-135-1" name="__codelineno-135-1" href="#__codelineno-135-1"></a>p
+</span></code></pre></div>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 19H4.09L14.18 4.43l1.64 1.14-4.54 6.56c1.61.83 2.72 2.49 2.72 4.41 0 .16 0 .31-.03.46H20zM7.91 17h4.05c.04-.15.04-.3.04-.46 0-1.26-.76-2.32-1.86-2.76z"/></svg></span> <strong>Cosine</strong></p>
+<hr />
+<p>Compares vector direction through angular dissimilarity.</p>
+</li>
+<li>
+<p><span class="twemoji lg middle"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 5h6v6H3zm2 2v2h2V7zm6 0h10v2H11zm0 8h10v2H11zm-6 5-3.5-3.5 1.41-1.41L5 17.17l4.59-4.58L11 14z"/></svg></span> <strong>Hamming</strong></p>
+<hr />
+<p>Counts normalized coordinate mismatches.</p>
+<p>Used by default in <code>CombinedClassifier</code>.</p>
+</li>
+</ul>
+</div>
+<hr />
+<h1 id="debugging-distance-configuration">Debugging distance configuration</h1>
+<h2 id="check-the-configured-name">Check the configured name</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-136-1"><a id="__codelineno-136-1" name="__codelineno-136-1" href="#__codelineno-136-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-136-2"><a id="__codelineno-136-2" name="__codelineno-136-2" href="#__codelineno-136-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">distance</span>
+</span><span id="__span-136-3"><a id="__codelineno-136-3" name="__codelineno-136-3" href="#__codelineno-136-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="check-parameters">Check parameters</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-137-1"><a id="__codelineno-137-1" name="__codelineno-137-1" href="#__codelineno-137-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-137-2"><a id="__codelineno-137-2" name="__codelineno-137-2" href="#__codelineno-137-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">distance_params</span>
+</span><span id="__span-137-3"><a id="__codelineno-137-3" name="__codelineno-137-3" href="#__codelineno-137-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="check-the-resolved-object">Check the resolved object</h2>
+<p>After fitting:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-138-1"><a id="__codelineno-138-1" name="__codelineno-138-1" href="#__codelineno-138-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-138-2"><a id="__codelineno-138-2" name="__codelineno-138-2" href="#__codelineno-138-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">distance_</span>
+</span><span id="__span-138-3"><a id="__codelineno-138-3" name="__codelineno-138-3" href="#__codelineno-138-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="check-effective-parameters">Check effective parameters</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-139-1"><a id="__codelineno-139-1" name="__codelineno-139-1" href="#__codelineno-139-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-139-2"><a id="__codelineno-139-2" name="__codelineno-139-2" href="#__codelineno-139-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">get_params</span><span class="p">()</span>
+</span><span id="__span-139-3"><a id="__codelineno-139-3" name="__codelineno-139-3" href="#__codelineno-139-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="check-matrix-shape">Check matrix shape</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-140-1"><a id="__codelineno-140-1" name="__codelineno-140-1" href="#__codelineno-140-1"></a><span class="n">D</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-140-2"><a id="__codelineno-140-2" name="__codelineno-140-2" href="#__codelineno-140-2"></a>    <span class="n">A</span><span class="p">,</span>
+</span><span id="__span-140-3"><a id="__codelineno-140-3" name="__codelineno-140-3" href="#__codelineno-140-3"></a>    <span class="n">B</span><span class="p">,</span>
+</span><span id="__span-140-4"><a id="__codelineno-140-4" name="__codelineno-140-4" href="#__codelineno-140-4"></a><span class="p">)</span>
+</span><span id="__span-140-5"><a id="__codelineno-140-5" name="__codelineno-140-5" href="#__codelineno-140-5"></a>
+</span><span id="__span-140-6"><a id="__codelineno-140-6" name="__codelineno-140-6" href="#__codelineno-140-6"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-140-7"><a id="__codelineno-140-7" name="__codelineno-140-7" href="#__codelineno-140-7"></a>    <span class="n">D</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-140-8"><a id="__codelineno-140-8" name="__codelineno-140-8" href="#__codelineno-140-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Expected:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-141-1"><a id="__codelineno-141-1" name="__codelineno-141-1" href="#__codelineno-141-1"></a>(A.shape[0], B.shape[0])
+</span></code></pre></div>
+<hr />
+<h2 id="check-symmetry-carefully">Check symmetry carefully</h2>
+<p>A metric such as Euclidean satisfies:</p>
+<div class="arithmatex">\[
+d(x,y)=d(y,x).
+\]</div>
+<p>But the returned matrices:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-142-1"><a id="__codelineno-142-1" name="__codelineno-142-1" href="#__codelineno-142-1"></a><span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-142-2"><a id="__codelineno-142-2" name="__codelineno-142-2" href="#__codelineno-142-2"></a>    <span class="n">A</span><span class="p">,</span>
+</span><span id="__span-142-3"><a id="__codelineno-142-3" name="__codelineno-142-3" href="#__codelineno-142-3"></a>    <span class="n">B</span><span class="p">,</span>
+</span><span id="__span-142-4"><a id="__codelineno-142-4" name="__codelineno-142-4" href="#__codelineno-142-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-143-1"><a id="__codelineno-143-1" name="__codelineno-143-1" href="#__codelineno-143-1"></a><span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-143-2"><a id="__codelineno-143-2" name="__codelineno-143-2" href="#__codelineno-143-2"></a>    <span class="n">B</span><span class="p">,</span>
+</span><span id="__span-143-3"><a id="__codelineno-143-3" name="__codelineno-143-3" href="#__codelineno-143-3"></a>    <span class="n">A</span><span class="p">,</span>
+</span><span id="__span-143-4"><a id="__codelineno-143-4" name="__codelineno-143-4" href="#__codelineno-143-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>have transposed shapes.</p>
+<p>To compare them:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-144-1"><a id="__codelineno-144-1" name="__codelineno-144-1" href="#__codelineno-144-1"></a><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+</span><span id="__span-144-2"><a id="__codelineno-144-2" name="__codelineno-144-2" href="#__codelineno-144-2"></a>    <span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-144-3"><a id="__codelineno-144-3" name="__codelineno-144-3" href="#__codelineno-144-3"></a>        <span class="n">A</span><span class="p">,</span>
+</span><span id="__span-144-4"><a id="__codelineno-144-4" name="__codelineno-144-4" href="#__codelineno-144-4"></a>        <span class="n">B</span><span class="p">,</span>
+</span><span id="__span-144-5"><a id="__codelineno-144-5" name="__codelineno-144-5" href="#__codelineno-144-5"></a>    <span class="p">),</span>
+</span><span id="__span-144-6"><a id="__codelineno-144-6" name="__codelineno-144-6" href="#__codelineno-144-6"></a>    <span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-144-7"><a id="__codelineno-144-7" name="__codelineno-144-7" href="#__codelineno-144-7"></a>        <span class="n">B</span><span class="p">,</span>
+</span><span id="__span-144-8"><a id="__codelineno-144-8" name="__codelineno-144-8" href="#__codelineno-144-8"></a>        <span class="n">A</span><span class="p">,</span>
+</span><span id="__span-144-9"><a id="__codelineno-144-9" name="__codelineno-144-9" href="#__codelineno-144-9"></a>    <span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="p">,</span>
+</span><span id="__span-144-10"><a id="__codelineno-144-10" name="__codelineno-144-10" href="#__codelineno-144-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="current-implementation-summary">Current implementation summary</h1>
+<table>
+<thead>
+<tr>
+<th>Distance</th>
+<th>Formula</th>
+<th>Constructor parameter</th>
+<th>Implementation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Euclidean</td>
+<td><span class="arithmatex">\(\sqrt{\sum (x-y)^2}\)</span></td>
+<td>none</td>
+<td>vectorized dot-product identity</td>
+</tr>
+<tr>
+<td>Manhattan</td>
+<td>(\sum</td>
+<td>x-y</td>
+<td>)</td>
+</tr>
+<tr>
+<td>Minkowski</td>
+<td>((\sum</td>
+<td>x-y</td>
+<td>^p)^{1/p})</td>
+</tr>
+<tr>
+<td>Cosine</td>
+<td><span class="arithmatex">\(1-\frac{x^\top y}{\|x\|\|y\|}\)</span></td>
+<td>none</td>
+<td>vectorized norms/dot products</td>
+</tr>
+<tr>
+<td>Hamming</td>
+<td>mean coordinate mismatch</td>
+<td>none</td>
+<td>Numba, NumPy fallback</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="quick-reference">Quick reference</h1>
+<table>
+<thead>
+<tr>
+<th>Registry</th>
+<th>Alias</th>
+<th>Typical current use</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>euclidean</code></td>
+<td><code>l2</code></td>
+<td>default GradientCOBRA / MixCOBRA</td>
+</tr>
+<tr>
+<td><code>manhattan</code></td>
+<td><code>l1</code></td>
+<td>alternative L1 geometry</td>
+</tr>
+<tr>
+<td><code>minkowski</code></td>
+<td><code>lp</code></td>
+<td>configurable Lp geometry</td>
+</tr>
+<tr>
+<td><code>cosine</code></td>
+<td>—</td>
+<td>angular comparison</td>
+</tr>
+<tr>
+<td><code>hamming</code></td>
+<td>—</td>
+<td>default CombinedClassifier prediction-space comparison</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="mental-model">Mental model</h1>
+<div class="admonition quote">
+<p><strong>The distance layer decides what “nearby” means before the kernel turns
+that geometry into aggregation weights.</strong></p>
+</div>
+<div class="arithmatex">\[
+\boxed{
+\text{representation}
+\rightarrow
+d(x,y)
+\rightarrow
+\text{distance matrix}
+\rightarrow
+\text{kernel}
+\rightarrow
+\text{aggregation}
+}
+\]</div>
+<p>Distance selection changes the geometry of the COBRA neighborhood, while the
+kernel and optimizer determine how that geometry is converted into prediction
+weights.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../data-splitting/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Data Splitting">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Data Splitting
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../kernels/" class="md-footer__link md-footer__link--next" aria-label="Next: Kernels">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Kernels
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.path", "navigation.top", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,3861 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the KFC Procedure machine learning library">
+      
+      
+        <meta name="author" content="KFC Procedure Contributors">
+      
+      
+      
+        <link rel="prev" href="../../consensus/majority-vote/">
+      
+      
+        <link rel="next" href="../data-splitting/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Prediction Space - KFC Procedure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#prediction-space" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="KFC Procedure" class="md-header__button md-logo" aria-label="KFC Procedure" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KFC Procedure
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Prediction Space
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../getting-started/installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="KFC Procedure" class="md-nav__button md-logo" aria-label="KFC Procedure" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    KFC Procedure
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../getting-started/concepts/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/kfc-procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/combined-classifier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CombinedClassifier
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/mixcobra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MixCOBRA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/gradientcobra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GradientCOBRA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    KFC Procedure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/fitting-kfc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fitting KFC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-k-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure K-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-f-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure F-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-c-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure C-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/inspecting-fitted-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspect Fitted Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clustering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clustering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clustering/bregman-divergences/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bregman Divergences
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estimators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Estimators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/base-estimators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base Estimators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/estimator-parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estimator Parameters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/custom-estimators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Estimators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consensus
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Consensus
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/regression-combiners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regression Combiners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/classification-combiners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Classification Combiners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/stacking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stacking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/weighted-mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Weighted Mean
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/majority-vote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Majority Vote
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    COBRA Components
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    COBRA Components
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prediction Space
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prediction Space
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-prediction-space-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why prediction space exists
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#construction-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Construction pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-splitting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Splitting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distances/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distances
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aggregators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aggregators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cross-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../losses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loss Functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gradient-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gradient Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/precomputed-predictions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Precomputed Predictions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/custom-aggregation-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Aggregation Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/parallel-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parallel Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/reproducibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/extending-kfc-procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extending KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../reference/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#why-prediction-space-exists" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Why prediction space exists
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#construction-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Construction pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="./" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    COBRA Components
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="prediction-space">Prediction Space</h1>
+<p>COBRA-style estimators in <code>kfc_procedure</code> do not have to compare observations
+only in the original feature space.</p>
+<p>They can first transform each observation into a vector of predictions produced
+by an ensemble of base estimators:</p>
+<div class="arithmatex">\[
+x
+\longmapsto
+\bigl(
+f_1(x),
+f_2(x),
+\ldots,
+f_M(x)
+\bigr).
+\]</div>
+<p>The resulting matrix is the <strong>prediction space</strong>.</p>
+<p>In the current source, prediction-space construction is shared by:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>GradientCOBRA
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>MixCOBRARegressor
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>CombinedClassifier
+</span></code></pre></div>
+<p>through utilities in:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kfc_procedure/cobra/utils/resolve.py
+</span></code></pre></div>
+<p>especially:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">fit_estimators</span><span class="p">()</span>
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="n">predict_estimators</span><span class="p">()</span>
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="n">resolve_training_context</span><span class="p">()</span>
+</span></code></pre></div>
+<hr />
+<h2 id="why-prediction-space-exists">Why prediction space exists</h2>
+<p>Suppose the original feature matrix is:</p>
+<div class="arithmatex">\[
+X
+\in
+\mathbb{R}^{n\times d}.
+\]</div>
+<p>After fitting <span class="arithmatex">\(M\)</span> base estimators, the package constructs:</p>
+<div class="arithmatex">\[
+P
+=
+\begin{bmatrix}
+f_1(x_1) &amp; f_2(x_1) &amp; \cdots &amp; f_M(x_1) \\
+f_1(x_2) &amp; f_2(x_2) &amp; \cdots &amp; f_M(x_2) \\
+\vdots &amp; \vdots &amp; &amp; \vdots \\
+f_1(x_n) &amp; f_2(x_n) &amp; \cdots &amp; f_M(x_n)
+\end{bmatrix}.
+\]</div>
+<p>Therefore:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>original space:
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    (n_samples, n_features)
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>prediction space:
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    (n_samples, n_estimators)
+</span></code></pre></div>
+<p>The prediction-space columns are estimator outputs rather than original input
+features.</p>
+<hr />
+<h2 id="construction-pipeline">Construction pipeline</h2>
+<pre class="mermaid"><code>flowchart LR
+    X["Original X"]
+    E1["Estimator 1"]
+    E2["Estimator 2"]
+    EM["Estimator M"]
+    P["Prediction-space matrix P"]
+
+    X --&gt; E1
+    X --&gt; E2
+    X --&gt; EM
+
+    E1 --&gt; P
+    E2 --&gt; P
+    EM --&gt; P</code></pre>
+<p>The package implements this through:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">predict_estimators</span><span class="p">(</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="n">estimators</span><span class="p">,</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="n">n_jobs</span><span class="o">=...</span><span class="p">,</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>which collects:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">est</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span></code></pre></div>
+<p>from every fitted estimator and returns:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="prediction-space-shape">Prediction-space shape</h1>
+<p>If there are:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a>n
+</span></code></pre></div>
+<p>samples and:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a>M
+</span></code></pre></div>
+<p>base estimators, then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">prediction_space</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">n</span><span class="p">,</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">M</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">predictions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="p">[</span><span class="mf">10.2</span><span class="p">,</span> <span class="mf">10.5</span><span class="p">,</span>  <span class="mf">9.9</span><span class="p">],</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a>    <span class="p">[</span><span class="mf">18.1</span><span class="p">,</span> <span class="mf">17.8</span><span class="p">,</span> <span class="mf">18.4</span><span class="p">],</span>
+</span><span id="__span-10-4"><a id="__codelineno-10-4" name="__codelineno-10-4" href="#__codelineno-10-4"></a>    <span class="p">[</span><span class="mf">24.0</span><span class="p">,</span> <span class="mf">24.3</span><span class="p">,</span> <span class="mf">23.7</span><span class="p">],</span>
+</span><span id="__span-10-5"><a id="__codelineno-10-5" name="__codelineno-10-5" href="#__codelineno-10-5"></a><span class="p">])</span>
+</span></code></pre></div>
+<p>has:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>3 samples
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>3 estimator predictions per sample
+</span></code></pre></div>
+<hr />
+<h1 id="regression-prediction-space">Regression prediction space</h1>
+<p>For regression, each column normally contains a continuous prediction.</p>
+<p>Example:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>             ridge     lasso      svr
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>sample 1      12.4      12.1      12.8
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>sample 2      20.7      20.4      21.0
+</span><span id="__span-12-4"><a id="__codelineno-12-4" name="__codelineno-12-4" href="#__codelineno-12-4"></a>sample 3       8.3       8.5       8.1
+</span></code></pre></div>
+<p><code>GradientCOBRA</code> and <code>MixCOBRARegressor</code> use these prediction vectors when
+computing similarity.</p>
+<hr />
+<h1 id="classification-prediction-space">Classification prediction space</h1>
+<p>For classification, <code>CombinedClassifier</code> uses <strong>hard class predictions</strong> from
+its base estimators.</p>
+<p><code>predict_estimators()</code> calls:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">est</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span></code></pre></div>
+<p>not:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">est</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span></code></pre></div>
+<p>So a prediction-space row might be:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>[0, 0, 1, 0]
+</span></code></pre></div>
+<p>rather than a concatenation of class-probability vectors.</p>
+<p>This distinction is important when choosing a distance such as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>hamming
+</span></code></pre></div>
+<p>for classification.</p>
+<hr />
+<h1 id="base-estimator-fitting">Base-estimator fitting</h1>
+<p>The shared helper:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">fit_estimators</span><span class="p">()</span>
+</span></code></pre></div>
+<p>supports estimator specifications as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>string names
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>(name, params) tuples
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>pre-instantiated estimator objects
+</span></code></pre></div>
+<p>For each estimator it eventually calls:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and returns the fitted estimator list.</p>
+<p>Prediction space is then created by calling each fitted estimator's
+<code>predict()</code> method.</p>
+<hr />
+<h1 id="standard-training-mode">Standard training mode</h1>
+<p>The normal COBRA workflow starts from raw features.</p>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra</span><span class="w"> </span><span class="kn">import</span> <span class="n">GradientCOBRA</span>
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-20-5"><a id="__codelineno-20-5" name="__codelineno-20-5" href="#__codelineno-20-5"></a><span class="p">)</span>
+</span><span id="__span-20-6"><a id="__codelineno-20-6" name="__codelineno-20-6" href="#__codelineno-20-6"></a>
+</span><span id="__span-20-7"><a id="__codelineno-20-7" name="__codelineno-20-7" href="#__codelineno-20-7"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-20-8"><a id="__codelineno-20-8" name="__codelineno-20-8" href="#__codelineno-20-8"></a>    <span class="n">X_train</span><span class="p">,</span>
+</span><span id="__span-20-9"><a id="__codelineno-20-9" name="__codelineno-20-9" href="#__codelineno-20-9"></a>    <span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-20-10"><a id="__codelineno-20-10" name="__codelineno-20-10" href="#__codelineno-20-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>With:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">False</span>
+</span></code></pre></div>
+<p>the training context contains two roles:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>X_k, y_k
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>    used to fit base estimators
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>X_l, y_l
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>    used to construct the aggregation / calibration prediction space
+</span></code></pre></div>
+<hr />
+<h2 id="automatic-split">Automatic split</h2>
+<p>When you do not provide <code>X_l</code> and <code>y_l</code>, the shared
+<code>resolve_training_context()</code> function creates a splitter:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">SplitterFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>    <span class="s2">"split_overlap"</span><span class="p">,</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>    <span class="n">split_ratio</span><span class="o">=</span><span class="n">split_ratio</span><span class="p">,</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>    <span class="n">overlap</span><span class="o">=</span><span class="n">overlap</span><span class="p">,</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>    <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The returned indices are then used to build:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">X_k</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a><span class="n">y_k</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="n">X_l</span>
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a><span class="n">y_l</span>
+</span></code></pre></div>
+<hr />
+<h2 id="explicit-calibration-data">Explicit calibration data</h2>
+<p>You can also provide:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="n">X_l</span>
+</span><span id="__span-25-2"><a id="__codelineno-25-2" name="__codelineno-25-2" href="#__codelineno-25-2"></a><span class="n">y_l</span>
+</span></code></pre></div>
+<p>explicitly.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>    <span class="n">X_k</span><span class="p">,</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>    <span class="n">y_k</span><span class="p">,</span>
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>    <span class="n">X_l</span><span class="o">=</span><span class="n">X_l</span><span class="p">,</span>
+</span><span id="__span-26-5"><a id="__codelineno-26-5" name="__codelineno-26-5" href="#__codelineno-26-5"></a>    <span class="n">y_l</span><span class="o">=</span><span class="n">y_l</span><span class="p">,</span>
+</span><span id="__span-26-6"><a id="__codelineno-26-6" name="__codelineno-26-6" href="#__codelineno-26-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The helper requires both to be present together.</p>
+<p>Providing only one raises:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a>Both 'X_l' and 'y_l' must be provided together.
+</span></code></pre></div>
+<hr />
+<h1 id="as_predictionstrue"><code>as_predictions=True</code></h1>
+<p>All three major COBRA estimators expose an <code>as_predictions</code> fit mode.</p>
+<p>This tells the training-context resolver that the supplied <code>X</code> is already a
+prediction matrix.</p>
+<p>For:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>    <span class="n">P</span><span class="p">,</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>    <span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>the current resolver returns:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="n">TrainingContext</span><span class="p">(</span>
+</span><span id="__span-29-2"><a id="__codelineno-29-2" name="__codelineno-29-2" href="#__codelineno-29-2"></a>    <span class="n">X_k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-29-3"><a id="__codelineno-29-3" name="__codelineno-29-3" href="#__codelineno-29-3"></a>    <span class="n">y_k</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-29-4"><a id="__codelineno-29-4" name="__codelineno-29-4" href="#__codelineno-29-4"></a>    <span class="n">X_l</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">P</span><span class="p">),</span>
+</span><span id="__span-29-5"><a id="__codelineno-29-5" name="__codelineno-29-5" href="#__codelineno-29-5"></a>    <span class="n">y_l</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+</span><span id="__span-29-6"><a id="__codelineno-29-6" name="__codelineno-29-6" href="#__codelineno-29-6"></a>    <span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-29-7"><a id="__codelineno-29-7" name="__codelineno-29-7" href="#__codelineno-29-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>No raw-feature training subset is created.</p>
+<hr />
+<h2 id="what-this-means">What this means</h2>
+<p>In prediction mode:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>X argument
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>    ↓
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>treated directly as prediction-space matrix
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>    ↓
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a>stored as X_l_
+</span></code></pre></div>
+<p>and base-estimator fitting is skipped by the estimators that honor this mode.</p>
+<p>This is the mechanism used by the KFC C-Step wrappers when they pass the F-Step
+prediction matrix into COBRA components.</p>
+<hr />
+<h1 id="gradientcobra-prediction-mode">GradientCOBRA prediction mode</h1>
+<p><code>GradientCOBRA.fit()</code> contains:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_predictions_</span><span class="p">:</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_estimators</span><span class="p">(</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">X_k_</span><span class="p">,</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_k_</span><span class="p">,</span>
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>    <span class="p">)</span>
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>
+</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>    <span class="n">prediction_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_predictions</span><span class="p">(</span>
+</span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">X_l_</span><span class="p">,</span>
+</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a>    <span class="p">)</span>
+</span><span id="__span-31-10"><a id="__codelineno-31-10" name="__codelineno-31-10" href="#__codelineno-31-10"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="__span-31-11"><a id="__codelineno-31-11" name="__codelineno-31-11" href="#__codelineno-31-11"></a>    <span class="n">prediction_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_l_</span>
+</span></code></pre></div>
+<p>So when:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>the supplied matrix is used directly as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a>prediction_space
+</span></code></pre></div>
+<p>and no internal base estimators are trained.</p>
+<hr />
+<h2 id="gradientcobra-stored-representation">GradientCOBRA stored representation</h2>
+<p>After constructing or accepting prediction space, GradientCOBRA computes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">normalize_constant_</span>
+</span></code></pre></div>
+<p>and stores the normalized prediction matrix:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>    <span class="n">prediction_space</span>
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize_constant_</span>
+</span><span id="__span-35-4"><a id="__codelineno-35-4" name="__codelineno-35-4" href="#__codelineno-35-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>It then computes the pairwise calibration distance matrix:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span><span class="p">,</span>
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span><span class="p">,</span>
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>So for GradientCOBRA:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>prediction matrix
+</span><span id="__span-37-2"><a id="__codelineno-37-2" name="__codelineno-37-2" href="#__codelineno-37-2"></a>    ↓
+</span><span id="__span-37-3"><a id="__codelineno-37-3" name="__codelineno-37-3" href="#__codelineno-37-3"></a>scalar normalization
+</span><span id="__span-37-4"><a id="__codelineno-37-4" name="__codelineno-37-4" href="#__codelineno-37-4"></a>    ↓
+</span><span id="__span-37-5"><a id="__codelineno-37-5" name="__codelineno-37-5" href="#__codelineno-37-5"></a>prediction-space distance matrix
+</span><span id="__span-37-6"><a id="__codelineno-37-6" name="__codelineno-37-6" href="#__codelineno-37-6"></a>    ↓
+</span><span id="__span-37-7"><a id="__codelineno-37-7" name="__codelineno-37-7" href="#__codelineno-37-7"></a>kernel
+</span><span id="__span-37-8"><a id="__codelineno-37-8" name="__codelineno-37-8" href="#__codelineno-37-8"></a>    ↓
+</span><span id="__span-37-9"><a id="__codelineno-37-9" name="__codelineno-37-9" href="#__codelineno-37-9"></a>weighted target aggregation
+</span></code></pre></div>
+<hr />
+<h1 id="gradientcobra-normalization">GradientCOBRA normalization</h1>
+<p>The helper:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="n">compute_normalization_constant</span><span class="p">()</span>
+</span></code></pre></div>
+<p>uses:</p>
+<div class="arithmatex">\[
+c
+=
+\frac{s}
+{\max |y| \, M},
+\]</div>
+<p>where:</p>
+<ul>
+<li><span class="arithmatex">\(M\)</span> is the number of prediction columns;</li>
+<li><code>s</code> is the scale numerator.</li>
+</ul>
+<p>GradientCOBRA calls it with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="n">scale_factor</span><span class="o">=</span><span class="mf">30.0</span>
+</span></code></pre></div>
+<p>unless:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="n">norm_constant</span>
+</span></code></pre></div>
+<p>is supplied.</p>
+<p>Then:</p>
+<div class="arithmatex">\[
+P_{\text{norm}}
+=
+cP.
+\]</div>
+<hr />
+<h2 id="stored-gradientcobra-attributes">Stored GradientCOBRA attributes</h2>
+<p>Useful fitted attributes include:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>X_k_
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>y_k_
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>X_l_
+</span><span id="__span-41-4"><a id="__codelineno-41-4" name="__codelineno-41-4" href="#__codelineno-41-4"></a>y_l_
+</span><span id="__span-41-5"><a id="__codelineno-41-5" name="__codelineno-41-5" href="#__codelineno-41-5"></a>as_predictions_
+</span><span id="__span-41-6"><a id="__codelineno-41-6" name="__codelineno-41-6" href="#__codelineno-41-6"></a>estimators_
+</span><span id="__span-41-7"><a id="__codelineno-41-7" name="__codelineno-41-7" href="#__codelineno-41-7"></a>normalize_constant_
+</span><span id="__span-41-8"><a id="__codelineno-41-8" name="__codelineno-41-8" href="#__codelineno-41-8"></a>Y_l_norm_
+</span><span id="__span-41-9"><a id="__codelineno-41-9" name="__codelineno-41-9" href="#__codelineno-41-9"></a>distance_matrix_
+</span><span id="__span-41-10"><a id="__codelineno-41-10" name="__codelineno-41-10" href="#__codelineno-41-10"></a>cv_folds_
+</span><span id="__span-41-11"><a id="__codelineno-41-11" name="__codelineno-41-11" href="#__codelineno-41-11"></a>bandwidth_
+</span><span id="__span-41-12"><a id="__codelineno-41-12" name="__codelineno-41-12" href="#__codelineno-41-12"></a>optimization_outputs_
+</span><span id="__span-41-13"><a id="__codelineno-41-13" name="__codelineno-41-13" href="#__codelineno-41-13"></a>global_mean_
+</span></code></pre></div>
+<p>When:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>the source does not create:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="n">estimators_</span>
+</span></code></pre></div>
+<p>because the base-estimator fit branch is skipped.</p>
+<hr />
+<h1 id="gradientcobra-prediction">GradientCOBRA prediction</h1>
+<p>At prediction time:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_predictions_</span><span class="p">:</span>
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>    <span class="n">prediction_space</span> <span class="o">=</span> <span class="n">X</span>
+</span><span id="__span-44-3"><a id="__codelineno-44-3" name="__codelineno-44-3" href="#__codelineno-44-3"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="__span-44-4"><a id="__codelineno-44-4" name="__codelineno-44-4" href="#__codelineno-44-4"></a>    <span class="n">prediction_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_predictions</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span></code></pre></div>
+<p>So prediction mode is internally consistent for GradientCOBRA:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>    <span class="n">P_train</span><span class="p">,</span>
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a>    <span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>    <span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="p">)</span>
+</span><span id="__span-45-6"><a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a>
+</span><span id="__span-45-7"><a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+</span><span id="__span-45-8"><a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a>    <span class="n">P_test</span>
+</span><span id="__span-45-9"><a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Here <code>P_test</code> is treated directly as new prediction-space data.</p>
+<hr />
+<h1 id="combinedclassifier-prediction-mode">CombinedClassifier prediction mode</h1>
+<p><code>CombinedClassifier.fit()</code> has a parallel branch:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_predictions_</span><span class="p">:</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_k_</span>
+</span><span id="__span-46-4"><a id="__codelineno-46-4" name="__codelineno-46-4" href="#__codelineno-46-4"></a>    <span class="p">)</span>
+</span><span id="__span-46-5"><a id="__codelineno-46-5" name="__codelineno-46-5" href="#__codelineno-46-5"></a>
+</span><span id="__span-46-6"><a id="__codelineno-46-6" name="__codelineno-46-6" href="#__codelineno-46-6"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_estimators</span><span class="p">(</span>
+</span><span id="__span-46-7"><a id="__codelineno-46-7" name="__codelineno-46-7" href="#__codelineno-46-7"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">X_k_</span><span class="p">,</span>
+</span><span id="__span-46-8"><a id="__codelineno-46-8" name="__codelineno-46-8" href="#__codelineno-46-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_k_</span><span class="p">,</span>
+</span><span id="__span-46-9"><a id="__codelineno-46-9" name="__codelineno-46-9" href="#__codelineno-46-9"></a>    <span class="p">)</span>
+</span><span id="__span-46-10"><a id="__codelineno-46-10" name="__codelineno-46-10" href="#__codelineno-46-10"></a>
+</span><span id="__span-46-11"><a id="__codelineno-46-11" name="__codelineno-46-11" href="#__codelineno-46-11"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">pred_l_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_predictions</span><span class="p">(</span>
+</span><span id="__span-46-12"><a id="__codelineno-46-12" name="__codelineno-46-12" href="#__codelineno-46-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">X_l_</span>
+</span><span id="__span-46-13"><a id="__codelineno-46-13" name="__codelineno-46-13" href="#__codelineno-46-13"></a>    <span class="p">)</span>
+</span><span id="__span-46-14"><a id="__codelineno-46-14" name="__codelineno-46-14" href="#__codelineno-46-14"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="__span-46-15"><a id="__codelineno-46-15" name="__codelineno-46-15" href="#__codelineno-46-15"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">classes_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+</span><span id="__span-46-16"><a id="__codelineno-46-16" name="__codelineno-46-16" href="#__codelineno-46-16"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_l_</span>
+</span><span id="__span-46-17"><a id="__codelineno-46-17" name="__codelineno-46-17" href="#__codelineno-46-17"></a>    <span class="p">)</span>
+</span><span id="__span-46-18"><a id="__codelineno-46-18" name="__codelineno-46-18" href="#__codelineno-46-18"></a>
+</span><span id="__span-46-19"><a id="__codelineno-46-19" name="__codelineno-46-19" href="#__codelineno-46-19"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">pred_l_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_l_</span>
+</span></code></pre></div>
+<p>Thus:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>uses the supplied matrix directly as:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="n">pred_l_</span>
+</span></code></pre></div>
+<hr />
+<h2 id="combinedclassifier-distance-matrix">CombinedClassifier distance matrix</h2>
+<p>The fitted calibration prediction matrix is compared with itself:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix_</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pred_l_</span><span class="p">,</span>
+</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">pred_l_</span><span class="p">,</span>
+</span><span id="__span-49-5"><a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a>    <span class="p">)</span>
+</span><span id="__span-49-6"><a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The default classification distance is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>hamming
+</span></code></pre></div>
+<p>which is a natural fit for vectors of hard class predictions.</p>
+<hr />
+<h1 id="combinedclassifier-prediction">CombinedClassifier prediction</h1>
+<p>At prediction time:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_predictions_</span><span class="p">:</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>    <span class="n">preds_space</span> <span class="o">=</span> <span class="n">X</span>
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a>    <span class="n">preds_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_predictions</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="n">distance_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>    <span class="n">preds_space</span><span class="p">,</span>
+</span><span id="__span-52-3"><a id="__codelineno-52-3" name="__codelineno-52-3" href="#__codelineno-52-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">pred_l_</span><span class="p">,</span>
+</span><span id="__span-52-4"><a id="__codelineno-52-4" name="__codelineno-52-4" href="#__codelineno-52-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>So prediction mode is also internally consistent for
+<code>CombinedClassifier</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-53-2"><a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>    <span class="n">P_train</span><span class="p">,</span>
+</span><span id="__span-53-3"><a id="__codelineno-53-3" name="__codelineno-53-3" href="#__codelineno-53-3"></a>    <span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-53-4"><a id="__codelineno-53-4" name="__codelineno-53-4" href="#__codelineno-53-4"></a>    <span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-53-5"><a id="__codelineno-53-5" name="__codelineno-53-5" href="#__codelineno-53-5"></a><span class="p">)</span>
+</span><span id="__span-53-6"><a id="__codelineno-53-6" name="__codelineno-53-6" href="#__codelineno-53-6"></a>
+</span><span id="__span-53-7"><a id="__codelineno-53-7" name="__codelineno-53-7" href="#__codelineno-53-7"></a><span class="n">labels</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+</span><span id="__span-53-8"><a id="__codelineno-53-8" name="__codelineno-53-8" href="#__codelineno-53-8"></a>    <span class="n">P_test</span>
+</span><span id="__span-53-9"><a id="__codelineno-53-9" name="__codelineno-53-9" href="#__codelineno-53-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="kfc-and-prediction-space">KFC and prediction space</h1>
+<p>The KFC Procedure constructs its own prediction matrix in F-Step.</p>
+<p>For new samples:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="n">clusters</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">kstep_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+</span><span id="__span-54-2"><a id="__codelineno-54-2" name="__codelineno-54-2" href="#__codelineno-54-2"></a>    <span class="n">X</span>
+</span><span id="__span-54-3"><a id="__codelineno-54-3" name="__codelineno-54-3" href="#__codelineno-54-3"></a><span class="p">)</span>
+</span><span id="__span-54-4"><a id="__codelineno-54-4" name="__codelineno-54-4" href="#__codelineno-54-4"></a>
+</span><span id="__span-54-5"><a id="__codelineno-54-5" name="__codelineno-54-5" href="#__codelineno-54-5"></a><span class="n">P</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">fstep_</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+</span><span id="__span-54-6"><a id="__codelineno-54-6" name="__codelineno-54-6" href="#__codelineno-54-6"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-54-7"><a id="__codelineno-54-7" name="__codelineno-54-7" href="#__codelineno-54-7"></a>    <span class="n">clusters</span><span class="p">,</span>
+</span><span id="__span-54-8"><a id="__codelineno-54-8" name="__codelineno-54-8" href="#__codelineno-54-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The C-Step wrappers for:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>gradientcobra
+</span><span id="__span-55-2"><a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>mixcobra
+</span><span id="__span-55-3"><a id="__codelineno-55-3" name="__codelineno-55-3" href="#__codelineno-55-3"></a>combined_classifier
+</span></code></pre></div>
+<p>fit their wrapped COBRA estimators with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>so the F-Step matrix is intended to become the COBRA prediction-space
+representation directly.</p>
+<p>Conceptually:</p>
+<pre class="mermaid"><code>flowchart LR
+    X["Original KFC features"]
+    K["K-Step"]
+    F["F-Step"]
+    P["KFC prediction matrix"]
+    C["COBRA combiner"]
+    Y["Final output"]
+
+    X --&gt; K --&gt; F --&gt; P --&gt; C --&gt; Y</code></pre>
+<hr />
+<h1 id="prediction-space-in-combinedclassifier">Prediction space in CombinedClassifier</h1>
+<p>With a KFC classifier, one F-Step row might be:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a>[0, 1, 1, 0]
+</span></code></pre></div>
+<p>where the columns correspond to divergence-specific local classifier
+predictions.</p>
+<p>When passed to:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a>combined_classifier
+</span></code></pre></div>
+<p>this row becomes a point in the wrapped <code>CombinedClassifier</code> prediction space.</p>
+<p>The wrapped classifier compares that pattern with calibration patterns stored
+in:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="n">pred_l_</span>
+</span></code></pre></div>
+<hr />
+<h1 id="prediction-space-in-gradientcobra">Prediction space in GradientCOBRA</h1>
+<p>With KFC regression, one row might be:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a>[12.4, 12.8, 12.1, 12.5]
+</span></code></pre></div>
+<p>When passed to <code>GradientCOBRA</code> using:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>the row is treated as a four-dimensional prediction vector.</p>
+<p>GradientCOBRA then applies its normalization, distance, kernel, and target
+aggregation stages.</p>
+<hr />
+<h1 id="mixcobra-uses-two-spaces">MixCOBRA uses two spaces</h1>
+<p><code>MixCOBRARegressor</code> differs from GradientCOBRA because its normal mode combines:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a>input-space distance
+</span><span id="__span-62-2"><a id="__codelineno-62-2" name="__codelineno-62-2" href="#__codelineno-62-2"></a>prediction-space distance
+</span></code></pre></div>
+<p>The source describes the two spaces as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a>X_l_norm_
+</span><span id="__span-63-2"><a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a>Y_l_norm_
+</span></code></pre></div>
+<p>where:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">X_l_norm_</span>
+</span></code></pre></div>
+<p>is the normalized calibration input space and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span>
+</span></code></pre></div>
+<p>is the normalized estimator-prediction space.</p>
+<hr />
+<h2 id="mixcobra-two-parameter-mode">MixCOBRA two-parameter mode</h2>
+<p>By default:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-66-1"><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a><span class="n">one_parameter</span><span class="o">=</span><span class="kc">False</span>
+</span></code></pre></div>
+<p>and the source computes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-67-1"><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix_x_</span>
+</span></code></pre></div>
+<p>from:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-68-1"><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a><span class="n">X_l_norm_</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-69-1"><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix_y_</span>
+</span></code></pre></div>
+<p>from:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-70-1"><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a><span class="n">Y_l_norm_</span>
+</span></code></pre></div>
+<p>The two-parameter adapter then combines them as:</p>
+<div class="arithmatex">\[
+D_{\text{mix}}
+=
+\alpha D_X
++
+\beta D_Y.
+\]</div>
+<p>This comes directly from:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a><span class="n">TwoParameterKernelAdapter</span><span class="o">.</span><span class="n">transform</span><span class="p">()</span>
+</span></code></pre></div>
+<p>which returns:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">*</span> <span class="n">x</span>
+</span><span id="__span-72-2"><a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a><span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">*</span> <span class="n">y</span>
+</span></code></pre></div>
+<hr />
+<h1 id="mixcobra-one-parameter-mode">MixCOBRA one-parameter mode</h1>
+<p>With:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a><span class="n">one_parameter</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>the source concatenates the normalized input and prediction spaces:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">mix_features_</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">([</span>
+</span><span id="__span-74-2"><a id="__codelineno-74-2" name="__codelineno-74-2" href="#__codelineno-74-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">X_l_norm_</span><span class="p">,</span>
+</span><span id="__span-74-3"><a id="__codelineno-74-3" name="__codelineno-74-3" href="#__codelineno-74-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span><span class="p">,</span>
+</span><span id="__span-74-4"><a id="__codelineno-74-4" name="__codelineno-74-4" href="#__codelineno-74-4"></a><span class="p">])</span>
+</span></code></pre></div>
+<p>and computes one distance matrix on that concatenated representation.</p>
+<p>A one-parameter kernel adapter then scales that distance as:</p>
+<div class="arithmatex">\[
+D'
+=
+hD.
+\]</div>
+<hr />
+<h1 id="mixcobra-normalization">MixCOBRA normalization</h1>
+<p>MixCOBRA computes two scalar constants.</p>
+<p>For the input side:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">normalize_constant_x_</span>
+</span></code></pre></div>
+<p>using:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a><span class="n">scale_factor</span><span class="o">=</span><span class="mf">5.0</span>
+</span></code></pre></div>
+<p>and for the prediction side:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">normalize_constant_y_</span>
+</span></code></pre></div>
+<p>using:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a><span class="n">scale_factor</span><span class="o">=</span><span class="mf">50.0</span>
+</span></code></pre></div>
+<p>Both also divide by the number of prediction columns through
+<code>compute_normalization_constant()</code>.</p>
+<p>The normalized spaces are:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">X_l_norm_</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-79-2"><a id="__codelineno-79-2" name="__codelineno-79-2" href="#__codelineno-79-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">X_l_</span>
+</span><span id="__span-79-3"><a id="__codelineno-79-3" name="__codelineno-79-3" href="#__codelineno-79-3"></a>    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize_constant_x_</span>
+</span><span id="__span-79-4"><a id="__codelineno-79-4" name="__codelineno-79-4" href="#__codelineno-79-4"></a><span class="p">)</span>
+</span><span id="__span-79-5"><a id="__codelineno-79-5" name="__codelineno-79-5" href="#__codelineno-79-5"></a>
+</span><span id="__span-79-6"><a id="__codelineno-79-6" name="__codelineno-79-6" href="#__codelineno-79-6"></a><span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-79-7"><a id="__codelineno-79-7" name="__codelineno-79-7" href="#__codelineno-79-7"></a>    <span class="n">prediction_space</span>
+</span><span id="__span-79-8"><a id="__codelineno-79-8" name="__codelineno-79-8" href="#__codelineno-79-8"></a>    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize_constant_y_</span>
+</span><span id="__span-79-9"><a id="__codelineno-79-9" name="__codelineno-79-9" href="#__codelineno-79-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="important-mixcobra-as_predictionstrue-behavior">Important MixCOBRA <code>as_predictions=True</code> behavior</h1>
+<p>The current <code>MixCOBRARegressor.fit()</code> accepts:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>and, like the other estimators, skips internal base-estimator fitting.</p>
+<p>During fit:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a><span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_predictions_</span><span class="p">:</span>
+</span><span id="__span-81-2"><a id="__codelineno-81-2" name="__codelineno-81-2" href="#__codelineno-81-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span> <span class="o">=</span> <span class="o">...</span>
+</span><span id="__span-81-3"><a id="__codelineno-81-3" name="__codelineno-81-3" href="#__codelineno-81-3"></a>    <span class="n">prediction_space</span> <span class="o">=</span> <span class="o">...</span>
+</span><span id="__span-81-4"><a id="__codelineno-81-4" name="__codelineno-81-4" href="#__codelineno-81-4"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="__span-81-5"><a id="__codelineno-81-5" name="__codelineno-81-5" href="#__codelineno-81-5"></a>    <span class="n">prediction_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_l_</span>
+</span></code></pre></div>
+<p>However, the current <code>predict()</code> implementation does not branch on:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-82-1"><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">as_predictions_</span>
+</span></code></pre></div>
+<p>before generating prediction features.</p>
+<p>It starts with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-83-1"><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a><span class="k">if</span> <span class="n">pred_X</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+</span><span id="__span-83-2"><a id="__codelineno-83-2" name="__codelineno-83-2" href="#__codelineno-83-2"></a>    <span class="n">pred_X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_predictions</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="consequence">Consequence</h2>
+<p>When the model was fitted with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>the source did not create:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span>
+</span></code></pre></div>
+<p>but <code>predict(X)</code> still tries to call:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-86-1"><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">_load_predictions</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span></code></pre></div>
+<p>when:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-87-1"><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a><span class="n">pred_X</span> <span class="ow">is</span> <span class="kc">None</span>
+</span></code></pre></div>
+<p>This means the current precomputed-prediction fit mode is not symmetrical with
+the default prediction path in <code>MixCOBRARegressor</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Current source limitation</p>
+<p><code>GradientCOBRA</code> and <code>CombinedClassifier</code> explicitly treat <code>X</code> as prediction
+space during <code>predict()</code> when <code>as_predictions_</code> is true.</p>
+<p>The current <code>MixCOBRARegressor.predict()</code> implementation does not perform
+that same branch.</p>
+<p>Code that relies on <code>MixCOBRARegressor(as_predictions=True)</code> should inspect
+this behavior carefully in the current source version.</p>
+</div>
+<hr />
+<h1 id="pred_x-in-mixcobra-prediction"><code>pred_X</code> in MixCOBRA prediction</h1>
+<p><code>MixCOBRARegressor.predict()</code> exposes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-88-1"><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a><span class="n">pred_X</span><span class="o">=</span><span class="kc">None</span>
+</span></code></pre></div>
+<p>as an optional argument.</p>
+<p>When supplied, it bypasses:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-89-1"><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">_load_predictions</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span></code></pre></div>
+<p>and uses:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-90-1"><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a><span class="n">pred_X</span>
+</span></code></pre></div>
+<p>as the test prediction representation.</p>
+<p>The method still separately uses:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-91-1"><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a><span class="n">X</span>
+</span></code></pre></div>
+<p>for the input-space representation:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-92-1"><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a><span class="n">X_norm</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-92-2"><a id="__codelineno-92-2" name="__codelineno-92-2" href="#__codelineno-92-2"></a>    <span class="n">X</span>
+</span><span id="__span-92-3"><a id="__codelineno-92-3" name="__codelineno-92-3" href="#__codelineno-92-3"></a>    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize_constant_x_</span>
+</span><span id="__span-92-4"><a id="__codelineno-92-4" name="__codelineno-92-4" href="#__codelineno-92-4"></a><span class="p">)</span>
+</span><span id="__span-92-5"><a id="__codelineno-92-5" name="__codelineno-92-5" href="#__codelineno-92-5"></a>
+</span><span id="__span-92-6"><a id="__codelineno-92-6" name="__codelineno-92-6" href="#__codelineno-92-6"></a><span class="n">Y_norm</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-92-7"><a id="__codelineno-92-7" name="__codelineno-92-7" href="#__codelineno-92-7"></a>    <span class="n">pred_X</span>
+</span><span id="__span-92-8"><a id="__codelineno-92-8" name="__codelineno-92-8" href="#__codelineno-92-8"></a>    <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">normalize_constant_y_</span>
+</span><span id="__span-92-9"><a id="__codelineno-92-9" name="__codelineno-92-9" href="#__codelineno-92-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This matches MixCOBRA's two-space design in its normal feature-based mode.</p>
+<hr />
+<h1 id="pred_features-in-training-context"><code>pred_features</code> in training context</h1>
+<p>The shared <code>resolve_training_context()</code> function also has a:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-93-1"><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a><span class="n">pred_features</span>
+</span></code></pre></div>
+<p>argument.</p>
+<p>Its branch currently returns:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-94-1"><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a><span class="n">TrainingContext</span><span class="p">(</span>
+</span><span id="__span-94-2"><a id="__codelineno-94-2" name="__codelineno-94-2" href="#__codelineno-94-2"></a>    <span class="n">X_k</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">X</span><span class="p">),</span>
+</span><span id="__span-94-3"><a id="__codelineno-94-3" name="__codelineno-94-3" href="#__codelineno-94-3"></a>    <span class="n">y_k</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+</span><span id="__span-94-4"><a id="__codelineno-94-4" name="__codelineno-94-4" href="#__codelineno-94-4"></a>    <span class="n">X_l</span><span class="o">=</span><span class="n">pred_features</span><span class="p">,</span>
+</span><span id="__span-94-5"><a id="__codelineno-94-5" name="__codelineno-94-5" href="#__codelineno-94-5"></a>    <span class="n">y_l</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">y</span><span class="p">),</span>
+</span><span id="__span-94-6"><a id="__codelineno-94-6" name="__codelineno-94-6" href="#__codelineno-94-6"></a>    <span class="n">as_predictions</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-94-7"><a id="__codelineno-94-7" name="__codelineno-94-7" href="#__codelineno-94-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>when <code>pred_features</code> is supplied.</p>
+<hr />
+<h2 id="current-mixcobra-use-of-pred_features">Current MixCOBRA use of <code>pred_features</code></h2>
+<p><code>MixCOBRARegressor.fit()</code> passes its:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-95-1"><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a><span class="n">pred_features</span>
+</span></code></pre></div>
+<p>argument into <code>resolve_training_context()</code>.</p>
+<p>But after receiving the context, the current fit code still does:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-96-1"><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a><span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_predictions_</span><span class="p">:</span>
+</span><span id="__span-96-2"><a id="__codelineno-96-2" name="__codelineno-96-2" href="#__codelineno-96-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_estimators</span><span class="p">(</span>
+</span><span id="__span-96-3"><a id="__codelineno-96-3" name="__codelineno-96-3" href="#__codelineno-96-3"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">X_k_</span><span class="p">,</span>
+</span><span id="__span-96-4"><a id="__codelineno-96-4" name="__codelineno-96-4" href="#__codelineno-96-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">y_k_</span><span class="p">,</span>
+</span><span id="__span-96-5"><a id="__codelineno-96-5" name="__codelineno-96-5" href="#__codelineno-96-5"></a>    <span class="p">)</span>
+</span><span id="__span-96-6"><a id="__codelineno-96-6" name="__codelineno-96-6" href="#__codelineno-96-6"></a>
+</span><span id="__span-96-7"><a id="__codelineno-96-7" name="__codelineno-96-7" href="#__codelineno-96-7"></a>    <span class="n">prediction_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_predictions</span><span class="p">(</span>
+</span><span id="__span-96-8"><a id="__codelineno-96-8" name="__codelineno-96-8" href="#__codelineno-96-8"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">X_l_</span>
+</span><span id="__span-96-9"><a id="__codelineno-96-9" name="__codelineno-96-9" href="#__codelineno-96-9"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>In the <code>pred_features</code> branch:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-97-1"><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a><span class="n">X_l_</span>
+</span></code></pre></div>
+<p>has been set to:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-98-1"><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a><span class="n">pred_features</span>
+</span></code></pre></div>
+<p>rather than raw calibration features.</p>
+<p>Therefore the current fit implementation feeds <code>pred_features</code> into the fitted
+base estimators instead of directly assigning it to <code>prediction_space</code>.</p>
+<div class="admonition warning">
+<p class="admonition-title">Current source behavior</p>
+<p>The <code>pred_features</code> argument is documented as precomputed model
+predictions, but the current training path does not directly use it as the
+prediction matrix.</p>
+<p>This page documents the source as implemented rather than assuming the
+intended behavior.</p>
+</div>
+<hr />
+<h1 id="prediction-space-distances">Prediction-space distances</h1>
+<p>Once a prediction matrix is available, COBRA components use a registered
+distance object implementing:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-99-1"><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a><span class="n">distance</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-99-2"><a id="__codelineno-99-2" name="__codelineno-99-2" href="#__codelineno-99-2"></a>    <span class="n">x</span><span class="p">,</span>
+</span><span id="__span-99-3"><a id="__codelineno-99-3" name="__codelineno-99-3" href="#__codelineno-99-3"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-99-4"><a id="__codelineno-99-4" name="__codelineno-99-4" href="#__codelineno-99-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The common interface returns:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-100-1"><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a>(n_samples_x, n_samples_y)
+</span></code></pre></div>
+<p>pairwise distances.</p>
+<p>Built-in distance modules include:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-101-1"><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a>euclidean
+</span><span id="__span-101-2"><a id="__codelineno-101-2" name="__codelineno-101-2" href="#__codelineno-101-2"></a>manhattan
+</span><span id="__span-101-3"><a id="__codelineno-101-3" name="__codelineno-101-3" href="#__codelineno-101-3"></a>minkowski
+</span><span id="__span-101-4"><a id="__codelineno-101-4" name="__codelineno-101-4" href="#__codelineno-101-4"></a>cosine
+</span><span id="__span-101-5"><a id="__codelineno-101-5" name="__codelineno-101-5" href="#__codelineno-101-5"></a>hamming
+</span></code></pre></div>
+<p>The detailed behavior belongs to:</p>
+<p><a href="../distances/">Distances</a></p>
+<hr />
+<h1 id="calibration-to-calibration-distance">Calibration-to-calibration distance</h1>
+<p>During fitting, prediction-space models usually compute a square distance
+matrix.</p>
+<p>For example, GradientCOBRA:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-102-1"><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-102-2"><a id="__codelineno-102-2" name="__codelineno-102-2" href="#__codelineno-102-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span><span class="p">,</span>
+</span><span id="__span-102-3"><a id="__codelineno-102-3" name="__codelineno-102-3" href="#__codelineno-102-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span><span class="p">,</span>
+</span><span id="__span-102-4"><a id="__codelineno-102-4" name="__codelineno-102-4" href="#__codelineno-102-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and CombinedClassifier:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-103-1"><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-103-2"><a id="__codelineno-103-2" name="__codelineno-103-2" href="#__codelineno-103-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">pred_l_</span><span class="p">,</span>
+</span><span id="__span-103-3"><a id="__codelineno-103-3" name="__codelineno-103-3" href="#__codelineno-103-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">pred_l_</span><span class="p">,</span>
+</span><span id="__span-103-4"><a id="__codelineno-103-4" name="__codelineno-103-4" href="#__codelineno-103-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>If there are <span class="arithmatex">\(n_l\)</span> calibration samples, the result has shape:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-104-1"><a id="__codelineno-104-1" name="__codelineno-104-1" href="#__codelineno-104-1"></a>(n_l, n_l)
+</span></code></pre></div>
+<hr />
+<h1 id="query-to-calibration-distance">Query-to-calibration distance</h1>
+<p>At prediction time, a new prediction matrix is compared against the fitted
+calibration representation.</p>
+<p>For GradientCOBRA:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-105-1"><a id="__codelineno-105-1" name="__codelineno-105-1" href="#__codelineno-105-1"></a><span class="n">distance_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-105-2"><a id="__codelineno-105-2" name="__codelineno-105-2" href="#__codelineno-105-2"></a>    <span class="n">Y_norm</span><span class="p">,</span>
+</span><span id="__span-105-3"><a id="__codelineno-105-3" name="__codelineno-105-3" href="#__codelineno-105-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">Y_l_norm_</span><span class="p">,</span>
+</span><span id="__span-105-4"><a id="__codelineno-105-4" name="__codelineno-105-4" href="#__codelineno-105-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>For CombinedClassifier:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-106-1"><a id="__codelineno-106-1" name="__codelineno-106-1" href="#__codelineno-106-1"></a><span class="n">distance_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span>
+</span><span id="__span-106-2"><a id="__codelineno-106-2" name="__codelineno-106-2" href="#__codelineno-106-2"></a>    <span class="n">preds_space</span><span class="p">,</span>
+</span><span id="__span-106-3"><a id="__codelineno-106-3" name="__codelineno-106-3" href="#__codelineno-106-3"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">pred_l_</span><span class="p">,</span>
+</span><span id="__span-106-4"><a id="__codelineno-106-4" name="__codelineno-106-4" href="#__codelineno-106-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>So with:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-107-1"><a id="__codelineno-107-1" name="__codelineno-107-1" href="#__codelineno-107-1"></a>q test samples
+</span><span id="__span-107-2"><a id="__codelineno-107-2" name="__codelineno-107-2" href="#__codelineno-107-2"></a>n_l calibration samples
+</span></code></pre></div>
+<p>the distance matrix has shape:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-108-1"><a id="__codelineno-108-1" name="__codelineno-108-1" href="#__codelineno-108-1"></a>(q, n_l)
+</span></code></pre></div>
+<hr />
+<h1 id="kernel-scaling">Kernel scaling</h1>
+<p>Prediction-space distance is not used directly as an aggregation weight.</p>
+<p>The distance matrix first passes through a kernel adapter.</p>
+<p>For GradientCOBRA and CombinedClassifier, the one-parameter adapter performs:</p>
+<div class="arithmatex">\[
+D'
+=
+hD.
+\]</div>
+<p>The source implements this as:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-109-1"><a id="__codelineno-109-1" name="__codelineno-109-1" href="#__codelineno-109-1"></a><span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bandwidth</span> <span class="o">*</span> <span class="n">distances</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span></code></pre></div>
+<p>Then the selected kernel converts the adapted distance into similarities.</p>
+<p>For the default RBF kernel, see:</p>
+<p><a href="../kernels/">Kernels</a></p>
+<hr />
+<h1 id="target-aggregation">Target aggregation</h1>
+<p>After the kernel produces a weight matrix:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-110-1"><a id="__codelineno-110-1" name="__codelineno-110-1" href="#__codelineno-110-1"></a><span class="n">K</span>
+</span></code></pre></div>
+<p>regression estimators aggregate calibration targets using a registered
+aggregator.</p>
+<p>The default regression aggregator is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-111-1"><a id="__codelineno-111-1" name="__codelineno-111-1" href="#__codelineno-111-1"></a>weighted_mean
+</span></code></pre></div>
+<p>which computes:</p>
+<div class="arithmatex">\[
+\widehat y
+=
+\frac{\sum_i w_i y_i}
+{\sum_i w_i}.
+\]</div>
+<p>If the weight sum is effectively zero, the aggregator uses a fallback value.</p>
+<p>GradientCOBRA supplies:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-112-1"><a id="__codelineno-112-1" name="__codelineno-112-1" href="#__codelineno-112-1"></a><span class="n">global_mean_</span>
+</span></code></pre></div>
+<p>during final prediction.</p>
+<hr />
+<h1 id="classification-aggregation">Classification aggregation</h1>
+<p><code>CombinedClassifier</code> uses:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-113-1"><a id="__codelineno-113-1" name="__codelineno-113-1" href="#__codelineno-113-1"></a>weighted_vote
+</span></code></pre></div>
+<p>by default.</p>
+<p>For hard prediction:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-114-1"><a id="__codelineno-114-1" name="__codelineno-114-1" href="#__codelineno-114-1"></a><span class="n">aggregate</span><span class="p">(</span>
+</span><span id="__span-114-2"><a id="__codelineno-114-2" name="__codelineno-114-2" href="#__codelineno-114-2"></a>    <span class="n">values</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">y_l_</span><span class="p">,</span>
+</span><span id="__span-114-3"><a id="__codelineno-114-3" name="__codelineno-114-3" href="#__codelineno-114-3"></a>    <span class="n">weights</span><span class="o">=</span><span class="n">w</span><span class="p">,</span>
+</span><span id="__span-114-4"><a id="__codelineno-114-4" name="__codelineno-114-4" href="#__codelineno-114-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>computes weighted class scores and returns the class with the largest score.</p>
+<hr />
+<h2 id="probability-caveat-in-current-weighted_vote">Probability caveat in current <code>weighted_vote</code></h2>
+<p>The current:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-115-1"><a id="__codelineno-115-1" name="__codelineno-115-1" href="#__codelineno-115-1"></a><span class="n">WeightedVoteAggregator</span><span class="o">.</span><span class="n">aggregate_proba</span><span class="p">()</span>
+</span></code></pre></div>
+<p>constructs one-hot class indicators and computes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-116-1"><a id="__codelineno-116-1" name="__codelineno-116-1" href="#__codelineno-116-1"></a><span class="n">one_hot</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-116-2"><a id="__codelineno-116-2" name="__codelineno-116-2" href="#__codelineno-116-2"></a>    <span class="n">axis</span><span class="o">=</span><span class="mi">0</span>
+</span><span id="__span-116-3"><a id="__codelineno-116-3" name="__codelineno-116-3" href="#__codelineno-116-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>It does not use the supplied <code>weights</code> argument in that method.</p>
+<p>Therefore <code>CombinedClassifier.predict_proba()</code> currently returns unweighted
+class frequencies over the calibration labels passed to <code>aggregate_proba()</code>,
+rather than probabilities derived from the kernel weights.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>This behavior applies to the current source implementation of
+<code>aggregate_proba()</code>.</p>
+<p>Hard-label prediction uses the supplied weights correctly through
+<code>aggregate()</code>.</p>
+</div>
+<hr />
+<h1 id="prediction-space-and-cross-validation">Prediction space and cross-validation</h1>
+<p>COBRA hyperparameters are optimized using folds over the calibration dataset.</p>
+<p>For GradientCOBRA, the already-computed prediction-space distance matrix is
+adapted for a candidate bandwidth:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-117-1"><a id="__codelineno-117-1" name="__codelineno-117-1" href="#__codelineno-117-1"></a><span class="n">D</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">adapter_</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span>
+</span><span id="__span-117-2"><a id="__codelineno-117-2" name="__codelineno-117-2" href="#__codelineno-117-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">distance_matrix_</span>
+</span><span id="__span-117-3"><a id="__codelineno-117-3" name="__codelineno-117-3" href="#__codelineno-117-3"></a><span class="p">)</span>
+</span><span id="__span-117-4"><a id="__codelineno-117-4" name="__codelineno-117-4" href="#__codelineno-117-4"></a>
+</span><span id="__span-117-5"><a id="__codelineno-117-5" name="__codelineno-117-5" href="#__codelineno-117-5"></a><span class="n">K</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kernel_</span><span class="p">(</span><span class="n">D</span><span class="p">)</span>
+</span></code></pre></div>
+<p>The code then extracts:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-118-1"><a id="__codelineno-118-1" name="__codelineno-118-1" href="#__codelineno-118-1"></a><span class="n">K_val_train</span>
+</span></code></pre></div>
+<p>for each fold and aggregates training-fold targets to predict the validation
+fold.</p>
+<p>This lets bandwidth optimization happen within the stored prediction-space
+geometry.</p>
+<hr />
+<h1 id="prediction-space-and-data-leakage">Prediction space and data leakage</h1>
+<p>The package's normal mode separates:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-119-1"><a id="__codelineno-119-1" name="__codelineno-119-1" href="#__codelineno-119-1"></a>base-estimator fitting data
+</span><span id="__span-119-2"><a id="__codelineno-119-2" name="__codelineno-119-2" href="#__codelineno-119-2"></a>aggregation/calibration data
+</span></code></pre></div>
+<p>through <code>X_k/y_k</code> and <code>X_l/y_l</code>.</p>
+<p>The prediction matrix used for COBRA aggregation is generated on the
+calibration side after base estimators were fitted on the training side.</p>
+<p>That source-level structure is why <code>resolve_training_context()</code> carries both
+sets separately.</p>
+<hr />
+<h1 id="inspect-prediction-space-in-gradientcobra">Inspect prediction space in GradientCOBRA</h1>
+<p>After fitting:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-120-1"><a id="__codelineno-120-1" name="__codelineno-120-1" href="#__codelineno-120-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-120-2"><a id="__codelineno-120-2" name="__codelineno-120-2" href="#__codelineno-120-2"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-120-3"><a id="__codelineno-120-3" name="__codelineno-120-3" href="#__codelineno-120-3"></a><span class="p">)</span>
+</span><span id="__span-120-4"><a id="__codelineno-120-4" name="__codelineno-120-4" href="#__codelineno-120-4"></a>
+</span><span id="__span-120-5"><a id="__codelineno-120-5" name="__codelineno-120-5" href="#__codelineno-120-5"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-120-6"><a id="__codelineno-120-6" name="__codelineno-120-6" href="#__codelineno-120-6"></a>    <span class="n">X_train</span><span class="p">,</span>
+</span><span id="__span-120-7"><a id="__codelineno-120-7" name="__codelineno-120-7" href="#__codelineno-120-7"></a>    <span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-120-8"><a id="__codelineno-120-8" name="__codelineno-120-8" href="#__codelineno-120-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>inspect:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-121-1"><a id="__codelineno-121-1" name="__codelineno-121-1" href="#__codelineno-121-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-121-2"><a id="__codelineno-121-2" name="__codelineno-121-2" href="#__codelineno-121-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">Y_l_norm_</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-121-3"><a id="__codelineno-121-3" name="__codelineno-121-3" href="#__codelineno-121-3"></a><span class="p">)</span>
+</span><span id="__span-121-4"><a id="__codelineno-121-4" name="__codelineno-121-4" href="#__codelineno-121-4"></a>
+</span><span id="__span-121-5"><a id="__codelineno-121-5" name="__codelineno-121-5" href="#__codelineno-121-5"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-121-6"><a id="__codelineno-121-6" name="__codelineno-121-6" href="#__codelineno-121-6"></a>    <span class="n">model</span><span class="o">.</span><span class="n">distance_matrix_</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-121-7"><a id="__codelineno-121-7" name="__codelineno-121-7" href="#__codelineno-121-7"></a><span class="p">)</span>
+</span><span id="__span-121-8"><a id="__codelineno-121-8" name="__codelineno-121-8" href="#__codelineno-121-8"></a>
+</span><span id="__span-121-9"><a id="__codelineno-121-9" name="__codelineno-121-9" href="#__codelineno-121-9"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-121-10"><a id="__codelineno-121-10" name="__codelineno-121-10" href="#__codelineno-121-10"></a>    <span class="n">model</span><span class="o">.</span><span class="n">normalize_constant_</span>
+</span><span id="__span-121-11"><a id="__codelineno-121-11" name="__codelineno-121-11" href="#__codelineno-121-11"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>To inspect the unnormalized calibration predictions in standard mode, recreate
+them through the fitted estimator pool:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-122-1"><a id="__codelineno-122-1" name="__codelineno-122-1" href="#__codelineno-122-1"></a><span class="n">P_l</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">_load_predictions</span><span class="p">(</span>
+</span><span id="__span-122-2"><a id="__codelineno-122-2" name="__codelineno-122-2" href="#__codelineno-122-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">X_l_</span>
+</span><span id="__span-122-3"><a id="__codelineno-122-3" name="__codelineno-122-3" href="#__codelineno-122-3"></a><span class="p">)</span>
+</span><span id="__span-122-4"><a id="__codelineno-122-4" name="__codelineno-122-4" href="#__codelineno-122-4"></a>
+</span><span id="__span-122-5"><a id="__codelineno-122-5" name="__codelineno-122-5" href="#__codelineno-122-5"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-122-6"><a id="__codelineno-122-6" name="__codelineno-122-6" href="#__codelineno-122-6"></a>    <span class="n">P_l</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-122-7"><a id="__codelineno-122-7" name="__codelineno-122-7" href="#__codelineno-122-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="inspect-prediction-space-in-combinedclassifier">Inspect prediction space in CombinedClassifier</h1>
+<p>After fitting:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-123-1"><a id="__codelineno-123-1" name="__codelineno-123-1" href="#__codelineno-123-1"></a><span class="n">classifier</span> <span class="o">=</span> <span class="n">CombinedClassifier</span><span class="p">(</span>
+</span><span id="__span-123-2"><a id="__codelineno-123-2" name="__codelineno-123-2" href="#__codelineno-123-2"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-123-3"><a id="__codelineno-123-3" name="__codelineno-123-3" href="#__codelineno-123-3"></a><span class="p">)</span>
+</span><span id="__span-123-4"><a id="__codelineno-123-4" name="__codelineno-123-4" href="#__codelineno-123-4"></a>
+</span><span id="__span-123-5"><a id="__codelineno-123-5" name="__codelineno-123-5" href="#__codelineno-123-5"></a><span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-123-6"><a id="__codelineno-123-6" name="__codelineno-123-6" href="#__codelineno-123-6"></a>    <span class="n">X_train</span><span class="p">,</span>
+</span><span id="__span-123-7"><a id="__codelineno-123-7" name="__codelineno-123-7" href="#__codelineno-123-7"></a>    <span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-123-8"><a id="__codelineno-123-8" name="__codelineno-123-8" href="#__codelineno-123-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>the unnormalized calibration prediction space is stored directly as:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-124-1"><a id="__codelineno-124-1" name="__codelineno-124-1" href="#__codelineno-124-1"></a><span class="n">classifier</span><span class="o">.</span><span class="n">pred_l_</span>
+</span></code></pre></div>
+<p>Inspect:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-125-1"><a id="__codelineno-125-1" name="__codelineno-125-1" href="#__codelineno-125-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-125-2"><a id="__codelineno-125-2" name="__codelineno-125-2" href="#__codelineno-125-2"></a>    <span class="n">classifier</span><span class="o">.</span><span class="n">pred_l_</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-125-3"><a id="__codelineno-125-3" name="__codelineno-125-3" href="#__codelineno-125-3"></a><span class="p">)</span>
+</span><span id="__span-125-4"><a id="__codelineno-125-4" name="__codelineno-125-4" href="#__codelineno-125-4"></a>
+</span><span id="__span-125-5"><a id="__codelineno-125-5" name="__codelineno-125-5" href="#__codelineno-125-5"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-125-6"><a id="__codelineno-125-6" name="__codelineno-125-6" href="#__codelineno-125-6"></a>    <span class="n">classifier</span><span class="o">.</span><span class="n">pred_l_</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span>
+</span><span id="__span-125-7"><a id="__codelineno-125-7" name="__codelineno-125-7" href="#__codelineno-125-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-126-1"><a id="__codelineno-126-1" name="__codelineno-126-1" href="#__codelineno-126-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-126-2"><a id="__codelineno-126-2" name="__codelineno-126-2" href="#__codelineno-126-2"></a>    <span class="n">classifier</span><span class="o">.</span><span class="n">distance_matrix_</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-126-3"><a id="__codelineno-126-3" name="__codelineno-126-3" href="#__codelineno-126-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="inspect-mixcobra-spaces">Inspect MixCOBRA spaces</h1>
+<p>In normal feature mode:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-127-1"><a id="__codelineno-127-1" name="__codelineno-127-1" href="#__codelineno-127-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MixCOBRARegressor</span><span class="p">(</span>
+</span><span id="__span-127-2"><a id="__codelineno-127-2" name="__codelineno-127-2" href="#__codelineno-127-2"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-127-3"><a id="__codelineno-127-3" name="__codelineno-127-3" href="#__codelineno-127-3"></a><span class="p">)</span>
+</span><span id="__span-127-4"><a id="__codelineno-127-4" name="__codelineno-127-4" href="#__codelineno-127-4"></a>
+</span><span id="__span-127-5"><a id="__codelineno-127-5" name="__codelineno-127-5" href="#__codelineno-127-5"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-127-6"><a id="__codelineno-127-6" name="__codelineno-127-6" href="#__codelineno-127-6"></a>    <span class="n">X_train</span><span class="p">,</span>
+</span><span id="__span-127-7"><a id="__codelineno-127-7" name="__codelineno-127-7" href="#__codelineno-127-7"></a>    <span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-127-8"><a id="__codelineno-127-8" name="__codelineno-127-8" href="#__codelineno-127-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>inspect:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-128-1"><a id="__codelineno-128-1" name="__codelineno-128-1" href="#__codelineno-128-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-128-2"><a id="__codelineno-128-2" name="__codelineno-128-2" href="#__codelineno-128-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">X_l_norm_</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-128-3"><a id="__codelineno-128-3" name="__codelineno-128-3" href="#__codelineno-128-3"></a><span class="p">)</span>
+</span><span id="__span-128-4"><a id="__codelineno-128-4" name="__codelineno-128-4" href="#__codelineno-128-4"></a>
+</span><span id="__span-128-5"><a id="__codelineno-128-5" name="__codelineno-128-5" href="#__codelineno-128-5"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-128-6"><a id="__codelineno-128-6" name="__codelineno-128-6" href="#__codelineno-128-6"></a>    <span class="n">model</span><span class="o">.</span><span class="n">Y_l_norm_</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-128-7"><a id="__codelineno-128-7" name="__codelineno-128-7" href="#__codelineno-128-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>For two-parameter mode:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-129-1"><a id="__codelineno-129-1" name="__codelineno-129-1" href="#__codelineno-129-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-129-2"><a id="__codelineno-129-2" name="__codelineno-129-2" href="#__codelineno-129-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">distance_matrix_x_</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-129-3"><a id="__codelineno-129-3" name="__codelineno-129-3" href="#__codelineno-129-3"></a><span class="p">)</span>
+</span><span id="__span-129-4"><a id="__codelineno-129-4" name="__codelineno-129-4" href="#__codelineno-129-4"></a>
+</span><span id="__span-129-5"><a id="__codelineno-129-5" name="__codelineno-129-5" href="#__codelineno-129-5"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-129-6"><a id="__codelineno-129-6" name="__codelineno-129-6" href="#__codelineno-129-6"></a>    <span class="n">model</span><span class="o">.</span><span class="n">distance_matrix_y_</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-129-7"><a id="__codelineno-129-7" name="__codelineno-129-7" href="#__codelineno-129-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>For one-parameter mode:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-130-1"><a id="__codelineno-130-1" name="__codelineno-130-1" href="#__codelineno-130-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-130-2"><a id="__codelineno-130-2" name="__codelineno-130-2" href="#__codelineno-130-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">mix_features_</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-130-3"><a id="__codelineno-130-3" name="__codelineno-130-3" href="#__codelineno-130-3"></a><span class="p">)</span>
+</span><span id="__span-130-4"><a id="__codelineno-130-4" name="__codelineno-130-4" href="#__codelineno-130-4"></a>
+</span><span id="__span-130-5"><a id="__codelineno-130-5" name="__codelineno-130-5" href="#__codelineno-130-5"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-130-6"><a id="__codelineno-130-6" name="__codelineno-130-6" href="#__codelineno-130-6"></a>    <span class="n">model</span><span class="o">.</span><span class="n">distance_matrix_mix_</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-130-7"><a id="__codelineno-130-7" name="__codelineno-130-7" href="#__codelineno-130-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="precomputed-prediction-example-gradientcobra">Precomputed prediction example: GradientCOBRA</h1>
+<p>Suppose another pipeline already created:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-131-1"><a id="__codelineno-131-1" name="__codelineno-131-1" href="#__codelineno-131-1"></a><span class="n">P_train</span>
+</span><span id="__span-131-2"><a id="__codelineno-131-2" name="__codelineno-131-2" href="#__codelineno-131-2"></a><span class="n">P_test</span>
+</span></code></pre></div>
+<p>with one column per external model.</p>
+<p>You can fit:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-132-1"><a id="__codelineno-132-1" name="__codelineno-132-1" href="#__codelineno-132-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra</span><span class="w"> </span><span class="kn">import</span> <span class="n">GradientCOBRA</span>
+</span><span id="__span-132-2"><a id="__codelineno-132-2" name="__codelineno-132-2" href="#__codelineno-132-2"></a>
+</span><span id="__span-132-3"><a id="__codelineno-132-3" name="__codelineno-132-3" href="#__codelineno-132-3"></a><span class="n">cobra</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-132-4"><a id="__codelineno-132-4" name="__codelineno-132-4" href="#__codelineno-132-4"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-132-5"><a id="__codelineno-132-5" name="__codelineno-132-5" href="#__codelineno-132-5"></a><span class="p">)</span>
+</span><span id="__span-132-6"><a id="__codelineno-132-6" name="__codelineno-132-6" href="#__codelineno-132-6"></a>
+</span><span id="__span-132-7"><a id="__codelineno-132-7" name="__codelineno-132-7" href="#__codelineno-132-7"></a><span class="n">cobra</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-132-8"><a id="__codelineno-132-8" name="__codelineno-132-8" href="#__codelineno-132-8"></a>    <span class="n">P_train</span><span class="p">,</span>
+</span><span id="__span-132-9"><a id="__codelineno-132-9" name="__codelineno-132-9" href="#__codelineno-132-9"></a>    <span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-132-10"><a id="__codelineno-132-10" name="__codelineno-132-10" href="#__codelineno-132-10"></a>    <span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-132-11"><a id="__codelineno-132-11" name="__codelineno-132-11" href="#__codelineno-132-11"></a><span class="p">)</span>
+</span><span id="__span-132-12"><a id="__codelineno-132-12" name="__codelineno-132-12" href="#__codelineno-132-12"></a>
+</span><span id="__span-132-13"><a id="__codelineno-132-13" name="__codelineno-132-13" href="#__codelineno-132-13"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">cobra</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+</span><span id="__span-132-14"><a id="__codelineno-132-14" name="__codelineno-132-14" href="#__codelineno-132-14"></a>    <span class="n">P_test</span>
+</span><span id="__span-132-15"><a id="__codelineno-132-15" name="__codelineno-132-15" href="#__codelineno-132-15"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>In this mode:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-133-1"><a id="__codelineno-133-1" name="__codelineno-133-1" href="#__codelineno-133-1"></a>P_train
+</span></code></pre></div>
+<p>becomes the calibration prediction space directly.</p>
+<hr />
+<h1 id="precomputed-prediction-example-combinedclassifier">Precomputed prediction example: CombinedClassifier</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-134-1"><a id="__codelineno-134-1" name="__codelineno-134-1" href="#__codelineno-134-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra</span><span class="w"> </span><span class="kn">import</span> <span class="n">CombinedClassifier</span>
+</span><span id="__span-134-2"><a id="__codelineno-134-2" name="__codelineno-134-2" href="#__codelineno-134-2"></a>
+</span><span id="__span-134-3"><a id="__codelineno-134-3" name="__codelineno-134-3" href="#__codelineno-134-3"></a><span class="n">classifier</span> <span class="o">=</span> <span class="n">CombinedClassifier</span><span class="p">(</span>
+</span><span id="__span-134-4"><a id="__codelineno-134-4" name="__codelineno-134-4" href="#__codelineno-134-4"></a>    <span class="n">distance</span><span class="o">=</span><span class="s2">"hamming"</span><span class="p">,</span>
+</span><span id="__span-134-5"><a id="__codelineno-134-5" name="__codelineno-134-5" href="#__codelineno-134-5"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-134-6"><a id="__codelineno-134-6" name="__codelineno-134-6" href="#__codelineno-134-6"></a><span class="p">)</span>
+</span><span id="__span-134-7"><a id="__codelineno-134-7" name="__codelineno-134-7" href="#__codelineno-134-7"></a>
+</span><span id="__span-134-8"><a id="__codelineno-134-8" name="__codelineno-134-8" href="#__codelineno-134-8"></a><span class="n">classifier</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-134-9"><a id="__codelineno-134-9" name="__codelineno-134-9" href="#__codelineno-134-9"></a>    <span class="n">P_train</span><span class="p">,</span>
+</span><span id="__span-134-10"><a id="__codelineno-134-10" name="__codelineno-134-10" href="#__codelineno-134-10"></a>    <span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-134-11"><a id="__codelineno-134-11" name="__codelineno-134-11" href="#__codelineno-134-11"></a>    <span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-134-12"><a id="__codelineno-134-12" name="__codelineno-134-12" href="#__codelineno-134-12"></a><span class="p">)</span>
+</span><span id="__span-134-13"><a id="__codelineno-134-13" name="__codelineno-134-13" href="#__codelineno-134-13"></a>
+</span><span id="__span-134-14"><a id="__codelineno-134-14" name="__codelineno-134-14" href="#__codelineno-134-14"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">classifier</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+</span><span id="__span-134-15"><a id="__codelineno-134-15" name="__codelineno-134-15" href="#__codelineno-134-15"></a>    <span class="n">P_test</span>
+</span><span id="__span-134-16"><a id="__codelineno-134-16" name="__codelineno-134-16" href="#__codelineno-134-16"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The matrices should contain hard class predictions because the current
+classification prediction space is based on estimator <code>predict()</code> outputs.</p>
+<hr />
+<h1 id="kfc-c-step-example">KFC C-Step example</h1>
+<p>The C-Step wrapper performs the same conceptual operation automatically.</p>
+<p>For example, <code>GradientCOBRACombiner.fit()</code> calls:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-135-1"><a id="__codelineno-135-1" name="__codelineno-135-1" href="#__codelineno-135-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">cobra</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-135-2"><a id="__codelineno-135-2" name="__codelineno-135-2" href="#__codelineno-135-2"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-135-3"><a id="__codelineno-135-3" name="__codelineno-135-3" href="#__codelineno-135-3"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-135-4"><a id="__codelineno-135-4" name="__codelineno-135-4" href="#__codelineno-135-4"></a>    <span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-135-5"><a id="__codelineno-135-5" name="__codelineno-135-5" href="#__codelineno-135-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>where <code>X</code> is already the KFC F-Step prediction matrix.</p>
+<p>Similarly, <code>CobraClassifierCombiner</code> calls:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-136-1"><a id="__codelineno-136-1" name="__codelineno-136-1" href="#__codelineno-136-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">cobra</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-136-2"><a id="__codelineno-136-2" name="__codelineno-136-2" href="#__codelineno-136-2"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-136-3"><a id="__codelineno-136-3" name="__codelineno-136-3" href="#__codelineno-136-3"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-136-4"><a id="__codelineno-136-4" name="__codelineno-136-4" href="#__codelineno-136-4"></a>    <span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+</span><span id="__span-136-5"><a id="__codelineno-136-5" name="__codelineno-136-5" href="#__codelineno-136-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>for <code>CombinedClassifier</code>.</p>
+<hr />
+<h1 id="what-prediction-space-is-not">What prediction space is not</h1>
+<p>In the current source, prediction space does <strong>not</strong> mean:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-137-1"><a id="__codelineno-137-1" name="__codelineno-137-1" href="#__codelineno-137-1"></a>hidden neural-network embeddings
+</span><span id="__span-137-2"><a id="__codelineno-137-2" name="__codelineno-137-2" href="#__codelineno-137-2"></a>class-probability vectors by default
+</span><span id="__span-137-3"><a id="__codelineno-137-3" name="__codelineno-137-3" href="#__codelineno-137-3"></a>K-Step centroids
+</span><span id="__span-137-4"><a id="__codelineno-137-4" name="__codelineno-137-4" href="#__codelineno-137-4"></a>original input features
+</span><span id="__span-137-5"><a id="__codelineno-137-5" name="__codelineno-137-5" href="#__codelineno-137-5"></a>C-Step coefficients
+</span></code></pre></div>
+<p>It specifically refers to a matrix assembled from estimator predictions, or a
+matrix explicitly supplied through <code>as_predictions=True</code>.</p>
+<hr />
+<h1 id="prediction-space-column-order">Prediction-space column order</h1>
+<p>When prediction space is generated internally, column order follows the order
+of the fitted estimator list:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-138-1"><a id="__codelineno-138-1" name="__codelineno-138-1" href="#__codelineno-138-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span>
+</span></code></pre></div>
+<p>because:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-139-1"><a id="__codelineno-139-1" name="__codelineno-139-1" href="#__codelineno-139-1"></a><span class="n">preds</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-139-2"><a id="__codelineno-139-2" name="__codelineno-139-2" href="#__codelineno-139-2"></a>    <span class="n">est</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>
+</span><span id="__span-139-3"><a id="__codelineno-139-3" name="__codelineno-139-3" href="#__codelineno-139-3"></a>    <span class="k">for</span> <span class="n">est</span> <span class="ow">in</span> <span class="n">estimators</span>
+</span><span id="__span-139-4"><a id="__codelineno-139-4" name="__codelineno-139-4" href="#__codelineno-139-4"></a><span class="p">]</span>
+</span><span id="__span-139-5"><a id="__codelineno-139-5" name="__codelineno-139-5" href="#__codelineno-139-5"></a>
+</span><span id="__span-139-6"><a id="__codelineno-139-6" name="__codelineno-139-6" href="#__codelineno-139-6"></a><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span><span class="n">preds</span><span class="p">)</span>
+</span></code></pre></div>
+<p>preserves that order.</p>
+<p>This matters when interpreting distance geometry because every column is one
+coordinate in prediction space.</p>
+<hr />
+<h1 id="default-gradientcobra-estimator-pool">Default GradientCOBRA estimator pool</h1>
+<p>When no estimators are supplied, <code>GradientCOBRA</code> currently uses:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-140-1"><a id="__codelineno-140-1" name="__codelineno-140-1" href="#__codelineno-140-1"></a>linear_regression
+</span><span id="__span-140-2"><a id="__codelineno-140-2" name="__codelineno-140-2" href="#__codelineno-140-2"></a>ridge_cv
+</span><span id="__span-140-3"><a id="__codelineno-140-3" name="__codelineno-140-3" href="#__codelineno-140-3"></a>lasso_cv
+</span><span id="__span-140-4"><a id="__codelineno-140-4" name="__codelineno-140-4" href="#__codelineno-140-4"></a>k_neighbors_regressor
+</span><span id="__span-140-5"><a id="__codelineno-140-5" name="__codelineno-140-5" href="#__codelineno-140-5"></a>random_forest_regressor
+</span><span id="__span-140-6"><a id="__codelineno-140-6" name="__codelineno-140-6" href="#__codelineno-140-6"></a>svr
+</span></code></pre></div>
+<p>Therefore its normal prediction space has six columns, assuming all defaults
+are successfully resolved.</p>
+<hr />
+<h1 id="default-mixcobra-estimator-pool">Default MixCOBRA estimator pool</h1>
+<p>The current MixCOBRA default is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-141-1"><a id="__codelineno-141-1" name="__codelineno-141-1" href="#__codelineno-141-1"></a>linear_regression
+</span><span id="__span-141-2"><a id="__codelineno-141-2" name="__codelineno-141-2" href="#__codelineno-141-2"></a>ridge
+</span><span id="__span-141-3"><a id="__codelineno-141-3" name="__codelineno-141-3" href="#__codelineno-141-3"></a>lasso
+</span><span id="__span-141-4"><a id="__codelineno-141-4" name="__codelineno-141-4" href="#__codelineno-141-4"></a>k_neighbors_regressor
+</span><span id="__span-141-5"><a id="__codelineno-141-5" name="__codelineno-141-5" href="#__codelineno-141-5"></a>random_forest_regressor
+</span><span id="__span-141-6"><a id="__codelineno-141-6" name="__codelineno-141-6" href="#__codelineno-141-6"></a>svr
+</span></code></pre></div>
+<p>This differs slightly from GradientCOBRA, which uses:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-142-1"><a id="__codelineno-142-1" name="__codelineno-142-1" href="#__codelineno-142-1"></a>ridge_cv
+</span><span id="__span-142-2"><a id="__codelineno-142-2" name="__codelineno-142-2" href="#__codelineno-142-2"></a>lasso_cv
+</span></code></pre></div>
+<p>instead of:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-143-1"><a id="__codelineno-143-1" name="__codelineno-143-1" href="#__codelineno-143-1"></a>ridge
+</span><span id="__span-143-2"><a id="__codelineno-143-2" name="__codelineno-143-2" href="#__codelineno-143-2"></a>lasso
+</span></code></pre></div>
+<hr />
+<h1 id="default-combinedclassifier-estimator-pool">Default CombinedClassifier estimator pool</h1>
+<p>When no classifier estimators are supplied:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-144-1"><a id="__codelineno-144-1" name="__codelineno-144-1" href="#__codelineno-144-1"></a>logistic_regression
+</span><span id="__span-144-2"><a id="__codelineno-144-2" name="__codelineno-144-2" href="#__codelineno-144-2"></a>decision_tree_classifier
+</span><span id="__span-144-3"><a id="__codelineno-144-3" name="__codelineno-144-3" href="#__codelineno-144-3"></a>svc
+</span><span id="__span-144-4"><a id="__codelineno-144-4" name="__codelineno-144-4" href="#__codelineno-144-4"></a>k_neighbors_classifier
+</span></code></pre></div>
+<p>are fitted.</p>
+<p>The resulting prediction-space matrix therefore has four hard-label columns by
+default.</p>
+<hr />
+<h1 id="parallel-prediction-generation">Parallel prediction generation</h1>
+<p><code>predict_estimators()</code> supports:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-145-1"><a id="__codelineno-145-1" name="__codelineno-145-1" href="#__codelineno-145-1"></a><span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>If:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-146-1"><a id="__codelineno-146-1" name="__codelineno-146-1" href="#__codelineno-146-1"></a><span class="n">n_jobs</span> <span class="o">==</span> <span class="mi">1</span>
+</span></code></pre></div>
+<p>predictions are generated sequentially.</p>
+<p>Otherwise the source uses:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-147-1"><a id="__codelineno-147-1" name="__codelineno-147-1" href="#__codelineno-147-1"></a><span class="n">joblib</span><span class="o">.</span><span class="n">Parallel</span><span class="p">(</span>
+</span><span id="__span-147-2"><a id="__codelineno-147-2" name="__codelineno-147-2" href="#__codelineno-147-2"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+</span><span id="__span-147-3"><a id="__codelineno-147-3" name="__codelineno-147-3" href="#__codelineno-147-3"></a>    <span class="n">backend</span><span class="o">=</span><span class="s2">"loky"</span><span class="p">,</span>
+</span><span id="__span-147-4"><a id="__codelineno-147-4" name="__codelineno-147-4" href="#__codelineno-147-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and then column-stacks the returned prediction arrays.</p>
+<hr />
+<h1 id="debugging-prediction-space">Debugging prediction space</h1>
+<h2 id="check-the-matrix-dimension">Check the matrix dimension</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-148-1"><a id="__codelineno-148-1" name="__codelineno-148-1" href="#__codelineno-148-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-148-2"><a id="__codelineno-148-2" name="__codelineno-148-2" href="#__codelineno-148-2"></a>    <span class="n">prediction_space</span><span class="o">.</span><span class="n">ndim</span>
+</span><span id="__span-148-3"><a id="__codelineno-148-3" name="__codelineno-148-3" href="#__codelineno-148-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Expected:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-149-1"><a id="__codelineno-149-1" name="__codelineno-149-1" href="#__codelineno-149-1"></a>2
+</span></code></pre></div>
+<hr />
+<h2 id="check-row-alignment">Check row alignment</h2>
+<p>The prediction matrix and target vector must describe the same samples.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-150-1"><a id="__codelineno-150-1" name="__codelineno-150-1" href="#__codelineno-150-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-150-2"><a id="__codelineno-150-2" name="__codelineno-150-2" href="#__codelineno-150-2"></a>    <span class="n">prediction_space</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</span><span id="__span-150-3"><a id="__codelineno-150-3" name="__codelineno-150-3" href="#__codelineno-150-3"></a><span class="p">)</span>
+</span><span id="__span-150-4"><a id="__codelineno-150-4" name="__codelineno-150-4" href="#__codelineno-150-4"></a>
+</span><span id="__span-150-5"><a id="__codelineno-150-5" name="__codelineno-150-5" href="#__codelineno-150-5"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-150-6"><a id="__codelineno-150-6" name="__codelineno-150-6" href="#__codelineno-150-6"></a>    <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</span><span id="__span-150-7"><a id="__codelineno-150-7" name="__codelineno-150-7" href="#__codelineno-150-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>These should match when using:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-151-1"><a id="__codelineno-151-1" name="__codelineno-151-1" href="#__codelineno-151-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>because <code>resolve_training_context()</code> begins with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-152-1"><a id="__codelineno-152-1" name="__codelineno-152-1" href="#__codelineno-152-1"></a><span class="n">check_X_y</span><span class="p">(</span>
+</span><span id="__span-152-2"><a id="__codelineno-152-2" name="__codelineno-152-2" href="#__codelineno-152-2"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-152-3"><a id="__codelineno-152-3" name="__codelineno-152-3" href="#__codelineno-152-3"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-152-4"><a id="__codelineno-152-4" name="__codelineno-152-4" href="#__codelineno-152-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="check-column-count">Check column count</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-153-1"><a id="__codelineno-153-1" name="__codelineno-153-1" href="#__codelineno-153-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-153-2"><a id="__codelineno-153-2" name="__codelineno-153-2" href="#__codelineno-153-2"></a>    <span class="n">prediction_space</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+</span><span id="__span-153-3"><a id="__codelineno-153-3" name="__codelineno-153-3" href="#__codelineno-153-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This is the number of prediction-space coordinates.</p>
+<p>For internally generated space, it should correspond to the number of fitted
+base estimators.</p>
+<hr />
+<h2 id="check-finite-regression-predictions">Check finite regression predictions</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-154-1"><a id="__codelineno-154-1" name="__codelineno-154-1" href="#__codelineno-154-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-154-2"><a id="__codelineno-154-2" name="__codelineno-154-2" href="#__codelineno-154-2"></a>
+</span><span id="__span-154-3"><a id="__codelineno-154-3" name="__codelineno-154-3" href="#__codelineno-154-3"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-154-4"><a id="__codelineno-154-4" name="__codelineno-154-4" href="#__codelineno-154-4"></a>    <span class="n">np</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span>
+</span><span id="__span-154-5"><a id="__codelineno-154-5" name="__codelineno-154-5" href="#__codelineno-154-5"></a>        <span class="n">prediction_space</span>
+</span><span id="__span-154-6"><a id="__codelineno-154-6" name="__codelineno-154-6" href="#__codelineno-154-6"></a>    <span class="p">)</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+</span><span id="__span-154-7"><a id="__codelineno-154-7" name="__codelineno-154-7" href="#__codelineno-154-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Non-finite values can propagate into distance calculations.</p>
+<hr />
+<h2 id="inspect-stored-calibration-representation">Inspect stored calibration representation</h2>
+<p>GradientCOBRA:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-155-1"><a id="__codelineno-155-1" name="__codelineno-155-1" href="#__codelineno-155-1"></a><span class="n">model</span><span class="o">.</span><span class="n">Y_l_norm_</span>
+</span></code></pre></div>
+<p>CombinedClassifier:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-156-1"><a id="__codelineno-156-1" name="__codelineno-156-1" href="#__codelineno-156-1"></a><span class="n">model</span><span class="o">.</span><span class="n">pred_l_</span>
+</span></code></pre></div>
+<p>MixCOBRA:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-157-1"><a id="__codelineno-157-1" name="__codelineno-157-1" href="#__codelineno-157-1"></a><span class="n">model</span><span class="o">.</span><span class="n">Y_l_norm_</span>
+</span></code></pre></div>
+<hr />
+<h1 id="quick-comparison">Quick comparison</h1>
+<table>
+<thead>
+<tr>
+<th>Estimator</th>
+<th>Prediction-space attribute</th>
+<th style="text-align: center;">Normalized?</th>
+<th><code>as_predictions</code> predict path</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GradientCOBRA</code></td>
+<td><code>Y_l_norm_</code></td>
+<td style="text-align: center;">Yes</td>
+<td>treats new <code>X</code> as prediction space</td>
+</tr>
+<tr>
+<td><code>CombinedClassifier</code></td>
+<td><code>pred_l_</code></td>
+<td style="text-align: center;">No</td>
+<td>treats new <code>X</code> as prediction space</td>
+</tr>
+<tr>
+<td><code>MixCOBRARegressor</code></td>
+<td><code>Y_l_norm_</code></td>
+<td style="text-align: center;">Yes</td>
+<td>current <code>predict()</code> still expects/derives <code>pred_X</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="quick-reference">Quick reference</h1>
+<table>
+<thead>
+<tr>
+<th>Concept</th>
+<th>Current source behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>prediction generation</td>
+<td><code>est.predict(X)</code></td>
+</tr>
+<tr>
+<td>matrix construction</td>
+<td><code>np.column_stack(preds)</code></td>
+</tr>
+<tr>
+<td>standard mode</td>
+<td>fit estimators on <code>X_k</code>, predict on <code>X_l</code></td>
+</tr>
+<tr>
+<td>explicit calibration set</td>
+<td>supported with <code>X_l</code>, <code>y_l</code></td>
+</tr>
+<tr>
+<td>precomputed mode</td>
+<td><code>as_predictions=True</code></td>
+</tr>
+<tr>
+<td>GradientCOBRA scaling</td>
+<td>scalar normalization, scale factor <code>30.0</code></td>
+</tr>
+<tr>
+<td>CombinedClassifier scaling</td>
+<td>no prediction normalization before distance</td>
+</tr>
+<tr>
+<td>MixCOBRA prediction scaling</td>
+<td>separate input/prediction constants</td>
+</tr>
+<tr>
+<td>Gradient adapter</td>
+<td>one-parameter distance scaling</td>
+</tr>
+<tr>
+<td>CombinedClassifier adapter</td>
+<td>one-parameter distance scaling</td>
+</tr>
+<tr>
+<td>MixCOBRA adapter</td>
+<td>one- or two-parameter</td>
+</tr>
+<tr>
+<td>Mix two-space fusion</td>
+<td><code>alpha * D_X + beta * D_Y</code></td>
+</tr>
+<tr>
+<td>classification space</td>
+<td>hard <code>predict()</code> labels</td>
+</tr>
+<tr>
+<td>default classifier distance</td>
+<td><code>hamming</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="mental-model">Mental model</h1>
+<div class="admonition quote">
+<p><strong>Prediction space replaces “How close are these samples in their original
+features?” with “How similarly do the model experts predict these
+samples?”</strong></p>
+</div>
+<div class="arithmatex">\[
+\boxed{
+x
+\rightarrow
+\begin{bmatrix}
+f_1(x) &amp;
+f_2(x) &amp;
+\cdots &amp;
+f_M(x)
+\end{bmatrix}
+\rightarrow
+\text{distance}
+\rightarrow
+\text{kernel}
+\rightarrow
+\text{aggregation}
+}
+\]</div>
+<p>GradientCOBRA works directly in that prediction representation,
+CombinedClassifier applies the same idea to hard class predictions, and
+MixCOBRA combines prediction-space geometry with an input-space geometry.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../../consensus/majority-vote/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Majority Vote">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Majority Vote
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../data-splitting/" class="md-footer__link md-footer__link--next" aria-label="Next: Data Splitting">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Data Splitting
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.path", "navigation.top", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

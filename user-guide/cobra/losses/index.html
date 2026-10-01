@@ -1,0 +1,4168 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the KFC Procedure machine learning library">
+      
+      
+        <meta name="author" content="KFC Procedure Contributors">
+      
+      
+      
+        <link rel="prev" href="../cross-validation/">
+      
+      
+        <link rel="next" href="../optimization/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Loss Functions - KFC Procedure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#loss-functions" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="KFC Procedure" class="md-header__button md-logo" aria-label="KFC Procedure" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KFC Procedure
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Loss Functions
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../getting-started/installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="KFC Procedure" class="md-nav__button md-logo" aria-label="KFC Procedure" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    KFC Procedure
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../getting-started/concepts/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/kfc-procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/combined-classifier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CombinedClassifier
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/mixcobra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MixCOBRA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/gradientcobra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GradientCOBRA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    KFC Procedure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/fitting-kfc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fitting KFC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-k-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure K-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-f-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure F-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-c-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure C-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/inspecting-fitted-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspect Fitted Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clustering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clustering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clustering/bregman-divergences/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bregman Divergences
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estimators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Estimators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/base-estimators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base Estimators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/estimator-parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estimator Parameters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/custom-estimators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Estimators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consensus
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Consensus
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/regression-combiners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regression Combiners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/classification-combiners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Classification Combiners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/stacking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stacking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/weighted-mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Weighted Mean
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/majority-vote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Majority Vote
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    COBRA Components
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    COBRA Components
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../prediction-space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prediction Space
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-splitting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Splitting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../distances/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distances
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../aggregators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aggregators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cross-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loss Functions
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loss Functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#losses-in-the-cobra-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Losses in the COBRA pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../gradient-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gradient Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/precomputed-predictions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Precomputed Predictions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/custom-aggregation-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Aggregation Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/parallel-execution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parallel Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/reproducibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../advanced/extending-kfc-procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extending KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../reference/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#losses-in-the-cobra-pipeline" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Losses in the COBRA pipeline
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../prediction-space/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    COBRA Components
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="loss-functions">Loss Functions</h1>
+<p>Loss functions connect COBRA predictions to the optimization objective.</p>
+<p>During cross-validation, a COBRA estimator:</p>
+<ol>
+<li>builds predictions for the validation rows;</li>
+<li>compares those predictions with the validation targets;</li>
+<li>evaluates a registered loss;</li>
+<li>averages the fold losses;</li>
+<li>asks the optimizer to minimize that value.</li>
+</ol>
+<p>The current source provides six built-in losses:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a>mse
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a>mae
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a>huber
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a>log_loss
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a>hinge
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6" href="#__codelineno-0-6"></a>quantile
+</span></code></pre></div>
+<p>with aliases for several of them.</p>
+<p>The implementations live under:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>kfc_procedure/cobra/core/losses/
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>├── base.py
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>├── mse.py
+</span><span id="__span-1-4"><a id="__codelineno-1-4" name="__codelineno-1-4" href="#__codelineno-1-4"></a>├── mae.py
+</span><span id="__span-1-5"><a id="__codelineno-1-5" name="__codelineno-1-5" href="#__codelineno-1-5"></a>├── huber.py
+</span><span id="__span-1-6"><a id="__codelineno-1-6" name="__codelineno-1-6" href="#__codelineno-1-6"></a>├── log_loss.py
+</span><span id="__span-1-7"><a id="__codelineno-1-7" name="__codelineno-1-7" href="#__codelineno-1-7"></a>├── hinge.py
+</span><span id="__span-1-8"><a id="__codelineno-1-8" name="__codelineno-1-8" href="#__codelineno-1-8"></a>└── quantile.py
+</span></code></pre></div>
+<p>and are registered through:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="n">LossFactory</span>
+</span></code></pre></div>
+<hr />
+<h2 id="losses-in-the-cobra-pipeline">Losses in the COBRA pipeline</h2>
+<p>The loss layer appears after fold-level aggregation:</p>
+<pre class="mermaid"><code>flowchart LR
+    P["Candidate parameters"]
+    K["Kernel weights"]
+    A["Aggregator"]
+    YH["Fold predictions"]
+    Y["Validation targets"]
+    L["Loss"]
+    O["Optimizer"]
+
+    P --&gt; K --&gt; A --&gt; YH
+    YH --&gt; L
+    Y --&gt; L
+    L --&gt; O</code></pre>
+<p>For one cross-validation fold, the objective has the form:</p>
+<div class="arithmatex">\[
+\mathcal{L}
+\left(
+y_{\text{validation}},
+\widehat y_{\text{validation}}
+\right).
+\]</div>
+<p>The optimizer minimizes the average of these fold losses.</p>
+<hr />
+<h1 id="built-in-losses">Built-in losses</h1>
+<table>
+<thead>
+<tr>
+<th>Registry name</th>
+<th>Aliases</th>
+<th>Class</th>
+<th>Primary source formula</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mse</code></td>
+<td><code>l2</code>, <code>squared_error</code></td>
+<td><code>MSELoss</code></td>
+<td>mean squared error</td>
+</tr>
+<tr>
+<td><code>mae</code></td>
+<td><code>l1</code></td>
+<td><code>MAELoss</code></td>
+<td>mean absolute error</td>
+</tr>
+<tr>
+<td><code>huber</code></td>
+<td>—</td>
+<td><code>HuberLoss</code></td>
+<td>quadratic/linear robust loss</td>
+</tr>
+<tr>
+<td><code>log_loss</code></td>
+<td><code>cross_entropy</code></td>
+<td><code>LogLoss</code></td>
+<td>binary cross-entropy</td>
+</tr>
+<tr>
+<td><code>hinge</code></td>
+<td>—</td>
+<td><code>HingeLoss</code></td>
+<td>mean hinge loss</td>
+</tr>
+<tr>
+<td><code>quantile</code></td>
+<td>—</td>
+<td><code>QuantileLoss</code></td>
+<td>pinball / quantile loss</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="baseloss"><code>BaseLoss</code></h1>
+<p>Every built-in loss inherits:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="n">BaseLoss</span>
+</span></code></pre></div>
+<p>The abstract interface is intentionally small:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="k">class</span><span class="w"> </span><span class="nc">BaseLoss</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a>
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a>    <span class="nd">@abstractmethod</span>
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6" href="#__codelineno-4-6"></a>        <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7" href="#__codelineno-4-7"></a>        <span class="n">y_pred</span><span class="p">,</span>
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8" href="#__codelineno-4-8"></a>    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9" href="#__codelineno-4-9"></a>        <span class="o">...</span>
+</span></code></pre></div>
+<p>A loss object is therefore callable:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">value</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">y_pred</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and must return one scalar <code>float</code>.</p>
+<hr />
+<h1 id="lossfactory"><code>LossFactory</code></h1>
+<p>Losses are created through:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="n">LossFactory</span>
+</span></code></pre></div>
+<p>which inherits the package's common:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">BaseFactory</span>
+</span></code></pre></div>
+<p>Example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.losses</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="n">LossFactory</span><span class="p">,</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a><span class="p">)</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="n">loss</span> <span class="o">=</span> <span class="n">LossFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-8-6"><a id="__codelineno-8-6" name="__codelineno-8-6" href="#__codelineno-8-6"></a>    <span class="s2">"mse"</span>
+</span><span id="__span-8-7"><a id="__codelineno-8-7" name="__codelineno-8-7" href="#__codelineno-8-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a><span class="n">score</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span>
+</span><span id="__span-9-2"><a id="__codelineno-9-2" name="__codelineno-9-2" href="#__codelineno-9-2"></a>    <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-9-3"><a id="__codelineno-9-3" name="__codelineno-9-3" href="#__codelineno-9-3"></a>    <span class="n">y_pred</span><span class="p">,</span>
+</span><span id="__span-9-4"><a id="__codelineno-9-4" name="__codelineno-9-4" href="#__codelineno-9-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="inspect-registered-losses">Inspect registered losses</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a>    <span class="n">LossFactory</span><span class="o">.</span><span class="n">available</span><span class="p">()</span>
+</span><span id="__span-10-3"><a id="__codelineno-10-3" name="__codelineno-10-3" href="#__codelineno-10-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The current source registers names including:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a>cross_entropy
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>hinge
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>huber
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>l1
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>l2
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>log_loss
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a>mae
+</span><span id="__span-11-8"><a id="__codelineno-11-8" name="__codelineno-11-8" href="#__codelineno-11-8"></a>mse
+</span><span id="__span-11-9"><a id="__codelineno-11-9" name="__codelineno-11-9" href="#__codelineno-11-9"></a>quantile
+</span><span id="__span-11-10"><a id="__codelineno-11-10" name="__codelineno-11-10" href="#__codelineno-11-10"></a>squared_error
+</span></code></pre></div>
+<p>subject to normal module loading.</p>
+<hr />
+<h1 id="mean-squared-error">Mean squared error</h1>
+<p><code>MSELoss</code> is registered as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>mse
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>l2
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>squared_error
+</span></code></pre></div>
+<p>The source formula is:</p>
+<div class="arithmatex">\[
+\mathcal{L}_{\text{MSE}}
+=
+\frac{1}{n}
+\sum_{i=1}^{n}
+\left(
+y_i-\widehat y_i
+\right)^2.
+\]</div>
+<hr />
+<h2 id="implementation">Implementation</h2>
+<p>The implementation is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="n">y_true</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a><span class="p">)</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="n">y_pred</span>
+</span><span id="__span-13-7"><a id="__codelineno-13-7" name="__codelineno-13-7" href="#__codelineno-13-7"></a><span class="p">)</span>
+</span><span id="__span-13-8"><a id="__codelineno-13-8" name="__codelineno-13-8" href="#__codelineno-13-8"></a>
+</span><span id="__span-13-9"><a id="__codelineno-13-9" name="__codelineno-13-9" href="#__codelineno-13-9"></a><span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
+</span><span id="__span-13-10"><a id="__codelineno-13-10" name="__codelineno-13-10" href="#__codelineno-13-10"></a>    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-13-11"><a id="__codelineno-13-11" name="__codelineno-13-11" href="#__codelineno-13-11"></a>        <span class="p">(</span>
+</span><span id="__span-13-12"><a id="__codelineno-13-12" name="__codelineno-13-12" href="#__codelineno-13-12"></a>            <span class="n">y_true</span>
+</span><span id="__span-13-13"><a id="__codelineno-13-13" name="__codelineno-13-13" href="#__codelineno-13-13"></a>            <span class="o">-</span>
+</span><span id="__span-13-14"><a id="__codelineno-13-14" name="__codelineno-13-14" href="#__codelineno-13-14"></a>            <span class="n">y_pred</span>
+</span><span id="__span-13-15"><a id="__codelineno-13-15" name="__codelineno-13-15" href="#__codelineno-13-15"></a>        <span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+</span><span id="__span-13-16"><a id="__codelineno-13-16" name="__codelineno-13-16" href="#__codelineno-13-16"></a>    <span class="p">)</span>
+</span><span id="__span-13-17"><a id="__codelineno-13-17" name="__codelineno-13-17" href="#__codelineno-13-17"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>No additional weighting, clipping, or regularization is applied.</p>
+<hr />
+<h2 id="direct-example">Direct example</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-14-2"><a id="__codelineno-14-2" name="__codelineno-14-2" href="#__codelineno-14-2"></a>
+</span><span id="__span-14-3"><a id="__codelineno-14-3" name="__codelineno-14-3" href="#__codelineno-14-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.losses</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-14-4"><a id="__codelineno-14-4" name="__codelineno-14-4" href="#__codelineno-14-4"></a>    <span class="n">MSELoss</span><span class="p">,</span>
+</span><span id="__span-14-5"><a id="__codelineno-14-5" name="__codelineno-14-5" href="#__codelineno-14-5"></a><span class="p">)</span>
+</span><span id="__span-14-6"><a id="__codelineno-14-6" name="__codelineno-14-6" href="#__codelineno-14-6"></a>
+</span><span id="__span-14-7"><a id="__codelineno-14-7" name="__codelineno-14-7" href="#__codelineno-14-7"></a><span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-14-8"><a id="__codelineno-14-8" name="__codelineno-14-8" href="#__codelineno-14-8"></a>    <span class="mf">1.0</span><span class="p">,</span>
+</span><span id="__span-14-9"><a id="__codelineno-14-9" name="__codelineno-14-9" href="#__codelineno-14-9"></a>    <span class="mf">2.0</span><span class="p">,</span>
+</span><span id="__span-14-10"><a id="__codelineno-14-10" name="__codelineno-14-10" href="#__codelineno-14-10"></a>    <span class="mf">3.0</span><span class="p">,</span>
+</span><span id="__span-14-11"><a id="__codelineno-14-11" name="__codelineno-14-11" href="#__codelineno-14-11"></a><span class="p">])</span>
+</span><span id="__span-14-12"><a id="__codelineno-14-12" name="__codelineno-14-12" href="#__codelineno-14-12"></a>
+</span><span id="__span-14-13"><a id="__codelineno-14-13" name="__codelineno-14-13" href="#__codelineno-14-13"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-14-14"><a id="__codelineno-14-14" name="__codelineno-14-14" href="#__codelineno-14-14"></a>    <span class="mf">1.2</span><span class="p">,</span>
+</span><span id="__span-14-15"><a id="__codelineno-14-15" name="__codelineno-14-15" href="#__codelineno-14-15"></a>    <span class="mf">1.8</span><span class="p">,</span>
+</span><span id="__span-14-16"><a id="__codelineno-14-16" name="__codelineno-14-16" href="#__codelineno-14-16"></a>    <span class="mf">2.5</span><span class="p">,</span>
+</span><span id="__span-14-17"><a id="__codelineno-14-17" name="__codelineno-14-17" href="#__codelineno-14-17"></a><span class="p">])</span>
+</span><span id="__span-14-18"><a id="__codelineno-14-18" name="__codelineno-14-18" href="#__codelineno-14-18"></a>
+</span><span id="__span-14-19"><a id="__codelineno-14-19" name="__codelineno-14-19" href="#__codelineno-14-19"></a><span class="n">loss</span> <span class="o">=</span> <span class="n">MSELoss</span><span class="p">()</span>
+</span><span id="__span-14-20"><a id="__codelineno-14-20" name="__codelineno-14-20" href="#__codelineno-14-20"></a>
+</span><span id="__span-14-21"><a id="__codelineno-14-21" name="__codelineno-14-21" href="#__codelineno-14-21"></a><span class="n">value</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span>
+</span><span id="__span-14-22"><a id="__codelineno-14-22" name="__codelineno-14-22" href="#__codelineno-14-22"></a>    <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-14-23"><a id="__codelineno-14-23" name="__codelineno-14-23" href="#__codelineno-14-23"></a>    <span class="n">y_pred</span><span class="p">,</span>
+</span><span id="__span-14-24"><a id="__codelineno-14-24" name="__codelineno-14-24" href="#__codelineno-14-24"></a><span class="p">)</span>
+</span><span id="__span-14-25"><a id="__codelineno-14-25" name="__codelineno-14-25" href="#__codelineno-14-25"></a>
+</span><span id="__span-14-26"><a id="__codelineno-14-26" name="__codelineno-14-26" href="#__codelineno-14-26"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-14-27"><a id="__codelineno-14-27" name="__codelineno-14-27" href="#__codelineno-14-27"></a>    <span class="n">value</span>
+</span><span id="__span-14-28"><a id="__codelineno-14-28" name="__codelineno-14-28" href="#__codelineno-14-28"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="mse-behavior">MSE behavior</h1>
+<p>Squaring the residual means larger absolute errors contribute
+disproportionately more to the objective.</p>
+<p>For residual:</p>
+<div class="arithmatex">\[
+e_i
+=
+y_i-\widehat y_i,
+\]</div>
+<p>the contribution is:</p>
+<div class="arithmatex">\[
+e_i^2.
+\]</div>
+<p>The source module describes MSE as the most common regression loss and notes
+that it strongly penalizes large errors.</p>
+<hr />
+<h1 id="mean-absolute-error">Mean absolute error</h1>
+<p><code>MAELoss</code> is registered as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a>mae
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>l1
+</span></code></pre></div>
+<p>The source formula is:</p>
+<div class="arithmatex">\[
+\mathcal{L}_{\text{MAE}}
+=
+\frac{1}{n}
+\sum_{i=1}^{n}
+\left|
+y_i-\widehat y_i
+\right|.
+\]</div>
+<hr />
+<h2 id="implementation_1">Implementation</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a><span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-16-2"><a id="__codelineno-16-2" name="__codelineno-16-2" href="#__codelineno-16-2"></a>    <span class="n">y_true</span>
+</span><span id="__span-16-3"><a id="__codelineno-16-3" name="__codelineno-16-3" href="#__codelineno-16-3"></a><span class="p">)</span>
+</span><span id="__span-16-4"><a id="__codelineno-16-4" name="__codelineno-16-4" href="#__codelineno-16-4"></a>
+</span><span id="__span-16-5"><a id="__codelineno-16-5" name="__codelineno-16-5" href="#__codelineno-16-5"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-16-6"><a id="__codelineno-16-6" name="__codelineno-16-6" href="#__codelineno-16-6"></a>    <span class="n">y_pred</span>
+</span><span id="__span-16-7"><a id="__codelineno-16-7" name="__codelineno-16-7" href="#__codelineno-16-7"></a><span class="p">)</span>
+</span><span id="__span-16-8"><a id="__codelineno-16-8" name="__codelineno-16-8" href="#__codelineno-16-8"></a>
+</span><span id="__span-16-9"><a id="__codelineno-16-9" name="__codelineno-16-9" href="#__codelineno-16-9"></a><span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
+</span><span id="__span-16-10"><a id="__codelineno-16-10" name="__codelineno-16-10" href="#__codelineno-16-10"></a>    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-16-11"><a id="__codelineno-16-11" name="__codelineno-16-11" href="#__codelineno-16-11"></a>        <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
+</span><span id="__span-16-12"><a id="__codelineno-16-12" name="__codelineno-16-12" href="#__codelineno-16-12"></a>            <span class="n">y_true</span>
+</span><span id="__span-16-13"><a id="__codelineno-16-13" name="__codelineno-16-13" href="#__codelineno-16-13"></a>            <span class="o">-</span>
+</span><span id="__span-16-14"><a id="__codelineno-16-14" name="__codelineno-16-14" href="#__codelineno-16-14"></a>            <span class="n">y_pred</span>
+</span><span id="__span-16-15"><a id="__codelineno-16-15" name="__codelineno-16-15" href="#__codelineno-16-15"></a>        <span class="p">)</span>
+</span><span id="__span-16-16"><a id="__codelineno-16-16" name="__codelineno-16-16" href="#__codelineno-16-16"></a>    <span class="p">)</span>
+</span><span id="__span-16-17"><a id="__codelineno-16-17" name="__codelineno-16-17" href="#__codelineno-16-17"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="direct-example_1">Direct example</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.losses</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>    <span class="n">MAELoss</span><span class="p">,</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="p">)</span>
+</span><span id="__span-17-4"><a id="__codelineno-17-4" name="__codelineno-17-4" href="#__codelineno-17-4"></a>
+</span><span id="__span-17-5"><a id="__codelineno-17-5" name="__codelineno-17-5" href="#__codelineno-17-5"></a><span class="n">loss</span> <span class="o">=</span> <span class="n">MAELoss</span><span class="p">()</span>
+</span><span id="__span-17-6"><a id="__codelineno-17-6" name="__codelineno-17-6" href="#__codelineno-17-6"></a>
+</span><span id="__span-17-7"><a id="__codelineno-17-7" name="__codelineno-17-7" href="#__codelineno-17-7"></a><span class="n">value</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span>
+</span><span id="__span-17-8"><a id="__codelineno-17-8" name="__codelineno-17-8" href="#__codelineno-17-8"></a>    <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-17-9"><a id="__codelineno-17-9" name="__codelineno-17-9" href="#__codelineno-17-9"></a>    <span class="n">y_pred</span><span class="p">,</span>
+</span><span id="__span-17-10"><a id="__codelineno-17-10" name="__codelineno-17-10" href="#__codelineno-17-10"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The source describes MAE as more robust to outliers than MSE because it uses
+absolute rather than squared error.</p>
+<hr />
+<h1 id="huber-loss">Huber loss</h1>
+<p><code>HuberLoss</code> combines quadratic behavior for small residuals with linear
+behavior for large residuals.</p>
+<p>It is registered as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a>huber
+</span></code></pre></div>
+<hr />
+<h2 id="constructor">Constructor</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a><span class="n">HuberLoss</span><span class="p">(</span>
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>    <span class="n">delta</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The parameter:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>delta
+</span></code></pre></div>
+<p>controls the transition point.</p>
+<p>The current source does not validate that <code>delta</code> is positive.</p>
+<hr />
+<h1 id="huber-formula">Huber formula</h1>
+<p>Let:</p>
+<div class="arithmatex">\[
+e
+=
+y-\widehat y.
+\]</div>
+<p>The implementation computes:</p>
+<div class="arithmatex">\[
+q(e)
+=
+\frac12e^2
+\]</div>
+<p>and:</p>
+<div class="arithmatex">\[
+\ell(e)
+=
+\delta
+\left(
+|e|
+-
+\frac12\delta
+\right).
+\]</div>
+<p>Then:</p>
+<div class="arithmatex">\[
+L_\delta(e)
+=
+\begin{cases}
+\frac12e^2,
+&amp;
+|e|\leq\delta,
+\\[6pt]
+\delta
+\left(
+|e|-\frac12\delta
+\right),
+&amp;
+|e|&gt;\delta.
+\end{cases}
+\]</div>
+<p>The final loss is the mean across samples.</p>
+<hr />
+<h2 id="implementation_2">Implementation</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a><span class="n">error</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>    <span class="n">y_true</span>
+</span><span id="__span-21-3"><a id="__codelineno-21-3" name="__codelineno-21-3" href="#__codelineno-21-3"></a>    <span class="o">-</span>
+</span><span id="__span-21-4"><a id="__codelineno-21-4" name="__codelineno-21-4" href="#__codelineno-21-4"></a>    <span class="n">y_pred</span>
+</span><span id="__span-21-5"><a id="__codelineno-21-5" name="__codelineno-21-5" href="#__codelineno-21-5"></a><span class="p">)</span>
+</span><span id="__span-21-6"><a id="__codelineno-21-6" name="__codelineno-21-6" href="#__codelineno-21-6"></a>
+</span><span id="__span-21-7"><a id="__codelineno-21-7" name="__codelineno-21-7" href="#__codelineno-21-7"></a><span class="n">abs_error</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
+</span><span id="__span-21-8"><a id="__codelineno-21-8" name="__codelineno-21-8" href="#__codelineno-21-8"></a>    <span class="n">error</span>
+</span><span id="__span-21-9"><a id="__codelineno-21-9" name="__codelineno-21-9" href="#__codelineno-21-9"></a><span class="p">)</span>
+</span><span id="__span-21-10"><a id="__codelineno-21-10" name="__codelineno-21-10" href="#__codelineno-21-10"></a>
+</span><span id="__span-21-11"><a id="__codelineno-21-11" name="__codelineno-21-11" href="#__codelineno-21-11"></a><span class="n">quadratic</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-21-12"><a id="__codelineno-21-12" name="__codelineno-21-12" href="#__codelineno-21-12"></a>    <span class="mf">0.5</span>
+</span><span id="__span-21-13"><a id="__codelineno-21-13" name="__codelineno-21-13" href="#__codelineno-21-13"></a>    <span class="o">*</span>
+</span><span id="__span-21-14"><a id="__codelineno-21-14" name="__codelineno-21-14" href="#__codelineno-21-14"></a>    <span class="n">error</span> <span class="o">**</span> <span class="mi">2</span>
+</span><span id="__span-21-15"><a id="__codelineno-21-15" name="__codelineno-21-15" href="#__codelineno-21-15"></a><span class="p">)</span>
+</span><span id="__span-21-16"><a id="__codelineno-21-16" name="__codelineno-21-16" href="#__codelineno-21-16"></a>
+</span><span id="__span-21-17"><a id="__codelineno-21-17" name="__codelineno-21-17" href="#__codelineno-21-17"></a><span class="n">linear</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-21-18"><a id="__codelineno-21-18" name="__codelineno-21-18" href="#__codelineno-21-18"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">delta</span>
+</span><span id="__span-21-19"><a id="__codelineno-21-19" name="__codelineno-21-19" href="#__codelineno-21-19"></a>    <span class="o">*</span>
+</span><span id="__span-21-20"><a id="__codelineno-21-20" name="__codelineno-21-20" href="#__codelineno-21-20"></a>    <span class="p">(</span>
+</span><span id="__span-21-21"><a id="__codelineno-21-21" name="__codelineno-21-21" href="#__codelineno-21-21"></a>        <span class="n">abs_error</span>
+</span><span id="__span-21-22"><a id="__codelineno-21-22" name="__codelineno-21-22" href="#__codelineno-21-22"></a>        <span class="o">-</span>
+</span><span id="__span-21-23"><a id="__codelineno-21-23" name="__codelineno-21-23" href="#__codelineno-21-23"></a>        <span class="mf">0.5</span>
+</span><span id="__span-21-24"><a id="__codelineno-21-24" name="__codelineno-21-24" href="#__codelineno-21-24"></a>        <span class="o">*</span>
+</span><span id="__span-21-25"><a id="__codelineno-21-25" name="__codelineno-21-25" href="#__codelineno-21-25"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">delta</span>
+</span><span id="__span-21-26"><a id="__codelineno-21-26" name="__codelineno-21-26" href="#__codelineno-21-26"></a>    <span class="p">)</span>
+</span><span id="__span-21-27"><a id="__codelineno-21-27" name="__codelineno-21-27" href="#__codelineno-21-27"></a><span class="p">)</span>
+</span><span id="__span-21-28"><a id="__codelineno-21-28" name="__codelineno-21-28" href="#__codelineno-21-28"></a>
+</span><span id="__span-21-29"><a id="__codelineno-21-29" name="__codelineno-21-29" href="#__codelineno-21-29"></a><span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
+</span><span id="__span-21-30"><a id="__codelineno-21-30" name="__codelineno-21-30" href="#__codelineno-21-30"></a>    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-21-31"><a id="__codelineno-21-31" name="__codelineno-21-31" href="#__codelineno-21-31"></a>        <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span>
+</span><span id="__span-21-32"><a id="__codelineno-21-32" name="__codelineno-21-32" href="#__codelineno-21-32"></a>            <span class="n">abs_error</span>
+</span><span id="__span-21-33"><a id="__codelineno-21-33" name="__codelineno-21-33" href="#__codelineno-21-33"></a>            <span class="o">&lt;=</span>
+</span><span id="__span-21-34"><a id="__codelineno-21-34" name="__codelineno-21-34" href="#__codelineno-21-34"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">delta</span><span class="p">,</span>
+</span><span id="__span-21-35"><a id="__codelineno-21-35" name="__codelineno-21-35" href="#__codelineno-21-35"></a>            <span class="n">quadratic</span><span class="p">,</span>
+</span><span id="__span-21-36"><a id="__codelineno-21-36" name="__codelineno-21-36" href="#__codelineno-21-36"></a>            <span class="n">linear</span><span class="p">,</span>
+</span><span id="__span-21-37"><a id="__codelineno-21-37" name="__codelineno-21-37" href="#__codelineno-21-37"></a>        <span class="p">)</span>
+</span><span id="__span-21-38"><a id="__codelineno-21-38" name="__codelineno-21-38" href="#__codelineno-21-38"></a>    <span class="p">)</span>
+</span><span id="__span-21-39"><a id="__codelineno-21-39" name="__codelineno-21-39" href="#__codelineno-21-39"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="configure-huber-loss">Configure Huber loss</h1>
+<p>High-level COBRA estimators pass:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a><span class="n">loss_params</span>
+</span></code></pre></div>
+<p>to <code>LossFactory.create()</code>.</p>
+<p>Example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-23-2"><a id="__codelineno-23-2" name="__codelineno-23-2" href="#__codelineno-23-2"></a>    <span class="n">loss</span><span class="o">=</span><span class="s2">"huber"</span><span class="p">,</span>
+</span><span id="__span-23-3"><a id="__codelineno-23-3" name="__codelineno-23-3" href="#__codelineno-23-3"></a>    <span class="n">loss_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-23-4"><a id="__codelineno-23-4" name="__codelineno-23-4" href="#__codelineno-23-4"></a>        <span class="s2">"delta"</span><span class="p">:</span> <span class="mf">1.5</span><span class="p">,</span>
+</span><span id="__span-23-5"><a id="__codelineno-23-5" name="__codelineno-23-5" href="#__codelineno-23-5"></a>    <span class="p">},</span>
+</span><span id="__span-23-6"><a id="__codelineno-23-6" name="__codelineno-23-6" href="#__codelineno-23-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This creates:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a><span class="n">HuberLoss</span><span class="p">(</span>
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>    <span class="n">delta</span><span class="o">=</span><span class="mf">1.5</span><span class="p">,</span>
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="quantile-loss">Quantile loss</h1>
+<p><code>QuantileLoss</code> is registered as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a>quantile
+</span></code></pre></div>
+<p>and is intended for quantile regression.</p>
+<p>Its constructor is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a><span class="n">QuantileLoss</span><span class="p">(</span>
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>    <span class="n">tau</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="source-formula">Source formula</h2>
+<p>Let:</p>
+<div class="arithmatex">\[
+e
+=
+y-\widehat y.
+\]</div>
+<p>The source computes:</p>
+<div class="arithmatex">\[
+\max
+\left(
+\tau e,
+(\tau-1)e
+\right).
+\]</div>
+<p>The returned loss is the mean of those values.</p>
+<p>Equivalent piecewise form:</p>
+<div class="arithmatex">\[
+L_\tau(e)
+=
+\begin{cases}
+\tau e,
+&amp;
+e\geq0,
+\\[4pt]
+(\tau-1)e,
+&amp;
+e&lt;0.
+\end{cases}
+\]</div>
+<hr />
+<h2 id="implementation_3">Implementation</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="n">error</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-27-2"><a id="__codelineno-27-2" name="__codelineno-27-2" href="#__codelineno-27-2"></a>    <span class="n">y_true</span>
+</span><span id="__span-27-3"><a id="__codelineno-27-3" name="__codelineno-27-3" href="#__codelineno-27-3"></a>    <span class="o">-</span>
+</span><span id="__span-27-4"><a id="__codelineno-27-4" name="__codelineno-27-4" href="#__codelineno-27-4"></a>    <span class="n">y_pred</span>
+</span><span id="__span-27-5"><a id="__codelineno-27-5" name="__codelineno-27-5" href="#__codelineno-27-5"></a><span class="p">)</span>
+</span><span id="__span-27-6"><a id="__codelineno-27-6" name="__codelineno-27-6" href="#__codelineno-27-6"></a>
+</span><span id="__span-27-7"><a id="__codelineno-27-7" name="__codelineno-27-7" href="#__codelineno-27-7"></a><span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
+</span><span id="__span-27-8"><a id="__codelineno-27-8" name="__codelineno-27-8" href="#__codelineno-27-8"></a>    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-27-9"><a id="__codelineno-27-9" name="__codelineno-27-9" href="#__codelineno-27-9"></a>        <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span>
+</span><span id="__span-27-10"><a id="__codelineno-27-10" name="__codelineno-27-10" href="#__codelineno-27-10"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">tau</span>
+</span><span id="__span-27-11"><a id="__codelineno-27-11" name="__codelineno-27-11" href="#__codelineno-27-11"></a>            <span class="o">*</span>
+</span><span id="__span-27-12"><a id="__codelineno-27-12" name="__codelineno-27-12" href="#__codelineno-27-12"></a>            <span class="n">error</span><span class="p">,</span>
+</span><span id="__span-27-13"><a id="__codelineno-27-13" name="__codelineno-27-13" href="#__codelineno-27-13"></a>            <span class="p">(</span>
+</span><span id="__span-27-14"><a id="__codelineno-27-14" name="__codelineno-27-14" href="#__codelineno-27-14"></a>                <span class="bp">self</span><span class="o">.</span><span class="n">tau</span>
+</span><span id="__span-27-15"><a id="__codelineno-27-15" name="__codelineno-27-15" href="#__codelineno-27-15"></a>                <span class="o">-</span>
+</span><span id="__span-27-16"><a id="__codelineno-27-16" name="__codelineno-27-16" href="#__codelineno-27-16"></a>                <span class="mi">1</span>
+</span><span id="__span-27-17"><a id="__codelineno-27-17" name="__codelineno-27-17" href="#__codelineno-27-17"></a>            <span class="p">)</span>
+</span><span id="__span-27-18"><a id="__codelineno-27-18" name="__codelineno-27-18" href="#__codelineno-27-18"></a>            <span class="o">*</span>
+</span><span id="__span-27-19"><a id="__codelineno-27-19" name="__codelineno-27-19" href="#__codelineno-27-19"></a>            <span class="n">error</span><span class="p">,</span>
+</span><span id="__span-27-20"><a id="__codelineno-27-20" name="__codelineno-27-20" href="#__codelineno-27-20"></a>        <span class="p">)</span>
+</span><span id="__span-27-21"><a id="__codelineno-27-21" name="__codelineno-27-21" href="#__codelineno-27-21"></a>    <span class="p">)</span>
+</span><span id="__span-27-22"><a id="__codelineno-27-22" name="__codelineno-27-22" href="#__codelineno-27-22"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="tau"><code>tau</code></h1>
+<p>The source documentation states:</p>
+<div class="arithmatex">\[
+\tau\in(0,1).
+\]</div>
+<p>However, the constructor currently performs no explicit interval validation.</p>
+<p>So values outside:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a>(0, 1)
+</span></code></pre></div>
+<p>are not rejected when the loss object is constructed.</p>
+<div class="admonition note">
+<p class="admonition-title">Source contract vs enforcement</p>
+<p>The module documents <code>tau</code> as a quantile level in <code>(0, 1)</code>, but the current
+implementation simply stores the supplied value.</p>
+</div>
+<hr />
+<h1 id="median-like-quantile-loss">Median-like quantile loss</h1>
+<p>With:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="n">tau</span><span class="o">=</span><span class="mf">0.5</span>
+</span></code></pre></div>
+<p>the formula gives symmetric linear penalties on positive and negative
+residuals.</p>
+<p>The resulting value is proportional to absolute error:</p>
+<div class="arithmatex">\[
+L_{0.5}(e)
+=
+0.5|e|.
+\]</div>
+<p>So the default quantile loss is not numerically identical to <code>MAELoss</code>; it is
+half its value for the same residuals.</p>
+<hr />
+<h1 id="binary-log-loss">Binary log loss</h1>
+<p><code>LogLoss</code> is registered as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a>log_loss
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>cross_entropy
+</span></code></pre></div>
+<p>The source formula is:</p>
+<div class="arithmatex">\[
+\mathcal{L}
+=
+-\frac1n
+\sum_i
+\left[
+y_i\log p_i
++
+(1-y_i)
+\log(1-p_i)
+\right].
+\]</div>
+<p>This is a binary cross-entropy formula.</p>
+<hr />
+<h2 id="prediction-clipping">Prediction clipping</h2>
+<p>Before evaluating logs, the source clips predictions:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">clip</span><span class="p">(</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>    <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a>        <span class="n">y_pred</span>
+</span><span id="__span-31-4"><a id="__codelineno-31-4" name="__codelineno-31-4" href="#__codelineno-31-4"></a>    <span class="p">),</span>
+</span><span id="__span-31-5"><a id="__codelineno-31-5" name="__codelineno-31-5" href="#__codelineno-31-5"></a>    <span class="mf">1e-12</span><span class="p">,</span>
+</span><span id="__span-31-6"><a id="__codelineno-31-6" name="__codelineno-31-6" href="#__codelineno-31-6"></a>    <span class="mi">1</span>
+</span><span id="__span-31-7"><a id="__codelineno-31-7" name="__codelineno-31-7" href="#__codelineno-31-7"></a>    <span class="o">-</span>
+</span><span id="__span-31-8"><a id="__codelineno-31-8" name="__codelineno-31-8" href="#__codelineno-31-8"></a>    <span class="mf">1e-12</span><span class="p">,</span>
+</span><span id="__span-31-9"><a id="__codelineno-31-9" name="__codelineno-31-9" href="#__codelineno-31-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This protects against:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a>log(0)
+</span></code></pre></div>
+<p>at exactly 0 or 1.</p>
+<hr />
+<h2 id="implementation_4">Implementation</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>    <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>        <span class="n">y_true</span>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a>        <span class="o">*</span>
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>        <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+</span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>            <span class="n">y_pred</span>
+</span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>        <span class="p">)</span>
+</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>        <span class="o">+</span>
+</span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>        <span class="p">(</span>
+</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a>            <span class="mi">1</span>
+</span><span id="__span-33-11"><a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>            <span class="o">-</span>
+</span><span id="__span-33-12"><a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a>            <span class="n">y_true</span>
+</span><span id="__span-33-13"><a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a>        <span class="p">)</span>
+</span><span id="__span-33-14"><a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a>        <span class="o">*</span>
+</span><span id="__span-33-15"><a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a>        <span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+</span><span id="__span-33-16"><a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a>            <span class="mi">1</span>
+</span><span id="__span-33-17"><a id="__codelineno-33-17" name="__codelineno-33-17" href="#__codelineno-33-17"></a>            <span class="o">-</span>
+</span><span id="__span-33-18"><a id="__codelineno-33-18" name="__codelineno-33-18" href="#__codelineno-33-18"></a>            <span class="n">y_pred</span>
+</span><span id="__span-33-19"><a id="__codelineno-33-19" name="__codelineno-33-19" href="#__codelineno-33-19"></a>        <span class="p">)</span>
+</span><span id="__span-33-20"><a id="__codelineno-33-20" name="__codelineno-33-20" href="#__codelineno-33-20"></a>    <span class="p">)</span>
+</span><span id="__span-33-21"><a id="__codelineno-33-21" name="__codelineno-33-21" href="#__codelineno-33-21"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="expected-log-loss-inputs">Expected log-loss inputs</h1>
+<p>The source module describes this loss as being used for probabilistic
+classification.</p>
+<p>The formula expects values conceptually like:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>y_true:
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>    binary 0/1 labels
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>
+</span><span id="__span-34-4"><a id="__codelineno-34-4" name="__codelineno-34-4" href="#__codelineno-34-4"></a>y_pred:
+</span><span id="__span-34-5"><a id="__codelineno-34-5" name="__codelineno-34-5" href="#__codelineno-34-5"></a>    probabilities for the positive class
+</span></code></pre></div>
+<p>The implementation does not itself verify:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>binary targets
+</span><span id="__span-35-2"><a id="__codelineno-35-2" name="__codelineno-35-2" href="#__codelineno-35-2"></a>probability semantics
+</span><span id="__span-35-3"><a id="__codelineno-35-3" name="__codelineno-35-3" href="#__codelineno-35-3"></a>matching one-dimensional shape
+</span></code></pre></div>
+<p>beyond NumPy's normal broadcasting behavior.</p>
+<hr />
+<h1 id="multiclass-limitation">Multiclass limitation</h1>
+<p>The current <code>LogLoss</code> implementation is not a general multiclass
+cross-entropy implementation.</p>
+<p>It does not:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>one-hot encode labels
+</span><span id="__span-36-2"><a id="__codelineno-36-2" name="__codelineno-36-2" href="#__codelineno-36-2"></a>index class probabilities
+</span><span id="__span-36-3"><a id="__codelineno-36-3" name="__codelineno-36-3" href="#__codelineno-36-3"></a>sum over class dimensions
+</span><span id="__span-36-4"><a id="__codelineno-36-4" name="__codelineno-36-4" href="#__codelineno-36-4"></a>accept class labels as a `classes` argument
+</span></code></pre></div>
+<p>It directly evaluates the binary formula above.</p>
+<p>Therefore it should not be interpreted as a source-supported multiclass
+cross-entropy implementation.</p>
+<hr />
+<h1 id="hinge-loss">Hinge loss</h1>
+<p><code>HingeLoss</code> is registered as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>hinge
+</span></code></pre></div>
+<p>The module explicitly states:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a>Assumes:
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>    y_true in {-1, +1}
+</span></code></pre></div>
+<p>Its formula is:</p>
+<div class="arithmatex">\[
+\mathcal{L}_{\text{hinge}}
+=
+\frac1n
+\sum_i
+\max
+\left(
+0,
+1-y_i\widehat y_i
+\right).
+\]</div>
+<hr />
+<h2 id="implementation_5">Implementation</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>    <span class="n">y_true</span>
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="p">)</span>
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>
+</span><span id="__span-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a>    <span class="n">y_pred</span>
+</span><span id="__span-39-7"><a id="__codelineno-39-7" name="__codelineno-39-7" href="#__codelineno-39-7"></a><span class="p">)</span>
+</span><span id="__span-39-8"><a id="__codelineno-39-8" name="__codelineno-39-8" href="#__codelineno-39-8"></a>
+</span><span id="__span-39-9"><a id="__codelineno-39-9" name="__codelineno-39-9" href="#__codelineno-39-9"></a><span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
+</span><span id="__span-39-10"><a id="__codelineno-39-10" name="__codelineno-39-10" href="#__codelineno-39-10"></a>    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-39-11"><a id="__codelineno-39-11" name="__codelineno-39-11" href="#__codelineno-39-11"></a>        <span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span>
+</span><span id="__span-39-12"><a id="__codelineno-39-12" name="__codelineno-39-12" href="#__codelineno-39-12"></a>            <span class="mf">0.0</span><span class="p">,</span>
+</span><span id="__span-39-13"><a id="__codelineno-39-13" name="__codelineno-39-13" href="#__codelineno-39-13"></a>            <span class="mf">1.0</span>
+</span><span id="__span-39-14"><a id="__codelineno-39-14" name="__codelineno-39-14" href="#__codelineno-39-14"></a>            <span class="o">-</span>
+</span><span id="__span-39-15"><a id="__codelineno-39-15" name="__codelineno-39-15" href="#__codelineno-39-15"></a>            <span class="n">y_true</span>
+</span><span id="__span-39-16"><a id="__codelineno-39-16" name="__codelineno-39-16" href="#__codelineno-39-16"></a>            <span class="o">*</span>
+</span><span id="__span-39-17"><a id="__codelineno-39-17" name="__codelineno-39-17" href="#__codelineno-39-17"></a>            <span class="n">y_pred</span><span class="p">,</span>
+</span><span id="__span-39-18"><a id="__codelineno-39-18" name="__codelineno-39-18" href="#__codelineno-39-18"></a>        <span class="p">)</span>
+</span><span id="__span-39-19"><a id="__codelineno-39-19" name="__codelineno-39-19" href="#__codelineno-39-19"></a>    <span class="p">)</span>
+</span><span id="__span-39-20"><a id="__codelineno-39-20" name="__codelineno-39-20" href="#__codelineno-39-20"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="expected-hinge-inputs">Expected hinge inputs</h1>
+<p>The source describes the loss as common in SVM-style classification and
+expects:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a>y_true in {-1, +1}
+</span></code></pre></div>
+<p>The implementation does not convert labels from:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>0/1
+</span></code></pre></div>
+<p>to:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a>-1/+1
+</span></code></pre></div>
+<p>and does not convert hard class labels into decision margins.</p>
+<p>It uses whatever arrays are passed directly into:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="n">y_true</span> <span class="o">*</span> <span class="n">y_pred</span>
+</span></code></pre></div>
+<hr />
+<h1 id="important-classifier-integration-detail">Important classifier integration detail</h1>
+<p><code>CombinedClassifier</code> produces <strong>hard class predictions</strong> during its
+cross-validation objective.</p>
+<p>It does not produce probability vectors or decision-function margins for the
+loss layer.</p>
+<p>Therefore classification losses such as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>log_loss
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>hinge
+</span></code></pre></div>
+<p>are not automatically supplied the conventional inputs implied by their
+source modules.</p>
+<p>This is important when configuring the current classifier.</p>
+<hr />
+<h1 id="default-loss-in-cobra-estimators">Default loss in COBRA estimators</h1>
+<p>The current constructors use:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="n">loss</span><span class="o">=</span><span class="s2">"mse"</span>
+</span></code></pre></div>
+<p>by default in all three main estimators:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a>GradientCOBRA
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>MixCOBRARegressor
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a>CombinedClassifier
+</span></code></pre></div>
+<p>That includes the classification estimator:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="n">CombinedClassifier</span>
+</span></code></pre></div>
+<hr />
+<h2 id="regression-defaults">Regression defaults</h2>
+<p>For:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="n">GradientCOBRA</span><span class="p">()</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="n">MixCOBRARegressor</span><span class="p">()</span>
+</span></code></pre></div>
+<p>the default objective is therefore ordinary mean squared error.</p>
+<p>This matches their numeric regression outputs.</p>
+<hr />
+<h1 id="combinedclassifier-default">CombinedClassifier default</h1>
+<p>The current <code>CombinedClassifier</code> constructor also specifies:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a><span class="n">loss</span><span class="o">=</span><span class="s2">"mse"</span>
+</span></code></pre></div>
+<p>Its cross-validation loop produces hard predicted class labels and evaluates:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">loss_</span><span class="p">(</span>
+</span><span id="__span-51-2"><a id="__codelineno-51-2" name="__codelineno-51-2" href="#__codelineno-51-2"></a>    <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-51-3"><a id="__codelineno-51-3" name="__codelineno-51-3" href="#__codelineno-51-3"></a>    <span class="n">preds</span><span class="p">,</span>
+</span><span id="__span-51-4"><a id="__codelineno-51-4" name="__codelineno-51-4" href="#__codelineno-51-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>So with the default, class labels are numerically compared using squared
+error.</p>
+<div class="admonition important">
+<p class="admonition-title">Current source behavior</p>
+<p><code>CombinedClassifier</code> does not default to classification error,
+log loss, or hinge loss.</p>
+<p>Its current default is the same registered <code>MSELoss</code> used by the regression
+estimators.</p>
+</div>
+<hr />
+<h1 id="consequence-for-encoded-class-labels">Consequence for encoded class labels</h1>
+<p>Because MSE is applied directly to class labels, the numeric encoding matters.</p>
+<p>For example:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a>true class = 0
+</span><span id="__span-52-2"><a id="__codelineno-52-2" name="__codelineno-52-2" href="#__codelineno-52-2"></a>predicted class = 1
+</span></code></pre></div>
+<p>contributes:</p>
+<div class="arithmatex">\[
+(0-1)^2
+=
+1.
+\]</div>
+<p>But:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a>true class = 0
+</span><span id="__span-53-2"><a id="__codelineno-53-2" name="__codelineno-53-2" href="#__codelineno-53-2"></a>predicted class = 2
+</span></code></pre></div>
+<p>contributes:</p>
+<div class="arithmatex">\[
+(0-2)^2
+=
+4.
+\]</div>
+<p>So with class labels:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a>0, 1, 2
+</span></code></pre></div>
+<p>the default classifier objective treats the numeric distance between class
+codes as meaningful.</p>
+<p>That is a direct consequence of the current source default.</p>
+<hr />
+<h1 id="string-labels-with-mse">String labels with MSE</h1>
+<p>If classification targets are strings such as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a>"cat"
+</span><span id="__span-55-2"><a id="__codelineno-55-2" name="__codelineno-55-2" href="#__codelineno-55-2"></a>"dog"
+</span></code></pre></div>
+<p>then the default:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="n">MSELoss</span>
+</span></code></pre></div>
+<p>cannot perform:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a><span class="n">y_true</span> <span class="o">-</span> <span class="n">y_pred</span>
+</span></code></pre></div>
+<p>on those string arrays.</p>
+<p>So the default CombinedClassifier loss path assumes numerically subtractable
+labels.</p>
+<p>The loss layer itself does not encode categorical labels before evaluation.</p>
+<hr />
+<h1 id="loss-resolution">Loss resolution</h1>
+<p>The high-level estimators all resolve the configured loss through:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a><span class="n">LossFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-58-2"><a id="__codelineno-58-2" name="__codelineno-58-2" href="#__codelineno-58-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">loss</span><span class="p">,</span>
+</span><span id="__span-58-3"><a id="__codelineno-58-3" name="__codelineno-58-3" href="#__codelineno-58-3"></a>    <span class="o">**</span><span class="p">(</span>
+</span><span id="__span-58-4"><a id="__codelineno-58-4" name="__codelineno-58-4" href="#__codelineno-58-4"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">loss_params</span>
+</span><span id="__span-58-5"><a id="__codelineno-58-5" name="__codelineno-58-5" href="#__codelineno-58-5"></a>        <span class="ow">or</span> <span class="p">{}</span>
+</span><span id="__span-58-6"><a id="__codelineno-58-6" name="__codelineno-58-6" href="#__codelineno-58-6"></a>    <span class="p">),</span>
+</span><span id="__span-58-7"><a id="__codelineno-58-7" name="__codelineno-58-7" href="#__codelineno-58-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and store the result in:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">loss_</span>
+</span></code></pre></div>
+<hr />
+<h2 id="inspect-the-fitted-loss">Inspect the fitted loss</h2>
+<p>After component resolution or fitting:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-60-2"><a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">loss_</span>
+</span><span id="__span-60-3"><a id="__codelineno-60-3" name="__codelineno-60-3" href="#__codelineno-60-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>For the default:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a>MSELoss
+</span></code></pre></div>
+<hr />
+<h1 id="configure-mae">Configure MAE</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-62-2"><a id="__codelineno-62-2" name="__codelineno-62-2" href="#__codelineno-62-2"></a>    <span class="n">loss</span><span class="o">=</span><span class="s2">"mae"</span><span class="p">,</span>
+</span><span id="__span-62-3"><a id="__codelineno-62-3" name="__codelineno-62-3" href="#__codelineno-62-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Alias:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-63-2"><a id="__codelineno-63-2" name="__codelineno-63-2" href="#__codelineno-63-2"></a>    <span class="n">loss</span><span class="o">=</span><span class="s2">"l1"</span><span class="p">,</span>
+</span><span id="__span-63-3"><a id="__codelineno-63-3" name="__codelineno-63-3" href="#__codelineno-63-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Both resolve to:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a><span class="n">MAELoss</span>
+</span></code></pre></div>
+<hr />
+<h1 id="configure-mse">Configure MSE</h1>
+<p>These names all resolve to <code>MSELoss</code>:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a><span class="n">loss</span><span class="o">=</span><span class="s2">"mse"</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-66-1"><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a><span class="n">loss</span><span class="o">=</span><span class="s2">"l2"</span>
+</span></code></pre></div>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-67-1"><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a><span class="n">loss</span><span class="o">=</span><span class="s2">"squared_error"</span>
+</span></code></pre></div>
+<hr />
+<h1 id="configure-huber">Configure Huber</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-68-1"><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MixCOBRARegressor</span><span class="p">(</span>
+</span><span id="__span-68-2"><a id="__codelineno-68-2" name="__codelineno-68-2" href="#__codelineno-68-2"></a>    <span class="n">loss</span><span class="o">=</span><span class="s2">"huber"</span><span class="p">,</span>
+</span><span id="__span-68-3"><a id="__codelineno-68-3" name="__codelineno-68-3" href="#__codelineno-68-3"></a>    <span class="n">loss_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-68-4"><a id="__codelineno-68-4" name="__codelineno-68-4" href="#__codelineno-68-4"></a>        <span class="s2">"delta"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+</span><span id="__span-68-5"><a id="__codelineno-68-5" name="__codelineno-68-5" href="#__codelineno-68-5"></a>    <span class="p">},</span>
+</span><span id="__span-68-6"><a id="__codelineno-68-6" name="__codelineno-68-6" href="#__codelineno-68-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="configure-quantile-loss">Configure quantile loss</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-69-1"><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-69-2"><a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a>    <span class="n">loss</span><span class="o">=</span><span class="s2">"quantile"</span><span class="p">,</span>
+</span><span id="__span-69-3"><a id="__codelineno-69-3" name="__codelineno-69-3" href="#__codelineno-69-3"></a>    <span class="n">loss_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-69-4"><a id="__codelineno-69-4" name="__codelineno-69-4" href="#__codelineno-69-4"></a>        <span class="s2">"tau"</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+</span><span id="__span-69-5"><a id="__codelineno-69-5" name="__codelineno-69-5" href="#__codelineno-69-5"></a>    <span class="p">},</span>
+</span><span id="__span-69-6"><a id="__codelineno-69-6" name="__codelineno-69-6" href="#__codelineno-69-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The current source simply forwards:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-70-1"><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a><span class="n">tau</span><span class="o">=</span><span class="mf">0.9</span>
+</span></code></pre></div>
+<p>to the constructor.</p>
+<hr />
+<h1 id="how-gradientcobra-uses-the-loss">How GradientCOBRA uses the loss</h1>
+<p>For every stored cross-validation fold, GradientCOBRA creates fold predictions:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a><span class="n">preds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">aggregator_</span><span class="o">.</span><span class="n">aggregate_matrix</span><span class="p">(</span>
+</span><span id="__span-71-2"><a id="__codelineno-71-2" name="__codelineno-71-2" href="#__codelineno-71-2"></a>    <span class="n">values</span><span class="o">=</span><span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-71-3"><a id="__codelineno-71-3" name="__codelineno-71-3" href="#__codelineno-71-3"></a>    <span class="n">weights</span><span class="o">=</span><span class="n">K_val_train</span><span class="p">,</span>
+</span><span id="__span-71-4"><a id="__codelineno-71-4" name="__codelineno-71-4" href="#__codelineno-71-4"></a>    <span class="n">fallback</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
+</span><span id="__span-71-5"><a id="__codelineno-71-5" name="__codelineno-71-5" href="#__codelineno-71-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a><span class="n">error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_</span><span class="p">(</span>
+</span><span id="__span-72-2"><a id="__codelineno-72-2" name="__codelineno-72-2" href="#__codelineno-72-2"></a>    <span class="n">y_val</span><span class="p">,</span>
+</span><span id="__span-72-3"><a id="__codelineno-72-3" name="__codelineno-72-3" href="#__codelineno-72-3"></a>    <span class="n">preds</span><span class="p">,</span>
+</span><span id="__span-72-4"><a id="__codelineno-72-4" name="__codelineno-72-4" href="#__codelineno-72-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The fold errors are collected and returned as:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a><span class="nb">float</span><span class="p">(</span>
+</span><span id="__span-73-2"><a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a>    <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-73-3"><a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a>        <span class="n">errors</span>
+</span><span id="__span-73-4"><a id="__codelineno-73-4" name="__codelineno-73-4" href="#__codelineno-73-4"></a>    <span class="p">)</span>
+</span><span id="__span-73-5"><a id="__codelineno-73-5" name="__codelineno-73-5" href="#__codelineno-73-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="gradientcobra-objective">GradientCOBRA objective</h1>
+<p>For bandwidth <span class="arithmatex">\(h\)</span>, the cross-validation objective is conceptually:</p>
+<div class="arithmatex">\[
+J(h)
+=
+\frac{1}{K}
+\sum_{k=1}^{K}
+\mathcal{L}
+\left(
+y_k^{\text{val}},
+\widehat y_k(h)
+\right).
+\]</div>
+<p>The configured loss determines the definition of:</p>
+<div class="arithmatex">\[
+\mathcal{L}.
+\]</div>
+<p>The optimizer then searches for a parameter value minimizing:</p>
+<div class="arithmatex">\[
+J(h).
+\]</div>
+<hr />
+<h1 id="how-mixcobra-uses-the-loss">How MixCOBRA uses the loss</h1>
+<p>MixCOBRA follows the same pattern.</p>
+<p>For one-parameter mode:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a>bandwidth
+</span><span id="__span-74-2"><a id="__codelineno-74-2" name="__codelineno-74-2" href="#__codelineno-74-2"></a>    -&gt; adapted mixed-space distance
+</span><span id="__span-74-3"><a id="__codelineno-74-3" name="__codelineno-74-3" href="#__codelineno-74-3"></a>    -&gt; kernel
+</span><span id="__span-74-4"><a id="__codelineno-74-4" name="__codelineno-74-4" href="#__codelineno-74-4"></a>    -&gt; fold predictions
+</span><span id="__span-74-5"><a id="__codelineno-74-5" name="__codelineno-74-5" href="#__codelineno-74-5"></a>    -&gt; loss
+</span></code></pre></div>
+<p>For two-parameter mode:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a>alpha, beta
+</span><span id="__span-75-2"><a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a>    -&gt; alpha * D_X + beta * D_Y
+</span><span id="__span-75-3"><a id="__codelineno-75-3" name="__codelineno-75-3" href="#__codelineno-75-3"></a>    -&gt; kernel
+</span><span id="__span-75-4"><a id="__codelineno-75-4" name="__codelineno-75-4" href="#__codelineno-75-4"></a>    -&gt; fold predictions
+</span><span id="__span-75-5"><a id="__codelineno-75-5" name="__codelineno-75-5" href="#__codelineno-75-5"></a>    -&gt; loss
+</span></code></pre></div>
+<p>In both cases the fold objective calls:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">loss_</span><span class="p">(</span>
+</span><span id="__span-76-2"><a id="__codelineno-76-2" name="__codelineno-76-2" href="#__codelineno-76-2"></a>    <span class="n">y_val</span><span class="p">,</span>
+</span><span id="__span-76-3"><a id="__codelineno-76-3" name="__codelineno-76-3" href="#__codelineno-76-3"></a>    <span class="n">preds</span><span class="p">,</span>
+</span><span id="__span-76-4"><a id="__codelineno-76-4" name="__codelineno-76-4" href="#__codelineno-76-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="how-combinedclassifier-uses-the-loss">How CombinedClassifier uses the loss</h1>
+<p>For each validation row, CombinedClassifier first obtains a hard class
+prediction.</p>
+<p>Then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="n">preds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-77-2"><a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a>    <span class="n">preds</span>
+</span><span id="__span-77-3"><a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a><span class="p">)</span>
+</span><span id="__span-77-4"><a id="__codelineno-77-4" name="__codelineno-77-4" href="#__codelineno-77-4"></a>
+</span><span id="__span-77-5"><a id="__codelineno-77-5" name="__codelineno-77-5" href="#__codelineno-77-5"></a><span class="n">y_true</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">y_l_</span><span class="p">[</span>
+</span><span id="__span-77-6"><a id="__codelineno-77-6" name="__codelineno-77-6" href="#__codelineno-77-6"></a>    <span class="n">val_idx</span>
+</span><span id="__span-77-7"><a id="__codelineno-77-7" name="__codelineno-77-7" href="#__codelineno-77-7"></a><span class="p">]</span>
+</span><span id="__span-77-8"><a id="__codelineno-77-8" name="__codelineno-77-8" href="#__codelineno-77-8"></a>
+</span><span id="__span-77-9"><a id="__codelineno-77-9" name="__codelineno-77-9" href="#__codelineno-77-9"></a><span class="n">error</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_</span><span class="p">(</span>
+</span><span id="__span-77-10"><a id="__codelineno-77-10" name="__codelineno-77-10" href="#__codelineno-77-10"></a>    <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-77-11"><a id="__codelineno-77-11" name="__codelineno-77-11" href="#__codelineno-77-11"></a>    <span class="n">preds</span><span class="p">,</span>
+</span><span id="__span-77-12"><a id="__codelineno-77-12" name="__codelineno-77-12" href="#__codelineno-77-12"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Thus the loss receives:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>hard predicted classes
+</span></code></pre></div>
+<p>rather than probability vectors.</p>
+<hr />
+<h1 id="log_loss-with-combinedclassifier"><code>log_loss</code> with CombinedClassifier</h1>
+<p>Although:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a>log_loss
+</span></code></pre></div>
+<p>is registered and can be requested through the factory, the current
+CombinedClassifier CV path does not call:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a><span class="n">predict_proba</span><span class="p">()</span>
+</span></code></pre></div>
+<p>inside its objective.</p>
+<p>Therefore <code>LogLoss</code> receives hard predicted labels if selected there.</p>
+<p>For binary numeric classes <code>0/1</code>, clipping transforms hard predictions into:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>1e-12
+</span><span id="__span-81-2"><a id="__codelineno-81-2" name="__codelineno-81-2" href="#__codelineno-81-2"></a>1 - 1e-12
+</span></code></pre></div>
+<p>before the logarithms.</p>
+<p>That is valid numerically but is not the same input as calibrated probability
+predictions.</p>
+<hr />
+<h1 id="hinge-with-combinedclassifier"><code>hinge</code> with CombinedClassifier</h1>
+<p>Likewise, <code>HingeLoss</code> expects:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-82-1"><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a>y_true in {-1, +1}
+</span></code></pre></div>
+<p>and conventional hinge use expects margin-like predictions.</p>
+<p>The current classifier CV objective instead passes hard predicted labels.</p>
+<p>No label conversion or margin calculation is performed by the loss class or
+the classifier objective.</p>
+<hr />
+<h1 id="loss-functions-do-not-know-the-task">Loss functions do not know the task</h1>
+<p><code>LossFactory</code> registrations do not carry regression or classification
+categories in the current source.</p>
+<p>The factory itself therefore does not prevent configurations such as:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-83-1"><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a><span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-83-2"><a id="__codelineno-83-2" name="__codelineno-83-2" href="#__codelineno-83-2"></a>    <span class="n">loss</span><span class="o">=</span><span class="s2">"hinge"</span><span class="p">,</span>
+</span><span id="__span-83-3"><a id="__codelineno-83-3" name="__codelineno-83-3" href="#__codelineno-83-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>or:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a><span class="n">CombinedClassifier</span><span class="p">(</span>
+</span><span id="__span-84-2"><a id="__codelineno-84-2" name="__codelineno-84-2" href="#__codelineno-84-2"></a>    <span class="n">loss</span><span class="o">=</span><span class="s2">"quantile"</span><span class="p">,</span>
+</span><span id="__span-84-3"><a id="__codelineno-84-3" name="__codelineno-84-3" href="#__codelineno-84-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The package resolves the requested registered class and lets the arrays and
+formula determine the resulting behavior.</p>
+<hr />
+<h1 id="loss-validation-scope">Loss validation scope</h1>
+<p>The built-in losses are intentionally lightweight.</p>
+<p>They do not share a common validation layer for:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>shape equality
+</span><span id="__span-85-2"><a id="__codelineno-85-2" name="__codelineno-85-2" href="#__codelineno-85-2"></a>finite values
+</span><span id="__span-85-3"><a id="__codelineno-85-3" name="__codelineno-85-3" href="#__codelineno-85-3"></a>target dtype
+</span><span id="__span-85-4"><a id="__codelineno-85-4" name="__codelineno-85-4" href="#__codelineno-85-4"></a>task compatibility
+</span><span id="__span-85-5"><a id="__codelineno-85-5" name="__codelineno-85-5" href="#__codelineno-85-5"></a>sample weighting
+</span><span id="__span-85-6"><a id="__codelineno-85-6" name="__codelineno-85-6" href="#__codelineno-85-6"></a>multiclass semantics
+</span></code></pre></div>
+<p>Most implementations simply call:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-86-1"><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a><span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></code></pre></div>
+<p>and apply the formula.</p>
+<hr />
+<h1 id="broadcasting">Broadcasting</h1>
+<p>Because the losses use NumPy expressions directly, differently shaped arrays
+can sometimes broadcast rather than immediately raise an error.</p>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-87-1"><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a><span class="n">y_true</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span>
+</span><span id="__span-87-2"><a id="__codelineno-87-2" name="__codelineno-87-2" href="#__codelineno-87-2"></a>    <span class="n">n</span><span class="p">,</span>
+</span><span id="__span-87-3"><a id="__codelineno-87-3" name="__codelineno-87-3" href="#__codelineno-87-3"></a>    <span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-87-4"><a id="__codelineno-87-4" name="__codelineno-87-4" href="#__codelineno-87-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-88-1"><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a><span class="n">y_pred</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="p">(</span>
+</span><span id="__span-88-2"><a id="__codelineno-88-2" name="__codelineno-88-2" href="#__codelineno-88-2"></a>    <span class="n">n</span><span class="p">,</span>
+</span><span id="__span-88-3"><a id="__codelineno-88-3" name="__codelineno-88-3" href="#__codelineno-88-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>can produce an <code>(n, n)</code> broadcasted result in some formulas.</p>
+<p>The current source does not call a shared:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-89-1"><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a><span class="n">check_consistent_length</span><span class="p">()</span>
+</span></code></pre></div>
+<p>or shape-equality validator inside the loss classes.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Ensure <code>y_true</code> and <code>y_pred</code> have the intended matching shape before
+evaluating a built-in loss.</p>
+</div>
+<hr />
+<h1 id="empty-arrays">Empty arrays</h1>
+<p>The current loss classes do not explicitly reject empty arrays.</p>
+<p>Calling:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-90-1"><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></code></pre></div>
+<p>on an empty result can return:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-91-1"><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a>nan
+</span></code></pre></div>
+<p>with a NumPy runtime warning.</p>
+<p>No custom <code>ValueError</code> is implemented for empty input.</p>
+<hr />
+<h1 id="non-finite-values">Non-finite values</h1>
+<p>The losses do not generally sanitize:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-92-1"><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a>NaN
+</span><span id="__span-92-2"><a id="__codelineno-92-2" name="__codelineno-92-2" href="#__codelineno-92-2"></a>+Inf
+</span><span id="__span-92-3"><a id="__codelineno-92-3" name="__codelineno-92-3" href="#__codelineno-92-3"></a>-Inf
+</span></code></pre></div>
+<p>in the inputs.</p>
+<p><code>LogLoss</code> clips numeric prediction values but does not replace <code>NaN</code>.</p>
+<p>So non-finite values can propagate to the returned loss.</p>
+<hr />
+<h1 id="no-sample-weights">No sample weights</h1>
+<p>The built-in <code>BaseLoss</code> interface accepts only:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-93-1"><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a><span class="n">y_true</span>
+</span><span id="__span-93-2"><a id="__codelineno-93-2" name="__codelineno-93-2" href="#__codelineno-93-2"></a><span class="n">y_pred</span>
+</span></code></pre></div>
+<p>There is no:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-94-1"><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a><span class="n">sample_weight</span>
+</span></code></pre></div>
+<p>argument.</p>
+<p>Therefore the current built-in cross-validation objectives compute ordinary
+unweighted means over samples within each fold.</p>
+<hr />
+<h1 id="mean-of-fold-losses">Mean of fold losses</h1>
+<p>The estimators compute:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-95-1"><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-95-2"><a id="__codelineno-95-2" name="__codelineno-95-2" href="#__codelineno-95-2"></a>    <span class="n">errors</span>
+</span><span id="__span-95-3"><a id="__codelineno-95-3" name="__codelineno-95-3" href="#__codelineno-95-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>where each item is already a mean loss for one fold.</p>
+<p>Therefore the final CV objective is a <strong>mean of fold means</strong>.</p>
+<p>It is not explicitly weighted by fold size.</p>
+<p>With the current K-fold implementation, fold sizes are usually close, but can
+differ by one sample when the calibration sample count is not divisible by
+<code>n_cv</code>.</p>
+<hr />
+<h1 id="direct-loss-comparison">Direct loss comparison</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-96-1"><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-96-2"><a id="__codelineno-96-2" name="__codelineno-96-2" href="#__codelineno-96-2"></a>
+</span><span id="__span-96-3"><a id="__codelineno-96-3" name="__codelineno-96-3" href="#__codelineno-96-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.losses</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-96-4"><a id="__codelineno-96-4" name="__codelineno-96-4" href="#__codelineno-96-4"></a>    <span class="n">LossFactory</span><span class="p">,</span>
+</span><span id="__span-96-5"><a id="__codelineno-96-5" name="__codelineno-96-5" href="#__codelineno-96-5"></a><span class="p">)</span>
+</span><span id="__span-96-6"><a id="__codelineno-96-6" name="__codelineno-96-6" href="#__codelineno-96-6"></a>
+</span><span id="__span-96-7"><a id="__codelineno-96-7" name="__codelineno-96-7" href="#__codelineno-96-7"></a>
+</span><span id="__span-96-8"><a id="__codelineno-96-8" name="__codelineno-96-8" href="#__codelineno-96-8"></a><span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-96-9"><a id="__codelineno-96-9" name="__codelineno-96-9" href="#__codelineno-96-9"></a>    <span class="mf">1.0</span><span class="p">,</span>
+</span><span id="__span-96-10"><a id="__codelineno-96-10" name="__codelineno-96-10" href="#__codelineno-96-10"></a>    <span class="mf">2.0</span><span class="p">,</span>
+</span><span id="__span-96-11"><a id="__codelineno-96-11" name="__codelineno-96-11" href="#__codelineno-96-11"></a>    <span class="mf">3.0</span><span class="p">,</span>
+</span><span id="__span-96-12"><a id="__codelineno-96-12" name="__codelineno-96-12" href="#__codelineno-96-12"></a><span class="p">])</span>
+</span><span id="__span-96-13"><a id="__codelineno-96-13" name="__codelineno-96-13" href="#__codelineno-96-13"></a>
+</span><span id="__span-96-14"><a id="__codelineno-96-14" name="__codelineno-96-14" href="#__codelineno-96-14"></a><span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-96-15"><a id="__codelineno-96-15" name="__codelineno-96-15" href="#__codelineno-96-15"></a>    <span class="mf">1.2</span><span class="p">,</span>
+</span><span id="__span-96-16"><a id="__codelineno-96-16" name="__codelineno-96-16" href="#__codelineno-96-16"></a>    <span class="mf">1.8</span><span class="p">,</span>
+</span><span id="__span-96-17"><a id="__codelineno-96-17" name="__codelineno-96-17" href="#__codelineno-96-17"></a>    <span class="mf">2.5</span><span class="p">,</span>
+</span><span id="__span-96-18"><a id="__codelineno-96-18" name="__codelineno-96-18" href="#__codelineno-96-18"></a><span class="p">])</span>
+</span><span id="__span-96-19"><a id="__codelineno-96-19" name="__codelineno-96-19" href="#__codelineno-96-19"></a>
+</span><span id="__span-96-20"><a id="__codelineno-96-20" name="__codelineno-96-20" href="#__codelineno-96-20"></a>
+</span><span id="__span-96-21"><a id="__codelineno-96-21" name="__codelineno-96-21" href="#__codelineno-96-21"></a><span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span>
+</span><span id="__span-96-22"><a id="__codelineno-96-22" name="__codelineno-96-22" href="#__codelineno-96-22"></a>    <span class="s2">"mse"</span><span class="p">,</span>
+</span><span id="__span-96-23"><a id="__codelineno-96-23" name="__codelineno-96-23" href="#__codelineno-96-23"></a>    <span class="s2">"mae"</span><span class="p">,</span>
+</span><span id="__span-96-24"><a id="__codelineno-96-24" name="__codelineno-96-24" href="#__codelineno-96-24"></a>    <span class="s2">"huber"</span><span class="p">,</span>
+</span><span id="__span-96-25"><a id="__codelineno-96-25" name="__codelineno-96-25" href="#__codelineno-96-25"></a>    <span class="s2">"quantile"</span><span class="p">,</span>
+</span><span id="__span-96-26"><a id="__codelineno-96-26" name="__codelineno-96-26" href="#__codelineno-96-26"></a><span class="p">]:</span>
+</span><span id="__span-96-27"><a id="__codelineno-96-27" name="__codelineno-96-27" href="#__codelineno-96-27"></a>    <span class="n">loss</span> <span class="o">=</span> <span class="n">LossFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-96-28"><a id="__codelineno-96-28" name="__codelineno-96-28" href="#__codelineno-96-28"></a>        <span class="n">name</span>
+</span><span id="__span-96-29"><a id="__codelineno-96-29" name="__codelineno-96-29" href="#__codelineno-96-29"></a>    <span class="p">)</span>
+</span><span id="__span-96-30"><a id="__codelineno-96-30" name="__codelineno-96-30" href="#__codelineno-96-30"></a>
+</span><span id="__span-96-31"><a id="__codelineno-96-31" name="__codelineno-96-31" href="#__codelineno-96-31"></a>    <span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-96-32"><a id="__codelineno-96-32" name="__codelineno-96-32" href="#__codelineno-96-32"></a>        <span class="n">name</span><span class="p">,</span>
+</span><span id="__span-96-33"><a id="__codelineno-96-33" name="__codelineno-96-33" href="#__codelineno-96-33"></a>        <span class="n">loss</span><span class="p">(</span>
+</span><span id="__span-96-34"><a id="__codelineno-96-34" name="__codelineno-96-34" href="#__codelineno-96-34"></a>            <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-96-35"><a id="__codelineno-96-35" name="__codelineno-96-35" href="#__codelineno-96-35"></a>            <span class="n">y_pred</span><span class="p">,</span>
+</span><span id="__span-96-36"><a id="__codelineno-96-36" name="__codelineno-96-36" href="#__codelineno-96-36"></a>        <span class="p">),</span>
+</span><span id="__span-96-37"><a id="__codelineno-96-37" name="__codelineno-96-37" href="#__codelineno-96-37"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="inspect-aliases">Inspect aliases</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-97-1"><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a><span class="n">mse</span> <span class="o">=</span> <span class="n">LossFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-97-2"><a id="__codelineno-97-2" name="__codelineno-97-2" href="#__codelineno-97-2"></a>    <span class="s2">"mse"</span>
+</span><span id="__span-97-3"><a id="__codelineno-97-3" name="__codelineno-97-3" href="#__codelineno-97-3"></a><span class="p">)</span>
+</span><span id="__span-97-4"><a id="__codelineno-97-4" name="__codelineno-97-4" href="#__codelineno-97-4"></a>
+</span><span id="__span-97-5"><a id="__codelineno-97-5" name="__codelineno-97-5" href="#__codelineno-97-5"></a><span class="n">l2</span> <span class="o">=</span> <span class="n">LossFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-97-6"><a id="__codelineno-97-6" name="__codelineno-97-6" href="#__codelineno-97-6"></a>    <span class="s2">"l2"</span>
+</span><span id="__span-97-7"><a id="__codelineno-97-7" name="__codelineno-97-7" href="#__codelineno-97-7"></a><span class="p">)</span>
+</span><span id="__span-97-8"><a id="__codelineno-97-8" name="__codelineno-97-8" href="#__codelineno-97-8"></a>
+</span><span id="__span-97-9"><a id="__codelineno-97-9" name="__codelineno-97-9" href="#__codelineno-97-9"></a><span class="n">squared</span> <span class="o">=</span> <span class="n">LossFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-97-10"><a id="__codelineno-97-10" name="__codelineno-97-10" href="#__codelineno-97-10"></a>    <span class="s2">"squared_error"</span>
+</span><span id="__span-97-11"><a id="__codelineno-97-11" name="__codelineno-97-11" href="#__codelineno-97-11"></a><span class="p">)</span>
+</span><span id="__span-97-12"><a id="__codelineno-97-12" name="__codelineno-97-12" href="#__codelineno-97-12"></a>
+</span><span id="__span-97-13"><a id="__codelineno-97-13" name="__codelineno-97-13" href="#__codelineno-97-13"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-97-14"><a id="__codelineno-97-14" name="__codelineno-97-14" href="#__codelineno-97-14"></a>    <span class="nb">type</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+</span><span id="__span-97-15"><a id="__codelineno-97-15" name="__codelineno-97-15" href="#__codelineno-97-15"></a>    <span class="nb">type</span><span class="p">(</span><span class="n">l2</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+</span><span id="__span-97-16"><a id="__codelineno-97-16" name="__codelineno-97-16" href="#__codelineno-97-16"></a>    <span class="nb">type</span><span class="p">(</span><span class="n">squared</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+</span><span id="__span-97-17"><a id="__codelineno-97-17" name="__codelineno-97-17" href="#__codelineno-97-17"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>All three should resolve to:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-98-1"><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a>MSELoss
+</span></code></pre></div>
+<hr />
+<h1 id="binary-log-loss-example">Binary log-loss example</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-99-1"><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-99-2"><a id="__codelineno-99-2" name="__codelineno-99-2" href="#__codelineno-99-2"></a>
+</span><span id="__span-99-3"><a id="__codelineno-99-3" name="__codelineno-99-3" href="#__codelineno-99-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.losses</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-99-4"><a id="__codelineno-99-4" name="__codelineno-99-4" href="#__codelineno-99-4"></a>    <span class="n">LogLoss</span><span class="p">,</span>
+</span><span id="__span-99-5"><a id="__codelineno-99-5" name="__codelineno-99-5" href="#__codelineno-99-5"></a><span class="p">)</span>
+</span><span id="__span-99-6"><a id="__codelineno-99-6" name="__codelineno-99-6" href="#__codelineno-99-6"></a>
+</span><span id="__span-99-7"><a id="__codelineno-99-7" name="__codelineno-99-7" href="#__codelineno-99-7"></a><span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-99-8"><a id="__codelineno-99-8" name="__codelineno-99-8" href="#__codelineno-99-8"></a>    <span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-99-9"><a id="__codelineno-99-9" name="__codelineno-99-9" href="#__codelineno-99-9"></a>    <span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-99-10"><a id="__codelineno-99-10" name="__codelineno-99-10" href="#__codelineno-99-10"></a>    <span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-99-11"><a id="__codelineno-99-11" name="__codelineno-99-11" href="#__codelineno-99-11"></a>    <span class="mi">0</span><span class="p">,</span>
+</span><span id="__span-99-12"><a id="__codelineno-99-12" name="__codelineno-99-12" href="#__codelineno-99-12"></a><span class="p">])</span>
+</span><span id="__span-99-13"><a id="__codelineno-99-13" name="__codelineno-99-13" href="#__codelineno-99-13"></a>
+</span><span id="__span-99-14"><a id="__codelineno-99-14" name="__codelineno-99-14" href="#__codelineno-99-14"></a><span class="n">p</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-99-15"><a id="__codelineno-99-15" name="__codelineno-99-15" href="#__codelineno-99-15"></a>    <span class="mf">0.1</span><span class="p">,</span>
+</span><span id="__span-99-16"><a id="__codelineno-99-16" name="__codelineno-99-16" href="#__codelineno-99-16"></a>    <span class="mf">0.8</span><span class="p">,</span>
+</span><span id="__span-99-17"><a id="__codelineno-99-17" name="__codelineno-99-17" href="#__codelineno-99-17"></a>    <span class="mf">0.7</span><span class="p">,</span>
+</span><span id="__span-99-18"><a id="__codelineno-99-18" name="__codelineno-99-18" href="#__codelineno-99-18"></a>    <span class="mf">0.2</span><span class="p">,</span>
+</span><span id="__span-99-19"><a id="__codelineno-99-19" name="__codelineno-99-19" href="#__codelineno-99-19"></a><span class="p">])</span>
+</span><span id="__span-99-20"><a id="__codelineno-99-20" name="__codelineno-99-20" href="#__codelineno-99-20"></a>
+</span><span id="__span-99-21"><a id="__codelineno-99-21" name="__codelineno-99-21" href="#__codelineno-99-21"></a><span class="n">loss</span> <span class="o">=</span> <span class="n">LogLoss</span><span class="p">()</span>
+</span><span id="__span-99-22"><a id="__codelineno-99-22" name="__codelineno-99-22" href="#__codelineno-99-22"></a>
+</span><span id="__span-99-23"><a id="__codelineno-99-23" name="__codelineno-99-23" href="#__codelineno-99-23"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-99-24"><a id="__codelineno-99-24" name="__codelineno-99-24" href="#__codelineno-99-24"></a>    <span class="n">loss</span><span class="p">(</span>
+</span><span id="__span-99-25"><a id="__codelineno-99-25" name="__codelineno-99-25" href="#__codelineno-99-25"></a>        <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-99-26"><a id="__codelineno-99-26" name="__codelineno-99-26" href="#__codelineno-99-26"></a>        <span class="n">p</span><span class="p">,</span>
+</span><span id="__span-99-27"><a id="__codelineno-99-27" name="__codelineno-99-27" href="#__codelineno-99-27"></a>    <span class="p">)</span>
+</span><span id="__span-99-28"><a id="__codelineno-99-28" name="__codelineno-99-28" href="#__codelineno-99-28"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This matches the binary formula implemented in the source.</p>
+<hr />
+<h1 id="hinge-example">Hinge example</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-100-1"><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.losses</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-100-2"><a id="__codelineno-100-2" name="__codelineno-100-2" href="#__codelineno-100-2"></a>    <span class="n">HingeLoss</span><span class="p">,</span>
+</span><span id="__span-100-3"><a id="__codelineno-100-3" name="__codelineno-100-3" href="#__codelineno-100-3"></a><span class="p">)</span>
+</span><span id="__span-100-4"><a id="__codelineno-100-4" name="__codelineno-100-4" href="#__codelineno-100-4"></a>
+</span><span id="__span-100-5"><a id="__codelineno-100-5" name="__codelineno-100-5" href="#__codelineno-100-5"></a><span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-100-6"><a id="__codelineno-100-6" name="__codelineno-100-6" href="#__codelineno-100-6"></a>    <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-100-7"><a id="__codelineno-100-7" name="__codelineno-100-7" href="#__codelineno-100-7"></a>    <span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-100-8"><a id="__codelineno-100-8" name="__codelineno-100-8" href="#__codelineno-100-8"></a>    <span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-100-9"><a id="__codelineno-100-9" name="__codelineno-100-9" href="#__codelineno-100-9"></a>    <span class="o">-</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-100-10"><a id="__codelineno-100-10" name="__codelineno-100-10" href="#__codelineno-100-10"></a><span class="p">])</span>
+</span><span id="__span-100-11"><a id="__codelineno-100-11" name="__codelineno-100-11" href="#__codelineno-100-11"></a>
+</span><span id="__span-100-12"><a id="__codelineno-100-12" name="__codelineno-100-12" href="#__codelineno-100-12"></a><span class="n">margin</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+</span><span id="__span-100-13"><a id="__codelineno-100-13" name="__codelineno-100-13" href="#__codelineno-100-13"></a>    <span class="o">-</span><span class="mf">1.2</span><span class="p">,</span>
+</span><span id="__span-100-14"><a id="__codelineno-100-14" name="__codelineno-100-14" href="#__codelineno-100-14"></a>    <span class="mf">0.8</span><span class="p">,</span>
+</span><span id="__span-100-15"><a id="__codelineno-100-15" name="__codelineno-100-15" href="#__codelineno-100-15"></a>    <span class="mf">1.4</span><span class="p">,</span>
+</span><span id="__span-100-16"><a id="__codelineno-100-16" name="__codelineno-100-16" href="#__codelineno-100-16"></a>    <span class="o">-</span><span class="mf">0.6</span><span class="p">,</span>
+</span><span id="__span-100-17"><a id="__codelineno-100-17" name="__codelineno-100-17" href="#__codelineno-100-17"></a><span class="p">])</span>
+</span><span id="__span-100-18"><a id="__codelineno-100-18" name="__codelineno-100-18" href="#__codelineno-100-18"></a>
+</span><span id="__span-100-19"><a id="__codelineno-100-19" name="__codelineno-100-19" href="#__codelineno-100-19"></a><span class="n">loss</span> <span class="o">=</span> <span class="n">HingeLoss</span><span class="p">()</span>
+</span><span id="__span-100-20"><a id="__codelineno-100-20" name="__codelineno-100-20" href="#__codelineno-100-20"></a>
+</span><span id="__span-100-21"><a id="__codelineno-100-21" name="__codelineno-100-21" href="#__codelineno-100-21"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-100-22"><a id="__codelineno-100-22" name="__codelineno-100-22" href="#__codelineno-100-22"></a>    <span class="n">loss</span><span class="p">(</span>
+</span><span id="__span-100-23"><a id="__codelineno-100-23" name="__codelineno-100-23" href="#__codelineno-100-23"></a>        <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-100-24"><a id="__codelineno-100-24" name="__codelineno-100-24" href="#__codelineno-100-24"></a>        <span class="n">margin</span><span class="p">,</span>
+</span><span id="__span-100-25"><a id="__codelineno-100-25" name="__codelineno-100-25" href="#__codelineno-100-25"></a>    <span class="p">)</span>
+</span><span id="__span-100-26"><a id="__codelineno-100-26" name="__codelineno-100-26" href="#__codelineno-100-26"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The loss class itself does not create those margin values; they must already be
+supplied by the caller.</p>
+<hr />
+<h1 id="quantile-example">Quantile example</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-101-1"><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.losses</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-101-2"><a id="__codelineno-101-2" name="__codelineno-101-2" href="#__codelineno-101-2"></a>    <span class="n">QuantileLoss</span><span class="p">,</span>
+</span><span id="__span-101-3"><a id="__codelineno-101-3" name="__codelineno-101-3" href="#__codelineno-101-3"></a><span class="p">)</span>
+</span><span id="__span-101-4"><a id="__codelineno-101-4" name="__codelineno-101-4" href="#__codelineno-101-4"></a>
+</span><span id="__span-101-5"><a id="__codelineno-101-5" name="__codelineno-101-5" href="#__codelineno-101-5"></a><span class="n">loss</span> <span class="o">=</span> <span class="n">QuantileLoss</span><span class="p">(</span>
+</span><span id="__span-101-6"><a id="__codelineno-101-6" name="__codelineno-101-6" href="#__codelineno-101-6"></a>    <span class="n">tau</span><span class="o">=</span><span class="mf">0.9</span><span class="p">,</span>
+</span><span id="__span-101-7"><a id="__codelineno-101-7" name="__codelineno-101-7" href="#__codelineno-101-7"></a><span class="p">)</span>
+</span><span id="__span-101-8"><a id="__codelineno-101-8" name="__codelineno-101-8" href="#__codelineno-101-8"></a>
+</span><span id="__span-101-9"><a id="__codelineno-101-9" name="__codelineno-101-9" href="#__codelineno-101-9"></a><span class="n">value</span> <span class="o">=</span> <span class="n">loss</span><span class="p">(</span>
+</span><span id="__span-101-10"><a id="__codelineno-101-10" name="__codelineno-101-10" href="#__codelineno-101-10"></a>    <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-101-11"><a id="__codelineno-101-11" name="__codelineno-101-11" href="#__codelineno-101-11"></a>    <span class="n">y_pred</span><span class="p">,</span>
+</span><span id="__span-101-12"><a id="__codelineno-101-12" name="__codelineno-101-12" href="#__codelineno-101-12"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This evaluates the exact pinball formula used by the current source.</p>
+<hr />
+<h1 id="custom-loss">Custom loss</h1>
+<p>A custom loss only needs to subclass:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-102-1"><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a><span class="n">BaseLoss</span>
+</span></code></pre></div>
+<p>and implement:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-103-1"><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a><span class="fm">__call__</span><span class="p">()</span>
+</span></code></pre></div>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-104-1"><a id="__codelineno-104-1" name="__codelineno-104-1" href="#__codelineno-104-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-104-2"><a id="__codelineno-104-2" name="__codelineno-104-2" href="#__codelineno-104-2"></a>
+</span><span id="__span-104-3"><a id="__codelineno-104-3" name="__codelineno-104-3" href="#__codelineno-104-3"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra.core.losses</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-104-4"><a id="__codelineno-104-4" name="__codelineno-104-4" href="#__codelineno-104-4"></a>    <span class="n">BaseLoss</span><span class="p">,</span>
+</span><span id="__span-104-5"><a id="__codelineno-104-5" name="__codelineno-104-5" href="#__codelineno-104-5"></a>    <span class="n">LossFactory</span><span class="p">,</span>
+</span><span id="__span-104-6"><a id="__codelineno-104-6" name="__codelineno-104-6" href="#__codelineno-104-6"></a><span class="p">)</span>
+</span><span id="__span-104-7"><a id="__codelineno-104-7" name="__codelineno-104-7" href="#__codelineno-104-7"></a>
+</span><span id="__span-104-8"><a id="__codelineno-104-8" name="__codelineno-104-8" href="#__codelineno-104-8"></a>
+</span><span id="__span-104-9"><a id="__codelineno-104-9" name="__codelineno-104-9" href="#__codelineno-104-9"></a><span class="nd">@LossFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+</span><span id="__span-104-10"><a id="__codelineno-104-10" name="__codelineno-104-10" href="#__codelineno-104-10"></a>    <span class="s2">"root_mse"</span>
+</span><span id="__span-104-11"><a id="__codelineno-104-11" name="__codelineno-104-11" href="#__codelineno-104-11"></a><span class="p">)</span>
+</span><span id="__span-104-12"><a id="__codelineno-104-12" name="__codelineno-104-12" href="#__codelineno-104-12"></a><span class="k">class</span><span class="w"> </span><span class="nc">RootMSELoss</span><span class="p">(</span>
+</span><span id="__span-104-13"><a id="__codelineno-104-13" name="__codelineno-104-13" href="#__codelineno-104-13"></a>    <span class="n">BaseLoss</span>
+</span><span id="__span-104-14"><a id="__codelineno-104-14" name="__codelineno-104-14" href="#__codelineno-104-14"></a><span class="p">):</span>
+</span><span id="__span-104-15"><a id="__codelineno-104-15" name="__codelineno-104-15" href="#__codelineno-104-15"></a>
+</span><span id="__span-104-16"><a id="__codelineno-104-16" name="__codelineno-104-16" href="#__codelineno-104-16"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
+</span><span id="__span-104-17"><a id="__codelineno-104-17" name="__codelineno-104-17" href="#__codelineno-104-17"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-104-18"><a id="__codelineno-104-18" name="__codelineno-104-18" href="#__codelineno-104-18"></a>        <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-104-19"><a id="__codelineno-104-19" name="__codelineno-104-19" href="#__codelineno-104-19"></a>        <span class="n">y_pred</span><span class="p">,</span>
+</span><span id="__span-104-20"><a id="__codelineno-104-20" name="__codelineno-104-20" href="#__codelineno-104-20"></a>    <span class="p">):</span>
+</span><span id="__span-104-21"><a id="__codelineno-104-21" name="__codelineno-104-21" href="#__codelineno-104-21"></a>        <span class="n">y_true</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-104-22"><a id="__codelineno-104-22" name="__codelineno-104-22" href="#__codelineno-104-22"></a>            <span class="n">y_true</span>
+</span><span id="__span-104-23"><a id="__codelineno-104-23" name="__codelineno-104-23" href="#__codelineno-104-23"></a>        <span class="p">)</span>
+</span><span id="__span-104-24"><a id="__codelineno-104-24" name="__codelineno-104-24" href="#__codelineno-104-24"></a>
+</span><span id="__span-104-25"><a id="__codelineno-104-25" name="__codelineno-104-25" href="#__codelineno-104-25"></a>        <span class="n">y_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-104-26"><a id="__codelineno-104-26" name="__codelineno-104-26" href="#__codelineno-104-26"></a>            <span class="n">y_pred</span>
+</span><span id="__span-104-27"><a id="__codelineno-104-27" name="__codelineno-104-27" href="#__codelineno-104-27"></a>        <span class="p">)</span>
+</span><span id="__span-104-28"><a id="__codelineno-104-28" name="__codelineno-104-28" href="#__codelineno-104-28"></a>
+</span><span id="__span-104-29"><a id="__codelineno-104-29" name="__codelineno-104-29" href="#__codelineno-104-29"></a>        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
+</span><span id="__span-104-30"><a id="__codelineno-104-30" name="__codelineno-104-30" href="#__codelineno-104-30"></a>            <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span>
+</span><span id="__span-104-31"><a id="__codelineno-104-31" name="__codelineno-104-31" href="#__codelineno-104-31"></a>                <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-104-32"><a id="__codelineno-104-32" name="__codelineno-104-32" href="#__codelineno-104-32"></a>                    <span class="p">(</span>
+</span><span id="__span-104-33"><a id="__codelineno-104-33" name="__codelineno-104-33" href="#__codelineno-104-33"></a>                        <span class="n">y_true</span>
+</span><span id="__span-104-34"><a id="__codelineno-104-34" name="__codelineno-104-34" href="#__codelineno-104-34"></a>                        <span class="o">-</span>
+</span><span id="__span-104-35"><a id="__codelineno-104-35" name="__codelineno-104-35" href="#__codelineno-104-35"></a>                        <span class="n">y_pred</span>
+</span><span id="__span-104-36"><a id="__codelineno-104-36" name="__codelineno-104-36" href="#__codelineno-104-36"></a>                    <span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
+</span><span id="__span-104-37"><a id="__codelineno-104-37" name="__codelineno-104-37" href="#__codelineno-104-37"></a>                <span class="p">)</span>
+</span><span id="__span-104-38"><a id="__codelineno-104-38" name="__codelineno-104-38" href="#__codelineno-104-38"></a>            <span class="p">)</span>
+</span><span id="__span-104-39"><a id="__codelineno-104-39" name="__codelineno-104-39" href="#__codelineno-104-39"></a>        <span class="p">)</span>
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-105-1"><a id="__codelineno-105-1" name="__codelineno-105-1" href="#__codelineno-105-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-105-2"><a id="__codelineno-105-2" name="__codelineno-105-2" href="#__codelineno-105-2"></a>    <span class="n">loss</span><span class="o">=</span><span class="s2">"root_mse"</span><span class="p">,</span>
+</span><span id="__span-105-3"><a id="__codelineno-105-3" name="__codelineno-105-3" href="#__codelineno-105-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>can resolve it through the ordinary factory path.</p>
+<hr />
+<h1 id="custom-loss-with-parameters">Custom loss with parameters</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-106-1"><a id="__codelineno-106-1" name="__codelineno-106-1" href="#__codelineno-106-1"></a><span class="nd">@LossFactory</span><span class="o">.</span><span class="n">register</span><span class="p">(</span>
+</span><span id="__span-106-2"><a id="__codelineno-106-2" name="__codelineno-106-2" href="#__codelineno-106-2"></a>    <span class="s2">"scaled_mae"</span>
+</span><span id="__span-106-3"><a id="__codelineno-106-3" name="__codelineno-106-3" href="#__codelineno-106-3"></a><span class="p">)</span>
+</span><span id="__span-106-4"><a id="__codelineno-106-4" name="__codelineno-106-4" href="#__codelineno-106-4"></a><span class="k">class</span><span class="w"> </span><span class="nc">ScaledMAELoss</span><span class="p">(</span>
+</span><span id="__span-106-5"><a id="__codelineno-106-5" name="__codelineno-106-5" href="#__codelineno-106-5"></a>    <span class="n">BaseLoss</span>
+</span><span id="__span-106-6"><a id="__codelineno-106-6" name="__codelineno-106-6" href="#__codelineno-106-6"></a><span class="p">):</span>
+</span><span id="__span-106-7"><a id="__codelineno-106-7" name="__codelineno-106-7" href="#__codelineno-106-7"></a>
+</span><span id="__span-106-8"><a id="__codelineno-106-8" name="__codelineno-106-8" href="#__codelineno-106-8"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+</span><span id="__span-106-9"><a id="__codelineno-106-9" name="__codelineno-106-9" href="#__codelineno-106-9"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-106-10"><a id="__codelineno-106-10" name="__codelineno-106-10" href="#__codelineno-106-10"></a>        <span class="n">scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
+</span><span id="__span-106-11"><a id="__codelineno-106-11" name="__codelineno-106-11" href="#__codelineno-106-11"></a>    <span class="p">):</span>
+</span><span id="__span-106-12"><a id="__codelineno-106-12" name="__codelineno-106-12" href="#__codelineno-106-12"></a>        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span> <span class="o">=</span> <span class="n">scale</span>
+</span><span id="__span-106-13"><a id="__codelineno-106-13" name="__codelineno-106-13" href="#__codelineno-106-13"></a>
+</span><span id="__span-106-14"><a id="__codelineno-106-14" name="__codelineno-106-14" href="#__codelineno-106-14"></a>    <span class="k">def</span><span class="w"> </span><span class="fm">__call__</span><span class="p">(</span>
+</span><span id="__span-106-15"><a id="__codelineno-106-15" name="__codelineno-106-15" href="#__codelineno-106-15"></a>        <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-106-16"><a id="__codelineno-106-16" name="__codelineno-106-16" href="#__codelineno-106-16"></a>        <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-106-17"><a id="__codelineno-106-17" name="__codelineno-106-17" href="#__codelineno-106-17"></a>        <span class="n">y_pred</span><span class="p">,</span>
+</span><span id="__span-106-18"><a id="__codelineno-106-18" name="__codelineno-106-18" href="#__codelineno-106-18"></a>    <span class="p">):</span>
+</span><span id="__span-106-19"><a id="__codelineno-106-19" name="__codelineno-106-19" href="#__codelineno-106-19"></a>        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span>
+</span><span id="__span-106-20"><a id="__codelineno-106-20" name="__codelineno-106-20" href="#__codelineno-106-20"></a>            <span class="bp">self</span><span class="o">.</span><span class="n">scale</span>
+</span><span id="__span-106-21"><a id="__codelineno-106-21" name="__codelineno-106-21" href="#__codelineno-106-21"></a>            <span class="o">*</span>
+</span><span id="__span-106-22"><a id="__codelineno-106-22" name="__codelineno-106-22" href="#__codelineno-106-22"></a>            <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span>
+</span><span id="__span-106-23"><a id="__codelineno-106-23" name="__codelineno-106-23" href="#__codelineno-106-23"></a>                <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span>
+</span><span id="__span-106-24"><a id="__codelineno-106-24" name="__codelineno-106-24" href="#__codelineno-106-24"></a>                    <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-106-25"><a id="__codelineno-106-25" name="__codelineno-106-25" href="#__codelineno-106-25"></a>                        <span class="n">y_true</span>
+</span><span id="__span-106-26"><a id="__codelineno-106-26" name="__codelineno-106-26" href="#__codelineno-106-26"></a>                    <span class="p">)</span>
+</span><span id="__span-106-27"><a id="__codelineno-106-27" name="__codelineno-106-27" href="#__codelineno-106-27"></a>                    <span class="o">-</span>
+</span><span id="__span-106-28"><a id="__codelineno-106-28" name="__codelineno-106-28" href="#__codelineno-106-28"></a>                    <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-106-29"><a id="__codelineno-106-29" name="__codelineno-106-29" href="#__codelineno-106-29"></a>                        <span class="n">y_pred</span>
+</span><span id="__span-106-30"><a id="__codelineno-106-30" name="__codelineno-106-30" href="#__codelineno-106-30"></a>                    <span class="p">)</span>
+</span><span id="__span-106-31"><a id="__codelineno-106-31" name="__codelineno-106-31" href="#__codelineno-106-31"></a>                <span class="p">)</span>
+</span><span id="__span-106-32"><a id="__codelineno-106-32" name="__codelineno-106-32" href="#__codelineno-106-32"></a>            <span class="p">)</span>
+</span><span id="__span-106-33"><a id="__codelineno-106-33" name="__codelineno-106-33" href="#__codelineno-106-33"></a>        <span class="p">)</span>
+</span></code></pre></div>
+<p>Use:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-107-1"><a id="__codelineno-107-1" name="__codelineno-107-1" href="#__codelineno-107-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-107-2"><a id="__codelineno-107-2" name="__codelineno-107-2" href="#__codelineno-107-2"></a>    <span class="n">loss</span><span class="o">=</span><span class="s2">"scaled_mae"</span><span class="p">,</span>
+</span><span id="__span-107-3"><a id="__codelineno-107-3" name="__codelineno-107-3" href="#__codelineno-107-3"></a>    <span class="n">loss_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-107-4"><a id="__codelineno-107-4" name="__codelineno-107-4" href="#__codelineno-107-4"></a>        <span class="s2">"scale"</span><span class="p">:</span> <span class="mf">2.0</span><span class="p">,</span>
+</span><span id="__span-107-5"><a id="__codelineno-107-5" name="__codelineno-107-5" href="#__codelineno-107-5"></a>    <span class="p">},</span>
+</span><span id="__span-107-6"><a id="__codelineno-107-6" name="__codelineno-107-6" href="#__codelineno-107-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="loss-values-and-optimizer-direction">Loss values and optimizer direction</h1>
+<p>The current optimizers are supplied objective functions that represent
+<strong>losses</strong>, and their search logic minimizes those objectives.</p>
+<p>Therefore a custom loss should follow the same convention:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-108-1"><a id="__codelineno-108-1" name="__codelineno-108-1" href="#__codelineno-108-1"></a>smaller value
+</span><span id="__span-108-2"><a id="__codelineno-108-2" name="__codelineno-108-2" href="#__codelineno-108-2"></a>    = better candidate
+</span></code></pre></div>
+<p>If a metric is naturally "higher is better," convert it into a minimization
+objective before registering it as a loss.</p>
+<hr />
+<h1 id="loss-vs-aggregator">Loss vs aggregator</h1>
+<p>The aggregator creates predictions.</p>
+<p>The loss scores them.</p>
+<p>For regression:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-109-1"><a id="__codelineno-109-1" name="__codelineno-109-1" href="#__codelineno-109-1"></a>kernel weights
+</span><span id="__span-109-2"><a id="__codelineno-109-2" name="__codelineno-109-2" href="#__codelineno-109-2"></a>    ↓
+</span><span id="__span-109-3"><a id="__codelineno-109-3" name="__codelineno-109-3" href="#__codelineno-109-3"></a>WeightedMeanAggregator
+</span><span id="__span-109-4"><a id="__codelineno-109-4" name="__codelineno-109-4" href="#__codelineno-109-4"></a>    ↓
+</span><span id="__span-109-5"><a id="__codelineno-109-5" name="__codelineno-109-5" href="#__codelineno-109-5"></a>numeric predictions
+</span><span id="__span-109-6"><a id="__codelineno-109-6" name="__codelineno-109-6" href="#__codelineno-109-6"></a>    ↓
+</span><span id="__span-109-7"><a id="__codelineno-109-7" name="__codelineno-109-7" href="#__codelineno-109-7"></a>MSE / MAE / Huber / Quantile
+</span></code></pre></div>
+<p>For classification:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-110-1"><a id="__codelineno-110-1" name="__codelineno-110-1" href="#__codelineno-110-1"></a>kernel weights
+</span><span id="__span-110-2"><a id="__codelineno-110-2" name="__codelineno-110-2" href="#__codelineno-110-2"></a>    ↓
+</span><span id="__span-110-3"><a id="__codelineno-110-3" name="__codelineno-110-3" href="#__codelineno-110-3"></a>WeightedVoteAggregator
+</span><span id="__span-110-4"><a id="__codelineno-110-4" name="__codelineno-110-4" href="#__codelineno-110-4"></a>    ↓
+</span><span id="__span-110-5"><a id="__codelineno-110-5" name="__codelineno-110-5" href="#__codelineno-110-5"></a>hard class labels
+</span><span id="__span-110-6"><a id="__codelineno-110-6" name="__codelineno-110-6" href="#__codelineno-110-6"></a>    ↓
+</span><span id="__span-110-7"><a id="__codelineno-110-7" name="__codelineno-110-7" href="#__codelineno-110-7"></a>configured loss
+</span></code></pre></div>
+<p>The loss does not influence how aggregation itself is computed.</p>
+<p>It influences which hyperparameters the optimizer prefers.</p>
+<hr />
+<h1 id="loss-vs-final-prediction">Loss vs final prediction</h1>
+<p>After the optimal bandwidth or other adapter parameter has been chosen, the
+loss is not called for every ordinary prediction.</p>
+<p>The final prediction path uses:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-111-1"><a id="__codelineno-111-1" name="__codelineno-111-1" href="#__codelineno-111-1"></a>distance
+</span><span id="__span-111-2"><a id="__codelineno-111-2" name="__codelineno-111-2" href="#__codelineno-111-2"></a>adapter
+</span><span id="__span-111-3"><a id="__codelineno-111-3" name="__codelineno-111-3" href="#__codelineno-111-3"></a>kernel
+</span><span id="__span-111-4"><a id="__codelineno-111-4" name="__codelineno-111-4" href="#__codelineno-111-4"></a>aggregator
+</span></code></pre></div>
+<p>The loss is primarily part of the training-time optimization objective.</p>
+<hr />
+<h1 id="loss-vs-cross-validation">Loss vs cross-validation</h1>
+<p>The loss is applied separately inside every stored fold.</p>
+<p>For a candidate parameter vector <span class="arithmatex">\(\theta\)</span>:</p>
+<div class="arithmatex">\[
+J(\theta)
+=
+\frac{1}{K}
+\sum_{k=1}^{K}
+L_k(\theta).
+\]</div>
+<p>Changing the loss changes:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-112-1"><a id="__codelineno-112-1" name="__codelineno-112-1" href="#__codelineno-112-1"></a>candidate ranking
+</span><span id="__span-112-2"><a id="__codelineno-112-2" name="__codelineno-112-2" href="#__codelineno-112-2"></a>selected bandwidth
+</span><span id="__span-112-3"><a id="__codelineno-112-3" name="__codelineno-112-3" href="#__codelineno-112-3"></a>selected alpha/beta
+</span></code></pre></div>
+<p>without changing the distance or kernel implementation itself.</p>
+<hr />
+<h1 id="debugging-the-configured-loss">Debugging the configured loss</h1>
+<h2 id="inspect-configured-name">Inspect configured name</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-113-1"><a id="__codelineno-113-1" name="__codelineno-113-1" href="#__codelineno-113-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-113-2"><a id="__codelineno-113-2" name="__codelineno-113-2" href="#__codelineno-113-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">loss</span>
+</span><span id="__span-113-3"><a id="__codelineno-113-3" name="__codelineno-113-3" href="#__codelineno-113-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="inspect-constructor-parameters">Inspect constructor parameters</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-114-1"><a id="__codelineno-114-1" name="__codelineno-114-1" href="#__codelineno-114-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-114-2"><a id="__codelineno-114-2" name="__codelineno-114-2" href="#__codelineno-114-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">loss_params</span>
+</span><span id="__span-114-3"><a id="__codelineno-114-3" name="__codelineno-114-3" href="#__codelineno-114-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="inspect-resolved-object">Inspect resolved object</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-115-1"><a id="__codelineno-115-1" name="__codelineno-115-1" href="#__codelineno-115-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-115-2"><a id="__codelineno-115-2" name="__codelineno-115-2" href="#__codelineno-115-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">loss_</span>
+</span><span id="__span-115-3"><a id="__codelineno-115-3" name="__codelineno-115-3" href="#__codelineno-115-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="evaluate-manually">Evaluate manually</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-116-1"><a id="__codelineno-116-1" name="__codelineno-116-1" href="#__codelineno-116-1"></a><span class="n">score</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">loss_</span><span class="p">(</span>
+</span><span id="__span-116-2"><a id="__codelineno-116-2" name="__codelineno-116-2" href="#__codelineno-116-2"></a>    <span class="n">y_true</span><span class="p">,</span>
+</span><span id="__span-116-3"><a id="__codelineno-116-3" name="__codelineno-116-3" href="#__codelineno-116-3"></a>    <span class="n">y_pred</span><span class="p">,</span>
+</span><span id="__span-116-4"><a id="__codelineno-116-4" name="__codelineno-116-4" href="#__codelineno-116-4"></a><span class="p">)</span>
+</span><span id="__span-116-5"><a id="__codelineno-116-5" name="__codelineno-116-5" href="#__codelineno-116-5"></a>
+</span><span id="__span-116-6"><a id="__codelineno-116-6" name="__codelineno-116-6" href="#__codelineno-116-6"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-116-7"><a id="__codelineno-116-7" name="__codelineno-116-7" href="#__codelineno-116-7"></a>    <span class="n">score</span>
+</span><span id="__span-116-8"><a id="__codelineno-116-8" name="__codelineno-116-8" href="#__codelineno-116-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="debugging-shape-issues">Debugging shape issues</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-117-1"><a id="__codelineno-117-1" name="__codelineno-117-1" href="#__codelineno-117-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-117-2"><a id="__codelineno-117-2" name="__codelineno-117-2" href="#__codelineno-117-2"></a>
+</span><span id="__span-117-3"><a id="__codelineno-117-3" name="__codelineno-117-3" href="#__codelineno-117-3"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-117-4"><a id="__codelineno-117-4" name="__codelineno-117-4" href="#__codelineno-117-4"></a>    <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-117-5"><a id="__codelineno-117-5" name="__codelineno-117-5" href="#__codelineno-117-5"></a>        <span class="n">y_true</span>
+</span><span id="__span-117-6"><a id="__codelineno-117-6" name="__codelineno-117-6" href="#__codelineno-117-6"></a>    <span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-117-7"><a id="__codelineno-117-7" name="__codelineno-117-7" href="#__codelineno-117-7"></a><span class="p">)</span>
+</span><span id="__span-117-8"><a id="__codelineno-117-8" name="__codelineno-117-8" href="#__codelineno-117-8"></a>
+</span><span id="__span-117-9"><a id="__codelineno-117-9" name="__codelineno-117-9" href="#__codelineno-117-9"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-117-10"><a id="__codelineno-117-10" name="__codelineno-117-10" href="#__codelineno-117-10"></a>    <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span>
+</span><span id="__span-117-11"><a id="__codelineno-117-11" name="__codelineno-117-11" href="#__codelineno-117-11"></a>        <span class="n">y_pred</span>
+</span><span id="__span-117-12"><a id="__codelineno-117-12" name="__codelineno-117-12" href="#__codelineno-117-12"></a>    <span class="p">)</span><span class="o">.</span><span class="n">shape</span>
+</span><span id="__span-117-13"><a id="__codelineno-117-13" name="__codelineno-117-13" href="#__codelineno-117-13"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>For the current scalar-per-sample losses, the safest shape is typically:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-118-1"><a id="__codelineno-118-1" name="__codelineno-118-1" href="#__codelineno-118-1"></a>(n_samples,)
+</span></code></pre></div>
+<p>unless intentionally using a matrix-valued probability representation with a
+custom loss.</p>
+<hr />
+<h1 id="debugging-classification-mse">Debugging classification MSE</h1>
+<p>With CombinedClassifier:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-119-1"><a id="__codelineno-119-1" name="__codelineno-119-1" href="#__codelineno-119-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-119-2"><a id="__codelineno-119-2" name="__codelineno-119-2" href="#__codelineno-119-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">loss</span>
+</span><span id="__span-119-3"><a id="__codelineno-119-3" name="__codelineno-119-3" href="#__codelineno-119-3"></a><span class="p">)</span>
+</span><span id="__span-119-4"><a id="__codelineno-119-4" name="__codelineno-119-4" href="#__codelineno-119-4"></a>
+</span><span id="__span-119-5"><a id="__codelineno-119-5" name="__codelineno-119-5" href="#__codelineno-119-5"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-119-6"><a id="__codelineno-119-6" name="__codelineno-119-6" href="#__codelineno-119-6"></a>    <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span>
+</span><span id="__span-119-7"><a id="__codelineno-119-7" name="__codelineno-119-7" href="#__codelineno-119-7"></a>        <span class="n">model</span><span class="o">.</span><span class="n">y_l_</span>
+</span><span id="__span-119-8"><a id="__codelineno-119-8" name="__codelineno-119-8" href="#__codelineno-119-8"></a>    <span class="p">)</span>
+</span><span id="__span-119-9"><a id="__codelineno-119-9" name="__codelineno-119-9" href="#__codelineno-119-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>If the default is still:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-120-1"><a id="__codelineno-120-1" name="__codelineno-120-1" href="#__codelineno-120-1"></a>mse
+</span></code></pre></div>
+<p>remember that the numeric class codes directly affect the cross-validation
+objective.</p>
+<hr />
+<h1 id="debugging-log-loss">Debugging log loss</h1>
+<p>Before calling the built-in <code>LogLoss</code> manually:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-121-1"><a id="__codelineno-121-1" name="__codelineno-121-1" href="#__codelineno-121-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-121-2"><a id="__codelineno-121-2" name="__codelineno-121-2" href="#__codelineno-121-2"></a>    <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span>
+</span><span id="__span-121-3"><a id="__codelineno-121-3" name="__codelineno-121-3" href="#__codelineno-121-3"></a>        <span class="n">y_pred</span>
+</span><span id="__span-121-4"><a id="__codelineno-121-4" name="__codelineno-121-4" href="#__codelineno-121-4"></a>    <span class="p">),</span>
+</span><span id="__span-121-5"><a id="__codelineno-121-5" name="__codelineno-121-5" href="#__codelineno-121-5"></a>    <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span>
+</span><span id="__span-121-6"><a id="__codelineno-121-6" name="__codelineno-121-6" href="#__codelineno-121-6"></a>        <span class="n">y_pred</span>
+</span><span id="__span-121-7"><a id="__codelineno-121-7" name="__codelineno-121-7" href="#__codelineno-121-7"></a>    <span class="p">),</span>
+</span><span id="__span-121-8"><a id="__codelineno-121-8" name="__codelineno-121-8" href="#__codelineno-121-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The loss clips predictions internally to:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-122-1"><a id="__codelineno-122-1" name="__codelineno-122-1" href="#__codelineno-122-1"></a>[1e-12, 1 - 1e-12]
+</span></code></pre></div>
+<p>but does not transform hard class labels into calibrated probabilities.</p>
+<hr />
+<h1 id="debugging-quantile-configuration">Debugging quantile configuration</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-123-1"><a id="__codelineno-123-1" name="__codelineno-123-1" href="#__codelineno-123-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-123-2"><a id="__codelineno-123-2" name="__codelineno-123-2" href="#__codelineno-123-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">loss_</span><span class="o">.</span><span class="n">tau</span>
+</span><span id="__span-123-3"><a id="__codelineno-123-3" name="__codelineno-123-3" href="#__codelineno-123-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The source will report whatever value was passed, including values outside the
+documented <code>(0, 1)</code> range.</p>
+<hr />
+<h1 id="current-implementation-summary">Current implementation summary</h1>
+<table>
+<thead>
+<tr>
+<th>Loss</th>
+<th>Aliases</th>
+<th>Parameter</th>
+<th>Source expectation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>mse</code></td>
+<td><code>l2</code>, <code>squared_error</code></td>
+<td>none</td>
+<td>numeric predictions</td>
+</tr>
+<tr>
+<td><code>mae</code></td>
+<td><code>l1</code></td>
+<td>none</td>
+<td>numeric predictions</td>
+</tr>
+<tr>
+<td><code>huber</code></td>
+<td>—</td>
+<td><code>delta=1.0</code></td>
+<td>numeric residuals</td>
+</tr>
+<tr>
+<td><code>quantile</code></td>
+<td>—</td>
+<td><code>tau=0.5</code></td>
+<td>quantile regression</td>
+</tr>
+<tr>
+<td><code>log_loss</code></td>
+<td><code>cross_entropy</code></td>
+<td>none</td>
+<td>binary probabilities</td>
+</tr>
+<tr>
+<td><code>hinge</code></td>
+<td>—</td>
+<td>none</td>
+<td>labels <code>{-1,+1}</code> and margin-like predictions</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="high-level-defaults">High-level defaults</h1>
+<table>
+<thead>
+<tr>
+<th>Estimator</th>
+<th>Current default loss</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GradientCOBRA</code></td>
+<td><code>mse</code></td>
+</tr>
+<tr>
+<td><code>MixCOBRARegressor</code></td>
+<td><code>mse</code></td>
+</tr>
+<tr>
+<td><code>CombinedClassifier</code></td>
+<td><code>mse</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="important-current-source-caveats">Important current-source caveats</h1>
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Current behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>shared input validation</td>
+<td>minimal</td>
+</tr>
+<tr>
+<td>shape equality validation</td>
+<td>not explicit</td>
+</tr>
+<tr>
+<td>sample weighting</td>
+<td>unsupported</td>
+</tr>
+<tr>
+<td>empty-array validation</td>
+<td>not explicit</td>
+</tr>
+<tr>
+<td>finite-value sanitization</td>
+<td>generally none</td>
+</tr>
+<tr>
+<td>Huber <code>delta</code> validation</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Quantile <code>tau</code> validation</td>
+<td>none</td>
+</tr>
+<tr>
+<td>log loss</td>
+<td>binary formula only</td>
+</tr>
+<tr>
+<td>hinge label conversion</td>
+<td>none</td>
+</tr>
+<tr>
+<td>CombinedClassifier objective input</td>
+<td>hard class predictions</td>
+</tr>
+<tr>
+<td>CombinedClassifier default loss</td>
+<td>MSE</td>
+</tr>
+<tr>
+<td>multiclass categorical loss</td>
+<td>no dedicated built-in</td>
+</tr>
+<tr>
+<td>fold-size weighting</td>
+<td>mean of fold means</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="quick-reference">Quick reference</h1>
+<table>
+<thead>
+<tr>
+<th>Goal</th>
+<th>Current source option</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ordinary squared regression error</td>
+<td><code>mse</code></td>
+</tr>
+<tr>
+<td>absolute regression error</td>
+<td><code>mae</code></td>
+</tr>
+<tr>
+<td>robust quadratic/linear regression error</td>
+<td><code>huber</code></td>
+</tr>
+<tr>
+<td>asymmetric quantile objective</td>
+<td><code>quantile</code></td>
+</tr>
+<tr>
+<td>binary probability cross-entropy</td>
+<td><code>log_loss</code></td>
+</tr>
+<tr>
+<td>SVM-style margin loss</td>
+<td><code>hinge</code></td>
+</tr>
+<tr>
+<td>custom task-specific scoring</td>
+<td>subclass <code>BaseLoss</code> and register it</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="mental-model">Mental model</h1>
+<div class="admonition quote">
+<p><strong>The loss is the signal that tells the COBRA optimizer whether one
+aggregation parameter setting predicts held-out calibration rows better
+than another.</strong></p>
+</div>
+<div class="arithmatex">\[
+\boxed{
+\text{candidate parameters}
+\rightarrow
+\widehat y_{\text{CV}}
+\rightarrow
+L(y_{\text{CV}},\widehat y_{\text{CV}})
+\rightarrow
+\text{optimizer}
+}
+\]</div>
+<p>The current source keeps the loss interface deliberately small. That makes it
+easy to extend, but it also means task compatibility, target encoding, and
+prediction semantics are largely the caller's responsibility.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../cross-validation/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Cross-validation">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Cross-validation
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../optimization/" class="md-footer__link md-footer__link--next" aria-label="Next: Optimization">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Optimization
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.path", "navigation.top", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

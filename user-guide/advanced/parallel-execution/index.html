@@ -1,0 +1,4029 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Documentation for the KFC Procedure machine learning library">
+      
+      
+        <meta name="author" content="KFC Procedure Contributors">
+      
+      
+      
+        <link rel="prev" href="../custom-aggregation-data/">
+      
+      
+        <link rel="next" href="../reproducibility/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/logo.svg">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>Parallel Execution - KFC Procedure</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/_mkdocstrings.css">
+    
+      <link rel="stylesheet" href="../../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#parallel-execution" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow md-header--lifted" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="KFC Procedure" class="md-header__button md-logo" aria-label="KFC Procedure" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KFC Procedure
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Parallel Execution
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m17.75 4.09-2.53 1.94.91 3.06-2.63-1.81-2.63 1.81.91-3.06-2.53-1.94L12.44 4l1.06-3 1.06 3zm3.5 6.91-1.64 1.25.59 1.98-1.7-1.17-1.7 1.17.59-1.98L15.75 11l2.06-.05L18.5 9l.69 1.95zm-2.28 4.95c.83-.08 1.72 1.1 1.19 1.85-.32.45-.66.87-1.08 1.27C15.17 23 8.84 23 4.94 19.07c-3.91-3.9-3.91-10.24 0-14.14.4-.4.82-.76 1.27-1.08.75-.53 1.93.36 1.85 1.19-.27 2.86.69 5.83 2.89 8.02a9.96 9.96 0 0 0 8.02 2.89m-1.64 2.02a12.08 12.08 0 0 1-7.8-3.47c-2.17-2.19-3.33-5-3.49-7.82-2.81 3.14-2.7 7.96.31 10.98 3.02 3.01 7.84 3.12 10.98.31"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="blue"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 7a5 5 0 0 1 5 5 5 5 0 0 1-5 5 5 5 0 0 1-5-5 5 5 0 0 1 5-5m0 2a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3m0-7 2.39 3.42C13.65 5.15 12.84 5 12 5s-1.65.15-2.39.42zM3.34 7l4.16-.35A7.2 7.2 0 0 0 5.94 8.5c-.44.74-.69 1.5-.83 2.29zm.02 10 1.76-3.77a7.131 7.131 0 0 0 2.38 4.14zM20.65 7l-1.77 3.79a7.02 7.02 0 0 0-2.38-4.15zm-.01 10-4.14.36c.59-.51 1.12-1.14 1.54-1.86.42-.73.69-1.5.83-2.29zM12 22l-2.41-3.44c.74.27 1.55.44 2.41.44.82 0 1.63-.17 2.37-.44z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+    
+      
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../getting-started/installation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  Getting Started
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  User Guide
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../../reference/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  API Reference
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+    
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="KFC Procedure" class="md-nav__button md-logo" aria-label="KFC Procedure" data-md-component="logo">
+      
+  <img src="../../../assets/logo.svg" alt="logo">
+
+    </a>
+    KFC Procedure
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Ougi3ay/kfc-procedure" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Ougi3ay/kfc-procedure
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Getting Started
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/installation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Installation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/quick-start/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quick Start
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../getting-started/concepts/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Concepts
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core Concepts
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/kfc-procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/combined-classifier/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CombinedClassifier
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/mixcobra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MixCOBRA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../getting-started/concepts/gradientcobra/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    GradientCOBRA
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    User Guide
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    User Guide
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    KFC Procedure
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/fitting-kfc/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fitting KFC
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/regression/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regression
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/classification/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Classification
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-k-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure K-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-f-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure F-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/configuring-c-step/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configure C-Step
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../kfc/inspecting-fitted-models/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Inspect Fitted Models
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Clustering
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Clustering
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../clustering/bregman-divergences/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Bregman Divergences
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estimators
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Estimators
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/base-estimators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Base Estimators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/estimator-parameters/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Estimator Parameters
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../estimators/custom-estimators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Estimators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_5" id="__nav_3_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Consensus
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Consensus
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/regression-combiners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Regression Combiners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/classification-combiners/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Classification Combiners
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/stacking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Stacking
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/weighted-mean/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Weighted Mean
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../consensus/majority-vote/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Majority Vote
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_3_6" id="__nav_3_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    COBRA Components
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    COBRA Components
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cobra/prediction-space/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Prediction Space
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cobra/data-splitting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Data Splitting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cobra/distances/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Distances
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cobra/kernels/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Kernels
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cobra/aggregators/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Aggregators
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cobra/cross-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Cross-validation
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cobra/losses/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Loss Functions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cobra/optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cobra/gradient-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Gradient Optimization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../cobra/normalization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Normalization
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_3_7" id="__nav_3_7_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Advanced
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_3_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_3_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Advanced
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../precomputed-predictions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Precomputed Predictions
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../custom-aggregation-data/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Custom Aggregation Data
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parallel Execution
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Parallel Execution
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#parallelism-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallelism at a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../reproducibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../extending-kfc-procedure/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Extending KFC Procedure
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../troubleshooting/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Troubleshooting
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+    
+    
+    
+      
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../../reference/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    API Reference
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#parallelism-at-a-glance" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Parallelism at a glance
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="Navigation" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../../" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    User Guide
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../precomputed-predictions/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    Advanced
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="parallel-execution">Parallel Execution</h1>
+<p>The current COBRA implementation supports parallel execution in two specific
+parts of the workflow:</p>
+<ol>
+<li>fitting and evaluating the <strong>base-estimator pool</strong>;</li>
+<li>computing a numerical gradient with the optional
+   <strong>parallel central-difference</strong> method.</li>
+</ol>
+<p>The primary user-facing parameter is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>on:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a>GradientCOBRA
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a>MixCOBRARegressor
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a>CombinedClassifier
+</span></code></pre></div>
+<p>For base-estimator work, the source delegates parallel execution to
+<code>joblib.Parallel</code> with the explicit backend:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a>loky
+</span></code></pre></div>
+<p>Parallel execution is not applied automatically to every part of COBRA.
+Distance computation, kernel transformation, cross-validation loops,
+aggregation, and grid candidate evaluation remain separate from this
+<code>n_jobs</code> pathway in the current source.</p>
+<hr />
+<h2 id="parallelism-at-a-glance">Parallelism at a glance</h2>
+<pre class="mermaid"><code>flowchart TD
+    X["Training data"]
+    F["Fit base estimators"]
+    P["Generate estimator predictions"]
+    D["Distance matrices"]
+    CV["Cross-validation"]
+    O["Optimization"]
+
+    X --&gt; F --&gt; P --&gt; D --&gt; CV --&gt; O
+
+    F -. "n_jobs / joblib loky" .-&gt; F
+    P -. "n_jobs / joblib loky" .-&gt; P
+
+    O2["Gradient method = parallel"]
+    G["Parallel finite-difference coordinates"]
+
+    O --&gt; O2 --&gt; G</code></pre>
+<p>The current source therefore has two distinct parallel mechanisms:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a>estimator-pool parallelism
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a>    controlled by estimator `n_jobs`
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3" href="#__codelineno-3-3"></a>
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4" href="#__codelineno-3-4"></a>gradient-coordinate parallelism
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5" href="#__codelineno-3-5"></a>    selected with gradient_method="parallel"
+</span></code></pre></div>
+<p>They should not be treated as the same configuration.</p>
+<hr />
+<h1 id="user-facing-n_jobs">User-facing <code>n_jobs</code></h1>
+<p>The three main COBRA estimators expose:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>in their constructors.</p>
+<p>Current defaults are:</p>
+<table>
+<thead>
+<tr>
+<th>Estimator</th>
+<th style="text-align: right;">Default <code>n_jobs</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GradientCOBRA</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+</tr>
+<tr>
+<td><code>MixCOBRARegressor</code></td>
+<td style="text-align: right;"><code>1</code></td>
+</tr>
+<tr>
+<td><code>CombinedClassifier</code></td>
+<td style="text-align: right;"><code>1</code></td>
+</tr>
+</tbody>
+</table>
+<p>This is an important source-level difference.</p>
+<hr />
+<h1 id="gradientcobra-default">GradientCOBRA default</h1>
+<p>The current constructor contains:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a>    <span class="o">...</span>
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a>    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a>    <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and stores:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>So GradientCOBRA requests parallel estimator-pool execution by default unless
+the value is changed.</p>
+<hr />
+<h1 id="mixcobra-default">MixCOBRA default</h1>
+<p>The current constructor contains:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="n">MixCOBRARegressor</span><span class="p">(</span>
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a>    <span class="o">...</span>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a>    <span class="n">one_parameter</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a>    <span class="n">random_state</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>So MixCOBRA is sequential by default at the package's estimator-pool layer.</p>
+<hr />
+<h1 id="combinedclassifier-default">CombinedClassifier default</h1>
+<p>The classifier constructor contains:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-8-1"><a id="__codelineno-8-1" name="__codelineno-8-1" href="#__codelineno-8-1"></a><span class="n">CombinedClassifier</span><span class="p">(</span>
+</span><span id="__span-8-2"><a id="__codelineno-8-2" name="__codelineno-8-2" href="#__codelineno-8-2"></a>    <span class="o">...</span>
+</span><span id="__span-8-3"><a id="__codelineno-8-3" name="__codelineno-8-3" href="#__codelineno-8-3"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-8-4"><a id="__codelineno-8-4" name="__codelineno-8-4" href="#__codelineno-8-4"></a>    <span class="o">...</span>
+</span><span id="__span-8-5"><a id="__codelineno-8-5" name="__codelineno-8-5" href="#__codelineno-8-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>so it is also sequential by default for estimator fitting and prediction.</p>
+<hr />
+<h1 id="shared-estimator-pool-helpers">Shared estimator-pool helpers</h1>
+<p>All three estimators use the same utility functions from:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-9-1"><a id="__codelineno-9-1" name="__codelineno-9-1" href="#__codelineno-9-1"></a>kfc_procedure/cobra/utils/resolve.py
+</span></code></pre></div>
+<p>The functions are:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-10-1"><a id="__codelineno-10-1" name="__codelineno-10-1" href="#__codelineno-10-1"></a><span class="n">fit_estimators</span><span class="p">()</span>
+</span><span id="__span-10-2"><a id="__codelineno-10-2" name="__codelineno-10-2" href="#__codelineno-10-2"></a><span class="n">predict_estimators</span><span class="p">()</span>
+</span></code></pre></div>
+<p>These functions implement the package's common estimator-pool parallelism.</p>
+<hr />
+<h1 id="parallel-estimator-fitting">Parallel estimator fitting</h1>
+<p>The relevant signature is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-11-1"><a id="__codelineno-11-1" name="__codelineno-11-1" href="#__codelineno-11-1"></a><span class="n">fit_estimators</span><span class="p">(</span>
+</span><span id="__span-11-2"><a id="__codelineno-11-2" name="__codelineno-11-2" href="#__codelineno-11-2"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-11-3"><a id="__codelineno-11-3" name="__codelineno-11-3" href="#__codelineno-11-3"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-11-4"><a id="__codelineno-11-4" name="__codelineno-11-4" href="#__codelineno-11-4"></a>    <span class="n">estimators_params</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-11-5"><a id="__codelineno-11-5" name="__codelineno-11-5" href="#__codelineno-11-5"></a>    <span class="n">estimators</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+</span><span id="__span-11-6"><a id="__codelineno-11-6" name="__codelineno-11-6" href="#__codelineno-11-6"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-11-7"><a id="__codelineno-11-7" name="__codelineno-11-7" href="#__codelineno-11-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The function supports estimator specifications as:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-12-1"><a id="__codelineno-12-1" name="__codelineno-12-1" href="#__codelineno-12-1"></a>string identifiers
+</span><span id="__span-12-2"><a id="__codelineno-12-2" name="__codelineno-12-2" href="#__codelineno-12-2"></a>(name, params) tuples
+</span><span id="__span-12-3"><a id="__codelineno-12-3" name="__codelineno-12-3" href="#__codelineno-12-3"></a>pre-built estimator objects
+</span></code></pre></div>
+<hr />
+<h2 id="sequential-branch">Sequential branch</h2>
+<p>The source checks:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-13-1"><a id="__codelineno-13-1" name="__codelineno-13-1" href="#__codelineno-13-1"></a><span class="k">if</span> <span class="n">n_jobs</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+</span><span id="__span-13-2"><a id="__codelineno-13-2" name="__codelineno-13-2" href="#__codelineno-13-2"></a>    <span class="k">return</span> <span class="p">[</span>
+</span><span id="__span-13-3"><a id="__codelineno-13-3" name="__codelineno-13-3" href="#__codelineno-13-3"></a>        <span class="n">fit_one</span><span class="p">(</span><span class="n">est</span><span class="p">)</span>
+</span><span id="__span-13-4"><a id="__codelineno-13-4" name="__codelineno-13-4" href="#__codelineno-13-4"></a>        <span class="k">for</span> <span class="n">est</span>
+</span><span id="__span-13-5"><a id="__codelineno-13-5" name="__codelineno-13-5" href="#__codelineno-13-5"></a>        <span class="ow">in</span> <span class="n">estimators</span>
+</span><span id="__span-13-6"><a id="__codelineno-13-6" name="__codelineno-13-6" href="#__codelineno-13-6"></a>    <span class="p">]</span>
+</span></code></pre></div>
+<p>So:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-14-1"><a id="__codelineno-14-1" name="__codelineno-14-1" href="#__codelineno-14-1"></a><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span>
+</span></code></pre></div>
+<p>does not invoke <code>joblib.Parallel</code>.</p>
+<p>Each estimator is built and fitted one after another in the current process.</p>
+<hr />
+<h1 id="parallel-branch">Parallel branch</h1>
+<p>For every other <code>n_jobs</code> value, the source executes:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-15-1"><a id="__codelineno-15-1" name="__codelineno-15-1" href="#__codelineno-15-1"></a><span class="k">return</span> <span class="n">Parallel</span><span class="p">(</span>
+</span><span id="__span-15-2"><a id="__codelineno-15-2" name="__codelineno-15-2" href="#__codelineno-15-2"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+</span><span id="__span-15-3"><a id="__codelineno-15-3" name="__codelineno-15-3" href="#__codelineno-15-3"></a>    <span class="n">backend</span><span class="o">=</span><span class="s2">"loky"</span><span class="p">,</span>
+</span><span id="__span-15-4"><a id="__codelineno-15-4" name="__codelineno-15-4" href="#__codelineno-15-4"></a><span class="p">)(</span>
+</span><span id="__span-15-5"><a id="__codelineno-15-5" name="__codelineno-15-5" href="#__codelineno-15-5"></a>    <span class="n">delayed</span><span class="p">(</span>
+</span><span id="__span-15-6"><a id="__codelineno-15-6" name="__codelineno-15-6" href="#__codelineno-15-6"></a>        <span class="n">fit_one</span>
+</span><span id="__span-15-7"><a id="__codelineno-15-7" name="__codelineno-15-7" href="#__codelineno-15-7"></a>    <span class="p">)(</span>
+</span><span id="__span-15-8"><a id="__codelineno-15-8" name="__codelineno-15-8" href="#__codelineno-15-8"></a>        <span class="n">est</span>
+</span><span id="__span-15-9"><a id="__codelineno-15-9" name="__codelineno-15-9" href="#__codelineno-15-9"></a>    <span class="p">)</span>
+</span><span id="__span-15-10"><a id="__codelineno-15-10" name="__codelineno-15-10" href="#__codelineno-15-10"></a>    <span class="k">for</span> <span class="n">est</span>
+</span><span id="__span-15-11"><a id="__codelineno-15-11" name="__codelineno-15-11" href="#__codelineno-15-11"></a>    <span class="ow">in</span> <span class="n">estimators</span>
+</span><span id="__span-15-12"><a id="__codelineno-15-12" name="__codelineno-15-12" href="#__codelineno-15-12"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The backend is therefore explicitly:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-16-1"><a id="__codelineno-16-1" name="__codelineno-16-1" href="#__codelineno-16-1"></a>loky
+</span></code></pre></div>
+<p>for base-estimator fitting.</p>
+<hr />
+<h1 id="parallel-fitting-unit-of-work">Parallel fitting unit of work</h1>
+<p>The parallelized task is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-17-1"><a id="__codelineno-17-1" name="__codelineno-17-1" href="#__codelineno-17-1"></a><span class="n">fit_one</span><span class="p">(</span>
+</span><span id="__span-17-2"><a id="__codelineno-17-2" name="__codelineno-17-2" href="#__codelineno-17-2"></a>    <span class="n">est_spec</span>
+</span><span id="__span-17-3"><a id="__codelineno-17-3" name="__codelineno-17-3" href="#__codelineno-17-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>For each estimator specification, the worker:</p>
+<ol>
+<li>builds or resolves the estimator;</li>
+<li>calls:</li>
+</ol>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-18-1"><a id="__codelineno-18-1" name="__codelineno-18-1" href="#__codelineno-18-1"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-18-2"><a id="__codelineno-18-2" name="__codelineno-18-2" href="#__codelineno-18-2"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-18-3"><a id="__codelineno-18-3" name="__codelineno-18-3" href="#__codelineno-18-3"></a>    <span class="n">y</span><span class="p">,</span>
+</span><span id="__span-18-4"><a id="__codelineno-18-4" name="__codelineno-18-4" href="#__codelineno-18-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<ol>
+<li>returns the fitted estimator object.</li>
+</ol>
+<p>So parallelism occurs <strong>across estimators</strong>, not across training rows or
+cross-validation folds.</p>
+<hr />
+<h1 id="conceptual-execution">Conceptual execution</h1>
+<p>For an estimator pool:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-19-1"><a id="__codelineno-19-1" name="__codelineno-19-1" href="#__codelineno-19-1"></a>estimator A
+</span><span id="__span-19-2"><a id="__codelineno-19-2" name="__codelineno-19-2" href="#__codelineno-19-2"></a>estimator B
+</span><span id="__span-19-3"><a id="__codelineno-19-3" name="__codelineno-19-3" href="#__codelineno-19-3"></a>estimator C
+</span><span id="__span-19-4"><a id="__codelineno-19-4" name="__codelineno-19-4" href="#__codelineno-19-4"></a>estimator D
+</span></code></pre></div>
+<p>with parallel execution, the package conceptually submits independent fit
+tasks:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-20-1"><a id="__codelineno-20-1" name="__codelineno-20-1" href="#__codelineno-20-1"></a>fit(A, X, y)
+</span><span id="__span-20-2"><a id="__codelineno-20-2" name="__codelineno-20-2" href="#__codelineno-20-2"></a>fit(B, X, y)
+</span><span id="__span-20-3"><a id="__codelineno-20-3" name="__codelineno-20-3" href="#__codelineno-20-3"></a>fit(C, X, y)
+</span><span id="__span-20-4"><a id="__codelineno-20-4" name="__codelineno-20-4" href="#__codelineno-20-4"></a>fit(D, X, y)
+</span></code></pre></div>
+<p>to Joblib.</p>
+<p>Each task receives the same:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-21-1"><a id="__codelineno-21-1" name="__codelineno-21-1" href="#__codelineno-21-1"></a>X
+</span><span id="__span-21-2"><a id="__codelineno-21-2" name="__codelineno-21-2" href="#__codelineno-21-2"></a>y
+</span></code></pre></div>
+<p>training dataset.</p>
+<hr />
+<h1 id="default-gradientcobra-pool">Default GradientCOBRA pool</h1>
+<p>The current default GradientCOBRA estimators are:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-22-1"><a id="__codelineno-22-1" name="__codelineno-22-1" href="#__codelineno-22-1"></a>linear_regression
+</span><span id="__span-22-2"><a id="__codelineno-22-2" name="__codelineno-22-2" href="#__codelineno-22-2"></a>ridge_cv
+</span><span id="__span-22-3"><a id="__codelineno-22-3" name="__codelineno-22-3" href="#__codelineno-22-3"></a>lasso_cv
+</span><span id="__span-22-4"><a id="__codelineno-22-4" name="__codelineno-22-4" href="#__codelineno-22-4"></a>k_neighbors_regressor
+</span><span id="__span-22-5"><a id="__codelineno-22-5" name="__codelineno-22-5" href="#__codelineno-22-5"></a>random_forest_regressor
+</span><span id="__span-22-6"><a id="__codelineno-22-6" name="__codelineno-22-6" href="#__codelineno-22-6"></a>svr
+</span></code></pre></div>
+<p>With the default:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-23-1"><a id="__codelineno-23-1" name="__codelineno-23-1" href="#__codelineno-23-1"></a><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+</span></code></pre></div>
+<p>their package-level fit tasks are sent through the parallel Joblib branch.</p>
+<hr />
+<h1 id="default-mixcobra-pool">Default MixCOBRA pool</h1>
+<p>MixCOBRA's current default pool is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-24-1"><a id="__codelineno-24-1" name="__codelineno-24-1" href="#__codelineno-24-1"></a>linear_regression
+</span><span id="__span-24-2"><a id="__codelineno-24-2" name="__codelineno-24-2" href="#__codelineno-24-2"></a>ridge
+</span><span id="__span-24-3"><a id="__codelineno-24-3" name="__codelineno-24-3" href="#__codelineno-24-3"></a>lasso
+</span><span id="__span-24-4"><a id="__codelineno-24-4" name="__codelineno-24-4" href="#__codelineno-24-4"></a>k_neighbors_regressor
+</span><span id="__span-24-5"><a id="__codelineno-24-5" name="__codelineno-24-5" href="#__codelineno-24-5"></a>random_forest_regressor
+</span><span id="__span-24-6"><a id="__codelineno-24-6" name="__codelineno-24-6" href="#__codelineno-24-6"></a>svr
+</span></code></pre></div>
+<p>but its default:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-25-1"><a id="__codelineno-25-1" name="__codelineno-25-1" href="#__codelineno-25-1"></a><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span>
+</span></code></pre></div>
+<p>keeps those six package-level fit tasks sequential.</p>
+<hr />
+<h1 id="default-combinedclassifier-pool">Default CombinedClassifier pool</h1>
+<p>The current default classification pool is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-26-1"><a id="__codelineno-26-1" name="__codelineno-26-1" href="#__codelineno-26-1"></a>logistic_regression
+</span><span id="__span-26-2"><a id="__codelineno-26-2" name="__codelineno-26-2" href="#__codelineno-26-2"></a>decision_tree_classifier
+</span><span id="__span-26-3"><a id="__codelineno-26-3" name="__codelineno-26-3" href="#__codelineno-26-3"></a>svc
+</span><span id="__span-26-4"><a id="__codelineno-26-4" name="__codelineno-26-4" href="#__codelineno-26-4"></a>k_neighbors_classifier
+</span></code></pre></div>
+<p>and default:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-27-1"><a id="__codelineno-27-1" name="__codelineno-27-1" href="#__codelineno-27-1"></a><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span>
+</span></code></pre></div>
+<p>keeps fitting sequential.</p>
+<hr />
+<h1 id="parallel-prediction-generation">Parallel prediction generation</h1>
+<p>The same <code>n_jobs</code> value is also used when creating a prediction-space matrix.</p>
+<p>The shared helper is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-28-1"><a id="__codelineno-28-1" name="__codelineno-28-1" href="#__codelineno-28-1"></a><span class="n">predict_estimators</span><span class="p">(</span>
+</span><span id="__span-28-2"><a id="__codelineno-28-2" name="__codelineno-28-2" href="#__codelineno-28-2"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-28-3"><a id="__codelineno-28-3" name="__codelineno-28-3" href="#__codelineno-28-3"></a>    <span class="n">estimators</span><span class="p">,</span>
+</span><span id="__span-28-4"><a id="__codelineno-28-4" name="__codelineno-28-4" href="#__codelineno-28-4"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-28-5"><a id="__codelineno-28-5" name="__codelineno-28-5" href="#__codelineno-28-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="sequential-prediction-path">Sequential prediction path</h2>
+<p>When:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-29-1"><a id="__codelineno-29-1" name="__codelineno-29-1" href="#__codelineno-29-1"></a><span class="n">n_jobs</span> <span class="o">==</span> <span class="mi">1</span>
+</span></code></pre></div>
+<p>the source runs:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-30-1"><a id="__codelineno-30-1" name="__codelineno-30-1" href="#__codelineno-30-1"></a><span class="n">preds</span> <span class="o">=</span> <span class="p">[</span>
+</span><span id="__span-30-2"><a id="__codelineno-30-2" name="__codelineno-30-2" href="#__codelineno-30-2"></a>    <span class="n">predict_one</span><span class="p">(</span><span class="n">est</span><span class="p">)</span>
+</span><span id="__span-30-3"><a id="__codelineno-30-3" name="__codelineno-30-3" href="#__codelineno-30-3"></a>    <span class="k">for</span> <span class="n">est</span>
+</span><span id="__span-30-4"><a id="__codelineno-30-4" name="__codelineno-30-4" href="#__codelineno-30-4"></a>    <span class="ow">in</span> <span class="n">estimators</span>
+</span><span id="__span-30-5"><a id="__codelineno-30-5" name="__codelineno-30-5" href="#__codelineno-30-5"></a><span class="p">]</span>
+</span><span id="__span-30-6"><a id="__codelineno-30-6" name="__codelineno-30-6" href="#__codelineno-30-6"></a>
+</span><span id="__span-30-7"><a id="__codelineno-30-7" name="__codelineno-30-7" href="#__codelineno-30-7"></a><span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span>
+</span><span id="__span-30-8"><a id="__codelineno-30-8" name="__codelineno-30-8" href="#__codelineno-30-8"></a>    <span class="n">preds</span>
+</span><span id="__span-30-9"><a id="__codelineno-30-9" name="__codelineno-30-9" href="#__codelineno-30-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>where:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-31-1"><a id="__codelineno-31-1" name="__codelineno-31-1" href="#__codelineno-31-1"></a><span class="n">predict_one</span><span class="p">(</span>
+</span><span id="__span-31-2"><a id="__codelineno-31-2" name="__codelineno-31-2" href="#__codelineno-31-2"></a>    <span class="n">est</span>
+</span><span id="__span-31-3"><a id="__codelineno-31-3" name="__codelineno-31-3" href="#__codelineno-31-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>is:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-32-1"><a id="__codelineno-32-1" name="__codelineno-32-1" href="#__codelineno-32-1"></a><span class="k">return</span> <span class="n">est</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+</span><span id="__span-32-2"><a id="__codelineno-32-2" name="__codelineno-32-2" href="#__codelineno-32-2"></a>    <span class="n">X</span>
+</span><span id="__span-32-3"><a id="__codelineno-32-3" name="__codelineno-32-3" href="#__codelineno-32-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="parallel-prediction-path">Parallel prediction path</h1>
+<p>For other <code>n_jobs</code> values:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-33-1"><a id="__codelineno-33-1" name="__codelineno-33-1" href="#__codelineno-33-1"></a><span class="n">preds</span> <span class="o">=</span> <span class="n">Parallel</span><span class="p">(</span>
+</span><span id="__span-33-2"><a id="__codelineno-33-2" name="__codelineno-33-2" href="#__codelineno-33-2"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+</span><span id="__span-33-3"><a id="__codelineno-33-3" name="__codelineno-33-3" href="#__codelineno-33-3"></a>    <span class="n">backend</span><span class="o">=</span><span class="s2">"loky"</span><span class="p">,</span>
+</span><span id="__span-33-4"><a id="__codelineno-33-4" name="__codelineno-33-4" href="#__codelineno-33-4"></a><span class="p">)(</span>
+</span><span id="__span-33-5"><a id="__codelineno-33-5" name="__codelineno-33-5" href="#__codelineno-33-5"></a>    <span class="n">delayed</span><span class="p">(</span>
+</span><span id="__span-33-6"><a id="__codelineno-33-6" name="__codelineno-33-6" href="#__codelineno-33-6"></a>        <span class="n">predict_one</span>
+</span><span id="__span-33-7"><a id="__codelineno-33-7" name="__codelineno-33-7" href="#__codelineno-33-7"></a>    <span class="p">)(</span>
+</span><span id="__span-33-8"><a id="__codelineno-33-8" name="__codelineno-33-8" href="#__codelineno-33-8"></a>        <span class="n">est</span>
+</span><span id="__span-33-9"><a id="__codelineno-33-9" name="__codelineno-33-9" href="#__codelineno-33-9"></a>    <span class="p">)</span>
+</span><span id="__span-33-10"><a id="__codelineno-33-10" name="__codelineno-33-10" href="#__codelineno-33-10"></a>    <span class="k">for</span> <span class="n">est</span>
+</span><span id="__span-33-11"><a id="__codelineno-33-11" name="__codelineno-33-11" href="#__codelineno-33-11"></a>    <span class="ow">in</span> <span class="n">estimators</span>
+</span><span id="__span-33-12"><a id="__codelineno-33-12" name="__codelineno-33-12" href="#__codelineno-33-12"></a><span class="p">)</span>
+</span><span id="__span-33-13"><a id="__codelineno-33-13" name="__codelineno-33-13" href="#__codelineno-33-13"></a>
+</span><span id="__span-33-14"><a id="__codelineno-33-14" name="__codelineno-33-14" href="#__codelineno-33-14"></a><span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span>
+</span><span id="__span-33-15"><a id="__codelineno-33-15" name="__codelineno-33-15" href="#__codelineno-33-15"></a>    <span class="n">preds</span>
+</span><span id="__span-33-16"><a id="__codelineno-33-16" name="__codelineno-33-16" href="#__codelineno-33-16"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>So prediction generation also uses:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-34-1"><a id="__codelineno-34-1" name="__codelineno-34-1" href="#__codelineno-34-1"></a>Joblib
+</span><span id="__span-34-2"><a id="__codelineno-34-2" name="__codelineno-34-2" href="#__codelineno-34-2"></a>loky backend
+</span><span id="__span-34-3"><a id="__codelineno-34-3" name="__codelineno-34-3" href="#__codelineno-34-3"></a>parallelism across fitted estimators.
+</span></code></pre></div>
+<hr />
+<h1 id="prediction-space-shape">Prediction-space shape</h1>
+<p>If there are:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-35-1"><a id="__codelineno-35-1" name="__codelineno-35-1" href="#__codelineno-35-1"></a>n_samples
+</span></code></pre></div>
+<p>rows and:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-36-1"><a id="__codelineno-36-1" name="__codelineno-36-1" href="#__codelineno-36-1"></a>M estimators
+</span></code></pre></div>
+<p>the result is:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-37-1"><a id="__codelineno-37-1" name="__codelineno-37-1" href="#__codelineno-37-1"></a>(n_samples, M)
+</span></code></pre></div>
+<p>because the returned prediction vectors are combined with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-38-1"><a id="__codelineno-38-1" name="__codelineno-38-1" href="#__codelineno-38-1"></a><span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">(</span>
+</span><span id="__span-38-2"><a id="__codelineno-38-2" name="__codelineno-38-2" href="#__codelineno-38-2"></a>    <span class="n">preds</span>
+</span><span id="__span-38-3"><a id="__codelineno-38-3" name="__codelineno-38-3" href="#__codelineno-38-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="estimator-order-is-preserved">Estimator order is preserved</h1>
+<p>The source submits tasks using:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-39-1"><a id="__codelineno-39-1" name="__codelineno-39-1" href="#__codelineno-39-1"></a><span class="n">delayed</span><span class="p">(</span>
+</span><span id="__span-39-2"><a id="__codelineno-39-2" name="__codelineno-39-2" href="#__codelineno-39-2"></a>    <span class="o">...</span>
+</span><span id="__span-39-3"><a id="__codelineno-39-3" name="__codelineno-39-3" href="#__codelineno-39-3"></a><span class="p">)(</span>
+</span><span id="__span-39-4"><a id="__codelineno-39-4" name="__codelineno-39-4" href="#__codelineno-39-4"></a>    <span class="n">est</span>
+</span><span id="__span-39-5"><a id="__codelineno-39-5" name="__codelineno-39-5" href="#__codelineno-39-5"></a><span class="p">)</span>
+</span><span id="__span-39-6"><a id="__codelineno-39-6" name="__codelineno-39-6" href="#__codelineno-39-6"></a><span class="k">for</span> <span class="n">est</span> <span class="ow">in</span> <span class="n">estimators</span>
+</span></code></pre></div>
+<p>and then column-stacks the returned <code>preds</code> sequence.</p>
+<p>The intended column layout therefore follows the estimator sequence supplied to
+the helper.</p>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-40-1"><a id="__codelineno-40-1" name="__codelineno-40-1" href="#__codelineno-40-1"></a><span class="n">estimators</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-40-2"><a id="__codelineno-40-2" name="__codelineno-40-2" href="#__codelineno-40-2"></a>    <span class="s2">"ridge"</span><span class="p">,</span>
+</span><span id="__span-40-3"><a id="__codelineno-40-3" name="__codelineno-40-3" href="#__codelineno-40-3"></a>    <span class="s2">"lasso"</span><span class="p">,</span>
+</span><span id="__span-40-4"><a id="__codelineno-40-4" name="__codelineno-40-4" href="#__codelineno-40-4"></a>    <span class="s2">"svr"</span><span class="p">,</span>
+</span><span id="__span-40-5"><a id="__codelineno-40-5" name="__codelineno-40-5" href="#__codelineno-40-5"></a><span class="p">]</span>
+</span></code></pre></div>
+<p>corresponds conceptually to prediction columns:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-41-1"><a id="__codelineno-41-1" name="__codelineno-41-1" href="#__codelineno-41-1"></a>column 0 -&gt; ridge
+</span><span id="__span-41-2"><a id="__codelineno-41-2" name="__codelineno-41-2" href="#__codelineno-41-2"></a>column 1 -&gt; lasso
+</span><span id="__span-41-3"><a id="__codelineno-41-3" name="__codelineno-41-3" href="#__codelineno-41-3"></a>column 2 -&gt; svr
+</span></code></pre></div>
+<p>Parallel execution does not introduce a package-level column-reordering step.</p>
+<hr />
+<h1 id="n_jobs-is-used-for-both-fit-and-predict"><code>n_jobs</code> is used for both fit and predict</h1>
+<p>For GradientCOBRA:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-42-1"><a id="__codelineno-42-1" name="__codelineno-42-1" href="#__codelineno-42-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">_fit_estimators</span><span class="p">(</span>
+</span><span id="__span-42-2"><a id="__codelineno-42-2" name="__codelineno-42-2" href="#__codelineno-42-2"></a>    <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-42-3"><a id="__codelineno-42-3" name="__codelineno-42-3" href="#__codelineno-42-3"></a>    <span class="n">X_k</span><span class="p">,</span>
+</span><span id="__span-42-4"><a id="__codelineno-42-4" name="__codelineno-42-4" href="#__codelineno-42-4"></a>    <span class="n">y_k</span><span class="p">,</span>
+</span><span id="__span-42-5"><a id="__codelineno-42-5" name="__codelineno-42-5" href="#__codelineno-42-5"></a><span class="p">):</span>
+</span><span id="__span-42-6"><a id="__codelineno-42-6" name="__codelineno-42-6" href="#__codelineno-42-6"></a>    <span class="k">return</span> <span class="n">fit_estimators</span><span class="p">(</span>
+</span><span id="__span-42-7"><a id="__codelineno-42-7" name="__codelineno-42-7" href="#__codelineno-42-7"></a>        <span class="o">...</span>
+</span><span id="__span-42-8"><a id="__codelineno-42-8" name="__codelineno-42-8" href="#__codelineno-42-8"></a>        <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">,</span>
+</span><span id="__span-42-9"><a id="__codelineno-42-9" name="__codelineno-42-9" href="#__codelineno-42-9"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-43-1"><a id="__codelineno-43-1" name="__codelineno-43-1" href="#__codelineno-43-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">_load_predictions</span><span class="p">(</span>
+</span><span id="__span-43-2"><a id="__codelineno-43-2" name="__codelineno-43-2" href="#__codelineno-43-2"></a>    <span class="bp">self</span><span class="p">,</span>
+</span><span id="__span-43-3"><a id="__codelineno-43-3" name="__codelineno-43-3" href="#__codelineno-43-3"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-43-4"><a id="__codelineno-43-4" name="__codelineno-43-4" href="#__codelineno-43-4"></a><span class="p">):</span>
+</span><span id="__span-43-5"><a id="__codelineno-43-5" name="__codelineno-43-5" href="#__codelineno-43-5"></a>    <span class="k">return</span> <span class="n">predict_estimators</span><span class="p">(</span>
+</span><span id="__span-43-6"><a id="__codelineno-43-6" name="__codelineno-43-6" href="#__codelineno-43-6"></a>        <span class="o">...</span>
+</span><span id="__span-43-7"><a id="__codelineno-43-7" name="__codelineno-43-7" href="#__codelineno-43-7"></a>        <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">,</span>
+</span><span id="__span-43-8"><a id="__codelineno-43-8" name="__codelineno-43-8" href="#__codelineno-43-8"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>The same pattern is used in MixCOBRA and CombinedClassifier.</p>
+<p>Therefore one estimator-level setting controls both:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-44-1"><a id="__codelineno-44-1" name="__codelineno-44-1" href="#__codelineno-44-1"></a>base-estimator fitting
+</span><span id="__span-44-2"><a id="__codelineno-44-2" name="__codelineno-44-2" href="#__codelineno-44-2"></a>base-estimator prediction generation.
+</span></code></pre></div>
+<hr />
+<h1 id="gradientcobra-example">GradientCOBRA example</h1>
+<p>Use all Joblib workers according to the value forwarded by the package:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-45-1"><a id="__codelineno-45-1" name="__codelineno-45-1" href="#__codelineno-45-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-45-2"><a id="__codelineno-45-2" name="__codelineno-45-2" href="#__codelineno-45-2"></a>    <span class="n">GradientCOBRA</span><span class="p">,</span>
+</span><span id="__span-45-3"><a id="__codelineno-45-3" name="__codelineno-45-3" href="#__codelineno-45-3"></a><span class="p">)</span>
+</span><span id="__span-45-4"><a id="__codelineno-45-4" name="__codelineno-45-4" href="#__codelineno-45-4"></a>
+</span><span id="__span-45-5"><a id="__codelineno-45-5" name="__codelineno-45-5" href="#__codelineno-45-5"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-45-6"><a id="__codelineno-45-6" name="__codelineno-45-6" href="#__codelineno-45-6"></a>    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-45-7"><a id="__codelineno-45-7" name="__codelineno-45-7" href="#__codelineno-45-7"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-45-8"><a id="__codelineno-45-8" name="__codelineno-45-8" href="#__codelineno-45-8"></a><span class="p">)</span>
+</span><span id="__span-45-9"><a id="__codelineno-45-9" name="__codelineno-45-9" href="#__codelineno-45-9"></a>
+</span><span id="__span-45-10"><a id="__codelineno-45-10" name="__codelineno-45-10" href="#__codelineno-45-10"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-45-11"><a id="__codelineno-45-11" name="__codelineno-45-11" href="#__codelineno-45-11"></a>    <span class="n">X_train</span><span class="p">,</span>
+</span><span id="__span-45-12"><a id="__codelineno-45-12" name="__codelineno-45-12" href="#__codelineno-45-12"></a>    <span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-45-13"><a id="__codelineno-45-13" name="__codelineno-45-13" href="#__codelineno-45-13"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Use sequential estimator execution:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-46-1"><a id="__codelineno-46-1" name="__codelineno-46-1" href="#__codelineno-46-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-46-2"><a id="__codelineno-46-2" name="__codelineno-46-2" href="#__codelineno-46-2"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-46-3"><a id="__codelineno-46-3" name="__codelineno-46-3" href="#__codelineno-46-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="mixcobra-example">MixCOBRA example</h1>
+<p>Enable package-level parallelism explicitly:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-47-1"><a id="__codelineno-47-1" name="__codelineno-47-1" href="#__codelineno-47-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-47-2"><a id="__codelineno-47-2" name="__codelineno-47-2" href="#__codelineno-47-2"></a>    <span class="n">MixCOBRARegressor</span><span class="p">,</span>
+</span><span id="__span-47-3"><a id="__codelineno-47-3" name="__codelineno-47-3" href="#__codelineno-47-3"></a><span class="p">)</span>
+</span><span id="__span-47-4"><a id="__codelineno-47-4" name="__codelineno-47-4" href="#__codelineno-47-4"></a>
+</span><span id="__span-47-5"><a id="__codelineno-47-5" name="__codelineno-47-5" href="#__codelineno-47-5"></a><span class="n">model</span> <span class="o">=</span> <span class="n">MixCOBRARegressor</span><span class="p">(</span>
+</span><span id="__span-47-6"><a id="__codelineno-47-6" name="__codelineno-47-6" href="#__codelineno-47-6"></a>    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-47-7"><a id="__codelineno-47-7" name="__codelineno-47-7" href="#__codelineno-47-7"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-47-8"><a id="__codelineno-47-8" name="__codelineno-47-8" href="#__codelineno-47-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The same value is later used when MixCOBRA calls:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-48-1"><a id="__codelineno-48-1" name="__codelineno-48-1" href="#__codelineno-48-1"></a><span class="n">predict_estimators</span><span class="p">()</span>
+</span></code></pre></div>
+<p>to construct prediction-space coordinates.</p>
+<hr />
+<h1 id="combinedclassifier-example">CombinedClassifier example</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-49-1"><a id="__codelineno-49-1" name="__codelineno-49-1" href="#__codelineno-49-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">kfc_procedure.cobra</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+</span><span id="__span-49-2"><a id="__codelineno-49-2" name="__codelineno-49-2" href="#__codelineno-49-2"></a>    <span class="n">CombinedClassifier</span><span class="p">,</span>
+</span><span id="__span-49-3"><a id="__codelineno-49-3" name="__codelineno-49-3" href="#__codelineno-49-3"></a><span class="p">)</span>
+</span><span id="__span-49-4"><a id="__codelineno-49-4" name="__codelineno-49-4" href="#__codelineno-49-4"></a>
+</span><span id="__span-49-5"><a id="__codelineno-49-5" name="__codelineno-49-5" href="#__codelineno-49-5"></a><span class="n">classifier</span> <span class="o">=</span> <span class="n">CombinedClassifier</span><span class="p">(</span>
+</span><span id="__span-49-6"><a id="__codelineno-49-6" name="__codelineno-49-6" href="#__codelineno-49-6"></a>    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-49-7"><a id="__codelineno-49-7" name="__codelineno-49-7" href="#__codelineno-49-7"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-49-8"><a id="__codelineno-49-8" name="__codelineno-49-8" href="#__codelineno-49-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This parallelizes the package-level fit and prediction tasks across the
+classifier pool.</p>
+<hr />
+<h1 id="what-n_jobs-does-not-parallelize">What <code>n_jobs</code> does not parallelize</h1>
+<p>The current source does not pass estimator-level <code>n_jobs</code> into:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-50-1"><a id="__codelineno-50-1" name="__codelineno-50-1" href="#__codelineno-50-1"></a>distance matrix calculation
+</span><span id="__span-50-2"><a id="__codelineno-50-2" name="__codelineno-50-2" href="#__codelineno-50-2"></a>kernel transformation
+</span><span id="__span-50-3"><a id="__codelineno-50-3" name="__codelineno-50-3" href="#__codelineno-50-3"></a>aggregator calls
+</span><span id="__span-50-4"><a id="__codelineno-50-4" name="__codelineno-50-4" href="#__codelineno-50-4"></a>K-fold loop construction
+</span><span id="__span-50-5"><a id="__codelineno-50-5" name="__codelineno-50-5" href="#__codelineno-50-5"></a>grid-search candidate loop
+</span><span id="__span-50-6"><a id="__codelineno-50-6" name="__codelineno-50-6" href="#__codelineno-50-6"></a>loss evaluation
+</span><span id="__span-50-7"><a id="__codelineno-50-7" name="__codelineno-50-7" href="#__codelineno-50-7"></a>normalization
+</span><span id="__span-50-8"><a id="__codelineno-50-8" name="__codelineno-50-8" href="#__codelineno-50-8"></a>data splitting
+</span></code></pre></div>
+<p>So setting:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-51-1"><a id="__codelineno-51-1" name="__codelineno-51-1" href="#__codelineno-51-1"></a><span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span>
+</span></code></pre></div>
+<p>does not mean the entire COBRA training procedure is parallelized.</p>
+<hr />
+<h1 id="cross-validation-remains-a-separate-loop">Cross-validation remains a separate loop</h1>
+<p>The COBRA cross-validation objective iterates through:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-52-1"><a id="__codelineno-52-1" name="__codelineno-52-1" href="#__codelineno-52-1"></a><span class="n">cv_folds_</span>
+</span></code></pre></div>
+<p>in normal Python loops.</p>
+<p>For example, GradientCOBRA evaluates every stored fold while computing a
+candidate bandwidth error.</p>
+<p>The current cross-validation classes do not expose a <code>n_jobs</code> parameter, and
+the main estimator <code>n_jobs</code> value is not passed into them.</p>
+<hr />
+<h1 id="grid-search-remains-sequential-at-the-search-layer">Grid search remains sequential at the search layer</h1>
+<p><code>GridSearchOptimizer</code> creates all candidates and loops over them through the
+search optimizer's normal candidate-evaluation logic.</p>
+<p>The current search optimizer does not use:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-53-1"><a id="__codelineno-53-1" name="__codelineno-53-1" href="#__codelineno-53-1"></a><span class="n">joblib</span><span class="o">.</span><span class="n">Parallel</span>
+</span></code></pre></div>
+<p>and does not receive the COBRA estimator's:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-54-1"><a id="__codelineno-54-1" name="__codelineno-54-1" href="#__codelineno-54-1"></a><span class="n">n_jobs</span><span class="o">.</span>
+</span></code></pre></div>
+<p>Therefore different bandwidth or alpha/beta candidates are not parallelized by
+the main estimator <code>n_jobs</code> setting.</p>
+<hr />
+<h1 id="distance-matrices-are-not-joblib-parallelized-by-n_jobs">Distance matrices are not Joblib-parallelized by <code>n_jobs</code></h1>
+<p>The built-in distance classes implement their own NumPy/SciPy/Numba numerical
+paths.</p>
+<p>The COBRA estimator's:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-55-1"><a id="__codelineno-55-1" name="__codelineno-55-1" href="#__codelineno-55-1"></a><span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>is not forwarded to:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-56-1"><a id="__codelineno-56-1" name="__codelineno-56-1" href="#__codelineno-56-1"></a><span class="n">distance_</span><span class="o">.</span><span class="n">matrix</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></code></pre></div>
+<p>in the current source.</p>
+<hr />
+<h1 id="aggregators-are-not-joblib-parallelized-by-n_jobs">Aggregators are not Joblib-parallelized by <code>n_jobs</code></h1>
+<p>The package's aggregator implementations operate on their supplied arrays
+directly.</p>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-57-1"><a id="__codelineno-57-1" name="__codelineno-57-1" href="#__codelineno-57-1"></a><span class="n">WeightedMeanAggregator</span><span class="o">.</span><span class="n">aggregate_matrix</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-58-1"><a id="__codelineno-58-1" name="__codelineno-58-1" href="#__codelineno-58-1"></a><span class="n">WeightedVoteAggregator</span><span class="o">.</span><span class="n">aggregate_matrix</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></code></pre></div>
+<p>do not accept the estimator's <code>n_jobs</code>.</p>
+<hr />
+<h1 id="precomputed-prediction-mode">Precomputed prediction mode</h1>
+<p>When:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-59-1"><a id="__codelineno-59-1" name="__codelineno-59-1" href="#__codelineno-59-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>the COBRA estimator skips internal base-estimator fitting.</p>
+<p>For GradientCOBRA:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-60-1"><a id="__codelineno-60-1" name="__codelineno-60-1" href="#__codelineno-60-1"></a><span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">as_predictions_</span><span class="p">:</span>
+</span><span id="__span-60-2"><a id="__codelineno-60-2" name="__codelineno-60-2" href="#__codelineno-60-2"></a>    <span class="bp">self</span><span class="o">.</span><span class="n">estimators_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_fit_estimators</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span><span id="__span-60-3"><a id="__codelineno-60-3" name="__codelineno-60-3" href="#__codelineno-60-3"></a><span class="k">else</span><span class="p">:</span>
+</span><span id="__span-60-4"><a id="__codelineno-60-4" name="__codelineno-60-4" href="#__codelineno-60-4"></a>    <span class="n">prediction_space</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">X_l_</span>
+</span></code></pre></div>
+<p>So package-level estimator-fitting parallelism does not run in this branch.</p>
+<hr />
+<h2 id="gradientcobra-prediction-in-precomputed-mode">GradientCOBRA prediction in precomputed mode</h2>
+<p>Because GradientCOBRA also treats query <code>X</code> directly as prediction space when
+<code>as_predictions_</code> is true, it does not call:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-61-1"><a id="__codelineno-61-1" name="__codelineno-61-1" href="#__codelineno-61-1"></a><span class="n">predict_estimators</span><span class="p">()</span>
+</span></code></pre></div>
+<p>for those predictions either.</p>
+<p>Therefore <code>n_jobs</code> has little effect on the estimator-pool stage when using a
+fully precomputed GradientCOBRA workflow.</p>
+<hr />
+<h1 id="combinedclassifier-precomputed-mode">CombinedClassifier precomputed mode</h1>
+<p>The classifier behaves similarly.</p>
+<p>With:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-62-1"><a id="__codelineno-62-1" name="__codelineno-62-1" href="#__codelineno-62-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>it skips:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-63-1"><a id="__codelineno-63-1" name="__codelineno-63-1" href="#__codelineno-63-1"></a><span class="n">_fit_estimators</span><span class="p">()</span>
+</span></code></pre></div>
+<p>and stores:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-64-1"><a id="__codelineno-64-1" name="__codelineno-64-1" href="#__codelineno-64-1"></a><span class="n">pred_l_</span> <span class="o">=</span> <span class="n">X_l_</span>
+</span></code></pre></div>
+<p>At prediction time it uses the supplied prediction-space matrix directly.</p>
+<p>So the package-level <code>n_jobs</code> estimator pool is bypassed in this mode.</p>
+<hr />
+<h1 id="mixcobra-precomputed-caveat">MixCOBRA precomputed caveat</h1>
+<p>MixCOBRA also skips base-estimator fitting when:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-65-1"><a id="__codelineno-65-1" name="__codelineno-65-1" href="#__codelineno-65-1"></a><span class="n">as_predictions</span><span class="o">=</span><span class="kc">True</span><span class="o">.</span>
+</span></code></pre></div>
+<p>However, its current <code>predict()</code> method can still attempt to call:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-66-1"><a id="__codelineno-66-1" name="__codelineno-66-1" href="#__codelineno-66-1"></a><span class="n">_load_predictions</span><span class="p">(</span>
+</span><span id="__span-66-2"><a id="__codelineno-66-2" name="__codelineno-66-2" href="#__codelineno-66-2"></a>    <span class="n">X</span>
+</span><span id="__span-66-3"><a id="__codelineno-66-3" name="__codelineno-66-3" href="#__codelineno-66-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>when <code>pred_X</code> is omitted.</p>
+<p>That is the precomputed-mode asymmetry documented in:</p>
+<p><a href="../precomputed-predictions/">Precomputed Predictions</a></p>
+<p>and should not be interpreted as a useful parallel prediction path, because the
+required internal estimator pool was skipped during fit.</p>
+<hr />
+<h1 id="parallel-gradient-computation">Parallel gradient computation</h1>
+<p>The optimizer subsystem contains a second independent parallel mechanism:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-67-1"><a id="__codelineno-67-1" name="__codelineno-67-1" href="#__codelineno-67-1"></a><span class="n">parallel_central_difference_gradient</span><span class="p">()</span>
+</span></code></pre></div>
+<p>in:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-68-1"><a id="__codelineno-68-1" name="__codelineno-68-1" href="#__codelineno-68-1"></a>kfc_procedure/cobra/core/optimizers/_utils.py
+</span></code></pre></div>
+<p>This function parallelizes finite-difference gradient coordinates.</p>
+<hr />
+<h1 id="parallel-gradient-formula">Parallel gradient formula</h1>
+<p>For parameter coordinate <span class="arithmatex">\(i\)</span>, central difference computes:</p>
+<div class="arithmatex">\[
+g_i
+=
+\frac{
+f(x+\varepsilon e_i)
+-
+f(x-\varepsilon e_i)
+}{
+2\varepsilon}.
+\]</div>
+<p>Each coordinate can be computed independently.</p>
+<p>The source defines:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-69-1"><a id="__codelineno-69-1" name="__codelineno-69-1" href="#__codelineno-69-1"></a><span class="k">def</span><span class="w"> </span><span class="nf">compute_i</span><span class="p">(</span>
+</span><span id="__span-69-2"><a id="__codelineno-69-2" name="__codelineno-69-2" href="#__codelineno-69-2"></a>    <span class="n">i</span><span class="p">,</span>
+</span><span id="__span-69-3"><a id="__codelineno-69-3" name="__codelineno-69-3" href="#__codelineno-69-3"></a><span class="p">):</span>
+</span><span id="__span-69-4"><a id="__codelineno-69-4" name="__codelineno-69-4" href="#__codelineno-69-4"></a>    <span class="n">x</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span><span id="__span-69-5"><a id="__codelineno-69-5" name="__codelineno-69-5" href="#__codelineno-69-5"></a>
+</span><span id="__span-69-6"><a id="__codelineno-69-6" name="__codelineno-69-6" href="#__codelineno-69-6"></a>    <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">eps</span>
+</span><span id="__span-69-7"><a id="__codelineno-69-7" name="__codelineno-69-7" href="#__codelineno-69-7"></a>    <span class="n">f_plus</span> <span class="o">=</span> <span class="n">objective</span><span class="p">(</span>
+</span><span id="__span-69-8"><a id="__codelineno-69-8" name="__codelineno-69-8" href="#__codelineno-69-8"></a>        <span class="n">x</span>
+</span><span id="__span-69-9"><a id="__codelineno-69-9" name="__codelineno-69-9" href="#__codelineno-69-9"></a>    <span class="p">)</span>
+</span><span id="__span-69-10"><a id="__codelineno-69-10" name="__codelineno-69-10" href="#__codelineno-69-10"></a>
+</span><span id="__span-69-11"><a id="__codelineno-69-11" name="__codelineno-69-11" href="#__codelineno-69-11"></a>    <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span>
+</span><span id="__span-69-12"><a id="__codelineno-69-12" name="__codelineno-69-12" href="#__codelineno-69-12"></a>    <span class="n">f_minus</span> <span class="o">=</span> <span class="n">objective</span><span class="p">(</span>
+</span><span id="__span-69-13"><a id="__codelineno-69-13" name="__codelineno-69-13" href="#__codelineno-69-13"></a>        <span class="n">x</span>
+</span><span id="__span-69-14"><a id="__codelineno-69-14" name="__codelineno-69-14" href="#__codelineno-69-14"></a>    <span class="p">)</span>
+</span><span id="__span-69-15"><a id="__codelineno-69-15" name="__codelineno-69-15" href="#__codelineno-69-15"></a>
+</span><span id="__span-69-16"><a id="__codelineno-69-16" name="__codelineno-69-16" href="#__codelineno-69-16"></a>    <span class="k">return</span> <span class="p">(</span>
+</span><span id="__span-69-17"><a id="__codelineno-69-17" name="__codelineno-69-17" href="#__codelineno-69-17"></a>        <span class="n">f_plus</span>
+</span><span id="__span-69-18"><a id="__codelineno-69-18" name="__codelineno-69-18" href="#__codelineno-69-18"></a>        <span class="o">-</span>
+</span><span id="__span-69-19"><a id="__codelineno-69-19" name="__codelineno-69-19" href="#__codelineno-69-19"></a>        <span class="n">f_minus</span>
+</span><span id="__span-69-20"><a id="__codelineno-69-20" name="__codelineno-69-20" href="#__codelineno-69-20"></a>    <span class="p">)</span> <span class="o">/</span> <span class="p">(</span>
+</span><span id="__span-69-21"><a id="__codelineno-69-21" name="__codelineno-69-21" href="#__codelineno-69-21"></a>        <span class="mi">2</span> <span class="o">*</span> <span class="n">eps</span>
+</span><span id="__span-69-22"><a id="__codelineno-69-22" name="__codelineno-69-22" href="#__codelineno-69-22"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h1 id="joblib-use-in-parallel-gradients">Joblib use in parallel gradients</h1>
+<p>The helper returns:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-70-1"><a id="__codelineno-70-1" name="__codelineno-70-1" href="#__codelineno-70-1"></a><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+</span><span id="__span-70-2"><a id="__codelineno-70-2" name="__codelineno-70-2" href="#__codelineno-70-2"></a>    <span class="n">Parallel</span><span class="p">(</span>
+</span><span id="__span-70-3"><a id="__codelineno-70-3" name="__codelineno-70-3" href="#__codelineno-70-3"></a>        <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span>
+</span><span id="__span-70-4"><a id="__codelineno-70-4" name="__codelineno-70-4" href="#__codelineno-70-4"></a>    <span class="p">)(</span>
+</span><span id="__span-70-5"><a id="__codelineno-70-5" name="__codelineno-70-5" href="#__codelineno-70-5"></a>        <span class="n">delayed</span><span class="p">(</span>
+</span><span id="__span-70-6"><a id="__codelineno-70-6" name="__codelineno-70-6" href="#__codelineno-70-6"></a>            <span class="n">compute_i</span>
+</span><span id="__span-70-7"><a id="__codelineno-70-7" name="__codelineno-70-7" href="#__codelineno-70-7"></a>        <span class="p">)(</span>
+</span><span id="__span-70-8"><a id="__codelineno-70-8" name="__codelineno-70-8" href="#__codelineno-70-8"></a>            <span class="n">i</span>
+</span><span id="__span-70-9"><a id="__codelineno-70-9" name="__codelineno-70-9" href="#__codelineno-70-9"></a>        <span class="p">)</span>
+</span><span id="__span-70-10"><a id="__codelineno-70-10" name="__codelineno-70-10" href="#__codelineno-70-10"></a>        <span class="k">for</span> <span class="n">i</span>
+</span><span id="__span-70-11"><a id="__codelineno-70-11" name="__codelineno-70-11" href="#__codelineno-70-11"></a>        <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span>
+</span><span id="__span-70-12"><a id="__codelineno-70-12" name="__codelineno-70-12" href="#__codelineno-70-12"></a>            <span class="n">p</span><span class="o">.</span><span class="n">size</span>
+</span><span id="__span-70-13"><a id="__codelineno-70-13" name="__codelineno-70-13" href="#__codelineno-70-13"></a>        <span class="p">)</span>
+</span><span id="__span-70-14"><a id="__codelineno-70-14" name="__codelineno-70-14" href="#__codelineno-70-14"></a>    <span class="p">)</span>
+</span><span id="__span-70-15"><a id="__codelineno-70-15" name="__codelineno-70-15" href="#__codelineno-70-15"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Unlike estimator fitting/prediction, this source call does <strong>not</strong> explicitly
+specify:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-71-1"><a id="__codelineno-71-1" name="__codelineno-71-1" href="#__codelineno-71-1"></a><span class="n">backend</span><span class="o">=</span><span class="s2">"loky"</span>
+</span></code></pre></div>
+<p>It leaves backend choice to Joblib's normal behavior.</p>
+<hr />
+<h1 id="select-parallel-numerical-gradients">Select parallel numerical gradients</h1>
+<p>The unified gradient dispatcher recognizes:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-72-1"><a id="__codelineno-72-1" name="__codelineno-72-1" href="#__codelineno-72-1"></a>parallel
+</span></code></pre></div>
+<p>as one of:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-73-1"><a id="__codelineno-73-1" name="__codelineno-73-1" href="#__codelineno-73-1"></a>central
+</span><span id="__span-73-2"><a id="__codelineno-73-2" name="__codelineno-73-2" href="#__codelineno-73-2"></a>forward
+</span><span id="__span-73-3"><a id="__codelineno-73-3" name="__codelineno-73-3" href="#__codelineno-73-3"></a>spsa
+</span><span id="__span-73-4"><a id="__codelineno-73-4" name="__codelineno-73-4" href="#__codelineno-73-4"></a>complex
+</span><span id="__span-73-5"><a id="__codelineno-73-5" name="__codelineno-73-5" href="#__codelineno-73-5"></a>parallel
+</span></code></pre></div>
+<p>So gradient-mode COBRA can request:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-74-1"><a id="__codelineno-74-1" name="__codelineno-74-1" href="#__codelineno-74-1"></a><span class="n">optimizer_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-74-2"><a id="__codelineno-74-2" name="__codelineno-74-2" href="#__codelineno-74-2"></a>    <span class="s2">"gradient_method"</span><span class="p">:</span> <span class="s2">"parallel"</span><span class="p">,</span>
+</span><span id="__span-74-3"><a id="__codelineno-74-3" name="__codelineno-74-3" href="#__codelineno-74-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<hr />
+<h1 id="gradient-example">Gradient example</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-75-1"><a id="__codelineno-75-1" name="__codelineno-75-1" href="#__codelineno-75-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-75-2"><a id="__codelineno-75-2" name="__codelineno-75-2" href="#__codelineno-75-2"></a>    <span class="n">optimizer</span><span class="o">=</span><span class="s2">"adam"</span><span class="p">,</span>
+</span><span id="__span-75-3"><a id="__codelineno-75-3" name="__codelineno-75-3" href="#__codelineno-75-3"></a>    <span class="n">opt_method</span><span class="o">=</span><span class="s2">"grad"</span><span class="p">,</span>
+</span><span id="__span-75-4"><a id="__codelineno-75-4" name="__codelineno-75-4" href="#__codelineno-75-4"></a>    <span class="n">optimizer_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-75-5"><a id="__codelineno-75-5" name="__codelineno-75-5" href="#__codelineno-75-5"></a>        <span class="s2">"gradient_method"</span><span class="p">:</span> <span class="s2">"parallel"</span><span class="p">,</span>
+</span><span id="__span-75-6"><a id="__codelineno-75-6" name="__codelineno-75-6" href="#__codelineno-75-6"></a>        <span class="s2">"show_process"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-75-7"><a id="__codelineno-75-7" name="__codelineno-75-7" href="#__codelineno-75-7"></a>    <span class="p">},</span>
+</span><span id="__span-75-8"><a id="__codelineno-75-8" name="__codelineno-75-8" href="#__codelineno-75-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The optimizer then estimates each gradient coordinate through the parallel
+central-difference helper.</p>
+<hr />
+<h1 id="default-worker-count-for-parallel-gradient-method">Default worker count for parallel gradient method</h1>
+<p>The unified dispatcher accepts:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-76-1"><a id="__codelineno-76-1" name="__codelineno-76-1" href="#__codelineno-76-1"></a><span class="n">n_jobs</span><span class="o">=</span><span class="kc">None</span>
+</span></code></pre></div>
+<p>and contains:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-77-1"><a id="__codelineno-77-1" name="__codelineno-77-1" href="#__codelineno-77-1"></a><span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">"parallel"</span><span class="p">:</span>
+</span><span id="__span-77-2"><a id="__codelineno-77-2" name="__codelineno-77-2" href="#__codelineno-77-2"></a>    <span class="k">return</span> <span class="n">parallel_central_difference_gradient</span><span class="p">(</span>
+</span><span id="__span-77-3"><a id="__codelineno-77-3" name="__codelineno-77-3" href="#__codelineno-77-3"></a>        <span class="n">objective</span><span class="p">,</span>
+</span><span id="__span-77-4"><a id="__codelineno-77-4" name="__codelineno-77-4" href="#__codelineno-77-4"></a>        <span class="n">params</span><span class="p">,</span>
+</span><span id="__span-77-5"><a id="__codelineno-77-5" name="__codelineno-77-5" href="#__codelineno-77-5"></a>        <span class="n">eps</span><span class="p">,</span>
+</span><span id="__span-77-6"><a id="__codelineno-77-6" name="__codelineno-77-6" href="#__codelineno-77-6"></a>        <span class="n">n_jobs</span><span class="o">=</span><span class="p">(</span>
+</span><span id="__span-77-7"><a id="__codelineno-77-7" name="__codelineno-77-7" href="#__codelineno-77-7"></a>            <span class="o">-</span><span class="mi">1</span>
+</span><span id="__span-77-8"><a id="__codelineno-77-8" name="__codelineno-77-8" href="#__codelineno-77-8"></a>            <span class="k">if</span> <span class="n">n_jobs</span> <span class="ow">is</span> <span class="kc">None</span>
+</span><span id="__span-77-9"><a id="__codelineno-77-9" name="__codelineno-77-9" href="#__codelineno-77-9"></a>            <span class="k">else</span> <span class="n">n_jobs</span>
+</span><span id="__span-77-10"><a id="__codelineno-77-10" name="__codelineno-77-10" href="#__codelineno-77-10"></a>        <span class="p">),</span>
+</span><span id="__span-77-11"><a id="__codelineno-77-11" name="__codelineno-77-11" href="#__codelineno-77-11"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>So an unspecified gradient worker count becomes:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-78-1"><a id="__codelineno-78-1" name="__codelineno-78-1" href="#__codelineno-78-1"></a>-1
+</span></code></pre></div>
+<p>inside the dispatcher.</p>
+<hr />
+<h1 id="high-level-optimizer-does-not-forward-a-gradient-n_jobs">High-level optimizer does not forward a gradient <code>n_jobs</code></h1>
+<p>The current <code>BaseGradientOptimizer.gradient()</code> path calls
+<code>compute_gradient()</code> without providing an explicit:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-79-1"><a id="__codelineno-79-1" name="__codelineno-79-1" href="#__codelineno-79-1"></a><span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>argument.</p>
+<p>Therefore the standard:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-80-1"><a id="__codelineno-80-1" name="__codelineno-80-1" href="#__codelineno-80-1"></a><span class="n">gradient_method</span><span class="o">=</span><span class="s2">"parallel"</span>
+</span></code></pre></div>
+<p>path uses the dispatcher's:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-81-1"><a id="__codelineno-81-1" name="__codelineno-81-1" href="#__codelineno-81-1"></a>n_jobs=-1
+</span></code></pre></div>
+<p>fallback.</p>
+<hr />
+<h2 id="important-separation">Important separation</h2>
+<p>This means:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-82-1"><a id="__codelineno-82-1" name="__codelineno-82-1" href="#__codelineno-82-1"></a><span class="n">model</span><span class="o">.</span><span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>does <strong>not</strong> control the parallel finite-difference worker count.</p>
+<p>For example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-83-1"><a id="__codelineno-83-1" name="__codelineno-83-1" href="#__codelineno-83-1"></a><span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-83-2"><a id="__codelineno-83-2" name="__codelineno-83-2" href="#__codelineno-83-2"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-83-3"><a id="__codelineno-83-3" name="__codelineno-83-3" href="#__codelineno-83-3"></a>    <span class="n">optimizer</span><span class="o">=</span><span class="s2">"adam"</span><span class="p">,</span>
+</span><span id="__span-83-4"><a id="__codelineno-83-4" name="__codelineno-83-4" href="#__codelineno-83-4"></a>    <span class="n">opt_method</span><span class="o">=</span><span class="s2">"grad"</span><span class="p">,</span>
+</span><span id="__span-83-5"><a id="__codelineno-83-5" name="__codelineno-83-5" href="#__codelineno-83-5"></a>    <span class="n">optimizer_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-83-6"><a id="__codelineno-83-6" name="__codelineno-83-6" href="#__codelineno-83-6"></a>        <span class="s2">"gradient_method"</span><span class="p">:</span> <span class="s2">"parallel"</span><span class="p">,</span>
+</span><span id="__span-83-7"><a id="__codelineno-83-7" name="__codelineno-83-7" href="#__codelineno-83-7"></a>    <span class="p">},</span>
+</span><span id="__span-83-8"><a id="__codelineno-83-8" name="__codelineno-83-8" href="#__codelineno-83-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>still reaches the gradient utility with its independent default worker setting.</p>
+<div class="admonition important">
+<p class="admonition-title">Two independent controls</p>
+<p>The current source has no shared worker-budget parameter connecting:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-84-1"><a id="__codelineno-84-1" name="__codelineno-84-1" href="#__codelineno-84-1"></a>estimator-pool n_jobs
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-85-1"><a id="__codelineno-85-1" name="__codelineno-85-1" href="#__codelineno-85-1"></a>parallel-gradient n_jobs.
+</span></code></pre></div>
+</div>
+<hr />
+<h1 id="gradient-parallelism-is-across-parameters">Gradient parallelism is across parameters</h1>
+<p>For one-dimensional GradientCOBRA:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-86-1"><a id="__codelineno-86-1" name="__codelineno-86-1" href="#__codelineno-86-1"></a>x = [bandwidth]
+</span></code></pre></div>
+<p>there is only one finite-difference coordinate.</p>
+<p>So the parallel gradient method has only one coordinate task to submit.</p>
+<p>There is little coordinate-level parallel work available at dimension one.</p>
+<hr />
+<h1 id="two-dimensional-mixcobra">Two-dimensional MixCOBRA</h1>
+<p>In ordinary two-parameter MixCOBRA gradient mode:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-87-1"><a id="__codelineno-87-1" name="__codelineno-87-1" href="#__codelineno-87-1"></a>x = [alpha, beta]
+</span></code></pre></div>
+<p>the parallel helper has two coordinate tasks:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-88-1"><a id="__codelineno-88-1" name="__codelineno-88-1" href="#__codelineno-88-1"></a>d/d alpha
+</span><span id="__span-88-2"><a id="__codelineno-88-2" name="__codelineno-88-2" href="#__codelineno-88-2"></a>d/d beta
+</span></code></pre></div>
+<p>Each task performs two complete objective evaluations.</p>
+<p>So the maximum coordinate-level task count is only two in that standard
+configuration.</p>
+<hr />
+<h1 id="objective-evaluations-are-expensive">Objective evaluations are expensive</h1>
+<p>Every finite-difference objective call can itself run:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-89-1"><a id="__codelineno-89-1" name="__codelineno-89-1" href="#__codelineno-89-1"></a>kernel transformation
+</span><span id="__span-89-2"><a id="__codelineno-89-2" name="__codelineno-89-2" href="#__codelineno-89-2"></a>cross-validation folds
+</span><span id="__span-89-3"><a id="__codelineno-89-3" name="__codelineno-89-3" href="#__codelineno-89-3"></a>aggregation
+</span><span id="__span-89-4"><a id="__codelineno-89-4" name="__codelineno-89-4" href="#__codelineno-89-4"></a>loss evaluation
+</span></code></pre></div>
+<p>Therefore parallel gradient execution parallelizes expensive complete objective
+evaluations across parameter coordinates.</p>
+<p>It does not parallelize the individual CV folds within each objective call.</p>
+<hr />
+<h1 id="nested-parallelism">Nested parallelism</h1>
+<p>The current source does not contain logic that coordinates or prevents nested
+parallel execution.</p>
+<p>For example, a gradient objective may operate on a fitted model whose
+prediction-space construction previously used:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-90-1"><a id="__codelineno-90-1" name="__codelineno-90-1" href="#__codelineno-90-1"></a><span class="n">n_jobs</span><span class="o">=-</span><span class="mf">1.</span>
+</span></code></pre></div>
+<p>Likewise, individual scikit-learn estimators can have their own constructor
+parameters that control internal parallelism.</p>
+<p>The package does not inspect or rewrite those estimator-specific settings.</p>
+<hr />
+<h2 id="source-level-boundary">Source-level boundary</h2>
+<p><code>fit_estimators()</code> forwards model constructor parameters through the estimator
+factory, while package-level:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-91-1"><a id="__codelineno-91-1" name="__codelineno-91-1" href="#__codelineno-91-1"></a><span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>controls only how many estimator tasks Joblib executes.</p>
+<p>It does not automatically change an estimator's own:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-92-1"><a id="__codelineno-92-1" name="__codelineno-92-1" href="#__codelineno-92-1"></a>n_jobs
+</span><span id="__span-92-2"><a id="__codelineno-92-2" name="__codelineno-92-2" href="#__codelineno-92-2"></a>threads
+</span><span id="__span-92-3"><a id="__codelineno-92-3" name="__codelineno-92-3" href="#__codelineno-92-3"></a>workers
+</span></code></pre></div>
+<p>constructor parameter.</p>
+<hr />
+<h1 id="estimator-specific-parallelism">Estimator-specific parallelism</h1>
+<p>You can separately configure estimators that expose their own parallel
+parameter through:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-93-1"><a id="__codelineno-93-1" name="__codelineno-93-1" href="#__codelineno-93-1"></a><span class="n">estimators_params</span><span class="o">.</span>
+</span></code></pre></div>
+<p>For example, if an estimator supports an <code>n_jobs</code> constructor parameter:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-94-1"><a id="__codelineno-94-1" name="__codelineno-94-1" href="#__codelineno-94-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-94-2"><a id="__codelineno-94-2" name="__codelineno-94-2" href="#__codelineno-94-2"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+</span><span id="__span-94-3"><a id="__codelineno-94-3" name="__codelineno-94-3" href="#__codelineno-94-3"></a>    <span class="n">estimators_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-94-4"><a id="__codelineno-94-4" name="__codelineno-94-4" href="#__codelineno-94-4"></a>        <span class="s2">"random_forest_regressor"</span><span class="p">:</span> <span class="p">{</span>
+</span><span id="__span-94-5"><a id="__codelineno-94-5" name="__codelineno-94-5" href="#__codelineno-94-5"></a>            <span class="s2">"n_jobs"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-94-6"><a id="__codelineno-94-6" name="__codelineno-94-6" href="#__codelineno-94-6"></a>        <span class="p">},</span>
+</span><span id="__span-94-7"><a id="__codelineno-94-7" name="__codelineno-94-7" href="#__codelineno-94-7"></a>    <span class="p">},</span>
+</span><span id="__span-94-8"><a id="__codelineno-94-8" name="__codelineno-94-8" href="#__codelineno-94-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The two values have different roles:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-95-1"><a id="__codelineno-95-1" name="__codelineno-95-1" href="#__codelineno-95-1"></a>GradientCOBRA n_jobs=2
+</span><span id="__span-95-2"><a id="__codelineno-95-2" name="__codelineno-95-2" href="#__codelineno-95-2"></a>    package-level parallel estimator tasks
+</span><span id="__span-95-3"><a id="__codelineno-95-3" name="__codelineno-95-3" href="#__codelineno-95-3"></a>
+</span><span id="__span-95-4"><a id="__codelineno-95-4" name="__codelineno-95-4" href="#__codelineno-95-4"></a>random_forest_regressor n_jobs=1
+</span><span id="__span-95-5"><a id="__codelineno-95-5" name="__codelineno-95-5" href="#__codelineno-95-5"></a>    estimator-internal setting forwarded to that model.
+</span></code></pre></div>
+<p>The exact effect of an estimator-specific parameter depends on that estimator's
+implementation.</p>
+<hr />
+<h1 id="factory-parameter-lookup">Factory parameter lookup</h1>
+<p>For string estimator specifications:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-96-1"><a id="__codelineno-96-1" name="__codelineno-96-1" href="#__codelineno-96-1"></a><span class="n">EstimatorFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-96-2"><a id="__codelineno-96-2" name="__codelineno-96-2" href="#__codelineno-96-2"></a>    <span class="n">est_spec</span><span class="p">,</span>
+</span><span id="__span-96-3"><a id="__codelineno-96-3" name="__codelineno-96-3" href="#__codelineno-96-3"></a>    <span class="o">**</span><span class="n">estimators_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+</span><span id="__span-96-4"><a id="__codelineno-96-4" name="__codelineno-96-4" href="#__codelineno-96-4"></a>        <span class="n">est_spec</span><span class="p">,</span>
+</span><span id="__span-96-5"><a id="__codelineno-96-5" name="__codelineno-96-5" href="#__codelineno-96-5"></a>        <span class="p">{}</span>
+</span><span id="__span-96-6"><a id="__codelineno-96-6" name="__codelineno-96-6" href="#__codelineno-96-6"></a>    <span class="p">)</span>
+</span><span id="__span-96-7"><a id="__codelineno-96-7" name="__codelineno-96-7" href="#__codelineno-96-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>is used.</p>
+<p>So the parameter dictionary key should match the estimator specification string
+used in the pool.</p>
+<hr />
+<h1 id="tuple-estimator-specifications">Tuple estimator specifications</h1>
+<p><code>fit_estimators()</code> also accepts:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-97-1"><a id="__codelineno-97-1" name="__codelineno-97-1" href="#__codelineno-97-1"></a><span class="p">(</span>
+</span><span id="__span-97-2"><a id="__codelineno-97-2" name="__codelineno-97-2" href="#__codelineno-97-2"></a>    <span class="n">name</span><span class="p">,</span>
+</span><span id="__span-97-3"><a id="__codelineno-97-3" name="__codelineno-97-3" href="#__codelineno-97-3"></a>    <span class="n">params</span><span class="p">,</span>
+</span><span id="__span-97-4"><a id="__codelineno-97-4" name="__codelineno-97-4" href="#__codelineno-97-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>and resolves:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-98-1"><a id="__codelineno-98-1" name="__codelineno-98-1" href="#__codelineno-98-1"></a><span class="n">EstimatorFactory</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+</span><span id="__span-98-2"><a id="__codelineno-98-2" name="__codelineno-98-2" href="#__codelineno-98-2"></a>    <span class="n">name</span><span class="p">,</span>
+</span><span id="__span-98-3"><a id="__codelineno-98-3" name="__codelineno-98-3" href="#__codelineno-98-3"></a>    <span class="o">**</span><span class="p">(</span>
+</span><span id="__span-98-4"><a id="__codelineno-98-4" name="__codelineno-98-4" href="#__codelineno-98-4"></a>        <span class="n">params</span>
+</span><span id="__span-98-5"><a id="__codelineno-98-5" name="__codelineno-98-5" href="#__codelineno-98-5"></a>        <span class="ow">or</span> <span class="p">{}</span>
+</span><span id="__span-98-6"><a id="__codelineno-98-6" name="__codelineno-98-6" href="#__codelineno-98-6"></a>    <span class="p">),</span>
+</span><span id="__span-98-7"><a id="__codelineno-98-7" name="__codelineno-98-7" href="#__codelineno-98-7"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This lets parameters travel with an individual estimator specification.</p>
+<p>Example:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-99-1"><a id="__codelineno-99-1" name="__codelineno-99-1" href="#__codelineno-99-1"></a><span class="n">estimators</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-99-2"><a id="__codelineno-99-2" name="__codelineno-99-2" href="#__codelineno-99-2"></a>    <span class="p">(</span>
+</span><span id="__span-99-3"><a id="__codelineno-99-3" name="__codelineno-99-3" href="#__codelineno-99-3"></a>        <span class="s2">"random_forest_regressor"</span><span class="p">,</span>
+</span><span id="__span-99-4"><a id="__codelineno-99-4" name="__codelineno-99-4" href="#__codelineno-99-4"></a>        <span class="p">{</span>
+</span><span id="__span-99-5"><a id="__codelineno-99-5" name="__codelineno-99-5" href="#__codelineno-99-5"></a>            <span class="s2">"n_estimators"</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span>
+</span><span id="__span-99-6"><a id="__codelineno-99-6" name="__codelineno-99-6" href="#__codelineno-99-6"></a>            <span class="s2">"n_jobs"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-99-7"><a id="__codelineno-99-7" name="__codelineno-99-7" href="#__codelineno-99-7"></a>        <span class="p">},</span>
+</span><span id="__span-99-8"><a id="__codelineno-99-8" name="__codelineno-99-8" href="#__codelineno-99-8"></a>    <span class="p">),</span>
+</span><span id="__span-99-9"><a id="__codelineno-99-9" name="__codelineno-99-9" href="#__codelineno-99-9"></a>    <span class="s2">"ridge"</span><span class="p">,</span>
+</span><span id="__span-99-10"><a id="__codelineno-99-10" name="__codelineno-99-10" href="#__codelineno-99-10"></a><span class="p">]</span>
+</span></code></pre></div>
+<hr />
+<h1 id="pre-built-estimator-objects">Pre-built estimator objects</h1>
+<p>If an estimator specification is neither a tuple nor a string:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-100-1"><a id="__codelineno-100-1" name="__codelineno-100-1" href="#__codelineno-100-1"></a><span class="k">return</span> <span class="n">est_spec</span>
+</span></code></pre></div>
+<p>The same object is then fitted in the corresponding worker task.</p>
+<p>Parallel execution still occurs at the <code>fit_one(est_spec)</code> task level when
+package-level:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-101-1"><a id="__codelineno-101-1" name="__codelineno-101-1" href="#__codelineno-101-1"></a><span class="n">n_jobs</span> <span class="o">!=</span> <span class="mf">1.</span>
+</span></code></pre></div>
+<hr />
+<h1 id="process-based-estimator-execution">Process-based estimator execution</h1>
+<p>For fit and prediction helpers, the package explicitly requests:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-102-1"><a id="__codelineno-102-1" name="__codelineno-102-1" href="#__codelineno-102-1"></a><span class="n">backend</span><span class="o">=</span><span class="s2">"loky"</span>
+</span></code></pre></div>
+<p>from Joblib.</p>
+<p>This is the exact backend choice in the current source.</p>
+<p>Operationally, custom/pre-built estimator objects therefore need to be usable
+through that Joblib execution path.</p>
+<p>If a custom object cannot be serialized by the selected backend, execution may
+fail outside the package's own estimator logic.</p>
+<p>This serialization consequence comes from the selected Joblib backend rather
+than from a custom <code>kfc_procedure</code> serializer.</p>
+<hr />
+<h1 id="no-package-fallback-from-parallel-to-sequential">No package fallback from parallel to sequential</h1>
+<p>The current source does not wrap:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-103-1"><a id="__codelineno-103-1" name="__codelineno-103-1" href="#__codelineno-103-1"></a><span class="n">Parallel</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+</span></code></pre></div>
+<p>in a package-level <code>try/except</code> that retries sequentially.</p>
+<p>So if the Joblib parallel branch fails, <code>fit_estimators()</code> or
+<code>predict_estimators()</code> does not automatically rerun with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-104-1"><a id="__codelineno-104-1" name="__codelineno-104-1" href="#__codelineno-104-1"></a><span class="n">n_jobs</span><span class="o">=</span><span class="mf">1.</span>
+</span></code></pre></div>
+<hr />
+<h1 id="no-package-level-parallel-error-aggregation">No package-level parallel error aggregation</h1>
+<p>Every parallel worker runs the ordinary estimator:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-105-1"><a id="__codelineno-105-1" name="__codelineno-105-1" href="#__codelineno-105-1"></a><span class="n">fit</span><span class="p">()</span>
+</span></code></pre></div>
+<p>or:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-106-1"><a id="__codelineno-106-1" name="__codelineno-106-1" href="#__codelineno-106-1"></a><span class="n">predict</span><span class="p">()</span>
+</span></code></pre></div>
+<p>call.</p>
+<p>The helper does not catch and convert errors into per-estimator result objects.</p>
+<p>A worker failure therefore propagates through the Joblib call rather than being
+stored beside successful estimators.</p>
+<hr />
+<h1 id="reproducibility-and-parallel-execution">Reproducibility and parallel execution</h1>
+<p>The package-level Joblib helpers do not modify:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-107-1"><a id="__codelineno-107-1" name="__codelineno-107-1" href="#__codelineno-107-1"></a><span class="n">random_state</span>
+</span></code></pre></div>
+<p>inside individual estimators.</p>
+<p>Reproducibility therefore depends on how each estimator was configured by its
+factory parameters.</p>
+<p>The high-level COBRA <code>random_state</code> is used by other components such as data
+splitting and CV, but the shared <code>fit_estimators()</code> helper does not inject that
+value itself.</p>
+<hr />
+<h2 id="important-distinction">Important distinction</h2>
+<p>This code:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-108-1"><a id="__codelineno-108-1" name="__codelineno-108-1" href="#__codelineno-108-1"></a><span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-108-2"><a id="__codelineno-108-2" name="__codelineno-108-2" href="#__codelineno-108-2"></a>    <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span>
+</span><span id="__span-108-3"><a id="__codelineno-108-3" name="__codelineno-108-3" href="#__codelineno-108-3"></a>    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-108-4"><a id="__codelineno-108-4" name="__codelineno-108-4" href="#__codelineno-108-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>does not mean that every default base estimator necessarily receives:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-109-1"><a id="__codelineno-109-1" name="__codelineno-109-1" href="#__codelineno-109-1"></a><span class="n">random_state</span><span class="o">=</span><span class="mf">42.</span>
+</span></code></pre></div>
+<p>The parallel helper simply builds each estimator from its normal factory
+specification and parameters.</p>
+<hr />
+<h1 id="compare-with-kfc-f-step">Compare with KFC F-Step</h1>
+<p>The top-level KFC <code>FStep</code> has its own local-model training loop.</p>
+<p>The current source does not expose an F-Step:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-110-1"><a id="__codelineno-110-1" name="__codelineno-110-1" href="#__codelineno-110-1"></a><span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>parameter comparable to the COBRA estimator-pool utility.</p>
+<p>Therefore the parallel behavior documented here applies specifically to the
+COBRA estimator-pool helpers and the gradient utility, not automatically to
+all KFC K-Step/F-Step work.</p>
+<hr />
+<h1 id="parallelism-in-gradientcobrafit">Parallelism in <code>GradientCOBRA.fit()</code></h1>
+<p>A normal feature-based fit can use package-level parallelism twice before
+optimization:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-111-1"><a id="__codelineno-111-1" name="__codelineno-111-1" href="#__codelineno-111-1"></a>1. fit base estimators on X_k
+</span><span id="__span-111-2"><a id="__codelineno-111-2" name="__codelineno-111-2" href="#__codelineno-111-2"></a>2. generate their predictions on X_l.
+</span></code></pre></div>
+<p>The rest of fitting then proceeds from the generated prediction matrix.</p>
+<hr />
+<h1 id="parallelism-in-gradientcobrapredict">Parallelism in <code>GradientCOBRA.predict()</code></h1>
+<p>In ordinary feature mode, prediction calls:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-112-1"><a id="__codelineno-112-1" name="__codelineno-112-1" href="#__codelineno-112-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">_load_predictions</span><span class="p">(</span>
+</span><span id="__span-112-2"><a id="__codelineno-112-2" name="__codelineno-112-2" href="#__codelineno-112-2"></a>    <span class="n">X</span>
+</span><span id="__span-112-3"><a id="__codelineno-112-3" name="__codelineno-112-3" href="#__codelineno-112-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>which uses:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-113-1"><a id="__codelineno-113-1" name="__codelineno-113-1" href="#__codelineno-113-1"></a><span class="n">predict_estimators</span><span class="p">(</span>
+</span><span id="__span-113-2"><a id="__codelineno-113-2" name="__codelineno-113-2" href="#__codelineno-113-2"></a>    <span class="o">...</span><span class="p">,</span>
+</span><span id="__span-113-3"><a id="__codelineno-113-3" name="__codelineno-113-3" href="#__codelineno-113-3"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">,</span>
+</span><span id="__span-113-4"><a id="__codelineno-113-4" name="__codelineno-113-4" href="#__codelineno-113-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>So every final prediction request can invoke Joblib parallel execution across
+the fitted estimator pool.</p>
+<hr />
+<h1 id="parallelism-in-combinedclassifierpredict">Parallelism in <code>CombinedClassifier.predict()</code></h1>
+<p>The classifier follows the same pattern in ordinary feature mode:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-114-1"><a id="__codelineno-114-1" name="__codelineno-114-1" href="#__codelineno-114-1"></a>query X
+</span><span id="__span-114-2"><a id="__codelineno-114-2" name="__codelineno-114-2" href="#__codelineno-114-2"></a>    ↓
+</span><span id="__span-114-3"><a id="__codelineno-114-3" name="__codelineno-114-3" href="#__codelineno-114-3"></a>parallel hard prediction by base classifiers
+</span><span id="__span-114-4"><a id="__codelineno-114-4" name="__codelineno-114-4" href="#__codelineno-114-4"></a>    ↓
+</span><span id="__span-114-5"><a id="__codelineno-114-5" name="__codelineno-114-5" href="#__codelineno-114-5"></a>prediction-space matrix
+</span><span id="__span-114-6"><a id="__codelineno-114-6" name="__codelineno-114-6" href="#__codelineno-114-6"></a>    ↓
+</span><span id="__span-114-7"><a id="__codelineno-114-7" name="__codelineno-114-7" href="#__codelineno-114-7"></a>distance / kernel / weighted vote.
+</span></code></pre></div>
+<hr />
+<h1 id="parallelism-in-mixcobrapredict">Parallelism in <code>MixCOBRA.predict()</code></h1>
+<p>Ordinary MixCOBRA uses:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-115-1"><a id="__codelineno-115-1" name="__codelineno-115-1" href="#__codelineno-115-1"></a><span class="n">pred_X</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_load_predictions</span><span class="p">(</span>
+</span><span id="__span-115-2"><a id="__codelineno-115-2" name="__codelineno-115-2" href="#__codelineno-115-2"></a>    <span class="n">X</span>
+</span><span id="__span-115-3"><a id="__codelineno-115-3" name="__codelineno-115-3" href="#__codelineno-115-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>when <code>pred_X</code> is not supplied.</p>
+<p>That prediction-space generation uses the estimator's configured:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-116-1"><a id="__codelineno-116-1" name="__codelineno-116-1" href="#__codelineno-116-1"></a><span class="n">n_jobs</span><span class="o">.</span>
+</span></code></pre></div>
+<p>If you supply:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-117-1"><a id="__codelineno-117-1" name="__codelineno-117-1" href="#__codelineno-117-1"></a><span class="n">pred_X</span><span class="o">=</span>
+</span></code></pre></div>
+<p>directly, that internal prediction helper is bypassed.</p>
+<hr />
+<h1 id="pred_x-can-bypass-prediction-parallelism"><code>pred_X</code> can bypass prediction parallelism</h1>
+<p>For MixCOBRA:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-118-1"><a id="__codelineno-118-1" name="__codelineno-118-1" href="#__codelineno-118-1"></a><span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+</span><span id="__span-118-2"><a id="__codelineno-118-2" name="__codelineno-118-2" href="#__codelineno-118-2"></a>    <span class="n">X</span><span class="p">,</span>
+</span><span id="__span-118-3"><a id="__codelineno-118-3" name="__codelineno-118-3" href="#__codelineno-118-3"></a>    <span class="n">pred_X</span><span class="o">=</span><span class="n">P_test</span><span class="p">,</span>
+</span><span id="__span-118-4"><a id="__codelineno-118-4" name="__codelineno-118-4" href="#__codelineno-118-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>does not call:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-119-1"><a id="__codelineno-119-1" name="__codelineno-119-1" href="#__codelineno-119-1"></a><span class="n">predict_estimators</span><span class="p">()</span>
+</span></code></pre></div>
+<p>because <code>pred_X</code> is already present.</p>
+<p>So the package-level prediction <code>n_jobs</code> setting is not involved in generating
+that supplied matrix.</p>
+<hr />
+<h1 id="timing-estimator-fitting">Timing estimator fitting</h1>
+<p>A simple timing comparison:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-120-1"><a id="__codelineno-120-1" name="__codelineno-120-1" href="#__codelineno-120-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">perf_counter</span>
+</span><span id="__span-120-2"><a id="__codelineno-120-2" name="__codelineno-120-2" href="#__codelineno-120-2"></a>
+</span><span id="__span-120-3"><a id="__codelineno-120-3" name="__codelineno-120-3" href="#__codelineno-120-3"></a><span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+</span><span id="__span-120-4"><a id="__codelineno-120-4" name="__codelineno-120-4" href="#__codelineno-120-4"></a>
+</span><span id="__span-120-5"><a id="__codelineno-120-5" name="__codelineno-120-5" href="#__codelineno-120-5"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-120-6"><a id="__codelineno-120-6" name="__codelineno-120-6" href="#__codelineno-120-6"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-120-7"><a id="__codelineno-120-7" name="__codelineno-120-7" href="#__codelineno-120-7"></a><span class="p">)</span>
+</span><span id="__span-120-8"><a id="__codelineno-120-8" name="__codelineno-120-8" href="#__codelineno-120-8"></a>
+</span><span id="__span-120-9"><a id="__codelineno-120-9" name="__codelineno-120-9" href="#__codelineno-120-9"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-120-10"><a id="__codelineno-120-10" name="__codelineno-120-10" href="#__codelineno-120-10"></a>    <span class="n">X_train</span><span class="p">,</span>
+</span><span id="__span-120-11"><a id="__codelineno-120-11" name="__codelineno-120-11" href="#__codelineno-120-11"></a>    <span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-120-12"><a id="__codelineno-120-12" name="__codelineno-120-12" href="#__codelineno-120-12"></a><span class="p">)</span>
+</span><span id="__span-120-13"><a id="__codelineno-120-13" name="__codelineno-120-13" href="#__codelineno-120-13"></a>
+</span><span id="__span-120-14"><a id="__codelineno-120-14" name="__codelineno-120-14" href="#__codelineno-120-14"></a><span class="n">elapsed</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-120-15"><a id="__codelineno-120-15" name="__codelineno-120-15" href="#__codelineno-120-15"></a>    <span class="n">perf_counter</span><span class="p">()</span>
+</span><span id="__span-120-16"><a id="__codelineno-120-16" name="__codelineno-120-16" href="#__codelineno-120-16"></a>    <span class="o">-</span>
+</span><span id="__span-120-17"><a id="__codelineno-120-17" name="__codelineno-120-17" href="#__codelineno-120-17"></a>    <span class="n">start</span>
+</span><span id="__span-120-18"><a id="__codelineno-120-18" name="__codelineno-120-18" href="#__codelineno-120-18"></a><span class="p">)</span>
+</span><span id="__span-120-19"><a id="__codelineno-120-19" name="__codelineno-120-19" href="#__codelineno-120-19"></a>
+</span><span id="__span-120-20"><a id="__codelineno-120-20" name="__codelineno-120-20" href="#__codelineno-120-20"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-120-21"><a id="__codelineno-120-21" name="__codelineno-120-21" href="#__codelineno-120-21"></a>    <span class="n">elapsed</span>
+</span><span id="__span-120-22"><a id="__codelineno-120-22" name="__codelineno-120-22" href="#__codelineno-120-22"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Compare with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-121-1"><a id="__codelineno-121-1" name="__codelineno-121-1" href="#__codelineno-121-1"></a><span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+</span><span id="__span-121-2"><a id="__codelineno-121-2" name="__codelineno-121-2" href="#__codelineno-121-2"></a>
+</span><span id="__span-121-3"><a id="__codelineno-121-3" name="__codelineno-121-3" href="#__codelineno-121-3"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-121-4"><a id="__codelineno-121-4" name="__codelineno-121-4" href="#__codelineno-121-4"></a>    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-121-5"><a id="__codelineno-121-5" name="__codelineno-121-5" href="#__codelineno-121-5"></a><span class="p">)</span>
+</span><span id="__span-121-6"><a id="__codelineno-121-6" name="__codelineno-121-6" href="#__codelineno-121-6"></a>
+</span><span id="__span-121-7"><a id="__codelineno-121-7" name="__codelineno-121-7" href="#__codelineno-121-7"></a><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span>
+</span><span id="__span-121-8"><a id="__codelineno-121-8" name="__codelineno-121-8" href="#__codelineno-121-8"></a>    <span class="n">X_train</span><span class="p">,</span>
+</span><span id="__span-121-9"><a id="__codelineno-121-9" name="__codelineno-121-9" href="#__codelineno-121-9"></a>    <span class="n">y_train</span><span class="p">,</span>
+</span><span id="__span-121-10"><a id="__codelineno-121-10" name="__codelineno-121-10" href="#__codelineno-121-10"></a><span class="p">)</span>
+</span><span id="__span-121-11"><a id="__codelineno-121-11" name="__codelineno-121-11" href="#__codelineno-121-11"></a>
+</span><span id="__span-121-12"><a id="__codelineno-121-12" name="__codelineno-121-12" href="#__codelineno-121-12"></a><span class="n">elapsed_parallel</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-121-13"><a id="__codelineno-121-13" name="__codelineno-121-13" href="#__codelineno-121-13"></a>    <span class="n">perf_counter</span><span class="p">()</span>
+</span><span id="__span-121-14"><a id="__codelineno-121-14" name="__codelineno-121-14" href="#__codelineno-121-14"></a>    <span class="o">-</span>
+</span><span id="__span-121-15"><a id="__codelineno-121-15" name="__codelineno-121-15" href="#__codelineno-121-15"></a>    <span class="n">start</span>
+</span><span id="__span-121-16"><a id="__codelineno-121-16" name="__codelineno-121-16" href="#__codelineno-121-16"></a><span class="p">)</span>
+</span><span id="__span-121-17"><a id="__codelineno-121-17" name="__codelineno-121-17" href="#__codelineno-121-17"></a>
+</span><span id="__span-121-18"><a id="__codelineno-121-18" name="__codelineno-121-18" href="#__codelineno-121-18"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-121-19"><a id="__codelineno-121-19" name="__codelineno-121-19" href="#__codelineno-121-19"></a>    <span class="n">elapsed_parallel</span>
+</span><span id="__span-121-20"><a id="__codelineno-121-20" name="__codelineno-121-20" href="#__codelineno-121-20"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This measures the whole fit, not only estimator-pool work, so differences also
+include fixed sequential stages.</p>
+<hr />
+<h1 id="timing-prediction-space-generation-directly">Timing prediction-space generation directly</h1>
+<p>After fitting an estimator pool:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-122-1"><a id="__codelineno-122-1" name="__codelineno-122-1" href="#__codelineno-122-1"></a><span class="kn">from</span><span class="w"> </span><span class="nn">time</span><span class="w"> </span><span class="kn">import</span> <span class="n">perf_counter</span>
+</span><span id="__span-122-2"><a id="__codelineno-122-2" name="__codelineno-122-2" href="#__codelineno-122-2"></a>
+</span><span id="__span-122-3"><a id="__codelineno-122-3" name="__codelineno-122-3" href="#__codelineno-122-3"></a><span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+</span><span id="__span-122-4"><a id="__codelineno-122-4" name="__codelineno-122-4" href="#__codelineno-122-4"></a>
+</span><span id="__span-122-5"><a id="__codelineno-122-5" name="__codelineno-122-5" href="#__codelineno-122-5"></a><span class="n">P</span> <span class="o">=</span> <span class="n">predict_estimators</span><span class="p">(</span>
+</span><span id="__span-122-6"><a id="__codelineno-122-6" name="__codelineno-122-6" href="#__codelineno-122-6"></a>    <span class="n">X_test</span><span class="p">,</span>
+</span><span id="__span-122-7"><a id="__codelineno-122-7" name="__codelineno-122-7" href="#__codelineno-122-7"></a>    <span class="n">model</span><span class="o">.</span><span class="n">estimators_</span><span class="p">,</span>
+</span><span id="__span-122-8"><a id="__codelineno-122-8" name="__codelineno-122-8" href="#__codelineno-122-8"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-122-9"><a id="__codelineno-122-9" name="__codelineno-122-9" href="#__codelineno-122-9"></a><span class="p">)</span>
+</span><span id="__span-122-10"><a id="__codelineno-122-10" name="__codelineno-122-10" href="#__codelineno-122-10"></a>
+</span><span id="__span-122-11"><a id="__codelineno-122-11" name="__codelineno-122-11" href="#__codelineno-122-11"></a><span class="n">sequential_time</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-122-12"><a id="__codelineno-122-12" name="__codelineno-122-12" href="#__codelineno-122-12"></a>    <span class="n">perf_counter</span><span class="p">()</span>
+</span><span id="__span-122-13"><a id="__codelineno-122-13" name="__codelineno-122-13" href="#__codelineno-122-13"></a>    <span class="o">-</span>
+</span><span id="__span-122-14"><a id="__codelineno-122-14" name="__codelineno-122-14" href="#__codelineno-122-14"></a>    <span class="n">start</span>
+</span><span id="__span-122-15"><a id="__codelineno-122-15" name="__codelineno-122-15" href="#__codelineno-122-15"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Then:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-123-1"><a id="__codelineno-123-1" name="__codelineno-123-1" href="#__codelineno-123-1"></a><span class="n">start</span> <span class="o">=</span> <span class="n">perf_counter</span><span class="p">()</span>
+</span><span id="__span-123-2"><a id="__codelineno-123-2" name="__codelineno-123-2" href="#__codelineno-123-2"></a>
+</span><span id="__span-123-3"><a id="__codelineno-123-3" name="__codelineno-123-3" href="#__codelineno-123-3"></a><span class="n">P_parallel</span> <span class="o">=</span> <span class="n">predict_estimators</span><span class="p">(</span>
+</span><span id="__span-123-4"><a id="__codelineno-123-4" name="__codelineno-123-4" href="#__codelineno-123-4"></a>    <span class="n">X_test</span><span class="p">,</span>
+</span><span id="__span-123-5"><a id="__codelineno-123-5" name="__codelineno-123-5" href="#__codelineno-123-5"></a>    <span class="n">model</span><span class="o">.</span><span class="n">estimators_</span><span class="p">,</span>
+</span><span id="__span-123-6"><a id="__codelineno-123-6" name="__codelineno-123-6" href="#__codelineno-123-6"></a>    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-123-7"><a id="__codelineno-123-7" name="__codelineno-123-7" href="#__codelineno-123-7"></a><span class="p">)</span>
+</span><span id="__span-123-8"><a id="__codelineno-123-8" name="__codelineno-123-8" href="#__codelineno-123-8"></a>
+</span><span id="__span-123-9"><a id="__codelineno-123-9" name="__codelineno-123-9" href="#__codelineno-123-9"></a><span class="n">parallel_time</span> <span class="o">=</span> <span class="p">(</span>
+</span><span id="__span-123-10"><a id="__codelineno-123-10" name="__codelineno-123-10" href="#__codelineno-123-10"></a>    <span class="n">perf_counter</span><span class="p">()</span>
+</span><span id="__span-123-11"><a id="__codelineno-123-11" name="__codelineno-123-11" href="#__codelineno-123-11"></a>    <span class="o">-</span>
+</span><span id="__span-123-12"><a id="__codelineno-123-12" name="__codelineno-123-12" href="#__codelineno-123-12"></a>    <span class="n">start</span>
+</span><span id="__span-123-13"><a id="__codelineno-123-13" name="__codelineno-123-13" href="#__codelineno-123-13"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Verify numerical agreement:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-124-1"><a id="__codelineno-124-1" name="__codelineno-124-1" href="#__codelineno-124-1"></a><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+</span><span id="__span-124-2"><a id="__codelineno-124-2" name="__codelineno-124-2" href="#__codelineno-124-2"></a>
+</span><span id="__span-124-3"><a id="__codelineno-124-3" name="__codelineno-124-3" href="#__codelineno-124-3"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-124-4"><a id="__codelineno-124-4" name="__codelineno-124-4" href="#__codelineno-124-4"></a>    <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span>
+</span><span id="__span-124-5"><a id="__codelineno-124-5" name="__codelineno-124-5" href="#__codelineno-124-5"></a>        <span class="n">P</span><span class="p">,</span>
+</span><span id="__span-124-6"><a id="__codelineno-124-6" name="__codelineno-124-6" href="#__codelineno-124-6"></a>        <span class="n">P_parallel</span><span class="p">,</span>
+</span><span id="__span-124-7"><a id="__codelineno-124-7" name="__codelineno-124-7" href="#__codelineno-124-7"></a>    <span class="p">)</span>
+</span><span id="__span-124-8"><a id="__codelineno-124-8" name="__codelineno-124-8" href="#__codelineno-124-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>for numeric regression predictions.</p>
+<hr />
+<h1 id="small-estimator-pools">Small estimator pools</h1>
+<p>The default pools contain only a small number of estimators:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-125-1"><a id="__codelineno-125-1" name="__codelineno-125-1" href="#__codelineno-125-1"></a>GradientCOBRA
+</span><span id="__span-125-2"><a id="__codelineno-125-2" name="__codelineno-125-2" href="#__codelineno-125-2"></a>    6
+</span><span id="__span-125-3"><a id="__codelineno-125-3" name="__codelineno-125-3" href="#__codelineno-125-3"></a>
+</span><span id="__span-125-4"><a id="__codelineno-125-4" name="__codelineno-125-4" href="#__codelineno-125-4"></a>MixCOBRA
+</span><span id="__span-125-5"><a id="__codelineno-125-5" name="__codelineno-125-5" href="#__codelineno-125-5"></a>    6
+</span><span id="__span-125-6"><a id="__codelineno-125-6" name="__codelineno-125-6" href="#__codelineno-125-6"></a>
+</span><span id="__span-125-7"><a id="__codelineno-125-7" name="__codelineno-125-7" href="#__codelineno-125-7"></a>CombinedClassifier
+</span><span id="__span-125-8"><a id="__codelineno-125-8" name="__codelineno-125-8" href="#__codelineno-125-8"></a>    4
+</span></code></pre></div>
+<p>Therefore the number of package-level independent tasks is bounded by the
+estimator-pool size.</p>
+<p>Parallel overhead can be significant when individual fit/predict tasks are very
+small.</p>
+<p>The source itself does not benchmark or automatically decide whether parallel
+execution is worthwhile.</p>
+<hr />
+<h1 id="custom-larger-estimator-pool">Custom larger estimator pool</h1>
+<p>You can increase the number of independent package-level tasks by supplying a
+larger estimator list.</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-126-1"><a id="__codelineno-126-1" name="__codelineno-126-1" href="#__codelineno-126-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-126-2"><a id="__codelineno-126-2" name="__codelineno-126-2" href="#__codelineno-126-2"></a>    <span class="n">estimators</span><span class="o">=</span><span class="p">[</span>
+</span><span id="__span-126-3"><a id="__codelineno-126-3" name="__codelineno-126-3" href="#__codelineno-126-3"></a>        <span class="s2">"linear_regression"</span><span class="p">,</span>
+</span><span id="__span-126-4"><a id="__codelineno-126-4" name="__codelineno-126-4" href="#__codelineno-126-4"></a>        <span class="s2">"ridge"</span><span class="p">,</span>
+</span><span id="__span-126-5"><a id="__codelineno-126-5" name="__codelineno-126-5" href="#__codelineno-126-5"></a>        <span class="s2">"lasso"</span><span class="p">,</span>
+</span><span id="__span-126-6"><a id="__codelineno-126-6" name="__codelineno-126-6" href="#__codelineno-126-6"></a>        <span class="s2">"ridge_cv"</span><span class="p">,</span>
+</span><span id="__span-126-7"><a id="__codelineno-126-7" name="__codelineno-126-7" href="#__codelineno-126-7"></a>        <span class="s2">"lasso_cv"</span><span class="p">,</span>
+</span><span id="__span-126-8"><a id="__codelineno-126-8" name="__codelineno-126-8" href="#__codelineno-126-8"></a>        <span class="s2">"k_neighbors_regressor"</span><span class="p">,</span>
+</span><span id="__span-126-9"><a id="__codelineno-126-9" name="__codelineno-126-9" href="#__codelineno-126-9"></a>        <span class="s2">"random_forest_regressor"</span><span class="p">,</span>
+</span><span id="__span-126-10"><a id="__codelineno-126-10" name="__codelineno-126-10" href="#__codelineno-126-10"></a>        <span class="s2">"svr"</span><span class="p">,</span>
+</span><span id="__span-126-11"><a id="__codelineno-126-11" name="__codelineno-126-11" href="#__codelineno-126-11"></a>    <span class="p">],</span>
+</span><span id="__span-126-12"><a id="__codelineno-126-12" name="__codelineno-126-12" href="#__codelineno-126-12"></a>    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-126-13"><a id="__codelineno-126-13" name="__codelineno-126-13" href="#__codelineno-126-13"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Every list entry becomes one <code>fit_one()</code> task.</p>
+<hr />
+<h1 id="duplicate-estimator-specifications">Duplicate estimator specifications</h1>
+<p>The shared helper iterates the supplied list directly.</p>
+<p>If the same estimator specification appears multiple times, the helper submits
+multiple tasks and the returned list can contain multiple independently built
+instances for string/tuple specifications.</p>
+<p>The package does not deduplicate the estimator list before parallel fitting.</p>
+<hr />
+<h1 id="memory-considerations">Memory considerations</h1>
+<p>Every estimator task receives access to the same training arrays:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-127-1"><a id="__codelineno-127-1" name="__codelineno-127-1" href="#__codelineno-127-1"></a>X
+</span><span id="__span-127-2"><a id="__codelineno-127-2" name="__codelineno-127-2" href="#__codelineno-127-2"></a>y.
+</span></code></pre></div>
+<p>The current source does not implement package-specific shared-memory controls
+or memory-mapping configuration around Joblib.</p>
+<p>Likewise, every prediction task receives the same query matrix:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-128-1"><a id="__codelineno-128-1" name="__codelineno-128-1" href="#__codelineno-128-1"></a>X.
+</span></code></pre></div>
+<p>Memory behavior is therefore delegated to Joblib and the underlying numerical
+libraries.</p>
+<hr />
+<h1 id="parallel-gradient-memory">Parallel gradient memory</h1>
+<p>The parallel finite-difference helper captures:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-129-1"><a id="__codelineno-129-1" name="__codelineno-129-1" href="#__codelineno-129-1"></a><span class="n">p</span>
+</span><span id="__span-129-2"><a id="__codelineno-129-2" name="__codelineno-129-2" href="#__codelineno-129-2"></a><span class="n">objective</span>
+</span><span id="__span-129-3"><a id="__codelineno-129-3" name="__codelineno-129-3" href="#__codelineno-129-3"></a><span class="n">eps</span>
+</span></code></pre></div>
+<p>and runs one task per parameter coordinate.</p>
+<p>Each task creates:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-130-1"><a id="__codelineno-130-1" name="__codelineno-130-1" href="#__codelineno-130-1"></a><span class="n">x</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+</span></code></pre></div>
+<p>before evaluating the objective.</p>
+<p>For the normal one- or two-parameter COBRA optimization cases, the parameter
+vector itself is tiny; most computational cost lies inside the objective.</p>
+<hr />
+<h1 id="no-parallel-grid-search">No parallel grid search</h1>
+<p>If your main cost is a very large two-parameter MixCOBRA grid, changing:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-131-1"><a id="__codelineno-131-1" name="__codelineno-131-1" href="#__codelineno-131-1"></a><span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>does not parallelize those:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-132-1"><a id="__codelineno-132-1" name="__codelineno-132-1" href="#__codelineno-132-1"></a>alpha × beta
+</span></code></pre></div>
+<p>candidate evaluations in the current source.</p>
+<p>For example, a:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-133-1"><a id="__codelineno-133-1" name="__codelineno-133-1" href="#__codelineno-133-1"></a>300 × 300
+</span></code></pre></div>
+<p>grid remains an exhaustive search at the optimizer layer.</p>
+<p>See:</p>
+<p><a href="../../cobra/optimization/">Optimization</a></p>
+<p>for the exact candidate-count behavior.</p>
+<hr />
+<h1 id="no-parallel-cv-fold-evaluation">No parallel CV-fold evaluation</h1>
+<p>Likewise, each objective loops through the stored CV folds sequentially.</p>
+<p>The current source contains no:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-134-1"><a id="__codelineno-134-1" name="__codelineno-134-1" href="#__codelineno-134-1"></a><span class="n">Parallel</span><span class="p">(</span>
+</span><span id="__span-134-2"><a id="__codelineno-134-2" name="__codelineno-134-2" href="#__codelineno-134-2"></a>    <span class="o">...</span>
+</span><span id="__span-134-3"><a id="__codelineno-134-3" name="__codelineno-134-3" href="#__codelineno-134-3"></a><span class="p">)(</span>
+</span><span id="__span-134-4"><a id="__codelineno-134-4" name="__codelineno-134-4" href="#__codelineno-134-4"></a>    <span class="n">delayed</span><span class="p">(</span>
+</span><span id="__span-134-5"><a id="__codelineno-134-5" name="__codelineno-134-5" href="#__codelineno-134-5"></a>        <span class="n">evaluate_fold</span>
+</span><span id="__span-134-6"><a id="__codelineno-134-6" name="__codelineno-134-6" href="#__codelineno-134-6"></a>    <span class="p">)</span>
+</span><span id="__span-134-7"><a id="__codelineno-134-7" name="__codelineno-134-7" href="#__codelineno-134-7"></a>    <span class="o">...</span>
+</span><span id="__span-134-8"><a id="__codelineno-134-8" name="__codelineno-134-8" href="#__codelineno-134-8"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>path for fold evaluation.</p>
+<hr />
+<h1 id="parallel-gradient-does-not-parallelize-grid-mode">Parallel gradient does not parallelize grid mode</h1>
+<p>The setting:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-135-1"><a id="__codelineno-135-1" name="__codelineno-135-1" href="#__codelineno-135-1"></a><span class="n">optimizer_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-135-2"><a id="__codelineno-135-2" name="__codelineno-135-2" href="#__codelineno-135-2"></a>    <span class="s2">"gradient_method"</span><span class="p">:</span> <span class="s2">"parallel"</span><span class="p">,</span>
+</span><span id="__span-135-3"><a id="__codelineno-135-3" name="__codelineno-135-3" href="#__codelineno-135-3"></a><span class="p">}</span>
+</span></code></pre></div>
+<p>is relevant only when a gradient optimizer actually calls numerical gradient
+computation.</p>
+<p>With:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-136-1"><a id="__codelineno-136-1" name="__codelineno-136-1" href="#__codelineno-136-1"></a><span class="n">opt_method</span><span class="o">=</span><span class="s2">"grid"</span>
+</span></code></pre></div>
+<p>the gradient utility is not used.</p>
+<hr />
+<h1 id="kernel-compatibility-can-disable-gradient-path">Kernel compatibility can disable gradient path</h1>
+<p>GradientCOBRA and MixCOBRA check:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-137-1"><a id="__codelineno-137-1" name="__codelineno-137-1" href="#__codelineno-137-1"></a><span class="n">kernel_</span><span class="o">.</span><span class="n">requires_grad</span>
+</span></code></pre></div>
+<p>before using gradient optimization.</p>
+<p>If a non-gradient kernel is configured, requested gradient mode falls back to
+grid mode.</p>
+<p>In that case:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-138-1"><a id="__codelineno-138-1" name="__codelineno-138-1" href="#__codelineno-138-1"></a><span class="n">gradient_method</span><span class="o">=</span><span class="s2">"parallel"</span>
+</span></code></pre></div>
+<p>does not create parallel finite-difference work because the gradient optimizer
+is not used.</p>
+<hr />
+<h1 id="example-package-level-and-gradient-parallelism">Example: package-level and gradient parallelism</h1>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-139-1"><a id="__codelineno-139-1" name="__codelineno-139-1" href="#__codelineno-139-1"></a><span class="n">model</span> <span class="o">=</span> <span class="n">GradientCOBRA</span><span class="p">(</span>
+</span><span id="__span-139-2"><a id="__codelineno-139-2" name="__codelineno-139-2" href="#__codelineno-139-2"></a>    <span class="n">n_jobs</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+</span><span id="__span-139-3"><a id="__codelineno-139-3" name="__codelineno-139-3" href="#__codelineno-139-3"></a>    <span class="n">optimizer</span><span class="o">=</span><span class="s2">"adam"</span><span class="p">,</span>
+</span><span id="__span-139-4"><a id="__codelineno-139-4" name="__codelineno-139-4" href="#__codelineno-139-4"></a>    <span class="n">opt_method</span><span class="o">=</span><span class="s2">"grad"</span><span class="p">,</span>
+</span><span id="__span-139-5"><a id="__codelineno-139-5" name="__codelineno-139-5" href="#__codelineno-139-5"></a>    <span class="n">optimizer_params</span><span class="o">=</span><span class="p">{</span>
+</span><span id="__span-139-6"><a id="__codelineno-139-6" name="__codelineno-139-6" href="#__codelineno-139-6"></a>        <span class="s2">"gradient_method"</span><span class="p">:</span> <span class="s2">"parallel"</span><span class="p">,</span>
+</span><span id="__span-139-7"><a id="__codelineno-139-7" name="__codelineno-139-7" href="#__codelineno-139-7"></a>        <span class="s2">"show_process"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>
+</span><span id="__span-139-8"><a id="__codelineno-139-8" name="__codelineno-139-8" href="#__codelineno-139-8"></a>    <span class="p">},</span>
+</span><span id="__span-139-9"><a id="__codelineno-139-9" name="__codelineno-139-9" href="#__codelineno-139-9"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>This configuration enables:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-140-1"><a id="__codelineno-140-1" name="__codelineno-140-1" href="#__codelineno-140-1"></a>package-level estimator-pool Joblib execution
+</span><span id="__span-140-2"><a id="__codelineno-140-2" name="__codelineno-140-2" href="#__codelineno-140-2"></a>
+</span><span id="__span-140-3"><a id="__codelineno-140-3" name="__codelineno-140-3" href="#__codelineno-140-3"></a>and
+</span><span id="__span-140-4"><a id="__codelineno-140-4" name="__codelineno-140-4" href="#__codelineno-140-4"></a>
+</span><span id="__span-140-5"><a id="__codelineno-140-5" name="__codelineno-140-5" href="#__codelineno-140-5"></a>parallel numerical gradient coordinate evaluation.
+</span></code></pre></div>
+<p>They are separate stages and separate Joblib calls.</p>
+<hr />
+<h1 id="avoid-assuming-one-global-worker-budget">Avoid assuming one global worker budget</h1>
+<p>The current source does not contain a central scheduler that coordinates:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-141-1"><a id="__codelineno-141-1" name="__codelineno-141-1" href="#__codelineno-141-1"></a>base-estimator parallelism
+</span><span id="__span-141-2"><a id="__codelineno-141-2" name="__codelineno-141-2" href="#__codelineno-141-2"></a>gradient parallelism
+</span><span id="__span-141-3"><a id="__codelineno-141-3" name="__codelineno-141-3" href="#__codelineno-141-3"></a>underlying estimator threads
+</span><span id="__span-141-4"><a id="__codelineno-141-4" name="__codelineno-141-4" href="#__codelineno-141-4"></a>NumPy / BLAS threads
+</span><span id="__span-141-5"><a id="__codelineno-141-5" name="__codelineno-141-5" href="#__codelineno-141-5"></a>SciPy internals
+</span><span id="__span-141-6"><a id="__codelineno-141-6" name="__codelineno-141-6" href="#__codelineno-141-6"></a>Numba parallel loops
+</span></code></pre></div>
+<p>So <code>n_jobs</code> should be understood narrowly as the value forwarded to the
+shared estimator-pool helper.</p>
+<hr />
+<h1 id="numba-parallelism-in-hamming-distance">Numba parallelism in Hamming distance</h1>
+<p>The current <code>HammingDistance</code> implementation uses a Numba function decorated
+with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-142-1"><a id="__codelineno-142-1" name="__codelineno-142-1" href="#__codelineno-142-1"></a><span class="n">parallel</span><span class="o">=</span><span class="kc">True</span>
+</span></code></pre></div>
+<p>for its primary distance-matrix path.</p>
+<p>That parallel behavior is independent of COBRA's estimator:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-143-1"><a id="__codelineno-143-1" name="__codelineno-143-1" href="#__codelineno-143-1"></a><span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>parameter.</p>
+<p>So CombinedClassifier can involve another form of library-level parallelism
+inside Hamming distance without the high-level <code>n_jobs</code> value being passed to
+that component.</p>
+<hr />
+<h1 id="numerical-library-parallelism">Numerical-library parallelism</h1>
+<p>Several base estimators and NumPy/SciPy operations may themselves use threaded
+numerical libraries.</p>
+<p>The <code>kfc_procedure</code> source does not set:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-144-1"><a id="__codelineno-144-1" name="__codelineno-144-1" href="#__codelineno-144-1"></a>OMP_NUM_THREADS
+</span><span id="__span-144-2"><a id="__codelineno-144-2" name="__codelineno-144-2" href="#__codelineno-144-2"></a>MKL_NUM_THREADS
+</span><span id="__span-144-3"><a id="__codelineno-144-3" name="__codelineno-144-3" href="#__codelineno-144-3"></a>OPENBLAS_NUM_THREADS
+</span></code></pre></div>
+<p>or similar environment variables.</p>
+<p>Thread control at that level is outside the current package implementation.</p>
+<hr />
+<h1 id="debugging-package-level-parallelism">Debugging package-level parallelism</h1>
+<h2 id="inspect-n_jobs">Inspect <code>n_jobs</code></h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-145-1"><a id="__codelineno-145-1" name="__codelineno-145-1" href="#__codelineno-145-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-145-2"><a id="__codelineno-145-2" name="__codelineno-145-2" href="#__codelineno-145-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">n_jobs</span>
+</span><span id="__span-145-3"><a id="__codelineno-145-3" name="__codelineno-145-3" href="#__codelineno-145-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<hr />
+<h2 id="confirm-estimator-count">Confirm estimator count</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-146-1"><a id="__codelineno-146-1" name="__codelineno-146-1" href="#__codelineno-146-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-146-2"><a id="__codelineno-146-2" name="__codelineno-146-2" href="#__codelineno-146-2"></a>    <span class="nb">len</span><span class="p">(</span>
+</span><span id="__span-146-3"><a id="__codelineno-146-3" name="__codelineno-146-3" href="#__codelineno-146-3"></a>        <span class="n">model</span><span class="o">.</span><span class="n">estimators_</span>
+</span><span id="__span-146-4"><a id="__codelineno-146-4" name="__codelineno-146-4" href="#__codelineno-146-4"></a>    <span class="p">)</span>
+</span><span id="__span-146-5"><a id="__codelineno-146-5" name="__codelineno-146-5" href="#__codelineno-146-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>The number of independent fit/predict tasks equals the number of estimator
+entries.</p>
+<hr />
+<h2 id="inspect-estimator-order">Inspect estimator order</h2>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-147-1"><a id="__codelineno-147-1" name="__codelineno-147-1" href="#__codelineno-147-1"></a><span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">estimator</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span>
+</span><span id="__span-147-2"><a id="__codelineno-147-2" name="__codelineno-147-2" href="#__codelineno-147-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">estimators_</span>
+</span><span id="__span-147-3"><a id="__codelineno-147-3" name="__codelineno-147-3" href="#__codelineno-147-3"></a><span class="p">):</span>
+</span><span id="__span-147-4"><a id="__codelineno-147-4" name="__codelineno-147-4" href="#__codelineno-147-4"></a>    <span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-147-5"><a id="__codelineno-147-5" name="__codelineno-147-5" href="#__codelineno-147-5"></a>        <span class="n">i</span><span class="p">,</span>
+</span><span id="__span-147-6"><a id="__codelineno-147-6" name="__codelineno-147-6" href="#__codelineno-147-6"></a>        <span class="n">estimator</span><span class="p">,</span>
+</span><span id="__span-147-7"><a id="__codelineno-147-7" name="__codelineno-147-7" href="#__codelineno-147-7"></a>    <span class="p">)</span>
+</span></code></pre></div>
+<p>This order corresponds to the prediction-space column order generated by:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-148-1"><a id="__codelineno-148-1" name="__codelineno-148-1" href="#__codelineno-148-1"></a><span class="n">predict_estimators</span><span class="p">()</span><span class="o">.</span>
+</span></code></pre></div>
+<hr />
+<h1 id="debug-sequential-behavior">Debug sequential behavior</h1>
+<p>Set:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-149-1"><a id="__codelineno-149-1" name="__codelineno-149-1" href="#__codelineno-149-1"></a><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span>
+</span></code></pre></div>
+<p>to force the explicit sequential branch in:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-150-1"><a id="__codelineno-150-1" name="__codelineno-150-1" href="#__codelineno-150-1"></a>fit_estimators()
+</span><span id="__span-150-2"><a id="__codelineno-150-2" name="__codelineno-150-2" href="#__codelineno-150-2"></a>predict_estimators().
+</span></code></pre></div>
+<p>This can be useful when isolating whether a problem is specific to the Joblib
+parallel path.</p>
+<hr />
+<h1 id="debug-custom-estimators">Debug custom estimators</h1>
+<p>If a custom estimator works with:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-151-1"><a id="__codelineno-151-1" name="__codelineno-151-1" href="#__codelineno-151-1"></a><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span>
+</span></code></pre></div>
+<p>but fails with another <code>n_jobs</code> value, remember that the parallel path uses:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-152-1"><a id="__codelineno-152-1" name="__codelineno-152-1" href="#__codelineno-152-1"></a><span class="n">backend</span><span class="o">=</span><span class="s2">"loky"</span><span class="o">.</span>
+</span></code></pre></div>
+<p>The current package does not contain a fallback backend selection mechanism.</p>
+<hr />
+<h1 id="debug-parallel-gradient-selection">Debug parallel gradient selection</h1>
+<p>Inspect:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-153-1"><a id="__codelineno-153-1" name="__codelineno-153-1" href="#__codelineno-153-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-153-2"><a id="__codelineno-153-2" name="__codelineno-153-2" href="#__codelineno-153-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">optimizer_</span><span class="o">.</span><span class="n">gradient_method</span>
+</span><span id="__span-153-3"><a id="__codelineno-153-3" name="__codelineno-153-3" href="#__codelineno-153-3"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>Expected:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-154-1"><a id="__codelineno-154-1" name="__codelineno-154-1" href="#__codelineno-154-1"></a>parallel
+</span></code></pre></div>
+<p>when configured and when a gradient optimizer is actually resolved.</p>
+<hr />
+<h1 id="debug-effective-optimization-method">Debug effective optimization method</h1>
+<p>For GradientCOBRA:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-155-1"><a id="__codelineno-155-1" name="__codelineno-155-1" href="#__codelineno-155-1"></a><span class="nb">print</span><span class="p">(</span>
+</span><span id="__span-155-2"><a id="__codelineno-155-2" name="__codelineno-155-2" href="#__codelineno-155-2"></a>    <span class="n">model</span><span class="o">.</span><span class="n">optimization_outputs_</span><span class="p">[</span>
+</span><span id="__span-155-3"><a id="__codelineno-155-3" name="__codelineno-155-3" href="#__codelineno-155-3"></a>        <span class="s2">"method"</span>
+</span><span id="__span-155-4"><a id="__codelineno-155-4" name="__codelineno-155-4" href="#__codelineno-155-4"></a>    <span class="p">]</span>
+</span><span id="__span-155-5"><a id="__codelineno-155-5" name="__codelineno-155-5" href="#__codelineno-155-5"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>If a non-gradient kernel forced a fallback, this can show:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-156-1"><a id="__codelineno-156-1" name="__codelineno-156-1" href="#__codelineno-156-1"></a>grid
+</span></code></pre></div>
+<p>even though:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-157-1"><a id="__codelineno-157-1" name="__codelineno-157-1" href="#__codelineno-157-1"></a><span class="n">opt_method</span><span class="o">=</span><span class="s2">"grad"</span>
+</span></code></pre></div>
+<p>was configured.</p>
+<hr />
+<h1 id="parallel-execution-checklist">Parallel execution checklist</h1>
+<p>Before increasing concurrency:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-158-1"><a id="__codelineno-158-1" name="__codelineno-158-1" href="#__codelineno-158-1"></a>1. identify whether the expensive stage is estimator fitting/prediction;
+</span><span id="__span-158-2"><a id="__codelineno-158-2" name="__codelineno-158-2" href="#__codelineno-158-2"></a>2. remember that CV and grid candidate loops are not covered by model.n_jobs;
+</span><span id="__span-158-3"><a id="__codelineno-158-3" name="__codelineno-158-3" href="#__codelineno-158-3"></a>3. check whether base estimators have their own parallel parameters;
+</span><span id="__span-158-4"><a id="__codelineno-158-4" name="__codelineno-158-4" href="#__codelineno-158-4"></a>4. check whether gradient_method="parallel" is independently active;
+</span><span id="__span-158-5"><a id="__codelineno-158-5" name="__codelineno-158-5" href="#__codelineno-158-5"></a>5. use n_jobs=1 when diagnosing process/backend issues;
+</span><span id="__span-158-6"><a id="__codelineno-158-6" name="__codelineno-158-6" href="#__codelineno-158-6"></a>6. keep prediction-column ordering identical across workflows.
+</span></code></pre></div>
+<hr />
+<h1 id="current-source-summary">Current source summary</h1>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th style="text-align: center;">Parallel?</th>
+<th>Control</th>
+<th>Backend / mechanism</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>base-estimator fitting</td>
+<td style="text-align: center;">Yes</td>
+<td>estimator <code>n_jobs</code></td>
+<td>Joblib <code>loky</code></td>
+</tr>
+<tr>
+<td>base-estimator prediction</td>
+<td style="text-align: center;">Yes</td>
+<td>estimator <code>n_jobs</code></td>
+<td>Joblib <code>loky</code></td>
+</tr>
+<tr>
+<td>automatic data splitting</td>
+<td style="text-align: center;">No package Joblib path</td>
+<td>—</td>
+<td>ordinary code</td>
+</tr>
+<tr>
+<td>distance matrices</td>
+<td style="text-align: center;">not via estimator <code>n_jobs</code></td>
+<td>component-specific</td>
+<td>NumPy/SciPy/Numba</td>
+</tr>
+<tr>
+<td>CV fold loop</td>
+<td style="text-align: center;">No</td>
+<td>—</td>
+<td>Python loop</td>
+</tr>
+<tr>
+<td>grid candidate loop</td>
+<td style="text-align: center;">No</td>
+<td>—</td>
+<td>search loop</td>
+</tr>
+<tr>
+<td>regression aggregation</td>
+<td style="text-align: center;">No Joblib path</td>
+<td>—</td>
+<td>NumPy/Python</td>
+</tr>
+<tr>
+<td>classification aggregation</td>
+<td style="text-align: center;">No Joblib path</td>
+<td>—</td>
+<td>NumPy/Python</td>
+</tr>
+<tr>
+<td>numerical gradient coordinates</td>
+<td style="text-align: center;">Yes</td>
+<td><code>gradient_method="parallel"</code></td>
+<td>Joblib</td>
+</tr>
+<tr>
+<td>Hamming calculation</td>
+<td style="text-align: center;">independent parallel path</td>
+<td>Numba internals</td>
+<td><code>parallel=True</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="default-n_jobs-quick-reference">Default <code>n_jobs</code> quick reference</h1>
+<table>
+<thead>
+<tr>
+<th>Estimator</th>
+<th style="text-align: right;">Default</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>GradientCOBRA</code></td>
+<td style="text-align: right;"><code>-1</code></td>
+</tr>
+<tr>
+<td><code>MixCOBRARegressor</code></td>
+<td style="text-align: right;"><code>1</code></td>
+</tr>
+<tr>
+<td><code>CombinedClassifier</code></td>
+<td style="text-align: right;"><code>1</code></td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h1 id="what-changes-when-n_jobs1">What changes when <code>n_jobs=1</code></h1>
+<p>The source explicitly chooses list comprehensions:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-159-1"><a id="__codelineno-159-1" name="__codelineno-159-1" href="#__codelineno-159-1"></a><span class="p">[</span>
+</span><span id="__span-159-2"><a id="__codelineno-159-2" name="__codelineno-159-2" href="#__codelineno-159-2"></a>    <span class="n">fit_one</span><span class="p">(</span><span class="n">est</span><span class="p">)</span>
+</span><span id="__span-159-3"><a id="__codelineno-159-3" name="__codelineno-159-3" href="#__codelineno-159-3"></a>    <span class="k">for</span> <span class="n">est</span> <span class="ow">in</span> <span class="n">estimators</span>
+</span><span id="__span-159-4"><a id="__codelineno-159-4" name="__codelineno-159-4" href="#__codelineno-159-4"></a><span class="p">]</span>
+</span></code></pre></div>
+<p>and:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-160-1"><a id="__codelineno-160-1" name="__codelineno-160-1" href="#__codelineno-160-1"></a><span class="p">[</span>
+</span><span id="__span-160-2"><a id="__codelineno-160-2" name="__codelineno-160-2" href="#__codelineno-160-2"></a>    <span class="n">predict_one</span><span class="p">(</span><span class="n">est</span><span class="p">)</span>
+</span><span id="__span-160-3"><a id="__codelineno-160-3" name="__codelineno-160-3" href="#__codelineno-160-3"></a>    <span class="k">for</span> <span class="n">est</span> <span class="ow">in</span> <span class="n">estimators</span>
+</span><span id="__span-160-4"><a id="__codelineno-160-4" name="__codelineno-160-4" href="#__codelineno-160-4"></a><span class="p">]</span>
+</span></code></pre></div>
+<p>instead of constructing a Joblib executor.</p>
+<p>This is the clearest source-supported way to force sequential package-level
+estimator execution.</p>
+<hr />
+<h1 id="what-changes-when-n_jobs-1">What changes when <code>n_jobs != 1</code></h1>
+<p>Both helpers switch to:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-161-1"><a id="__codelineno-161-1" name="__codelineno-161-1" href="#__codelineno-161-1"></a><span class="n">Parallel</span><span class="p">(</span>
+</span><span id="__span-161-2"><a id="__codelineno-161-2" name="__codelineno-161-2" href="#__codelineno-161-2"></a>    <span class="n">n_jobs</span><span class="o">=</span><span class="n">n_jobs</span><span class="p">,</span>
+</span><span id="__span-161-3"><a id="__codelineno-161-3" name="__codelineno-161-3" href="#__codelineno-161-3"></a>    <span class="n">backend</span><span class="o">=</span><span class="s2">"loky"</span><span class="p">,</span>
+</span><span id="__span-161-4"><a id="__codelineno-161-4" name="__codelineno-161-4" href="#__codelineno-161-4"></a><span class="p">)</span>
+</span></code></pre></div>
+<p>for estimator-pool tasks.</p>
+<p>The source does not special-case:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-162-1"><a id="__codelineno-162-1" name="__codelineno-162-1" href="#__codelineno-162-1"></a>0
+</span><span id="__span-162-2"><a id="__codelineno-162-2" name="__codelineno-162-2" href="#__codelineno-162-2"></a>negative values other than 1
+</span><span id="__span-162-3"><a id="__codelineno-162-3" name="__codelineno-162-3" href="#__codelineno-162-3"></a>values larger than estimator count.
+</span></code></pre></div>
+<p>Those values are forwarded to Joblib.</p>
+<p>Their exact acceptance and worker semantics therefore follow Joblib rather than
+custom validation in <code>kfc_procedure</code>.</p>
+<hr />
+<h1 id="no-n_jobs-validation">No <code>n_jobs</code> validation</h1>
+<p>The current constructors simply assign:</p>
+<div class="language-python highlight"><pre><span></span><code><span id="__span-163-1"><a id="__codelineno-163-1" name="__codelineno-163-1" href="#__codelineno-163-1"></a><span class="bp">self</span><span class="o">.</span><span class="n">n_jobs</span> <span class="o">=</span> <span class="n">n_jobs</span>
+</span></code></pre></div>
+<p>and the helpers forward the value.</p>
+<p>There is no package-level validation requiring:</p>
+<div class="language-text highlight"><pre><span></span><code><span id="__span-164-1"><a id="__codelineno-164-1" name="__codelineno-164-1" href="#__codelineno-164-1"></a>integer &gt;= 1
+</span><span id="__span-164-2"><a id="__codelineno-164-2" name="__codelineno-164-2" href="#__codelineno-164-2"></a>or -1.
+</span></code></pre></div>
+<p>Invalid values are handled by the underlying Joblib call if the parallel branch
+is reached.</p>
+<hr />
+<h1 id="mental-model">Mental model</h1>
+<div class="admonition quote">
+<p><strong>The current COBRA <code>n_jobs</code> setting parallelizes the ensemble members,
+not the entire COBRA algorithm.</strong></p>
+</div>
+<p>For ordinary feature-based fitting:</p>
+<div class="arithmatex">\[
+\boxed{
+\text{estimator specifications}
+\rightarrow
+\text{parallel fit}
+\rightarrow
+\text{parallel prediction columns}
+\rightarrow
+\text{sequential COBRA geometry/optimization}
+}
+\]</div>
+<p>For optional gradient-coordinate parallelism:</p>
+<div class="arithmatex">\[
+\boxed{
+x
+\rightarrow
+\{f(x+\varepsilon e_i),f(x-\varepsilon e_i)\}_{i}
+\rightarrow
+\text{parallel coordinate gradients}
+\rightarrow
+\nabla f(x)
+}
+\]</div>
+<p>These are independent execution paths in the current source and do not share a
+single package-wide concurrency controller.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="Footer" >
+        
+          
+          <a href="../custom-aggregation-data/" class="md-footer__link md-footer__link--prev" aria-label="Previous: Custom Aggregation Data">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              <div class="md-ellipsis">
+                Custom Aggregation Data
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../reproducibility/" class="md-footer__link md-footer__link--next" aria-label="Next: Reproducibility">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              <div class="md-ellipsis">
+                Reproducibility
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.tabs.sticky", "navigation.expand", "navigation.path", "navigation.top", "navigation.indexes", "navigation.footer", "content.code.copy", "content.code.annotate", "search.suggest", "search.highlight"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../javascripts/mathjax.js"></script>
+      
+        <script src="https://unpkg.com/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
