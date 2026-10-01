@@ -1,85 +1,378 @@
+/* =========================================================
+   KFC Procedure — Neutral theme
+   Supports MkDocs Material light + dark color schemes
+   ========================================================= */
+
+/* ---------------------------------------------------------
+   Shared brand colors
+   --------------------------------------------------------- */
+
 :root {
-  /* Brand */
   --kfc-primary: #2563eb;
-  --kfc-primary-dark: #1d4ed8;
+  --kfc-primary-hover: #1d4ed8;
   --kfc-accent: #38bdf8;
 
-  /* Backgrounds */
+  --kfc-success: #16a34a;
+  --kfc-warning: #d97706;
+  --kfc-danger: #dc2626;
+
+  --kfc-radius: 0.4rem;
+  --kfc-transition: 150ms ease;
+}
+
+
+/* =========================================================
+   Light mode
+   ========================================================= */
+
+[data-md-color-scheme="default"] {
   --kfc-bg: #ffffff;
   --kfc-bg-soft: #f8fafc;
-  --kfc-bg-dark: #0f172a;
-  --kfc-bg-darker: #020617;
+  --kfc-bg-muted: #f1f5f9;
+  --kfc-bg-hover: #eef2f7;
 
-  /* Text */
-  --kfc-text: #0f172a;
+  --kfc-surface: #ffffff;
+
+  --kfc-text: #1e293b;
   --kfc-text-muted: #64748b;
-  --kfc-text-light: #e2e8f0;
+  --kfc-text-subtle: #94a3b8;
 
-  /* Borders */
   --kfc-border: #e2e8f0;
+  --kfc-border-strong: #cbd5e1;
 
-  /* Status */
-  --kfc-success: #16a34a;
-  --kfc-warning: #f59e0b;
-  --kfc-danger: #dc2626;
+  --kfc-code-bg: #f1f5f9;
+
+  --kfc-shadow:
+    0 1px 2px rgb(15 23 42 / 0.04),
+    0 1px 3px rgb(15 23 42 / 0.06);
 }
 
-/* Header */
-.md-header {
-  background-color: var(--kfc-bg-dark);
+
+/* =========================================================
+   Dark mode
+   ========================================================= */
+
+[data-md-color-scheme="slate"] {
+  --kfc-bg: #0f1115;
+  --kfc-bg-soft: #15181e;
+  --kfc-bg-muted: #1b1f27;
+  --kfc-bg-hover: #222731;
+
+  --kfc-surface: #171a20;
+
+  --kfc-text: #e5e7eb;
+  --kfc-text-muted: #9ca3af;
+  --kfc-text-subtle: #6b7280;
+
+  --kfc-border: #2b3038;
+  --kfc-border-strong: #3a414c;
+
+  --kfc-code-bg: #1b1f27;
+
+  --kfc-shadow:
+    0 1px 2px rgb(0 0 0 / 0.2),
+    0 2px 5px rgb(0 0 0 / 0.18);
+
+  --kfc-primary: #60a5fa;
+  --kfc-primary-hover: #93c5fd;
 }
 
-/* Tabs */
-.md-tabs {
-  background-color: var(--kfc-bg-dark);
+
+/* =========================================================
+   Page
+   ========================================================= */
+
+html,
+body {
+  background: var(--kfc-bg);
 }
 
-/* Main page */
 .md-main {
   background-color: var(--kfc-bg);
 }
 
-/* Links */
-.md-typeset a {
+.md-main__inner {
+  color: var(--kfc-text);
+}
+
+
+/* =========================================================
+   Header
+   ========================================================= */
+
+.md-header {
+  color: var(--kfc-text);
+  background-color: var(--kfc-bg);
+  border-bottom: 1px solid var(--kfc-border);
+  box-shadow: none;
+}
+
+.md-header__button {
+  color: var(--kfc-text-muted);
+}
+
+.md-header__button:hover {
+  color: var(--kfc-text);
+}
+
+
+/* =========================================================
+   Navigation tabs
+   ========================================================= */
+
+
+.md-tabs {
+  color: var(--kfc-text-muted);
+  background-color: var(--kfc-bg);
+  border-bottom: 1px solid var(--kfc-border);
+}
+
+.md-tabs__link {
+  color: var(--kfc-text-muted);
+  transition:
+    color var(--kfc-transition),
+    background-color var(--kfc-transition);
+}
+
+.md-tabs__link:hover,
+.md-tabs__link--active {
+  color: var(--kfc-text);
+}
+
+
+/* =========================================================
+   Sidebar navigation
+   ========================================================= */
+
+.md-nav {
+  color: var(--kfc-text-muted);
+}
+
+.md-nav__link {
+  transition: color var(--kfc-transition);
+}
+
+.md-nav__link:hover {
   color: var(--kfc-primary);
 }
 
+.md-nav__link--active {
+  color: var(--kfc-primary);
+  font-weight: 600;
+}
+
+
+/* =========================================================
+   Typography
+   ========================================================= */
+
+.md-typeset {
+  color: var(--kfc-text);
+}
+
+.md-typeset h1,
+.md-typeset h2,
+.md-typeset h3,
+.md-typeset h4,
+.md-typeset h5,
+.md-typeset h6 {
+  color: var(--kfc-text);
+}
+
+.md-typeset h1 {
+  font-weight: 700;
+  letter-spacing: -0.025em;
+}
+
+.md-typeset h2 {
+  font-weight: 650;
+  letter-spacing: -0.015em;
+}
+
+
+/* =========================================================
+   Links
+   ========================================================= */
+
+.md-typeset a {
+  color: var(--kfc-primary);
+  text-decoration-color: transparent;
+  text-underline-offset: 0.15em;
+  transition:
+    color var(--kfc-transition),
+    text-decoration-color var(--kfc-transition);
+}
+
 .md-typeset a:hover {
-  color: var(--kfc-primary-dark);
+  color: var(--kfc-primary-hover);
+  text-decoration-color: currentColor;
 }
 
-/* Code */
+
+/* =========================================================
+   Inline code
+   ========================================================= */
+
 .md-typeset code {
-  border-radius: 0.3rem;
+  color: var(--kfc-text);
+  background-color: var(--kfc-code-bg);
+  border: 1px solid var(--kfc-border);
+  border-radius: var(--kfc-radius);
 }
 
-/* Footer */
-.md-footer {
-  background-color: var(--kfc-bg-dark);
+
+/* =========================================================
+   Code blocks
+   ========================================================= */
+
+.md-typeset pre {
+  border: 1px solid var(--kfc-border);
+  border-radius: 0.5rem;
+  box-shadow: none;
 }
 
-.md-footer-meta {
-  background-color: var(--kfc-bg-darker);
+.md-typeset pre > code {
+  border: 0;
 }
 
-/* Footer navigation */
-.md-footer__link {
-  color: var(--kfc-text-light);
+
+/* =========================================================
+   Tables
+   ========================================================= */
+
+.md-typeset table:not([class]) {
+  border: 1px solid var(--kfc-border);
+  border-radius: 0.5rem;
+  overflow: hidden;
 }
 
-/* Borders */
+.md-typeset table:not([class]) th {
+  color: var(--kfc-text);
+  background-color: var(--kfc-bg-muted);
+}
+
+.md-typeset table:not([class]) td {
+  border-top: 1px solid var(--kfc-border);
+}
+
+.md-typeset table:not([class]) tr:hover {
+  background-color: var(--kfc-bg-soft);
+}
+
+
+/* =========================================================
+   Horizontal rules
+   ========================================================= */
+
 .md-typeset hr {
   border-color: var(--kfc-border);
 }
 
-/* disable meta*/
+
+/* =========================================================
+   Blockquotes
+   ========================================================= */
+
+.md-typeset blockquote {
+  color: var(--kfc-text-muted);
+  border-left-color: var(--kfc-border-strong);
+}
+
+
+/* =========================================================
+   Cards
+   ========================================================= */
+
+.md-typeset .grid.cards > ul > li,
+.md-typeset .grid.cards > ol > li {
+  background-color: var(--kfc-surface);
+  border: 1px solid var(--kfc-border);
+  border-radius: 0.6rem;
+  box-shadow: none;
+  transition:
+    border-color var(--kfc-transition),
+    background-color var(--kfc-transition),
+    transform var(--kfc-transition);
+}
+
+.md-typeset .grid.cards > ul > li:hover,
+.md-typeset .grid.cards > ol > li:hover {
+  background-color: var(--kfc-bg-soft);
+  border-color: var(--kfc-border-strong);
+  transform: translateY(-1px);
+}
+
+
+/* =========================================================
+   KFC stage cards
+   ========================================================= */
+
+.grid.cards.kfc-stages {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.grid.cards.kfc-stages > ul > li {
+  min-width: 0;
+}
+
+
+/* =========================================================
+   Search
+   ========================================================= */
+
+.md-search__form {
+  background-color: var(--kfc-bg-muted);
+  border: 1px solid var(--kfc-border);
+  border-radius: 0.45rem;
+}
+
+.md-search__input {
+  color: var(--kfc-text);
+}
+
+.md-search__input::placeholder {
+  color: var(--kfc-text-muted);
+}
+
+
+/* =========================================================
+   Footer
+   ========================================================= */
+
+.md-footer {
+  color: var(--kfc-text-muted);
+  background-color: var(--kfc-bg);
+  border-top: 1px solid var(--kfc-border);
+}
+
+.md-footer__link {
+  color: var(--kfc-text-muted);
+}
+
+.md-footer__link:hover {
+  color: var(--kfc-text);
+}
+
+
+/* Remove "Made with Material for MkDocs" footer area */
 .md-footer-meta {
   display: none;
 }
 
-.grid.cards.kfc-stages {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+
+/* =========================================================
+   Selection
+   ========================================================= */
+
+::selection {
+  background: color-mix(in srgb, var(--kfc-primary) 22%, transparent);
 }
+
+
+/* =========================================================
+   Responsive
+   ========================================================= */
 
 @media screen and (max-width: 900px) {
   .grid.cards.kfc-stages {

@@ -11,13 +11,29 @@ theme:
   favicon: assets/logo.svg
 
   palette:
-    - scheme: default
-      primary: blue
-      accent: light blue
+    # Light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: blue
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+    # Dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: blue
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
 
   features:
     - navigation.tabs
-    - navigation.sections
+    - navigation.tabs.sticky
+    - navigation.expand
+    - navigation.path
     - navigation.top
     - navigation.indexes
     - navigation.footer
@@ -106,44 +122,44 @@ nav:
           - Configure C-Step: user-guide/kfc/configuring-c-step.md
           - Inspect Fitted Models: user-guide/kfc/inspecting-fitted-models.md
 
-  #     - Clustering:
-  #         - Bregman Divergences: user-guide/clustering/bregman-divergences.md
+      - Clustering:
+          - Bregman Divergences: user-guide/clustering/bregman-divergences.md
 
-  #     - Estimators:
-  #         - Base Estimators: user-guide/estimators/base-estimators.md
-  #         - Estimator Parameters: user-guide/estimators/estimator-parameters.md
-  #         - Custom Estimators: user-guide/estimators/custom-estimators.md
+      - Estimators:
+          - Base Estimators: user-guide/estimators/base-estimators.md
+          - Estimator Parameters: user-guide/estimators/estimator-parameters.md
+          - Custom Estimators: user-guide/estimators/custom-estimators.md
 
-  #     - Consensus:
-  #         - Overview: user-guide/consensus/overview.md
-  #         - Regression Combiners: user-guide/consensus/regression-combiners.md
-  #         - Classification Combiners: user-guide/consensus/classification-combiners.md
-  #         - Stacking: user-guide/consensus/stacking.md
-  #         - Weighted Mean: user-guide/consensus/weighted-mean.md
-  #         - Majority Vote: user-guide/consensus/majority-vote.md
+      - Consensus:
+          - Overview: user-guide/consensus/overview.md
+          - Regression Combiners: user-guide/consensus/regression-combiners.md
+          - Classification Combiners: user-guide/consensus/classification-combiners.md
+          - Stacking: user-guide/consensus/stacking.md
+          - Weighted Mean: user-guide/consensus/weighted-mean.md
+          - Majority Vote: user-guide/consensus/majority-vote.md
 
-  #     - COBRA Components:
-  #         - Prediction Space: user-guide/cobra/prediction-space.md
-  #         - Data Splitting: user-guide/cobra/data-splitting.md
-  #         - Distances: user-guide/cobra/distances.md
-  #         - Kernels: user-guide/cobra/kernels.md
-  #         - Aggregators: user-guide/cobra/aggregators.md
-  #         - Cross-validation: user-guide/cobra/cross-validation.md
-  #         - Loss Functions: user-guide/cobra/losses.md
-  #         - Optimization: user-guide/cobra/optimization.md
-  #         - Gradient Optimization: user-guide/cobra/gradient-optimization.md
-  #         - Normalization: user-guide/cobra/normalization.md
+      - COBRA Components:
+          - Prediction Space: user-guide/cobra/prediction-space.md
+          - Data Splitting: user-guide/cobra/data-splitting.md
+          - Distances: user-guide/cobra/distances.md
+          - Kernels: user-guide/cobra/kernels.md
+          - Aggregators: user-guide/cobra/aggregators.md
+          - Cross-validation: user-guide/cobra/cross-validation.md
+          - Loss Functions: user-guide/cobra/losses.md
+          - Optimization: user-guide/cobra/optimization.md
+          - Gradient Optimization: user-guide/cobra/gradient-optimization.md
+          - Normalization: user-guide/cobra/normalization.md
 
-  #     - Advanced:
-  #         - Precomputed Predictions: user-guide/advanced/precomputed-predictions.md
-  #         - Custom Aggregation Data: user-guide/advanced/custom-aggregation-data.md
-  #         - Parallel Execution: user-guide/advanced/parallel-execution.md
-  #         - Reproducibility: user-guide/advanced/reproducibility.md
-  #         - Extending KFC Procedure: user-guide/advanced/extending-kfc-procedure.md
+      - Advanced:
+          - Precomputed Predictions: user-guide/advanced/precomputed-predictions.md
+          - Custom Aggregation Data: user-guide/advanced/custom-aggregation-data.md
+          - Parallel Execution: user-guide/advanced/parallel-execution.md
+          - Reproducibility: user-guide/advanced/reproducibility.md
+          - Extending KFC Procedure: user-guide/advanced/extending-kfc-procedure.md
 
-  #     - Troubleshooting: user-guide/troubleshooting.md
-  # - API Reference:
-  #     - Overview: reference/index.md
+      - Troubleshooting: user-guide/troubleshooting.md
+  - API Reference:
+      - Overview: reference/index.md
 
 watch:
   - src/kfc_procedure
